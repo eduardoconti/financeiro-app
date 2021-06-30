@@ -1,0 +1,47 @@
+.Container {
+  padding: 5px;
+}
+
+.DataGrid,
+.Formularios,
+.Grafico,
+.Header,
+.Footer,
+.Card {
+  background-color: #f9fefb;
+  border-radius: 10px;
+  box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.1), inset 0px 5px 2px 2px rgba(24, 137, 241, 0.05);
+  display: flex;
+}
+
+.Card{
+  text-align: center;
+  height: 100%;
+  flex-direction: column;
+
+}
+.DataGrid {
+  height: 380px;
+}
+
+.Formularios {
+  padding: 5px;
+
+}
+
+.Grafico {
+  height: 100%;
+  min-height: 200px;
+  flex-direction: column;
+}
+
+.Header {
+  height: 0px;
+  text-align: center;
+}
+
+.Footer {
+  height: 30px;
+}
+
+
