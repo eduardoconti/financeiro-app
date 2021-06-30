@@ -41,7 +41,7 @@ export default function FormLogin({ setOpen }) {
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.setStateCheckedReceitas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
   return (
     <Box className="Formularios">
