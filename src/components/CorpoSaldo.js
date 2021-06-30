@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import CardSaldo from "./CardSaldoCarteira";
 import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
