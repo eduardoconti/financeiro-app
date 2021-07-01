@@ -35,12 +35,9 @@ async function retornaDadosParaCard() {
     const despesas = await retornaDespesasAgrupadasPorCarteira(0, 0, true);
     const receitas = await retornaReceitasAgrupadasPorCarteira(0, 0, true);
     const transferenciasOrigem = await retornaValoresTransferenciasOrigem(0, 0);
-    const transferenciasDestino = await retornaValoresTransferenciasDestino(
-      0,
-      0
-    );
+    const transferenciasDestino = await retornaValoresTransferenciasDestino(0, 0);
     const dadosCard = [];
-
+    
     carteiras.forEach((carteira, i) => {
       let { valor: receita } = retornaDados(
         receitas.find((receita) => receita.id === carteira.id)
@@ -58,8 +55,7 @@ async function retornaDadosParaCard() {
           (transferencia) => transferencia.id === carteira.id
         )
       );
-      let valor =
-        receita - despesa + (transferenciaEntrada - transferenciaSaida);
+      let valor =  (receita  + transferenciaEntrada) - (despesa + transferenciaSaida);
 
       if (Math.abs(valor.toFixed(2)) > 0.05) {
         dadosCard.push({

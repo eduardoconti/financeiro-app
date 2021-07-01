@@ -184,7 +184,6 @@ export default function FormDespesas({ setFormulario, formulario }) {
           className={classes.botao}
           onClick={async () => {
             let response;
-            console.log(ctx)
             formulario.user = ctx.userId;
             if (formulario.id === 0) {
               response = await insereDespesa(formulario);
