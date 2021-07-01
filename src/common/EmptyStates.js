@@ -57,6 +57,6 @@ export function emptyFormularioTransferencia() {
     carteiraDestino: "",
     valor: 0,
     pago: false,
-    dataTransferencia: new Date().toISOString().slice(0, 10),
+    transferencia: new Date().toISOString().slice(0, 10),
   };
 }

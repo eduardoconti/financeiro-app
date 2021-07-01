@@ -89,6 +89,8 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
         .toISOString()
         .slice(0, 10),
       valor: transferencia.valor.toFixed(2),
+      carteiraOrigem: transferencia.carteiraOrigem.id,
+      carteiraDestino: transferencia.carteiraDestino.id
     };
   });
 }

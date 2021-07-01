@@ -129,19 +129,19 @@ export default function FormTransferencias({
         {TextFieldCarteiraDestino}
 
         <TextField
-          id="dataTransferencia"
+          id="transferencia"
           label="Data"
           variant="outlined"
           type="date"
           InputLabelProps={{
             shrink: true,
           }}
-          value={formulario.dataTransferencia}
+          value={formulario.transferencia}
           size="small"
           onChange={(event) =>
             setFormulario({
               ...formulario,
-              dataTransferencia: event.target.value,
+              transferencia: event.target.value,
             })
           }
         />
