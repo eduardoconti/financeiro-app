@@ -85,7 +85,7 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
   return transferencia.map((transferencia) => {
     return {
       ...transferencia,
-      dataTransferencia: new Date(transferencia.dataTransferencia)
+      transferencia: new Date(transferencia.transferencia)
         .toISOString()
         .slice(0, 10),
       valor: transferencia.valor.toFixed(2),
@@ -96,7 +96,7 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
 export function formataDadosParaFormulario(transferencia) {
   return {
     ...transferencia,
-    dataTransferencia: new Date(transferencia.dataTransferencia)
+    transferencia: new Date(transferencia.transferencia)
       .toISOString()
       .slice(0, 10),
   };

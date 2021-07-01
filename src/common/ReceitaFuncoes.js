@@ -75,7 +75,7 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
   return res.data;
 }
 
-export async function deletaReceita(id) {
+export async function deletaReceita(id){
   try {
     const res = await API.delete(ENDPOINT + id, headers);
     return {
