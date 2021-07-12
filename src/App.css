@@ -11,7 +11,6 @@
   background-color:rgba(255,255,255,0.8);
   border-radius: 10px;
   display: flex;
-  color: #FFF;
 }
 
 .Card{
@@ -22,6 +21,10 @@
 }
 .DataGrid {
   height: 380px;
+}
+
+.DataGridColumn{
+  color: #FFF;
 }
 
 .Formularios {

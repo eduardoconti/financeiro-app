@@ -5,6 +5,7 @@ const Context = createContext();
 function AuthProvider({ children }) {
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState("");
+  const [spin, setSpin] = useState(false);
 
   const setUserIdFromToken = (token) => {
     if (token) {
@@ -22,6 +23,8 @@ function AuthProvider({ children }) {
         setUserId,
         token,
         setToken,
+        spin,
+        setSpin
       }}
     >
       {children}

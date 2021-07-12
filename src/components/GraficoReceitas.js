@@ -9,11 +9,14 @@ import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { getToken } from '../common/Auth'
+import { Context } from "../Context/AuthContext";
 
 export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const ctx = useContext(Context);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -25,29 +28,34 @@ export default function GraficoReceitas() {
   const [descricao, setDescricao] = useState("");
 
   useEffect(() => {
-    async function pegaReceitas() {
-      let receitas;
 
-      if (stateGrafico === "1") {
-        receitas = await getReceitas(
-          stateCheckedReceitas,
-          stateAnoAtual,
-          stateMesAtual
-        );
-        setDescricao("Receitas");
-      } else if (stateGrafico === "2") {
-        receitas = await retornaReceitasAgrupadasPorCarteiraChecked(
-          stateCheckedReceitas,
-          stateAnoAtual,
-          stateMesAtual
-        );
-        setDescricao("Receitas por Carteira");
+    if(getToken()){
+      async function pegaReceitas() {
+        ctx.setSpin(true);
+        let receitas;
+  
+        if (stateGrafico === "1") {
+          receitas = await getReceitas(
+            stateCheckedReceitas,
+            stateAnoAtual,
+            stateMesAtual
+          );
+          setDescricao("Receitas");
+        } else if (stateGrafico === "2") {
+          receitas = await retornaReceitasAgrupadasPorCarteiraChecked(
+            stateCheckedReceitas,
+            stateAnoAtual,
+            stateMesAtual
+          );
+          setDescricao("Receitas por Carteira");
+        }
+        if( receitas.statusCode < 400 ){
+          setReceitas(receitas.data);
+        }
+        ctx.setSpin(false);
       }
-      if( receitas.statusCode < 400 ){
-        setReceitas(receitas.data);
-      }
-    }
-    pegaReceitas();
+      pegaReceitas();
+    }// eslint-disable-next-line  
   }, [
     stateCheckedReceitas,
     stateTotais,

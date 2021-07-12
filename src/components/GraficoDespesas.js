@@ -9,12 +9,15 @@ import Grafico from "./Grafico";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { Context } from "../Context/AuthContext";
 import { useTheme } from "@material-ui/core";
+import { getToken } from '../common/Auth'
 
 export default function GraficoDespesas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const ctx = useContext(Context);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -27,28 +30,32 @@ export default function GraficoDespesas() {
   const theme = useTheme();
   useEffect(() => {
     async function pegaDespesas() {
-      let despesas;
+      if (getToken()) {
+        ctx.setSpin(true);
+        let despesas;
 
-      if (stateGrafico === "1") {
-        despesas = await getValorDespesasPorCategoria(
-          stateCheckedDespesas,
-          stateAnoAtual,
-          stateMesAtual
-        );
-        setDescricao("Despesas por Categoria");
-      } else if (stateGrafico === "2") {
-        despesas = await getValorDespesasPorCarteira(
-          stateCheckedDespesas,
-          stateAnoAtual,
-          stateMesAtual
-        );
-        setDescricao("Despesas por Carteira");
-      }
-      if(despesas.statusCode < 400 ){
-        setDespesas(despesas.data);
+        if (stateGrafico === "1") {
+          despesas = await getValorDespesasPorCategoria(
+            stateCheckedDespesas,
+            stateAnoAtual,
+            stateMesAtual
+          );
+          setDescricao("Despesas por Categoria");
+        } else if (stateGrafico === "2") {
+          despesas = await getValorDespesasPorCarteira(
+            stateCheckedDespesas,
+            stateAnoAtual,
+            stateMesAtual
+          );
+          setDescricao("Despesas por Carteira");
+        }
+        if (despesas.statusCode < 400) {
+          setDespesas(despesas.data);
+        }
+        ctx.setSpin(false);
       }
     }
-    pegaDespesas();
+    pegaDespesas(); // eslint-disable-next-line
   }, [
     stateCheckedDespesas,
     stateTotais,
