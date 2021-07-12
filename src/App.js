@@ -29,7 +29,7 @@ function App() {
 
             <Box className="Container">
               <AnoMesProvider>
-                <Grid container direction="row" spacing={1} justify="center">
+                <Grid container direction="row" spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
                     {/* LEFT */}
                     <LeftMenu
@@ -60,7 +60,7 @@ function App() {
                     </Grid>
                   </Grid>
 
-                  <Grid item xs={12} sm={12} md={12} lg={4} xl={5}>
+                  <Grid item container xs={12} sm={12} md={12} lg={4} xl={5}>
                     {/* RIGHT */}
                     <GraficosContainer />
                   </Grid>

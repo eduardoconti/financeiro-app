@@ -4,14 +4,16 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import FormLogin from "./FormLogin";
-import { Grid } from "@material-ui/core";
 import { CategoryProvider } from "../Context/CategoryContext";
 import { WalletProvider } from "../Context/WalletContext";
+import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
+    flexWrap: "wrap",
     justifyContent: "center",
+    margin: "20px",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -34,7 +36,7 @@ export default function TransitionsModal({ open, setOpen, handleClose }) {
   const classes = useStyles();
 
   return (
-    <Grid item xs={4} lg={12}>
+    <Grid>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

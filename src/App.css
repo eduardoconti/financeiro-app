@@ -20,7 +20,7 @@
 
 }
 .DataGrid {
-  height: 380px;
+  height: 360px;
 }
 
 .DataGridColumn{
@@ -29,7 +29,6 @@
 
 .Formularios {
   padding: 5px;
-
 }
 
 .Grafico {

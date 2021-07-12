@@ -5,24 +5,26 @@ import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { Context } from "../Context/AuthContext";
 import { getToken } from "../common/Auth";
 import FcCardExpense from "./fc-cards/fc-card-expense";
 import FcCardYeld from "./fc-cards/fc-card-yields";
 import FcCardBalance from "./fc-cards/fc-card-balance";
-import FcCardBalanceMonth from "./fc-cards/fc-card-balance-month"
+import FcCardBalanceMonth from "./fc-cards/fc-card-balance-month";
 
 export default function Dash({ setStateCurrentBody }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const ctx = useContext(Context);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-
+  const stateTotais = ctx.stateTotais;
   useEffect(() => {
+    ctx.setSpin(true);
     async function setTotais() {
       if (getToken()) {
         setStateTotais(
@@ -33,23 +35,16 @@ export default function Dash({ setStateCurrentBody }) {
             stateMesAtual
           )
         );
-      }else{
-        setStateTotais({
-          totalDespesas: 0,
-          totalReceitas: 0,
-          saldo: 0,
-          balanco: 0,
-        });
-
       }
     }
     setTotais();
+    ctx.setSpin(false);// eslint-disable-next-line
   }, [
     stateCheckedDespesas,
     stateCheckedReceitas,
     stateAnoAtual,
     stateMesAtual,
-    setStateTotais
+    stateTotais,
   ]);
   return (
     <Grid container item spacing={1}>
@@ -69,14 +64,15 @@ export default function Dash({ setStateCurrentBody }) {
         />
       </Grid>
       <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-        <FcCardBalanceMonth
+        <FcCardBalance
           setStateCurrentBody={() =>
             setStateCurrentBody(Constantes.CORPO_SALDO)
           }
         />
       </Grid>
+
       <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-        <FcCardBalance
+        <FcCardBalanceMonth
           setStateCurrentBody={() =>
             setStateCurrentBody(Constantes.CORPO_BALANCO)
           }

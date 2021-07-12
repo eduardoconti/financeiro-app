@@ -30,10 +30,9 @@ import { Context } from "../Context/AuthContext";
 import { ContextForm } from "../Context/FormContext";
 import { useTheme } from "@material-ui/core";
 import { FcColumnDescription } from "./fc-datagrid/fc-column-description";
-import { getToken } from '../common/Auth'
+import { getToken } from "../common/Auth";
 
 export default function DataGridDespesas() {
-
   const theme = useTheme();
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
@@ -50,23 +49,28 @@ export default function DataGridDespesas() {
   const [rows, setRows] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState);
 
-  const columns = [
-    FcColumnDescription,
-    {
-      field: "categoria",
-      headerName: "Categoria",
-      width: 120,
-    },
-    {
-      field: "carteira",
-      headerName: "Carteira",
-      width: 120,
-    },
-    {
-      field: "vencimento",
-      headerName: "Vencimento",
-      width: 120,
-    },
+  let columns = [FcColumnDescription];
+
+  if (window.innerWidth >= 960) {
+    columns.push(
+      {
+        field: "categoria",
+        headerName: "Categoria",
+        width: 120,
+      },
+      {
+        field: "carteira",
+        headerName: "Carteira",
+        width: 120,
+      },
+      {
+        field: "vencimento",
+        headerName: "Vencimento",
+        width: 120,
+      }
+    );
+  }
+  columns.push(
     {
       field: "valor",
       headerName: "Valor",
@@ -83,9 +87,11 @@ export default function DataGridDespesas() {
           <Box>
             <IconButton
               aria-label="alterar"
-              style={{color:theme.palette.primary.dark, padding: 2}}
+              style={{ color: theme.palette.primary.dark, padding: 2 }}
               onClick={async () => {
-                const {data: formulario } = await retornaDespesaPorId(field.row.id);
+                const { data: formulario } = await retornaDespesaPorId(
+                  field.row.id
+                );
                 ctxForm.setForm(formataDadosParaFormulario(formulario));
               }}
             >
@@ -94,7 +100,7 @@ export default function DataGridDespesas() {
 
             <IconButton
               aria-label="excluir"
-              style={{color:theme.palette.primary.dark, padding: 2}}
+              style={{ color: theme.palette.primary.dark, padding: 2 }}
               onClick={async () => {
                 ctx.setSpin(true);
                 let response = await deletaDespesa(field.row.id);
@@ -122,10 +128,12 @@ export default function DataGridDespesas() {
             </IconButton>
             <IconButton
               aria-label="transfere"
-              style={{color:theme.palette.primary.dark, padding: 2}}
+              style={{ color: theme.palette.primary.dark, padding: 2 }}
               onClick={async () => {
                 ctx.setSpin(true);
-                const {data: despesa } = await retornaDespesaPorId(field.row.id);
+                const { data: despesa } = await retornaDespesaPorId(
+                  field.row.id
+                );
                 let nextDate = new Date(
                   stateAnoAtual,
                   stateMesAtual,
@@ -167,7 +175,12 @@ export default function DataGridDespesas() {
             </IconButton>
             <IconButton
               aria-label="pago"
-              style={{ color: field.row.pago ? theme.palette.success.dark : theme.palette.error.dark, padding: 2 }}
+              style={{
+                color: field.row.pago
+                  ? theme.palette.success.dark
+                  : theme.palette.error.dark,
+                padding: 2,
+              }}
               onClick={async () => {
                 ctx.setSpin(true);
                 let despesa = {
@@ -202,28 +215,27 @@ export default function DataGridDespesas() {
           </Box>
         );
       },
-    },
-  ];
+    }
+  );
 
   async function pegaDespesas() {
-
-    if(getToken()){
-      ctx.setSpin(true);
+    ctx.setSpin(true);
+    if (getToken()) {
       let despesas = await getDespesas(
         stateCheckedDespesas,
         stateAnoAtual,
         stateMesAtual
       );
 
-      if (despesas.statusCode < 400 ) {
+      if (despesas.statusCode < 400) {
         setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
-      ctx.setSpin(false);
-    }     
+    }
+    ctx.setSpin(false);
   }
 
   useEffect(() => {
-    pegaDespesas() // eslint-disable-next-line
+    pegaDespesas(); // eslint-disable-next-line
   }, [
     stateCheckedDespesas,
     stateTotais,
