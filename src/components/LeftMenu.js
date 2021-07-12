@@ -14,6 +14,11 @@ export default function LeftMenu({ setStateCurrentBody }) {
       width: "100%",
       boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
       color: "#FFF",
+      "&:hover": {
+        background: theme.palette.grey[800],
+        boxShadow:
+          "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
+      },
     },
   }));
 

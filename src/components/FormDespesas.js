@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
     color: "#fff",
     "&:hover": {
+      background: theme.palette.primary.dark,
       boxShadow:
         "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
     },
