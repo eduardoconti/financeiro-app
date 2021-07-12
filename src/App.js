@@ -18,9 +18,6 @@ import {
 
 const theme = createMuiTheme();
 
-console.log(theme)
-
-
 function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
 
@@ -29,6 +26,7 @@ function App() {
       <AuthProvider>
         <CheckedProvider>
           <TotaisProvider>
+
             <Box className="Container">
               <AnoMesProvider>
                 <Grid container direction="row" spacing={1} justify="center">

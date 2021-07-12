@@ -14,6 +14,10 @@ export default function Browser(props) {
         disableColumnMenu
         hideFooter
         hideFooterPagination
+        getRowClassName={() =>
+          "DataGridColumn"
+        }
+        
       />
     </Box>
   );

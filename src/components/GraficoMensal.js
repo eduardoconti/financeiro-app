@@ -13,12 +13,14 @@ import {
 } from "recharts";
 import HeaderGrafico from "./HeaderGraficos";
 import { rertornaReceitasAgrupadasPorMes } from "../common/ReceitaFuncoes";
-
 import { rertornaDespesasAgrupadasPorMes } from "../common/DepesaFuncoes";
 import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
+import { getToken } from '../common/Auth'
+import { Context } from "../Context/AuthContext";
+
 function retornaMes(mes) {
   if (mes === 1) return "Jan";
   else if (mes === 2) return "Fev";
@@ -61,30 +63,36 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
 export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxAnoMes = useContext(ContextAnoMes);
-
+  const ctx = useContext(Context);
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
+  
 
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   useEffect(() => {
-    async function retornaDadosGrafico(stateAnoAtual) {
-      let dados = []
 
-      let {data: despesas } = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
-      let {data: receitas } = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
-      try {
-        adicionaNoArrayDeDados(dados, receitas, despesas);
-      } catch (error) {
+    if(getToken()){
+      async function retornaDadosGrafico(stateAnoAtual) {
+        ctx.setSpin(true);
+        let dados = []
+  
+        let {data: despesas } = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
+        let {data: receitas } = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
+        try {
+          adicionaNoArrayDeDados(dados, receitas, despesas);
+        } catch (error) {
+  
+        }
+        ctx.setSpin(false);
+        return dados;
 
       }
-
-      return await dados;
-    }
-
-    retornaDadosGrafico(stateAnoAtual).then((dados) => {
-      setDados(dados);
-    });
+  
+      retornaDadosGrafico(stateAnoAtual).then((dados) => {
+        setDados(dados);
+      }); 
+    } // eslint-disable-next-line
   }, [stateAnoAtual, stateTotais]);
 
   const renderColorfulLegendText = (value, entry) => {

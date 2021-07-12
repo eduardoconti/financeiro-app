@@ -11,7 +11,7 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
-
+import {emptyTotais} from '../common/EmptyStates'
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -78,8 +78,8 @@ export default function FormLogin({ setOpen }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
+            ctx.setSpin(true)
             let { data, ...rest } = await ObtemToken(formulario);
-
             if (data.hasOwnProperty("accessToken")) {
               login(data.accessToken);
               setOpen(false);
@@ -98,6 +98,8 @@ export default function FormLogin({ setOpen }) {
             setAlert(
               retornaStateAlertCadastro(rest.status, "Login", rest.statusText)
             );
+
+            ctx.setSpin(false)
           }}
         >
           LOGIN
@@ -112,8 +114,10 @@ export default function FormLogin({ setOpen }) {
             setOpen(false);
             ctx.setToken("");
             ctx.setUserId("");
+            setStateTotais(emptyTotais)
           }}
         >
+          
           logout
         </Button>
       </form>

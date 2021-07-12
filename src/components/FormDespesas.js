@@ -20,7 +20,7 @@ import { ContextWallet } from "../Context/WalletContext";
 import { ContextCategory } from "../Context/CategoryContext";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-
+import { getToken } from '../common/Auth'
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -58,13 +58,17 @@ export default function FormDespesas() {
   const descricaoBotao = ctxForm.form.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
-
-    async function fetchData() {
-      ctxCategory.setCategory(await retornaCategorias());
-      ctxWallet.setWallet(await retornaCarteiras());
-      ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual))
+    if(getToken()){
+      async function fetchData() {
+        ctx.setSpin(true);
+        ctxCategory.setCategory(await retornaCategorias());
+        ctxWallet.setWallet(await retornaCarteiras());
+        ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual))
+        ctx.setSpin(false);
+      }
+      fetchData();
     }
-    fetchData(); // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [stateAnoAtual, stateMesAtual]);
 
   let MenuCategoria = Menu(ctxCategory.category);

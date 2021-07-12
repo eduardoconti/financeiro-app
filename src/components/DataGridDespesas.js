@@ -29,6 +29,8 @@ import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Context } from "../Context/AuthContext";
 import { ContextForm } from "../Context/FormContext";
 import { useTheme } from "@material-ui/core";
+import { FcColumnDescription } from "./fc-datagrid/fc-column-description";
+import { getToken } from '../common/Auth'
 
 export default function DataGridDespesas() {
 
@@ -49,7 +51,7 @@ export default function DataGridDespesas() {
   const [alert, setAlert] = useState(emptyAlertState);
 
   const columns = [
-    { field: "descricao", headerName: "Descricao", width: 170 },
+    FcColumnDescription,
     {
       field: "categoria",
       headerName: "Categoria",
@@ -83,7 +85,7 @@ export default function DataGridDespesas() {
               aria-label="alterar"
               style={{color:theme.palette.primary.dark, padding: 2}}
               onClick={async () => {
-                const formulario = await retornaDespesaPorId(field.row.id);
+                const {data: formulario } = await retornaDespesaPorId(field.row.id);
                 ctxForm.setForm(formataDadosParaFormulario(formulario));
               }}
             >
@@ -94,6 +96,7 @@ export default function DataGridDespesas() {
               aria-label="excluir"
               style={{color:theme.palette.primary.dark, padding: 2}}
               onClick={async () => {
+                ctx.setSpin(true);
                 let response = await deletaDespesa(field.row.id);
                 await pegaDespesas();
 
@@ -112,6 +115,7 @@ export default function DataGridDespesas() {
                     response.message
                   )
                 );
+                ctx.setSpin(false);
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -120,7 +124,8 @@ export default function DataGridDespesas() {
               aria-label="transfere"
               style={{color:theme.palette.primary.dark, padding: 2}}
               onClick={async () => {
-                const despesa = await retornaDespesaPorId(field.row.id);
+                ctx.setSpin(true);
+                const {data: despesa } = await retornaDespesaPorId(field.row.id);
                 let nextDate = new Date(
                   stateAnoAtual,
                   stateMesAtual,
@@ -131,7 +136,7 @@ export default function DataGridDespesas() {
                 despesa.vencimento = nextDate;
                 despesa.dataPagamento = nextDate;
                 despesa.pago = false;
-                despesa.user = despesa.user.id;
+                despesa.user = ctx.userId;
 
                 const response = await insereDespesa(
                   formataDadosParaFormulario(despesa)
@@ -154,6 +159,7 @@ export default function DataGridDespesas() {
                     response.message
                   )
                 );
+                ctx.setSpin(false);
               }}
               size="small"
             >
@@ -163,6 +169,7 @@ export default function DataGridDespesas() {
               aria-label="pago"
               style={{ color: field.row.pago ? theme.palette.success.dark : theme.palette.error.dark, padding: 2 }}
               onClick={async () => {
+                ctx.setSpin(true);
                 let despesa = {
                   id: field.row.id,
                   pago: !field.row.pago,
@@ -187,6 +194,7 @@ export default function DataGridDespesas() {
                     response.message
                   )
                 );
+                ctx.setSpin(false);
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -199,6 +207,8 @@ export default function DataGridDespesas() {
 
   async function pegaDespesas() {
 
+    if(getToken()){
+      ctx.setSpin(true);
       let despesas = await getDespesas(
         stateCheckedDespesas,
         stateAnoAtual,
@@ -208,17 +218,12 @@ export default function DataGridDespesas() {
       if (despesas.statusCode < 400 ) {
         setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
-
+      ctx.setSpin(false);
+    }     
   }
 
   useEffect(() => {
-    getDespesas(stateCheckedDespesas, stateAnoAtual, stateMesAtual).then(
-      (despesas) => {
-        if (despesas.statusCode < 400) {
-          setRows(formataDadosParaLinhasDataGrid(despesas.data));
-        }
-      }
-    );
+    pegaDespesas() // eslint-disable-next-line
   }, [
     stateCheckedDespesas,
     stateTotais,

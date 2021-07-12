@@ -27,7 +27,8 @@ import {
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-
+import { Context } from "../Context/AuthContext";
+import { getToken } from '../common/Auth'
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
@@ -42,7 +43,7 @@ export default function DataGridComponent({ setFormulario }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-
+  const ctx = useContext(Context);
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -79,7 +80,7 @@ export default function DataGridComponent({ setFormulario }) {
               aria-label="alterar"
               className={classes.operacoes}
               onClick={async () => {
-                const formulario = await retornaReceitaPorId(field.row.id);
+                const {data: formulario} = await retornaReceitaPorId(field.row.id);
                 setFormulario(formataDadosParaFormulario(formulario));
               }}
             >
@@ -91,7 +92,7 @@ export default function DataGridComponent({ setFormulario }) {
               className={classes.operacoes}
               onClick={async () => {
                 let response = await deletaReceita(field.row.id);
-                await setState();
+                await setStateReceitas();
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -115,15 +116,15 @@ export default function DataGridComponent({ setFormulario }) {
               aria-label="transfere"
               className={classes.operacoes}
               onClick={async () => {
-                const receita = await retornaReceitaPorId(field.row.id);
+                const {data: receita } = await retornaReceitaPorId(field.row.id);
                 receita.pagamento = new Date(stateAnoAtual, stateMesAtual, 10);
                 receita.id = 0;
                 receita.pago = false;
-                receita.user = receita.user.id;
+                receita.user = ctx.userId;
                 const response = await insereReceita(
                   formataDadosParaFormulario(receita)
                 );
-                await setState();
+                await setStateReceitas();
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -153,7 +154,7 @@ export default function DataGridComponent({ setFormulario }) {
                   pago: !field.row.pago,
                 };
                 let response = await alteraFlagPago(receita);
-                await setState();
+                await setStateReceitas();
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -180,29 +181,24 @@ export default function DataGridComponent({ setFormulario }) {
     },
   ];
 
-  async function setState() {
-    let receitas = await getReceitas(
-      stateCheckedReceitas,
-      stateAnoAtual,
-      stateMesAtual
-    );
-
-    if(receitas.statusCode < 400 ){
-      setRows(formataDadosParaLinhasDataGrid(receitas.data));
+  async function setStateReceitas() {
+    if(getToken()){
+      ctx.setSpin(true);
+      let receitas = await getReceitas(
+        stateCheckedReceitas,
+        stateAnoAtual,
+        stateMesAtual
+      );
+  
+      if(receitas.statusCode < 400 ){
+        setRows(formataDadosParaLinhasDataGrid(receitas.data));
+      }
+      ctx.setSpin(false);
     }
-
   }
 
   useEffect(() => {
-    getReceitas(stateCheckedReceitas, stateAnoAtual, stateMesAtual).then(
-      (receitas) => {
-
-        if(receitas.statusCode < 400 ){
-          setRows(formataDadosParaLinhasDataGrid(receitas.data));
-        }
-        
-      }
-    );
+    setStateReceitas()// eslint-disable-next-line
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
 
   return (

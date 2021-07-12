@@ -71,7 +71,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
       variant="outlined"
       size="small"
       style={{ width: 150 }}
-      value={formulario.pago}
+      value={formulario.pago ? formulario.pago : " "}
       select
       onChange={(event) =>
         setFormulario({ ...formulario, pago: event.target.value })
