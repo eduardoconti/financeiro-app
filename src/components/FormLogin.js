@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, TextField, Button } from "@material-ui/core";
+import { Grid, TextField, Button } from "@material-ui/core";
 import { ObtemToken } from "../common/Login";
 import Alert from "./Alert";
 import { login, logout } from "../common/Auth";
@@ -11,22 +11,28 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
-import {emptyTotais} from '../common/EmptyStates'
+import { emptyTotais } from "../common/EmptyStates";
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
     justifyContent: "center",
-    display: "flex",
-    flexWrap: "wrap",
     alignItems: "center",
+    padding: theme.spacing(2),
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderRadius: "10px"
   },
   botao: {
+    background: theme.palette.primary.dark,
+    margin: 10,
+    minHeight: 36,
+    borderRadius: 5,
+    textAlign: "center",
+    fontWeight: "bold",
+    boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
+    color: "#fff",
     "&:hover": {
-      backgroundColor: "#9Ebfc0",
+      boxShadow:
+        "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
     },
-    margin: 5,
   },
 }));
 
@@ -45,82 +51,91 @@ export default function FormLogin({ setOpen }) {
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
   return (
-    <Box className="Formularios">
+    <Grid alignItems="center" justify="center">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
-      <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="username"
-          label="username"
-          variant="outlined"
-          size="small"
-          style={{ width: 180 }}
-          required={true}
-          value={formulario.username}
-          onChange={(event) =>
-            setFormulario({ ...formulario, username: event.target.value })
-          }
-        />
-        <TextField
-          id="password"
-          label="password"
-          variant="outlined"
-          size="small"
-          style={{ width: 180 }}
-          required={true}
-          value={formulario.password}
-          onChange={(event) =>
-            setFormulario({ ...formulario, password: event.target.value })
-          }
-        />
 
-        <Button
-          variant="contained"
-          size="small"
-          className={classes.botao}
-          onClick={async () => {
-            ctx.setSpin(true)
-            let { data, ...rest } = await ObtemToken(formulario);
-            if (data.hasOwnProperty("accessToken")) {
-              login(data.accessToken);
-              setOpen(false);
-              ctx.setToken(data.accessToken);
-              setStateTotais(
-                await calculaTotais(
-                  stateCheckedDespesas,
-                  stateCheckedReceitas,
-                  stateAnoAtual,
-                  stateMesAtual
-                )
-              );
-              setFormulario({ username: "", password: "" });
-            }
+        <form className={classes.root} noValidate autoComplete="off">
+          <Grid item xs={12}>
+            <TextField
+              id="username"
+              label="username"
+              variant="outlined"
+              size="small"
+              style={{ width: 180, margin: 10 }}
+              required={true}
+              value={formulario.username}
+              onChange={(event) =>
+                setFormulario({ ...formulario, username: event.target.value })
+              }
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="password"
+              label="password"
+              variant="outlined"
+              size="small"
+              style={{ width: 180,  margin: 10 }}
+              required={true}
+              value={formulario.password}
+              onChange={(event) =>
+                setFormulario({ ...formulario, password: event.target.value })
+              }
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              size="small"
+              className={classes.botao}
+              onClick={async () => {
+                ctx.setSpin(true);
+                let { data, ...rest } = await ObtemToken(formulario);
+                if (data.hasOwnProperty("accessToken")) {
+                  login(data.accessToken);
+                  setOpen(false);
+                  ctx.setToken(data.accessToken);
+                  setStateTotais(
+                    await calculaTotais(
+                      stateCheckedDespesas,
+                      stateCheckedReceitas,
+                      stateAnoAtual,
+                      stateMesAtual
+                    )
+                  );
+                  setFormulario({ username: "", password: "" });
+                }
 
-            setAlert(
-              retornaStateAlertCadastro(rest.status, "Login", rest.statusText)
-            );
+                setAlert(
+                  retornaStateAlertCadastro(
+                    rest.status,
+                    "Login",
+                    rest.statusText
+                  )
+                );
 
-            ctx.setSpin(false)
-          }}
-        >
-          LOGIN
-        </Button>
+                ctx.setSpin(false);
+              }}
+            >
+              LOGIN
+            </Button>
 
-        <Button
-          variant="contained"
-          size="small"
-          className={classes.botao}
-          onClick={async () => {
-            logout();
-            setOpen(false);
-            ctx.setToken("");
-            ctx.setUserId("");
-            setStateTotais(emptyTotais)
-          }}
-        >
-          
-          logout
-        </Button>
-      </form>
-    </Box>
+            <Button
+              variant="contained"
+              size="small"
+              className={classes.botao}
+              onClick={async () => {
+                logout();
+                setOpen(false);
+                ctx.setToken("");
+                ctx.setUserId("");
+                setStateTotais(emptyTotais);
+              }}
+            >
+              logout
+            </Button>
+          </Grid>
+        </form>
+    </Grid>
   );
 }

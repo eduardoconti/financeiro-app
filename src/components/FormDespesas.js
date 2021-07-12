@@ -31,10 +31,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   botao: {
+    background: theme.palette.primary.dark,
+    margin: theme.spacing(1),
+    borderRadius: 5,
+    textAlign: "center",
+    fontWeight: "bold",
+    boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
+    color: "#fff",
     "&:hover": {
-      backgroundColor: "#9Ebfc0",
+      boxShadow:
+        "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
     },
-    margin: 5,
   },
 }));
 
