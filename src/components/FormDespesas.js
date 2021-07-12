@@ -1,23 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { retornaCategorias } from "../common/CategoriaFuncoes";
-import { retornaCarteiras } from "../common/CarteiraFuncoes";
+
 import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioDespesa, emptyAlertState } from "../common/EmptyStates";
 import Alert from "./Alert";
-import {
-  retornaStateAlertCadastro,
-  AlertWarning,
-} from "../common/AlertFuncoes";
+import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
 import { Context } from "../Context/AuthContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { ContextForm } from "../Context/FormContext";
+import TextFieldValue from "./forms/TextFieldValue";
+import { ContextWallet } from "../Context/WalletContext";
+import { ContextCategory } from "../Context/CategoryContext";
+import { retornaCategorias } from "../common/CategoriaFuncoes";
+import { retornaCarteiras } from "../common/CarteiraFuncoes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormDespesas({ setFormulario, formulario }) {
+export default function FormDespesas() {
   const ctx = useContext(Context);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-
-  const [categorias, setCategorias] = useState([]);
-  const [carteiras, setCarteiras] = useState([]);
+  const ctxForm = useContext(ContextForm);
+  const ctxWallet = useContext(ContextWallet);
+  const ctxCategory = useContext(ContextCategory);
   const [alert, setAlert] = useState(emptyAlertState);
   const classes = useStyles();
 
@@ -53,28 +55,20 @@ export default function FormDespesas({ setFormulario, formulario }) {
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
-  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
+  const descricaoBotao = ctxForm.form.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
-    retornaCategorias().then((categorias) => {
-      if (categorias && categorias.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar categoria"));
-      } else {
-        setCategorias(categorias);
-      }
-    });
 
-    retornaCarteiras().then((carteiras) => {
-      if (carteiras && carteiras.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar carteira"));
-      } else {
-        setCarteiras(carteiras);
-      }
-    });
-  }, []);
+    async function fetchData() {
+      ctxCategory.setCategory(await retornaCategorias());
+      ctxWallet.setWallet(await retornaCarteiras());
+      ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual))
+    }
+    fetchData(); // eslint-disable-next-line
+  }, [stateAnoAtual, stateMesAtual]);
 
-  let MenuCategoria = Menu(categorias);
-  let MenuCarteira = Menu(carteiras);
+  let MenuCategoria = Menu(ctxCategory.category);
+  let MenuCarteira = Menu(ctxWallet.wallet);
   let MenuPago = Menu([
     { id: false, descricao: "Aberto" },
     { id: true, descricao: "Pago" },
@@ -86,14 +80,13 @@ export default function FormDespesas({ setFormulario, formulario }) {
       variant="outlined"
       size="small"
       style={{ width: 150 }}
-      value={formulario.categoria}
+      value={ctxForm.form.categoria ? ctxForm.form.categoria : " "}
       select
-      onChange={(event) =>
-        setFormulario({ ...formulario, categoria: event.target.value })
-      }
-    >
-      {MenuCategoria}
-    </TextField>
+      onChange={(event) => {
+        ctxForm.setForm({ ...ctxForm.form, categoria: event.target.value });
+      }}
+      children={MenuCategoria}
+    ></TextField>
   );
 
   let TextFieldCarteira = (
@@ -103,14 +96,13 @@ export default function FormDespesas({ setFormulario, formulario }) {
       variant="outlined"
       size="small"
       style={{ width: 150 }}
-      value={formulario.carteira}
+      value={ctxForm.form.carteira ? ctxForm.form.carteira : " "}
       select
       onChange={(event) =>
-        setFormulario({ ...formulario, carteira: event.target.value })
+        ctxForm.setForm({ ...ctxForm.form, carteira: event.target.value })
       }
-    >
-      {MenuCarteira}
-    </TextField>
+      children={MenuCarteira}
+    ></TextField>
   );
 
   let TextFieldPago = (
@@ -120,14 +112,13 @@ export default function FormDespesas({ setFormulario, formulario }) {
       variant="outlined"
       size="small"
       style={{ width: 150 }}
-      value={formulario.pago}
+      value={ctxForm.form.pago ? ctxForm.form.pago : " "}
       select
       onChange={(event) =>
-        setFormulario({ ...formulario, pago: event.target.value })
+        ctxForm.setForm({ ...ctxForm.form, pago: event.target.value })
       }
-    >
-      {MenuPago}
-    </TextField>
+      children={MenuPago}
+    ></TextField>
   );
 
   return (
@@ -141,9 +132,9 @@ export default function FormDespesas({ setFormulario, formulario }) {
           size="small"
           style={{ width: 150 }}
           required={true}
-          value={formulario.descricao}
+          value={ctxForm.form.descricao ? ctxForm.form.descricao : " "}
           onChange={(event) =>
-            setFormulario({ ...formulario, descricao: event.target.value })
+            ctxForm.setForm({ ...ctxForm.form, descricao: event.target.value })
           }
         />
         {TextFieldCategoria}
@@ -156,27 +147,13 @@ export default function FormDespesas({ setFormulario, formulario }) {
           InputLabelProps={{
             shrink: true,
           }}
-          value={formulario.vencimento}
+          value={ctxForm.form.vencimento ? ctxForm.form.vencimento : " "}
           size="small"
           onChange={(event) =>
-            setFormulario({ ...formulario, vencimento: event.target.value })
+            ctxForm.setForm({ ...ctxForm.form, vencimento: event.target.value })
           }
         />
-        <TextField
-          id="valor"
-          label="Valor"
-          variant="outlined"
-          size="small"
-          type="number"
-          style={{ width: 120 }}
-          value={formulario.valor}
-          onChange={(event) =>
-            setFormulario({
-              ...formulario,
-              valor: parseFloat(event.target.value),
-            })
-          }
-        />
+        <TextFieldValue />
         {TextFieldPago}
         <Button
           variant="contained"
@@ -184,15 +161,16 @@ export default function FormDespesas({ setFormulario, formulario }) {
           className={classes.botao}
           onClick={async () => {
             let response;
-            formulario.user = ctx.userId;
-            if (formulario.id === 0) {
-              response = await insereDespesa(formulario);
+            ctxForm.form.user = ctx.userId;
+            ctxForm.form.valor = parseFloat(ctxForm.form.valor);
+
+            if (ctxForm.form.id === 0) {
+              response = await insereDespesa(ctxForm.form);
             } else {
-              response = await alteraDespesa(formulario);
+              response = await alteraDespesa(ctxForm.form);
             }
-            console.log(response);
             if (response.statusCode === 200 || response.statusCode === 201) {
-              setFormulario(
+              ctxForm.setForm(
                 emptyFormularioDespesa(stateAnoAtual, stateMesAtual)
               );
             }
@@ -221,7 +199,9 @@ export default function FormDespesas({ setFormulario, formulario }) {
           size="small"
           className={classes.botao}
           onClick={() => {
-            setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+            ctxForm.setForm(
+              emptyFormularioDespesa(stateAnoAtual, stateMesAtual)
+            );
           }}
         >
           LIMPAR

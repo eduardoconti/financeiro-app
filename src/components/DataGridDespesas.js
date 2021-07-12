@@ -13,7 +13,6 @@ import {
   retornaDespesaPorId,
   insereDespesa,
 } from "../common/DepesaFuncoes";
-import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
 import Alert from "./Alert";
 import { Box } from "@material-ui/core";
@@ -28,20 +27,17 @@ import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Context } from "../Context/AuthContext";
+import { ContextForm } from "../Context/FormContext";
+import { useTheme } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  operacoes: {
-    color: "#216260",
-    padding: 2,
-  },
-});
+export default function DataGridDespesas() {
 
-export default function DataGridDespesas({ setFormulario }) {
-  const classes = useStyles();
+  const theme = useTheme();
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctx = useContext(Context);
+  const ctxForm = useContext(ContextForm);
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -85,10 +81,10 @@ export default function DataGridDespesas({ setFormulario }) {
           <Box>
             <IconButton
               aria-label="alterar"
-              className={classes.operacoes}
+              style={{color:theme.palette.primary.dark, padding: 2}}
               onClick={async () => {
                 const formulario = await retornaDespesaPorId(field.row.id);
-                setFormulario(formataDadosParaFormulario(formulario));
+                ctxForm.setForm(formataDadosParaFormulario(formulario));
               }}
             >
               <CreateTwoToneIcon />
@@ -96,7 +92,7 @@ export default function DataGridDespesas({ setFormulario }) {
 
             <IconButton
               aria-label="excluir"
-              className={classes.operacoes}
+              style={{color:theme.palette.primary.dark, padding: 2}}
               onClick={async () => {
                 let response = await deletaDespesa(field.row.id);
                 await pegaDespesas();
@@ -122,26 +118,27 @@ export default function DataGridDespesas({ setFormulario }) {
             </IconButton>
             <IconButton
               aria-label="transfere"
-              className={classes.operacoes}
+              style={{color:theme.palette.primary.dark, padding: 2}}
               onClick={async () => {
                 const despesa = await retornaDespesaPorId(field.row.id);
-                despesa.vencimento = new Date(
+                let nextDate = new Date(
                   stateAnoAtual,
                   stateMesAtual,
                   10
                 ).toISOString();
+
                 despesa.id = 0;
+                despesa.vencimento = nextDate;
+                despesa.dataPagamento = nextDate;
                 despesa.pago = false;
-                despesa.dataPagamento = new Date(
-                  stateAnoAtual,
-                  stateMesAtual,
-                  10
-                ).toISOString();
                 despesa.user = despesa.user.id;
+
                 const response = await insereDespesa(
                   formataDadosParaFormulario(despesa)
                 );
+
                 await pegaDespesas();
+
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -164,8 +161,7 @@ export default function DataGridDespesas({ setFormulario }) {
             </IconButton>
             <IconButton
               aria-label="pago"
-              className={classes.operacoes}
-              style={{ color: field.row.pago ? "#85f07b" : "#E55451" }}
+              style={{ color: field.row.pago ? theme.palette.success.dark : theme.palette.error.dark, padding: 2 }}
               onClick={async () => {
                 let despesa = {
                   id: field.row.id,
@@ -202,22 +198,27 @@ export default function DataGridDespesas({ setFormulario }) {
   ];
 
   async function pegaDespesas() {
-    let despesas = await getDespesas(
-      stateCheckedDespesas,
-      stateAnoAtual,
-      stateMesAtual
-    );
-    setRows(formataDadosParaLinhasDataGrid(despesas));
+
+      let despesas = await getDespesas(
+        stateCheckedDespesas,
+        stateAnoAtual,
+        stateMesAtual
+      );
+
+      if (despesas.statusCode < 400 ) {
+        setRows(formataDadosParaLinhasDataGrid(despesas.data));
+      }
+
   }
 
   useEffect(() => {
     getDespesas(stateCheckedDespesas, stateAnoAtual, stateMesAtual).then(
       (despesas) => {
-        console.log(despesas);
-        setRows(formataDadosParaLinhasDataGrid(despesas));
+        if (despesas.statusCode < 400) {
+          setRows(formataDadosParaLinhasDataGrid(despesas.data));
+        }
       }
     );
-    console.log(ctx.userId);
   }, [
     stateCheckedDespesas,
     stateTotais,

@@ -9,6 +9,7 @@ import Grafico from "./Grafico";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { useTheme } from "@material-ui/core";
 
 export default function GraficoDespesas() {
   const ctxTotais = useContext(ContextTotais);
@@ -23,7 +24,7 @@ export default function GraficoDespesas() {
   const [despesas, setDespesas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
-
+  const theme = useTheme();
   useEffect(() => {
     async function pegaDespesas() {
       let despesas;
@@ -43,7 +44,9 @@ export default function GraficoDespesas() {
         );
         setDescricao("Despesas por Carteira");
       }
-      setDespesas(despesas);
+      if(despesas.statusCode < 400 ){
+        setDespesas(despesas.data);
+      }
     }
     pegaDespesas();
   }, [
@@ -60,14 +63,14 @@ export default function GraficoDespesas() {
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor="#E55451"
+        cor={theme.palette.error.dark}
         descricao={descricao}
       />
       <Grafico
         data={despesas}
         chaveX="descricao"
         chaveY="valor"
-        cor="#E55451"
+        cor={theme.palette.error.dark}
         stroke="#F62217"
       />
     </Box>

@@ -4,31 +4,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Ano from "./BotaoAno";
 import * as Constants from "../common/Constantes";
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  MuiThemeProvider,
-} from "@material-ui/core";
-
 import LoginModal from "./LoginModal";
 import { isAuthenticated } from "../common/Auth";
 
-const useStyles = makeStyles({
-  botao: {
-    backgroundColor: "#F9FEFB",
-    width: "100%",
-    boxShadow: "2px 2px 2px 1px rgba(47, 65, 167, 0.2)",
-    "&:hover": {
-      backgroundColor: "#9Ebfc0",
-    },
-    fontWeight: "bold",
-  },
-});
-
-let theme = createMuiTheme();
-theme = responsiveFontSizes(theme);
-
 export default function LeftMenu({ setStateCurrentBody }) {
+  const useStyles = makeStyles((theme)=>({
+    botao: {
+      backgroundColor:theme.palette.grey[800],
+      width: "100%",
+      boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
+      color: "#FFF"
+    },
+  }));
+  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -43,7 +31,7 @@ export default function LeftMenu({ setStateCurrentBody }) {
   }
   const nome = isAuthenticated() ? "logout" : " login";
   return (
-    <MuiThemeProvider theme={theme}>
+
       <Grid container item spacing={1}>
         <Grid item xs={4} lg={12}>
           <Button className={classes.botao} onClick={handleOpen}>
@@ -94,6 +82,6 @@ export default function LeftMenu({ setStateCurrentBody }) {
           </Button>
         </Grid>
       </Grid>
-    </MuiThemeProvider>
+
   );
 }

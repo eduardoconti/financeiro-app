@@ -21,6 +21,9 @@ import {
   retornaStateAlertExclusao,
 } from "../common/AlertFuncoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { calculaTotais } from "../common/Funcoes";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -29,13 +32,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridComponent({ setFormulario, rows, setRows }) {
+export default function DataGridComponent({ setFormulario }) {
+  const [rows, setRows] = useState([]);
+  const [alert, setAlert] = useState(emptyAlertState);
+  const classes = useStyles();
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+
+  const setStateTotais = ctxTotais.setStateTotais;
+  const stateTotais = ctxTotais.stateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
-  const classes = useStyles();
-  const [alert, setAlert] = useState(emptyAlertState);
   const columns = [
     {
       field: "carteiraOrigem",
@@ -104,7 +115,14 @@ export default function DataGridComponent({ setFormulario, rows, setRows }) {
                 };
                 let response = await alteraFlagPago(transferencia);
                 await setState();
-
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
+                  )
+                );
                 setAlert(
                   retornaStateAlertAlteracaoFlagPago(
                     response.statusCode,
@@ -125,14 +143,20 @@ export default function DataGridComponent({ setFormulario, rows, setRows }) {
 
   async function setState() {
     let transferencias = await getTransferencias(stateAnoAtual, stateMesAtual);
-    setRows(formataDadosParaLinhasDataGrid(transferencias));
+
+    if(transferencias.statusCode < 400 ){
+      setRows(formataDadosParaLinhasDataGrid(transferencias.data));
+    }
+
   }
 
   useEffect(() => {
     getTransferencias(stateAnoAtual, stateMesAtual).then((transferencias) => {
-      setRows(formataDadosParaLinhasDataGrid(transferencias));
+      if(transferencias.statusCode < 400 ){
+        setRows(formataDadosParaLinhasDataGrid(transferencias.data));
+      }
     }); // eslint-disable-next-line
-  }, [stateAnoAtual, stateMesAtual]);
+  }, [stateAnoAtual, stateMesAtual, stateTotais]);
 
   return (
     <Box>

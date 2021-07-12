@@ -1,40 +1,34 @@
 import API from "./Api";
-
 const ENDPOINT = "receitas/";
-const headers = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 
 export async function getReceitas(
   stateCheckedReceitas,
   stateAnoAtual,
   stateMesAtual
 ) {
-  var res = new Array(0);
+  try {
+    let res;
 
-  if (
-    (stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto) ||
-    (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
-  ) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual,
-      headers
-    );
-  } else if (stateCheckedReceitas.checkedPago) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true",
-      headers
-    );
-  } else if (stateCheckedReceitas.checkedAberto) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=false",
-      headers
-    );
+    if (
+      (stateCheckedReceitas.checkedPago &&
+        stateCheckedReceitas.checkedAberto) ||
+      (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
+    ) {
+      res = await API.get(ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual);
+    } else if (stateCheckedReceitas.checkedPago) {
+      res = await API.get(
+        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true"
+      );
+    } else if (stateCheckedReceitas.checkedAberto) {
+      res = await API.get(
+        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=false"
+      );
+    }
+
+    return res.data;
+  } catch (error) {
+    return error;
   }
-
-  return res.data;
 }
 
 export async function retornaReceitasAgrupadasPorCarteiraChecked(
@@ -42,128 +36,106 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
   stateAnoAtual,
   stateMesAtual
 ) {
-  var res = new Array(0);
+  try {
+    let res;
 
-  if (
-    (stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto) ||
-    (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
-  ) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor",
-      headers
-    );
-  } else if (stateCheckedReceitas.checkedPago) {
-    res = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/" +
-        stateMesAtual +
-        "/carteira/valor?pago=true",
-      headers
-    );
-  } else if (stateCheckedReceitas.checkedAberto) {
-    res = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/" +
-        stateMesAtual +
-        "/carteira/valor?pago=false",
-      headers
-    );
+    if (
+      (stateCheckedReceitas.checkedPago &&
+        stateCheckedReceitas.checkedAberto) ||
+      (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
+    ) {
+      res = await API.get(
+        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor"
+      );
+    } else if (stateCheckedReceitas.checkedPago) {
+      res = await API.get(
+        ENDPOINT +
+          stateAnoAtual +
+          "/mes/" +
+          stateMesAtual +
+          "/carteira/valor?pago=true"
+      );
+    } else if (stateCheckedReceitas.checkedAberto) {
+      res = await API.get(
+        ENDPOINT +
+          stateAnoAtual +
+          "/mes/" +
+          stateMesAtual +
+          "/carteira/valor?pago=false"
+      );
+    }
+
+    return res.data;
+  } catch (error) {
+    return errorResponse(error);
   }
-
-  return res.data;
 }
 
-export async function deletaReceita(id){
+export async function deletaReceita(id) {
   try {
-    const res = await API.delete(ENDPOINT + id, headers);
-    return {
-      statusCode: res.status.valueOf(),
-      data: res.data,
-      message: "Deletado Receita",
-    };
+    const res = await API.delete(ENDPOINT + id);
+    return res.data;
   } catch (error) {
-    return error.response.data;
+    return errorResponse(error);
   }
 }
 
 export async function insereReceita(receita) {
   try {
-    const res = await API.post(ENDPOINT, receita, headers);
-    return {
-      statusCode: res.status.valueOf(),
-      data: res.data,
-      message: "Inserido Receita",
-    };
+    const res = await API.post(ENDPOINT, receita);
+    return res.data;
   } catch (error) {
-    return errorResponse(error.response.data);
+    return error;
   }
 }
+
 export async function alteraReceita(receita) {
   try {
-    const res = await API.put(ENDPOINT + receita.id, receita, headers);
-    return {
-      statusCode: res.status.valueOf(),
-      data: res.data,
-      message: "Alterado Receita",
-    };
+    const res = await API.put(ENDPOINT + receita.id, receita);
+    return res.data;
   } catch (error) {
-    return errorResponse(error.response.data);
+    return errorResponse(error);
   }
 }
+
 export async function alteraFlagPago(receita) {
   try {
-    const res = await API.patch(
-      ENDPOINT + "flag/" + receita.id,
-      receita,
-      headers
-    );
-    return {
-      statusCode: res.status.valueOf(),
-      data: res.data,
-      message: "Alterado Flag Pago Receita",
-    };
+    const res = await API.patch(ENDPOINT + "flag/" + receita.id, receita);
+    return res.data;
   } catch (error) {
-    return error.response.data;
+    return errorResponse(error);
   }
 }
+
 export async function retornaTotalReceitas(stateAnoAtual, stateMesAtual) {
   try {
-    const total = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total",
-      headers
+    const res = await API.get(
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total"
     );
-    return total.data;
+    return res.data;
   } catch (error) {
-    return error.response.status;
+    return errorResponse(error);
   }
 }
 
 export async function retornaTotalReceitasPagas(stateAnoAtual, stateMesAtual) {
   try {
-    const total = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=true",
-      headers
+    const res = await API.get(
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=true"
     );
-    if (!total.data) {
-      return 0;
-    }
-    return total.data;
+
+    return res.data;
   } catch (error) {
-    return error.response.status;
+    return errorResponse(error);
   }
 }
 
 export async function retornaTotalGeralReceitasPagas() {
   try {
-    const total = await API.get(ENDPOINT + "total/?pago=true", headers);
-    if (!total.data) {
-      return 0;
-    }
-    return total.data;
+    const res = await API.get(ENDPOINT + "total/?pago=true");
+    return res.data;
   } catch (error) {
-    return error.response.status;
+    return errorResponse(error);
   }
 }
 
@@ -172,16 +144,12 @@ export async function retornaTotalReceitasAbertas(
   stateMesAtual
 ) {
   try {
-    const total = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=false",
-      headers
+    const res = await API.get(
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=false"
     );
-    if (!total.data) {
-      return 0;
-    }
-    return total.data;
+    return res.data;
   } catch (error) {
-    return error.response.status;
+    errorResponse(error);
   }
 }
 
@@ -191,33 +159,35 @@ export async function retornaReceitasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    const total = await API.get(
+    const res = await API.get(
       ENDPOINT +
         stateAnoAtual +
         "/mes/" +
         stateMesAtual +
         "/carteira/valor/?pago=" +
-        pago,
-      headers
+        pago
     );
-    return total.data;
+    return res.data;
   } catch (error) {
-    return error.response.status;
+    errorResponse(error);
   }
 }
 
 export async function retornaReceitaPorId(id) {
-  var res = new Array(0);
-  res = await API.get(ENDPOINT + "id/" + id, headers);
-  return res.data;
+  try {
+    const res = await API.get(ENDPOINT + "id/" + id);
+    return res.data;
+  } catch (error) {
+    errorResponse(error);
+  }
 }
 
 export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual, pago) {
   try {
-    const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/", headers);
-    return total.data;
+    const res = await API.get(ENDPOINT + stateAnoAtual + "/mes/");
+    return res.data;
   } catch (error) {
-    return error.response.status;
+    errorResponse(error);
   }
 }
 
@@ -242,8 +212,8 @@ export function formataDadosParaFormulario(receita) {
 
 function errorResponse(error) {
   return {
-    statusCode: error.statusCode,
-    data: error.response,
-    message: error.response.message,
+    statusCode: 500,
+    internalMessage: error.message,
+    data: 0,
   };
 }

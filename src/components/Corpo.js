@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import CorpoCategorias from "./CorpoCategorias";
 import CorpoDespesas from "./CorpoDespesas";
@@ -9,9 +9,21 @@ import CorpoTransferencias from "./CorpoTransferencias";
 import * as Constants from "../common/Constantes";
 
 import Alert from "./Alert";
+import { FormProvider } from "../Context/FormContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
+import { emptyFormularioDespesa } from "../common/EmptyStates";
+
 export default function CurrentBody({ stateCurrentBody }) {
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+
   if (stateCurrentBody === Constants.CORPO_DESPESAS) {
-    return <CorpoDespesas />;
+    return (
+      <FormProvider form={emptyFormularioDespesa(stateAnoAtual, stateMesAtual)}>
+        <CorpoDespesas />
+      </FormProvider>
+    );
   } else if (stateCurrentBody === Constants.CORPO_RECEITAS) {
     return <CorpoReceitas />;
   } else if (stateCurrentBody === Constants.CORPO_CATEGORIAS) {

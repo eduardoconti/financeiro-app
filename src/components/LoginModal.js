@@ -5,6 +5,8 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import FormLogin from "./FormLogin";
 import { Grid } from "@material-ui/core";
+import { CategoryProvider } from "../Context/CategoryContext";
+import { WalletProvider } from "../Context/WalletContext";
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
   botao: {
-    backgroundColor: "#F9FEFB",
+    backgroundColor: "#f9fefb",
     width: "100%",
     boxShadow: "2px 2px 2px 1px rgba(47, 65, 167, 0.2)",
     "&:hover": {
@@ -46,11 +48,15 @@ export default function TransitionsModal({ open, setOpen, handleClose }) {
         }}
       >
         <Fade in={open}>
-          <FormLogin
-            setOpen={(open) => {
-              setOpen(open);
-            }}
-          />
+          <CategoryProvider>
+            <WalletProvider>
+              <FormLogin
+                setOpen={(open) => {
+                  setOpen(open);
+                }}
+              />
+            </WalletProvider>
+          </CategoryProvider>
         </Fade>
       </Modal>
     </Grid>

@@ -18,7 +18,7 @@ import { rertornaDespesasAgrupadasPorMes } from "../common/DepesaFuncoes";
 import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-
+import { useTheme } from "@material-ui/core";
 function retornaMes(mes) {
   if (mes === 1) return "Jan";
   else if (mes === 2) return "Fev";
@@ -66,18 +66,18 @@ export default function GraficoReceitas() {
   const stateTotais = ctxTotais.stateTotais;
 
   const [dados, setDados] = useState([]);
-
+  const theme = useTheme();
   useEffect(() => {
     async function retornaDadosGrafico(stateAnoAtual) {
-      let dados = [],
-        despesas,
-        receitas;
+      let dados = []
 
-      despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
-      receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
+      let {data: despesas } = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
+      let {data: receitas } = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
       try {
         adicionaNoArrayDeDados(dados, receitas, despesas);
-      } catch (error) {}
+      } catch (error) {
+
+      }
 
       return await dados;
     }
@@ -99,7 +99,7 @@ export default function GraficoReceitas() {
         setStateGrafico={(stateGrafico) => {
           //setStateGrafico(stateGrafico);
         }}
-        cor="#6C2DC7"
+        cor={theme.palette.primary.dark}
         descricao="Grafico Geral"
       />
       <ResponsiveContainer>
@@ -107,22 +107,24 @@ export default function GraficoReceitas() {
           data={dados}
           margin={{
             right: 20,
+            left: 5
           }}
         >
-          <XAxis dataKey="name" />
-          <YAxis domain={[0, 6000]}/>
+          <XAxis dataKey="name" fill="#FFF" stroke="#FFF"/>
+          <YAxis domain={[0, 6000]} fill="#FFF" stroke="#FFF"/>
           <Tooltip />
           <Legend formatter={renderColorfulLegendText} />
-          <CartesianGrid stroke="#f5f5f5" />
+          <CartesianGrid strokeDasharray="3 3"/>
           <Area
             type="monotone"
             dataKey="receita"
-            fill="#85f07b"
+            fill={theme.palette.success.dark}
             stroke="#4E9258"
+            fillOpacity={"60%"}
           />
 
-          <Bar dataKey="despesa" barSize={15} fill="#E55451" stroke="#F62217" />
-          <Line type="monotone" dataKey="balanco" stroke="#6C2DC7" />
+          <Bar dataKey="despesa" barSize={15} fill={theme.palette.error.dark} stroke="#F62217" />
+          <Line type="monotone" dataKey="balanco" stroke={theme.palette.primary.dark} strokeWidth={3}/>
         </ComposedChart>
       </ResponsiveContainer>
     </Box>

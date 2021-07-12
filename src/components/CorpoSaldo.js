@@ -32,10 +32,10 @@ function retornaDados(obj) {
 async function retornaDadosParaCard() {
   try {
     const carteiras = await retornaCarteiras();
-    const despesas = await retornaDespesasAgrupadasPorCarteira(0, 0, true);
-    const receitas = await retornaReceitasAgrupadasPorCarteira(0, 0, true);
-    const transferenciasOrigem = await retornaValoresTransferenciasOrigem(0, 0);
-    const transferenciasDestino = await retornaValoresTransferenciasDestino(0, 0);
+    const {data: despesas } = await retornaDespesasAgrupadasPorCarteira(0, 0, true);
+    const {data: receitas } = await retornaReceitasAgrupadasPorCarteira(0, 0, true);
+    const {data: transferenciasOrigem } = await retornaValoresTransferenciasOrigem(0, 0);
+    const {data: transferenciasDestino } = await retornaValoresTransferenciasDestino(0, 0);
     const dadosCard = [];
     
     carteiras.forEach((carteira, i) => {

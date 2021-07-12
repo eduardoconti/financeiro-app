@@ -8,10 +8,10 @@
 .Header,
 .Footer,
 .Card {
-  background-color: #f9fefb;
+  background-color:rgba(255,255,255,0.8);
   border-radius: 10px;
-  box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, 0.1), inset 0px 5px 2px 2px rgba(24, 137, 241, 0.05);
   display: flex;
+  color: #FFF;
 }
 
 .Card{
@@ -30,6 +30,7 @@
 }
 
 .Grafico {
+  background-color:rgba(255,255,255,0.05);
   height: 100%;
   min-height: 200px;
   flex-direction: column;

@@ -10,30 +10,31 @@ export default function BotaoMes() {
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const setStateMesAtual = ctxAnoMes.setStateMesAtual;
 
-  const useStyles = makeStyles({
+  const useStyles = makeStyles((theme) => ({
     botao: {
-      background: "linear-gradient(45deg, #C2DFFF 10%, #48CCCD 90%)",
+      background: theme.palette.primary.dark,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
       fontWeight: "bold",
       boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
-
+      color: "#fff",
       "&:hover": {
         boxShadow:
           "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
       },
     },
     ativo: {
-      backgroundColor: "#48CCCD",
+      backgroundColor: theme.palette.secondary.dark,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
       fontWeight: "bold",
+      color: "#fff",
       boxShadow:
         "inset 2px 2px 2px 1px rgba(0, 0, 0, 0.2),  0px 0px 1px 1px rgba(0, 0, 0, 0.2)",
     },
-  });
+  }));
 
   const classes = useStyles();
   function onClick(mesAtual) {

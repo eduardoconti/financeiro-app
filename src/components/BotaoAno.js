@@ -23,17 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   botao: {
-    backgroundColor: "#F9FEFB",
+    backgroundColor: theme.palette.grey[800],
     maxWidth: "100%",
     minHeight: 36,
     borderRadius: 5,
     textAlign: "center",
     fontWeight: "bold",
-    boxShadow: "2px 2px 2px 1px rgba(47, 65, 167, 0.2)",
-
-    "&:hover": {
-      backgroundColor: "#9Ebfc0",
-    },
+    color: "#FFF"
   },
 }));
 

@@ -2,8 +2,9 @@ import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Grid } from "@material-ui/core";
-
+import {useTheme } from "@material-ui/core";
 export default function CheckboxLabels({ setStateChecked, stateChecked }) {
+  const theme = useTheme();
   const handleChange = (event) => {
     var resultado = 0;
     var name = event.target.name;
@@ -37,7 +38,7 @@ export default function CheckboxLabels({ setStateChecked, stateChecked }) {
             checked={stateChecked.checkedPago}
             onChange={handleChange}
             name="checkedPago"
-            style={{ color: "#85f07b" }}
+            style={{ color: theme.palette.success.dark }}
           />
         }
         style={{ margin: 0, padding: 0 }}
@@ -48,7 +49,7 @@ export default function CheckboxLabels({ setStateChecked, stateChecked }) {
             checked={stateChecked.checkedAberto}
             onChange={handleChange}
             name="checkedAberto"
-            style={{ color: "#E55451" }}
+            style={{ color: theme.palette.error.dark }}
           />
         }
         style={{ margin: 0, padding: 0 }}

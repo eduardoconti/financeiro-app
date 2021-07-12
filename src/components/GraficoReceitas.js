@@ -43,7 +43,9 @@ export default function GraficoReceitas() {
         );
         setDescricao("Receitas por Carteira");
       }
-      setReceitas(receitas);
+      if( receitas.statusCode < 400 ){
+        setReceitas(receitas.data);
+      }
     }
     pegaReceitas();
   }, [

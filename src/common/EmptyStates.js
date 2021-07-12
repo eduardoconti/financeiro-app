@@ -1,12 +1,48 @@
-export function emptyFormularioDespesa() {
+export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
+  let dia = new Date().getDate();
+
   return {
     descricao: "",
-    categoria: "",
+    categoria: 0,
+    carteira: 0,
+    valor: 0,
+    pago: false,
+    pagamento: new Date(stateAnoAtual, stateMesAtual -1, dia)
+      .toISOString()
+      .slice(0, 10),
+    vencimento: new Date(stateAnoAtual, stateMesAtual -1, dia)
+      .toISOString()
+      .slice(0, 10),
+    id: 0,
+  };
+}
+
+export function emptyFormularioTransferencia(stateAnoAtual, stateMesAtual) {
+  let dia = new Date().getDate();
+
+  return {
+    id: 0,
+    carteiraOrigem: "",
+    carteiraDestino: "",
+    valor: 0,
+    pago: false,
+    transferencia: new Date(stateAnoAtual, stateMesAtual -1, dia)
+      .toISOString()
+      .slice(0, 10),
+  };
+}
+
+export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
+  let dia = new Date().getDate();
+
+  return {
+    descricao: "",
     carteira: "",
     valor: 0,
     pago: false,
-    pagamento: new Date().toISOString().slice(0, 10),
-    vencimento: new Date().toISOString().slice(0, 10),
+    pagamento: new Date(stateAnoAtual, stateMesAtual-1, dia)
+      .toISOString()
+      .slice(0, 10),
     id: 0,
   };
 }
@@ -32,31 +68,9 @@ export const emptyChecked = {
   checkedAberto: true,
 };
 
-export function emptyFormularioReceita() {
-  return {
-    descricao: "",
-    carteira: "",
-    valor: 0,
-    pago: false,
-    pagamento: new Date().toISOString().slice(0, 10),
-    id: 0,
-  };
-}
-
 export const emptyAlertState = {
   isOpen: false,
   message: "",
   type: "",
   title: "",
 };
-
-export function emptyFormularioTransferencia() {
-  return {
-    id: 0,
-    carteiraOrigem: "",
-    carteiraDestino: "",
-    valor: 0,
-    pago: false,
-    transferencia: new Date().toISOString().slice(0, 10),
-  };
-}

@@ -186,13 +186,21 @@ export default function DataGridComponent({ setFormulario }) {
       stateAnoAtual,
       stateMesAtual
     );
-    setRows(formataDadosParaLinhasDataGrid(receitas));
+
+    if(receitas.statusCode < 400 ){
+      setRows(formataDadosParaLinhasDataGrid(receitas.data));
+    }
+
   }
 
   useEffect(() => {
     getReceitas(stateCheckedReceitas, stateAnoAtual, stateMesAtual).then(
       (receitas) => {
-        setRows(formataDadosParaLinhasDataGrid(receitas));
+
+        if(receitas.statusCode < 400 ){
+          setRows(formataDadosParaLinhasDataGrid(receitas.data));
+        }
+        
       }
     );
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);

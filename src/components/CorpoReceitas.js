@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import GridReceitas from "./DataGridReceitas";
 import FormularioReceitas from "./FormReceitas";
 import { Grid } from "@material-ui/core";
 import { emptyFormularioReceita } from "../common/EmptyStates";
+import { ContextAnoMes } from "../Context/AnoMesContext";
+import { WalletProvider } from "../Context/WalletContext";
+import { CategoryProvider } from "../Context/CategoryContext";
 
 export default function CorpoReceitas() {
-  const [formulario, setFormulario] = useState(emptyFormularioReceita());
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const [formulario, setFormulario] = useState(
+    emptyFormularioReceita(stateAnoAtual, stateMesAtual)
+  );
 
   return (
     <Grid container spacing={1}>
@@ -17,10 +25,14 @@ export default function CorpoReceitas() {
       </Grid>
 
       <Grid item xs={12}>
-        <FormularioReceitas
-          formulario={formulario}
-          setFormulario={(formulario) => setFormulario(formulario)}
-        />
+        <WalletProvider>
+          <CategoryProvider>
+            <FormularioReceitas
+              formulario={formulario}
+              setFormulario={(formulario) => setFormulario(formulario)}
+            />
+          </CategoryProvider>
+        </WalletProvider>
       </Grid>
     </Grid>
   );

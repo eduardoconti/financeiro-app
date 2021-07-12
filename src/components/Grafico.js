@@ -23,12 +23,13 @@ export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
         data={data}
         margin={{
           right: 20,
+          left: 5
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey={chaveX} />
+        <XAxis dataKey={chaveX} fill="#FFF" stroke="#FFF"/>
         <Legend formatter={renderColorfulLegendText} />
-        <YAxis type="number" domain={[0, 6000]} />
+        <YAxis type="number" domain={[0, 7000]}  fill="#FFF" stroke="#FFF" />
         <Tooltip />
         <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} />
       </BarChart>

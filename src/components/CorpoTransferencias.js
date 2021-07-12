@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import GridTransferencias from "./DataGridTransferencias";
 import FormularioTransferencias from "./FormTransferencias";
 import { Grid } from "@material-ui/core";
 import { emptyFormularioTransferencia } from "../common/EmptyStates";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 export default function Transferencias() {
-  const [formulario, setFormulario] = useState(emptyFormularioTransferencia());
-  const [rows, setRows] = useState([]);
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const [formulario, setFormulario] = useState(emptyFormularioTransferencia(stateAnoAtual, stateMesAtual));
 
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
         <GridTransferencias
           setFormulario={(formulario) => setFormulario(formulario)}
-          rows={rows}
-          setRows={(rows) => setRows(rows)}
         />
       </Grid>
 
@@ -22,7 +23,6 @@ export default function Transferencias() {
         <FormularioTransferencias
           formulario={formulario}
           setFormulario={(formulario) => setFormulario(formulario)}
-          setRows={(rows) => setRows(rows)}
         />
       </Grid>
     </Grid>

@@ -11,6 +11,7 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {

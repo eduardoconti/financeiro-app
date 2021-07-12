@@ -5,8 +5,6 @@ import Button from "@material-ui/core/Button";
 import {
   insereTransferencia,
   alteraTransferencia,
-  getTransferencias,
-  formataDadosParaLinhasDataGrid,
 } from "../common/TransferenciaFuncoes";
 import { Box } from "@material-ui/core";
 import {
@@ -23,6 +21,9 @@ import Menu from "./MenuItemForm";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { getToken } from "../common/Auth";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { calculaTotais } from "../common/Funcoes";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -43,9 +44,14 @@ const useStyles = makeStyles((theme) => ({
 export default function FormTransferencias({
   setFormulario,
   formulario,
-  setRows,
 }) {
+
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const setStateTotais = ctxTotais.setStateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
@@ -170,7 +176,6 @@ export default function FormTransferencias({
           className={classes.botao}
           onClick={async () => {
             let response = 0;
-            let transferencias;
             const parse = JSON.parse(atob(getToken().split(".")[1]));
             formulario.user = parse.userId;
 
@@ -185,11 +190,16 @@ export default function FormTransferencias({
                 emptyFormularioTransferencia(stateAnoAtual, stateMesAtual)
               );
             }
-            transferencias = await getTransferencias(
-              stateAnoAtual,
-              stateMesAtual
+
+            setStateTotais(
+              await calculaTotais(
+                stateCheckedDespesas,
+                stateCheckedReceitas,
+                stateAnoAtual,
+                stateMesAtual
+              )
             );
-            setRows(formataDadosParaLinhasDataGrid(transferencias));
+
             setAlert(
               retornaStateAlertCadastro(
                 response.statusCode,
