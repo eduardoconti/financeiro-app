@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, TextField, Button } from "@material-ui/core";
 import { insereCarteira, alteraCarteira } from "../common/CarteiraFuncoes";
@@ -10,7 +10,7 @@ import {
   emptyAlertState,
 } from "../common/EmptyStates";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
-import { Context } from "../Context/AuthContext";
+import { getUserIdFromToken } from "../common/Auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +34,6 @@ export default function FormCarteiras({ setRows, formulario, setFormulario }) {
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   const [alert, setAlert] = useState(emptyAlertState);
-  const ctx = useContext(Context);
 
   return (
     <Box className="Formularios">
@@ -58,7 +57,7 @@ export default function FormCarteiras({ setRows, formulario, setFormulario }) {
           className={classes.botao}
           onClick={async () => {
             let response;
-            formulario.user = ctx.userId;
+            formulario.user = getUserIdFromToken();
             if (formulario.id === 0) {
               response = await insereCarteira(formulario);
             } else {

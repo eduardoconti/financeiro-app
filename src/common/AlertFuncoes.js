@@ -33,7 +33,7 @@ export function retornaStateAlertExclusao(codResponse, tabela, error) {
   let type = "";
   let title = "";
 
-  if (codResponse === 200 || codResponse === 201) {
+  if (codResponse === 200) {
     title = "Excluido " + tabela;
     type = "success";
   } else {
@@ -69,4 +69,29 @@ export function AlertWarning(title, message) {
     message: message,
     type: "warning",
   };
+
+}
+
+export function setExclusionAlert(codResponse, message, title) {
+  let type = "";
+
+  if (codResponse === 200) {
+    type = "success";
+  } else {
+    type = "error";
+  }
+
+  return stateAlert(title, message, type);
+}
+
+export function setCreatedAlert(codResponse, message, title) {
+  let type = "";
+
+  if (codResponse === 200 || codResponse === 201) {
+    type = "success";
+  } else {
+    type = "error";
+  }
+
+  return stateAlert(title, message, type);
 }

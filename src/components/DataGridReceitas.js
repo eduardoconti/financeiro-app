@@ -14,35 +14,28 @@ import {
   retornaReceitaPorId,
   insereReceita,
 } from "../common/ReceitaFuncoes";
-import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
-import { emptyAlertState } from "../common/EmptyStates";
 import Alert from "./Alert";
 import { Box } from "@material-ui/core";
 import {
-  retornaStateAlertAlteracaoFlagPago,
-  retornaStateAlertExclusao,
-  retornaStateAlertCadastro,
+  setCreatedAlert,
+  setExclusionAlert
 } from "../common/AlertFuncoes";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Context } from "../Context/AuthContext";
-import { getToken } from '../common/Auth'
-const useStyles = makeStyles({
-  operacoes: {
-    color: "#216260",
-    padding: 2,
-  },
-});
-
+import { getToken, getUserIdFromToken } from "../common/Auth";
+import { ContextAlert } from "../Context/AlertContext";
+import { useTheme } from "@material-ui/core";
+import { FcColumnDescription } from "./fc-datagrid/fc-column-description";
 export default function DataGridComponent({ setFormulario }) {
+  const theme = useTheme();
   const [rows, setRows] = useState([]);
-  const classes = useStyles();
-  const [alert, setAlert] = useState(emptyAlertState);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const ctxAlert = useContext(ContextAlert);
   const ctx = useContext(Context);
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
@@ -50,9 +43,10 @@ export default function DataGridComponent({ setFormulario }) {
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const setAlert = ctxAlert.setAlert;
 
-  const columns = [
-    { field: "descricao", headerName: "Descricao", width: 150 },
+  let columns = [FcColumnDescription];
+  columns.push(
 
     {
       field: "carteira",
@@ -72,15 +66,48 @@ export default function DataGridComponent({ setFormulario }) {
       width: 150,
       sortable: false,
       renderCell: function operacoes(field) {
-        let cor;
-        field.row.pago ? (cor = "#85f07b") : (cor = "#E55451");
+
         return (
           <Box>
             <IconButton
-              aria-label="alterar"
-              className={classes.operacoes}
+              aria-label="pago"
+              style={{
+                color: field.row.pago
+                  ? theme.palette.success.dark
+                  : theme.palette.error.dark,
+                padding: 2,
+              }}
               onClick={async () => {
-                const {data: formulario} = await retornaReceitaPorId(field.row.id);
+                ctx.setSpin(true);
+
+                const receita = {
+                  id: field.row.id,
+                  pago: !field.row.pago,
+                };
+
+                const response = await alteraFlagPago(receita);
+
+                setAlert(
+                  setCreatedAlert(
+                    response.statusCode,
+                    response.message,
+                    response.internalMessage
+                  )
+                );
+
+                await setStateReceitas();
+                ctx.setSpin(false);
+              }}
+            >
+              <FiberManualRecordTwoToneIcon />
+            </IconButton>
+            <IconButton
+              aria-label="alterar"
+              style={{ color: theme.palette.primary.dark, padding: 2 }}
+              onClick={async () => {
+                const { data: formulario } = await retornaReceitaPorId(
+                  field.row.id
+                );
                 setFormulario(formataDadosParaFormulario(formulario));
               }}
             >
@@ -89,10 +116,19 @@ export default function DataGridComponent({ setFormulario }) {
 
             <IconButton
               aria-label="excluir"
-              className={classes.operacoes}
+              style={{ color: theme.palette.secondary.dark, padding: 2 }}
               onClick={async () => {
+                ctx.setSpin(true);
+
                 let response = await deletaReceita(field.row.id);
                 await setStateReceitas();
+                setAlert(
+                  setExclusionAlert(
+                    response.statusCode,
+                    response.message,
+                    response.internalMessage
+                  )
+                );
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -101,96 +137,70 @@ export default function DataGridComponent({ setFormulario }) {
                     stateMesAtual
                   )
                 );
-                setAlert(
-                  retornaStateAlertExclusao(
-                    response.statusCode,
-                    "Receita",
-                    response.message
-                  )
-                );
+
+                ctx.setSpin(false);
               }}
             >
               <DeleteForeverTwoToneIcon />
             </IconButton>
             <IconButton
               aria-label="transfere"
-              className={classes.operacoes}
+              style={{ color: theme.palette.primary.dark, padding: 2 }}
               onClick={async () => {
-                const {data: receita } = await retornaReceitaPorId(field.row.id);
+                ctx.setSpin(true);
+                const { data: receita } = await retornaReceitaPorId(
+                  field.row.id
+                );
                 receita.pagamento = new Date(stateAnoAtual, stateMesAtual, 10);
                 receita.id = 0;
                 receita.pago = false;
-                receita.user = ctx.userId;
+                receita.user = getUserIdFromToken();
+
                 const response = await insereReceita(
                   formataDadosParaFormulario(receita)
                 );
-                await setStateReceitas();
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
+
                 setAlert(
-                  retornaStateAlertCadastro(
+                  setCreatedAlert(
                     response.statusCode,
-                    "Receita",
-                    response.message
+                    response.message,
+                    response.internalMessage
                   )
                 );
+
+                if (response.statusCode === 201) {
+                  await setStateReceitas();
+                  setStateTotais(
+                    await calculaTotais(
+                      stateCheckedDespesas,
+                      stateCheckedReceitas,
+                      stateAnoAtual,
+                      stateMesAtual
+                    )
+                  );
+                }
+
+                ctx.setSpin(false);
               }}
             >
               <ImportExportTwoToneIcon />
-            </IconButton>
-            <IconButton
-              aria-label="pago"
-              className={classes.operacoes}
-              style={{ color: cor }}
-              onClick={async () => {
-                let receita = {
-                  id: field.row.id,
-                  pago: !field.row.pago,
-                };
-                let response = await alteraFlagPago(receita);
-                await setStateReceitas();
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
-                setAlert(
-                  retornaStateAlertAlteracaoFlagPago(
-                    response.statusCode,
-                    receita.pago,
-                    "Receita",
-                    response.message
-                  )
-                );
-              }}
-            >
-              <FiberManualRecordTwoToneIcon />
             </IconButton>
           </Box>
         );
       },
     },
-  ];
+  );
 
   async function setStateReceitas() {
-    if(getToken()){
+    if (getToken()) {
       ctx.setSpin(true);
       let receitas = await getReceitas(
         stateCheckedReceitas,
         stateAnoAtual,
         stateMesAtual
       );
-  
-      if(receitas.statusCode < 400 ){
+
+      if (receitas.statusCode < 400) {
         setRows(formataDadosParaLinhasDataGrid(receitas.data));
       }
       ctx.setSpin(false);
@@ -198,7 +208,7 @@ export default function DataGridComponent({ setFormulario }) {
   }
 
   useEffect(() => {
-    setStateReceitas()// eslint-disable-next-line
+    setStateReceitas(); // eslint-disable-next-line
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
 
   return (

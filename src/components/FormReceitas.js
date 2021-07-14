@@ -6,17 +6,18 @@ import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { insereReceita, alteraReceita } from "../common/ReceitaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
-import { emptyFormularioReceita, emptyAlertState } from "../common/EmptyStates";
-import Alert from "./Alert";
+import { emptyFormularioReceita } from "../common/EmptyStates";
+
 import {
-  retornaStateAlertCadastro,
-  AlertWarning,
+  setCreatedAlert,
 } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
-import { getToken } from "../common/Auth";
+import { getUserIdFromToken } from "../common/Auth";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { Context } from "../Context/AuthContext";
+import { ContextAlert } from "../Context/AlertContext";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -38,24 +39,21 @@ export default function FormReceitas({ setFormulario, formulario }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
-  const [alert, setAlert] = useState(emptyAlertState);
 
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const ctx = useContext(Context)
+  const ctxAlert = useContext(ContextAlert)
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-
+  
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
-      if (carteiras.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar carteira"));
-      } else {
-        setCarteiras(carteiras);
-      }
+        setCarteiras(carteiras);    
     });
   }, []);
 
@@ -100,7 +98,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
 
   return (
     <Box className="Formularios">
-      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
+
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -148,35 +146,38 @@ export default function FormReceitas({ setFormulario, formulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
+            ctx.setSpin(true);
             let response = 0;
-            const parse = JSON.parse(atob(getToken().split(".")[1]));
-            formulario.user = parse.userId;
+            formulario.user = getUserIdFromToken();
             if (formulario.id === 0) response = await insereReceita(formulario);
             else {
               response = await alteraReceita(formulario);
             }
 
+            ctxAlert.setAlert(
+              setCreatedAlert(
+                response.statusCode,
+                response.message,
+                response.internalMessage
+              )
+            );
+
             if (response.statusCode === 200 || response.statusCode === 201) {
               setFormulario(
                 emptyFormularioReceita(stateAnoAtual, stateMesAtual)
               );
-            }
 
-            setStateTotais(
-              await calculaTotais(
-                stateCheckedDespesas,
-                stateCheckedReceitas,
-                stateAnoAtual,
-                stateMesAtual
-              )
-            );
-            setAlert(
-              retornaStateAlertCadastro(
-                response.statusCode,
-                "Receita",
-                response.message
-              )
-            );
+              setStateTotais(
+                await calculaTotais(
+                  stateCheckedDespesas,
+                  stateCheckedReceitas,
+                  stateAnoAtual,
+                  stateMesAtual
+                )
+              );
+            }
+   
+            ctx.setSpin(true);
           }}
         >
           {descricaoBotao}

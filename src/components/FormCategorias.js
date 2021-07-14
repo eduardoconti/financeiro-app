@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -11,7 +11,7 @@ import {
 } from "../common/EmptyStates";
 import Alert from "./Alert";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
-import { Context } from "../Context/AuthContext";
+import { getUserIdFromToken } from "../common/Auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +35,7 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   const [alert, setAlert] = useState(emptyAlertState);
-  const ctx = useContext(Context);
+
   return (
     <Box className="Formularios">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
@@ -58,7 +58,7 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           className={classes.botao}
           onClick={async () => {
             let response;
-            formulario.user = ctx.userId;
+            formulario.user = getUserIdFromToken();
             if (formulario.id === 0) {
               response = await insereCategoria(formulario);
             } else {

@@ -11,10 +11,8 @@ import { AuthProvider } from "./Context/AuthContext";
 import { CheckedProvider } from "./Context/CheckedContext";
 import { TotaisProvider } from "./Context/TotaisContext";
 import { AnoMesProvider } from "./Context/AnoMesContext";
-import {
-  createMuiTheme,
-  MuiThemeProvider
-} from "@material-ui/core/styles";
+import { AlertProvider } from "./Context/AlertContext";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme();
 
@@ -24,51 +22,52 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <AuthProvider>
-        <CheckedProvider>
-          <TotaisProvider>
-
-            <Box className="Container">
-              <AnoMesProvider>
-                <Grid container direction="row" spacing={1}>
-                  <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
-                    {/* LEFT */}
-                    <LeftMenu
-                      setStateCurrentBody={(currentBody) =>
-                        setStateCurrentBody(currentBody)
-                      }
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={12} md={12} lg={7} xl={6}>
-                    {/* MID */}
-                    <Grid container item spacing={1}>
-                      {/* BOTOES MESES */}
-                      <Grid item xs={12}>
-                        <BotaoMes />
-                      </Grid>
-
-                      <Dash
+        <AlertProvider>
+          <CheckedProvider>
+            <TotaisProvider>
+              <Box className="Container">
+                <AnoMesProvider>
+                  <Grid container direction="row" spacing={1}>
+                    <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
+                      {/* LEFT */}
+                      <LeftMenu
                         setStateCurrentBody={(currentBody) =>
                           setStateCurrentBody(currentBody)
                         }
                       />
+                    </Grid>
 
-                      {/* BODY ( FORM, GRID...) */}
-                      <Grid item xs={12}>
-                        <Corpo stateCurrentBody={stateCurrentBody} />
+                    <Grid item xs={12} sm={12} md={12} lg={7} xl={6}>
+                      {/* MID */}
+                      <Grid container item spacing={1}>
+                        {/* BOTOES MESES */}
+                        <Grid item xs={12}>
+                          <BotaoMes />
+                        </Grid>
+
+                        <Dash
+                          setStateCurrentBody={(currentBody) =>
+                            setStateCurrentBody(currentBody)
+                          }
+                        />
+
+                        {/* BODY ( FORM, GRID...) */}
+                        <Grid item xs={12}>
+                          <Corpo stateCurrentBody={stateCurrentBody} />
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
 
-                  <Grid item container xs={12} sm={12} md={12} lg={4} xl={5}>
-                    {/* RIGHT */}
-                    <GraficosContainer />
+                    <Grid item  xs={12} sm={12} md={12} lg={4} xl={5}>
+                      {/* RIGHT */}
+                      <GraficosContainer />
+                    </Grid>
                   </Grid>
-                </Grid>
-              </AnoMesProvider>
-            </Box>
-          </TotaisProvider>
-        </CheckedProvider>
+                </AnoMesProvider>
+              </Box>
+            </TotaisProvider>
+          </CheckedProvider>
+        </AlertProvider>
       </AuthProvider>
     </MuiThemeProvider>
   );

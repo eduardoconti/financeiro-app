@@ -245,9 +245,5 @@ export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual, pago) {
 }
 
 function errorResponse(error) {
-  return {
-    statusCode: 500,
-    internalMessage: error.message,
-    data: 0
-  };
+  return error.response.data
 }

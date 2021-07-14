@@ -95,7 +95,6 @@ export default function FormLogin({ setOpen }) {
                 if (data.hasOwnProperty("accessToken")) {
                   login(data.accessToken);
                   setOpen(false);
-                  ctx.setToken(data.accessToken);
                   setStateTotais(
                     await calculaTotais(
                       stateCheckedDespesas,
@@ -128,8 +127,6 @@ export default function FormLogin({ setOpen }) {
               onClick={async () => {
                 logout();
                 setOpen(false);
-                ctx.setToken("");
-                ctx.setUserId("");
                 setStateTotais(emptyTotais);
               }}
             >
