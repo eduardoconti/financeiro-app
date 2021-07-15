@@ -6,6 +6,7 @@ import Ano from "./BotaoAno";
 import * as Constants from "../common/Constantes";
 import LoginModal from "./LoginModal";
 import { isAuthenticated } from "../common/Auth";
+import AlertComponent from "./Alert";
 
 export default function LeftMenu({ setStateCurrentBody }) {
   const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,7 @@ export default function LeftMenu({ setStateCurrentBody }) {
   const nome = isAuthenticated() ? "logout" : " login";
   return (
     <Grid container item spacing={1}>
+      <AlertComponent />
       <Grid item xs={4} lg={12}>
         <Button className={classes.botao} onClick={handleOpen}>
           {nome}

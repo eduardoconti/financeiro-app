@@ -2,16 +2,16 @@ import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, TextField, Button } from "@material-ui/core";
 import { ObtemToken } from "../common/Login";
-import Alert from "./Alert";
 import { login, logout } from "../common/Auth";
-import { emptyAlertState } from "../common/EmptyStates";
 import { SpinContext } from "../Context/SpinContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAlert} from "../Context/AlertContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
 import { emptyTotais } from "../common/EmptyStates";
+import { setCreatedAlert } from "../common/AlertFuncoes";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: "center",
@@ -40,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
 export default function FormLogin({ setOpen }) {
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
-  const [alert, setAlert] = useState(emptyAlertState);
   const ctxSpin = useContext(SpinContext) ;
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const ctxAlert = useContext(ContextAlert);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const setStateTotais = ctxTotais.setStateTotais;
@@ -53,7 +53,6 @@ export default function FormLogin({ setOpen }) {
 
   return (
     <Grid alignItems="center" justify="center">
-      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
 
         <form className={classes.root} noValidate autoComplete="off">
           <Grid item xs={12}>
@@ -91,10 +90,18 @@ export default function FormLogin({ setOpen }) {
               className={classes.botao}
               onClick={async () => {
                 ctxSpin.setSpin(true);
-                let { data, ...rest } = await ObtemToken(formulario);
-                if (data.hasOwnProperty("accessToken")) {
-                  login(data.accessToken);
-                  setOpen(false);
+
+                const res = await ObtemToken(formulario);
+
+                ctxAlert.setAlert(
+                  setCreatedAlert(
+                    res.statusCode,
+                    res.message,
+                    res.internalMessage
+                  )
+                )
+                if (res.statusCode === 200) {
+                  login(res.data.accessToken);
                   setStateTotais(
                     await calculaTotais(
                       stateCheckedDespesas,
@@ -106,15 +113,8 @@ export default function FormLogin({ setOpen }) {
                   setFormulario({ username: "", password: "" });
                 }
 
-                setAlert(
-                  retornaStateAlertCadastro(
-                    rest.status,
-                    "Login",
-                    rest.statusText
-                  )
-                );
-
                 ctxSpin.setSpin(false);
+                setOpen(false);
               }}
             >
               LOGIN
