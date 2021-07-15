@@ -7,11 +7,9 @@ import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioDespesa } from "../common/EmptyStates";
-import {
-  setCreatedAlert,
-} from "../common/AlertFuncoes";
+import { setCreatedAlert } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
@@ -50,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormDespesas() {
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -68,15 +66,16 @@ export default function FormDespesas() {
   const setAlert = ctxAlert.setAlert;
 
   useEffect(() => {
-    if ( isAuthenticated() ) {
+    if (isAuthenticated()) {
       async function fetchData() {
-        ctx.setSpin(true);
+        ctxSpin.setSpin(true);
         ctxCategory.setCategory(await retornaCategorias());
         ctxWallet.setWallet(await retornaCarteiras());
         ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
-        ctx.setSpin(false);
+        ctxSpin.setSpin(false);
       }
       fetchData();
+
     }
     // eslint-disable-next-line
   }, [stateAnoAtual, stateMesAtual]);
@@ -99,8 +98,9 @@ export default function FormDespesas() {
       onChange={(event) => {
         ctxForm.setForm({ ...ctxForm.form, categoria: event.target.value });
       }}
-      children={MenuCategoria}
-    ></TextField>
+    >
+      {MenuCategoria}
+    </TextField>
   );
 
   let TextFieldCarteira = (
@@ -115,8 +115,9 @@ export default function FormDespesas() {
       onChange={(event) =>
         ctxForm.setForm({ ...ctxForm.form, carteira: event.target.value })
       }
-      children={MenuCarteira}
-    ></TextField>
+    >
+      {MenuCarteira}
+    </TextField>
   );
 
   let TextFieldPago = (
@@ -131,8 +132,9 @@ export default function FormDespesas() {
       onChange={(event) =>
         ctxForm.setForm({ ...ctxForm.form, pago: event.target.value })
       }
-      children={MenuPago}
-    ></TextField>
+    >
+      {MenuPago}
+    </TextField>
   );
 
   return (
@@ -173,7 +175,7 @@ export default function FormDespesas() {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            ctx.setSpin(true);
+            ctxSpin.setSpin(true);
             let response;
             ctxForm.form.user = getUserIdFromToken();
             ctxForm.form.valor = parseFloat(ctxForm.form.valor);
@@ -207,7 +209,7 @@ export default function FormDespesas() {
               );
             }
 
-            ctx.setSpin(false);
+            ctxSpin.setSpin(false);
           }}
         >
           {descricaoBotao}

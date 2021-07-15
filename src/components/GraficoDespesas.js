@@ -9,7 +9,7 @@ import Grafico from "./Grafico";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { useTheme } from "@material-ui/core";
 import { getToken } from '../common/Auth'
 
@@ -17,7 +17,7 @@ export default function GraficoDespesas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -31,7 +31,7 @@ export default function GraficoDespesas() {
   useEffect(() => {
     async function pegaDespesas() {
       if (getToken()) {
-        ctx.setSpin(true);
+        ctxSpin.setSpin(true);
         let despesas;
 
         if (stateGrafico === "1") {
@@ -52,7 +52,7 @@ export default function GraficoDespesas() {
         if (despesas.statusCode < 400) {
           setDespesas(despesas.data);
         }
-        ctx.setSpin(false);
+        ctxSpin.setSpin(false);
       }
     }
     pegaDespesas(); // eslint-disable-next-line
@@ -70,15 +70,15 @@ export default function GraficoDespesas() {
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor={theme.palette.error.dark}
+        cor={theme.palette.error.main}
         descricao={descricao}
       />
       <Grafico
         data={despesas}
         chaveX="descricao"
         chaveY="valor"
-        cor={theme.palette.error.dark}
-        stroke="#F62217"
+        cor={theme.palette.error.main}
+        stroke={theme.palette.error.dark}
       />
     </Box>
   );

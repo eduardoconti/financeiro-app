@@ -9,14 +9,15 @@ import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { getToken } from '../common/Auth'
-import { Context } from "../Context/AuthContext";
+import { isAuthenticated } from '../common/Auth'
+import { SpinContext } from "../Context/SpinContext";
+import { useTheme } from "@material-ui/core";
 
 export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -26,12 +27,13 @@ export default function GraficoReceitas() {
   const [receitas, setReceitas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
+  const theme = useTheme();
 
   useEffect(() => {
 
-    if(getToken()){
+    if(isAuthenticated()){
       async function pegaReceitas() {
-        ctx.setSpin(true);
+        ctxSpin.setSpin(true);
         let receitas;
   
         if (stateGrafico === "1") {
@@ -49,10 +51,10 @@ export default function GraficoReceitas() {
           );
           setDescricao("Receitas por Carteira");
         }
-        if( receitas.statusCode < 400 ){
+        if( receitas.statusCode === 200 ){
           setReceitas(receitas.data);
         }
-        ctx.setSpin(false);
+        ctxSpin.setSpin(false);
       }
       pegaReceitas();
     }// eslint-disable-next-line  
@@ -70,15 +72,15 @@ export default function GraficoReceitas() {
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor="#85f07b"
+        cor={theme.palette.success.dark}
         descricao={descricao}
       />
       <Grafico
         data={receitas}
         chaveX="descricao"
         chaveY="valor"
-        cor="#85f07b"
-        stroke="#4E9258"
+        cor={theme.palette.secondary.main}
+        stroke={theme.palette.secondary.dark}
       />
     </Box>
   );

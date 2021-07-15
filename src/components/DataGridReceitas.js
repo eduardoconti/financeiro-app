@@ -24,7 +24,7 @@ import {
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { getToken, getUserIdFromToken } from "../common/Auth";
 import { ContextAlert } from "../Context/AlertContext";
 import { useTheme } from "@material-ui/core";
@@ -36,7 +36,7 @@ export default function DataGridComponent({ setFormulario }) {
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxAlert = useContext(ContextAlert);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -74,11 +74,11 @@ export default function DataGridComponent({ setFormulario }) {
               style={{
                 color: field.row.pago
                   ? theme.palette.success.dark
-                  : theme.palette.error.dark,
+                  : theme.palette.error.main,
                 padding: 2,
               }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
 
                 const receita = {
                   id: field.row.id,
@@ -96,7 +96,7 @@ export default function DataGridComponent({ setFormulario }) {
                 );
 
                 await setStateReceitas();
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -118,7 +118,7 @@ export default function DataGridComponent({ setFormulario }) {
               aria-label="excluir"
               style={{ color: theme.palette.secondary.dark, padding: 2 }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
 
                 let response = await deletaReceita(field.row.id);
                 await setStateReceitas();
@@ -138,7 +138,7 @@ export default function DataGridComponent({ setFormulario }) {
                   )
                 );
 
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -147,7 +147,7 @@ export default function DataGridComponent({ setFormulario }) {
               aria-label="transfere"
               style={{ color: theme.palette.primary.dark, padding: 2 }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 const { data: receita } = await retornaReceitaPorId(
                   field.row.id
                 );
@@ -180,7 +180,7 @@ export default function DataGridComponent({ setFormulario }) {
                   );
                 }
 
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <ImportExportTwoToneIcon />
@@ -193,7 +193,7 @@ export default function DataGridComponent({ setFormulario }) {
 
   async function setStateReceitas() {
     if (getToken()) {
-      ctx.setSpin(true);
+      ctxSpin.setSpin(true);
       let receitas = await getReceitas(
         stateCheckedReceitas,
         stateAnoAtual,
@@ -203,7 +203,7 @@ export default function DataGridComponent({ setFormulario }) {
       if (receitas.statusCode < 400) {
         setRows(formataDadosParaLinhasDataGrid(receitas.data));
       }
-      ctx.setSpin(false);
+      ctxSpin.setSpin(false);
     }
   }
 

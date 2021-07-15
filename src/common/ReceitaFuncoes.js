@@ -27,7 +27,7 @@ export async function getReceitas(
 
     return res.data;
   } catch (error) {
-    return error;
+    return errorResponse(error);
   }
 }
 
@@ -37,34 +37,19 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
   stateMesAtual
 ) {
   try {
-    let res;
-
+    let res, endpoint;
+    endpoint =
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor";
     if (
-      (stateCheckedReceitas.checkedPago &&
-        stateCheckedReceitas.checkedAberto) ||
-      (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
+      stateCheckedReceitas.checkedPago &&
+      stateCheckedReceitas.checkedAberto
     ) {
-      res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor"
-      );
     } else if (stateCheckedReceitas.checkedPago) {
-      res = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/" +
-          stateMesAtual +
-          "/carteira/valor?pago=true"
-      );
+      endpoint += "?pago=true";
     } else if (stateCheckedReceitas.checkedAberto) {
-      res = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/" +
-          stateMesAtual +
-          "/carteira/valor?pago=false"
-      );
+      endpoint += "?pago=false";
     }
-
+    res = await API.get(endpoint);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -211,9 +196,5 @@ export function formataDadosParaFormulario(receita) {
 }
 
 function errorResponse(error) {
-  return {
-    statusCode: 500,
-    internalMessage: error.message,
-    data: 0,
-  };
+  return error.response.data;
 }

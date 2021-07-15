@@ -7,21 +7,35 @@ import GraficosContainer from "./components/GraficosContainer";
 import BotaoMes from "./components/BotaoMes";
 import Corpo from "./components/Corpo";
 import Dash from "./components/Dash";
-import { AuthProvider } from "./Context/AuthContext";
+import { SpinProvider } from "./Context/SpinContext";
 import { CheckedProvider } from "./Context/CheckedContext";
 import { TotaisProvider } from "./Context/TotaisContext";
 import { AnoMesProvider } from "./Context/AnoMesContext";
 import { AlertProvider } from "./Context/AlertContext";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  palette:{
+    primary:{
+      main:"#BB86FC"
+    },
+    secondary:{
+      main:"#03DAC5"
+    },
+    error:{
+      main:"#CF6679"
+    },
+
+    tonalOffset: 0.2,
+  }
+});
 
 function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
 
   return (
     <MuiThemeProvider theme={theme}>
-      <AuthProvider>
+      <SpinProvider>
         <AlertProvider>
           <CheckedProvider>
             <TotaisProvider>
@@ -68,7 +82,7 @@ function App() {
             </TotaisProvider>
           </CheckedProvider>
         </AlertProvider>
-      </AuthProvider>
+      </SpinProvider>
     </MuiThemeProvider>
   );
 }

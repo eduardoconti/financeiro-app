@@ -61,7 +61,7 @@ export default (props) => {
             style={{
               color: field.row.pago
                 ? theme.palette.success.dark
-                : theme.palette.error.dark,
+                : theme.palette.error.main,
               padding: 2,
             }}
             onClick={async () => {

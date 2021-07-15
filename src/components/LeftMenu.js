@@ -23,7 +23,7 @@ export default function LeftMenu({ setStateCurrentBody }) {
   }));
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(!isAuthenticated());
   const handleOpen = () => {
     setOpen(true);
   };

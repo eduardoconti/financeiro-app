@@ -16,7 +16,7 @@ import { getUserIdFromToken } from "../common/Auth";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { ContextAlert } from "../Context/AlertContext";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +43,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context)
+  const ctxSpin = useContext(SpinContext) 
   const ctxAlert = useContext(ContextAlert)
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -71,6 +71,10 @@ export default function FormReceitas({ setFormulario, formulario }) {
       style={{ width: 150 }}
       value={formulario.pago ? formulario.pago : " "}
       select
+      SelectProps={{
+        multiple: true,
+        value: []
+      }}
       onChange={(event) =>
         setFormulario({ ...formulario, pago: event.target.value })
       }
@@ -146,7 +150,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            ctx.setSpin(true);
+            ctxSpin.setSpin(true);
             let response = 0;
             formulario.user = getUserIdFromToken();
             if (formulario.id === 0) response = await insereReceita(formulario);
@@ -177,7 +181,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
               );
             }
    
-            ctx.setSpin(true);
+            ctxSpin.setSpin(true);
           }}
         >
           {descricaoBotao}

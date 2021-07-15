@@ -5,8 +5,8 @@ import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { Context } from "../Context/AuthContext";
-import { getToken } from "../common/Auth";
+import { SpinContext } from "../Context/SpinContext";
+import { isAuthenticated } from "../common/Auth";
 import FcCardExpense from "./fc-cards/fc-card-expense";
 import FcCardYeld from "./fc-cards/fc-card-yields";
 import FcCardBalance from "./fc-cards/fc-card-balance";
@@ -16,17 +16,17 @@ export default function Dash({ setStateCurrentBody }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateTotais = ctx.stateTotais;
+  const stateTotais = ctxSpin.stateTotais;
   useEffect(() => {
-    ctx.setSpin(true);
+    ctxSpin.setSpin(true);
     async function setTotais() {
-      if (getToken()) {
+      if (isAuthenticated()) {
         setStateTotais(
           await calculaTotais(
             stateCheckedDespesas,
@@ -38,7 +38,7 @@ export default function Dash({ setStateCurrentBody }) {
       }
     }
     setTotais();
-    ctx.setSpin(false);// eslint-disable-next-line
+    ctxSpin.setSpin(false);// eslint-disable-next-line
   }, [
     stateCheckedDespesas,
     stateCheckedReceitas,

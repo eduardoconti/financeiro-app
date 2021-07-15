@@ -23,7 +23,7 @@ import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { ContextForm } from "../Context/FormContext";
 import { ContextAlert } from "../Context/AlertContext";
 import { useTheme } from "@material-ui/core";
@@ -35,7 +35,7 @@ export default function DataGridDespesas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
   const ctxForm = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
   const setStateTotais = ctxTotais.setStateTotais;
@@ -87,12 +87,12 @@ export default function DataGridDespesas() {
               aria-label="pago"
               style={{
                 color: field.row.pago
-                  ? theme.palette.success.dark
-                  : theme.palette.error.dark,
+                  ? theme.palette.secondary.dark
+                  : theme.palette.error.main,
                 padding: 2,
               }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 let despesa = {
                   id: field.row.id,
                   pago: !field.row.pago,
@@ -116,7 +116,7 @@ export default function DataGridDespesas() {
                     response.internalMessage
                   )
                 );
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -136,9 +136,9 @@ export default function DataGridDespesas() {
 
             <IconButton
               aria-label="excluir"
-              style={{ color: theme.palette.secondary.dark, padding: 2 }}
+              style={{ color: theme.palette.error.main, padding: 2 }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 let response = await deletaDespesa(field.row.id);
 
                 setAlert(
@@ -160,16 +160,16 @@ export default function DataGridDespesas() {
                   )
                 );
 
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <DeleteForeverTwoToneIcon />
             </IconButton>
             <IconButton
               aria-label="transfere"
-              style={{ color: theme.palette.primary.dark, padding: 2 }}
+              style={{ padding: 2 }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 const { data: despesa } = await retornaDespesaPorId(
                   field.row.id
                 );
@@ -206,7 +206,7 @@ export default function DataGridDespesas() {
                     response.internalMessage
                   )
                 );
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
               size="small"
             >
@@ -219,7 +219,7 @@ export default function DataGridDespesas() {
   );
 
   async function pegaDespesas() {
-    ctx.setSpin(true);
+    ctxSpin.setSpin(true);
     if (isAuthenticated()) {
       let despesas = await getDespesas(
         stateCheckedDespesas,
@@ -231,7 +231,7 @@ export default function DataGridDespesas() {
         setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
     }
-    ctx.setSpin(false);
+    ctxSpin.setSpin(false);
   }
 
   useEffect(() => {

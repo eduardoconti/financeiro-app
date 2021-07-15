@@ -24,7 +24,7 @@ import { ContextAnoMes } from "../Context/AnoMesContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { getToken } from '../common/Auth'
 
 const useStyles = makeStyles({
@@ -41,7 +41,7 @@ export default function DataGridComponent({ setFormulario }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context)
+  const ctxSpin = useContext(SpinContext) 
 
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
@@ -82,12 +82,12 @@ export default function DataGridComponent({ setFormulario }) {
               aria-label="alterar"
               className={classes.operacoes}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 const { data: formulario } = await getTransferenciaPorId(
                   field.row.id
                 );
                 setFormulario(formataDadosParaFormulario(formulario));
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <CreateTwoToneIcon />
@@ -97,7 +97,7 @@ export default function DataGridComponent({ setFormulario }) {
               aria-label="excluir"
               className={classes.operacoes}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 let response = await deletaTransferencia(field.row.id);
                 await setState();
                 setAlert(
@@ -107,7 +107,7 @@ export default function DataGridComponent({ setFormulario }) {
                     response.message
                   )
                 );
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -118,7 +118,7 @@ export default function DataGridComponent({ setFormulario }) {
               className={classes.operacoes}
               style={{ color: cor }}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 let transferencia = {
                   id: field.row.id,
                   pago: !field.row.pago,
@@ -141,7 +141,7 @@ export default function DataGridComponent({ setFormulario }) {
                     response.message
                   )
                 );
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -154,7 +154,7 @@ export default function DataGridComponent({ setFormulario }) {
 
   async function setState() {
     if (getToken()) {
-      ctx.setSpin(true);
+      ctxSpin.setSpin(true);
       let transferencias = await getTransferencias(
         stateAnoAtual,
         stateMesAtual
@@ -163,7 +163,7 @@ export default function DataGridComponent({ setFormulario }) {
       if (transferencias.statusCode < 400) {
         setRows(formataDadosParaLinhasDataGrid(transferencias.data));
       }
-      ctx.setSpin(false);
+      ctxSpin.setSpin(false);
     }
   }
 

@@ -5,7 +5,7 @@ import { ObtemToken } from "../common/Login";
 import Alert from "./Alert";
 import { login, logout } from "../common/Auth";
 import { emptyAlertState } from "../common/EmptyStates";
-import { Context } from "../Context/AuthContext";
+import { SpinContext } from "../Context/SpinContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
@@ -41,7 +41,7 @@ export default function FormLogin({ setOpen }) {
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -90,7 +90,7 @@ export default function FormLogin({ setOpen }) {
               size="small"
               className={classes.botao}
               onClick={async () => {
-                ctx.setSpin(true);
+                ctxSpin.setSpin(true);
                 let { data, ...rest } = await ObtemToken(formulario);
                 if (data.hasOwnProperty("accessToken")) {
                   login(data.accessToken);
@@ -114,7 +114,7 @@ export default function FormLogin({ setOpen }) {
                   )
                 );
 
-                ctx.setSpin(false);
+                ctxSpin.setSpin(false);
               }}
             >
               LOGIN

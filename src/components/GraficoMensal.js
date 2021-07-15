@@ -18,8 +18,8 @@ import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
-import { getToken } from '../common/Auth'
-import { Context } from "../Context/AuthContext";
+import { isAuthenticated } from '../common/Auth'
+import { SpinContext } from "../Context/SpinContext";
 
 function retornaMes(mes) {
   if (mes === 1) return "Jan";
@@ -63,7 +63,7 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
 export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctx = useContext(Context);
+  const ctxSpin = useContext(SpinContext) ;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
   
@@ -72,11 +72,11 @@ export default function GraficoReceitas() {
   const theme = useTheme();
   useEffect(() => {
 
-    if(getToken()){
+    if(isAuthenticated()){
       async function retornaDadosGrafico(stateAnoAtual) {
-        ctx.setSpin(true);
+        ctxSpin.setSpin(true);
         let dados = []
-  
+        
         let {data: despesas } = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
         let {data: receitas } = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
         try {
@@ -84,7 +84,7 @@ export default function GraficoReceitas() {
         } catch (error) {
   
         }
-        ctx.setSpin(false);
+        ctxSpin.setSpin(false);
         return dados;
 
       }
@@ -126,12 +126,12 @@ export default function GraficoReceitas() {
           <Area
             type="monotone"
             dataKey="receita"
-            fill={theme.palette.success.dark}
-            stroke="#4E9258"
+            fill={theme.palette.secondary.main}
+            stroke={theme.palette.secondary.main}
             fillOpacity={"60%"}
           />
 
-          <Bar dataKey="despesa" barSize={15} fill={theme.palette.error.dark} stroke="#F62217" />
+          <Bar dataKey="despesa" barSize={15} fill={theme.palette.error.main} stroke={theme.palette.error.dark} />
           <Line type="monotone" dataKey="balanco" stroke={theme.palette.primary.dark} strokeWidth={3}/>
         </ComposedChart>
       </ResponsiveContainer>

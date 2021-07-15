@@ -1,21 +1,21 @@
 import React, { createContext, useState } from "react";
 
-const Context = createContext();
+const SpinContext = createContext();
 
-function AuthProvider({ children }) {
-  
+function SpinProvider({ children }) {
+
   const [spin, setSpin] = useState(false);
 
   return (
-    <Context.Provider
+    <SpinContext.Provider
       value={{
         spin,
         setSpin
       }}
     >
       {children}
-    </Context.Provider>
+    </SpinContext.Provider>
   );
 }
 
-export { Context, AuthProvider };
+export { SpinContext, SpinProvider };

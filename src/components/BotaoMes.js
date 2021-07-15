@@ -12,7 +12,7 @@ export default function BotaoMes() {
 
   const useStyles = makeStyles((theme) => ({
     botao: {
-      background: theme.palette.primary.dark,
+      background: theme.palette.primary.main,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
@@ -25,7 +25,7 @@ export default function BotaoMes() {
       },
     },
     ativo: {
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.secondary.light,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
