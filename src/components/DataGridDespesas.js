@@ -51,7 +51,7 @@ export default function DataGridDespesas() {
     sortable: false,
     renderCell: function operacoes(field) {
       return (
-        <Box >
+        <Box>
           <ActionFlagButon
             payed={field.row.pago}
             onClick={async () => {

@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import { useTheme } from "@material-ui/core";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
@@ -12,7 +12,6 @@ export default function ActionFlagButon(props) {
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
 
-  
   return (
     <IconButton
       aria-label="pago"
@@ -22,13 +21,9 @@ export default function ActionFlagButon(props) {
       }}
       onClick={async () => {
         ctxSpin.setSpin(true);
-        const {statusCode,message,internalMessage} = await onClick();
+        const { statusCode, message, internalMessage } = await onClick();
         ctxAlert.setAlert(
-          setCreatedAlert(
-            statusCode,
-            message,
-            internalMessage
-          )
+          setCreatedAlert(statusCode, message, internalMessage)
         );
 
         ctxSpin.setSpin(false);

@@ -8,12 +8,12 @@ import { SpinContext } from "../../Context/SpinContext";
 
 export default function FcCard(props) {
   const { onClick, description, value, children } = props;
-  let{ legendColor } = props;
+  let { legendColor } = props;
   const theme = useTheme();
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
 
-  if(!legendColor){
-   legendColor = theme.palette.common.white 
+  if (!legendColor) {
+    legendColor = theme.palette.common.white;
   }
   return (
     <Card
@@ -21,16 +21,12 @@ export default function FcCard(props) {
       variant="outlined"
       style={{ backgroundColor: theme.palette.grey[900] }}
     >
-      
-        {ctxSpin.spin ? (
-          <SpinCircular />
-        ) : (
-          <CardActionArea onClick={() => onClick()}>
+      {ctxSpin.spin ? (
+        <SpinCircular />
+      ) : (
+        <CardActionArea onClick={() => onClick()}>
           <CardContent style={{ margin: 0, padding: 0 }}>
-            <Typography
-              variant="h6"
-              style={{ color: legendColor }}
-            >
+            <Typography variant="h6" style={{ color: legendColor }}>
               {description}
             </Typography>
             <Typography
@@ -40,10 +36,9 @@ export default function FcCard(props) {
               {value.toFixed(2)}
             </Typography>
           </CardContent>
-      </CardActionArea>
-        )}
+        </CardActionArea>
+      )}
       {children}
-
     </Card>
   );
 }

@@ -41,11 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormTransferencias({
-  setFormulario,
-  formulario,
-}) {
-
+export default function FormTransferencias({ setFormulario, formulario }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);

@@ -16,7 +16,7 @@ export default function Dash({ setStateCurrentBody }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const setStateTotais = ctxTotais.setStateTotais;
@@ -38,7 +38,7 @@ export default function Dash({ setStateCurrentBody }) {
       }
     }
     setTotais();
-    ctxSpin.setSpin(false);// eslint-disable-next-line
+    ctxSpin.setSpin(false); // eslint-disable-next-line
   }, [
     stateCheckedDespesas,
     stateCheckedReceitas,

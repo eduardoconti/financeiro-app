@@ -7,10 +7,10 @@ export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
     carteira: 0,
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual -1, dia)
+    pagamento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
       .toISOString()
       .slice(0, 10),
-    vencimento: new Date(stateAnoAtual, stateMesAtual -1, dia)
+    vencimento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
       .toISOString()
       .slice(0, 10),
     id: 0,
@@ -26,7 +26,7 @@ export function emptyFormularioTransferencia(stateAnoAtual, stateMesAtual) {
     carteiraDestino: "",
     valor: 0,
     pago: false,
-    transferencia: new Date(stateAnoAtual, stateMesAtual -1, dia)
+    transferencia: new Date(stateAnoAtual, stateMesAtual - 1, dia)
       .toISOString()
       .slice(0, 10),
   };
@@ -40,7 +40,7 @@ export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
     carteira: "",
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual-1, dia)
+    pagamento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
       .toISOString()
       .slice(0, 10),
     id: 0,

@@ -6,7 +6,7 @@ import FcCard from "./fc-card";
 export default function FcCardBalanceMonth({ setStateCurrentBody }) {
   const ctxTotais = useContext(ContextTotais);
   const valor = ctxTotais.stateTotais.balanco;
-  
+
   function onClick() {
     setStateCurrentBody();
   }

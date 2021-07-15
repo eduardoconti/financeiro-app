@@ -9,7 +9,10 @@ import CorpoTransferencias from "./CorpoTransferencias";
 import * as Constants from "../common/Constantes";
 import { FormProvider } from "../Context/FormContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { emptyFormularioDespesa,emptyFormularioReceita } from "../common/EmptyStates";
+import {
+  emptyFormularioDespesa,
+  emptyFormularioReceita,
+} from "../common/EmptyStates";
 import AlertComponent from "./Alert";
 
 export default function CurrentBody({ stateCurrentBody }) {

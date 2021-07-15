@@ -17,10 +17,7 @@ import {
 import { calculaTotais } from "../common/Funcoes";
 import Alert from "./Alert";
 import { Box } from "@material-ui/core";
-import {
-  setCreatedAlert,
-  setExclusionAlert
-} from "../common/AlertFuncoes";
+import { setCreatedAlert, setExclusionAlert } from "../common/AlertFuncoes";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
@@ -36,7 +33,7 @@ export default function DataGridComponent({ setFormulario }) {
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxAlert = useContext(ContextAlert);
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -47,7 +44,6 @@ export default function DataGridComponent({ setFormulario }) {
 
   let columns = [FcColumnDescription];
   columns.push(
-
     {
       field: "carteira",
       headerName: "Carteira",
@@ -66,7 +62,6 @@ export default function DataGridComponent({ setFormulario }) {
       width: 150,
       sortable: false,
       renderCell: function operacoes(field) {
-
         return (
           <Box>
             <IconButton
@@ -188,7 +183,7 @@ export default function DataGridComponent({ setFormulario }) {
           </Box>
         );
       },
-    },
+    }
   );
 
   async function setStateReceitas() {

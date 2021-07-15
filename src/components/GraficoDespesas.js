@@ -11,13 +11,13 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { SpinContext } from "../Context/SpinContext";
 import { useTheme } from "@material-ui/core";
-import { getToken } from '../common/Auth'
+import { getToken } from "../common/Auth";
 
 export default function GraficoDespesas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;

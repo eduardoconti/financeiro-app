@@ -90,7 +90,7 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
         .slice(0, 10),
       valor: transferencia.valor.toFixed(2),
       carteiraOrigem: transferencia.carteiraOrigem.descricao,
-      carteiraDestino: transferencia.carteiraDestino.descricao
+      carteiraDestino: transferencia.carteiraDestino.descricao,
     };
   });
 }
@@ -102,7 +102,7 @@ export function formataDadosParaFormulario(transferencia) {
       .toISOString()
       .slice(0, 10),
     carteiraOrigem: transferencia.carteiraOrigem.id,
-    carteiraDestino: transferencia.carteiraDestino.id
+    carteiraDestino: transferencia.carteiraDestino.id,
   };
 }
 

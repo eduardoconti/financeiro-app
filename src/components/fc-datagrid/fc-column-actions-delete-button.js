@@ -17,7 +17,7 @@ export default function ActionDeleteButon(props) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
- 
+
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
@@ -45,7 +45,8 @@ export default function ActionDeleteButon(props) {
             stateCheckedReceitas,
             stateAnoAtual,
             stateMesAtual
-          ));
+          )
+        );
 
         ctxSpin.setSpin(false);
       }}

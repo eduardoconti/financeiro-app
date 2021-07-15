@@ -6,7 +6,7 @@ import { login, logout } from "../common/Auth";
 import { SpinContext } from "../Context/SpinContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
-import { ContextAlert} from "../Context/AlertContext";
+import { ContextAlert } from "../Context/AlertContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { emptyTotais } from "../common/EmptyStates";
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: theme.spacing(2),
     backgroundColor: "rgba(255,255,255,0.8)",
-    borderRadius: "10px"
+    borderRadius: "10px",
   },
   botao: {
     background: theme.palette.primary.dark,
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FormLogin({ setOpen }) {
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -53,87 +53,86 @@ export default function FormLogin({ setOpen }) {
 
   return (
     <Grid alignItems="center" justify="center">
+      <form className={classes.root} noValidate autoComplete="off">
+        <Grid item xs={12}>
+          <TextField
+            id="username"
+            label="username"
+            variant="outlined"
+            size="small"
+            style={{ width: 180, margin: 10 }}
+            required={true}
+            value={formulario.username}
+            onChange={(event) =>
+              setFormulario({ ...formulario, username: event.target.value })
+            }
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="password"
+            label="password"
+            variant="outlined"
+            size="small"
+            style={{ width: 180, margin: 10 }}
+            required={true}
+            value={formulario.password}
+            onChange={(event) =>
+              setFormulario({ ...formulario, password: event.target.value })
+            }
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            size="small"
+            className={classes.botao}
+            onClick={async () => {
+              ctxSpin.setSpin(true);
 
-        <form className={classes.root} noValidate autoComplete="off">
-          <Grid item xs={12}>
-            <TextField
-              id="username"
-              label="username"
-              variant="outlined"
-              size="small"
-              style={{ width: 180, margin: 10 }}
-              required={true}
-              value={formulario.username}
-              onChange={(event) =>
-                setFormulario({ ...formulario, username: event.target.value })
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="password"
-              label="password"
-              variant="outlined"
-              size="small"
-              style={{ width: 180,  margin: 10 }}
-              required={true}
-              value={formulario.password}
-              onChange={(event) =>
-                setFormulario({ ...formulario, password: event.target.value })
-              }
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              size="small"
-              className={classes.botao}
-              onClick={async () => {
-                ctxSpin.setSpin(true);
+              const res = await ObtemToken(formulario);
 
-                const res = await ObtemToken(formulario);
-
-                ctxAlert.setAlert(
-                  setCreatedAlert(
-                    res.statusCode,
-                    res.message,
-                    res.internalMessage
-                  )
+              ctxAlert.setAlert(
+                setCreatedAlert(
+                  res.statusCode,
+                  res.message,
+                  res.internalMessage
                 )
-                if (res.statusCode === 200) {
-                  login(res.data.accessToken);
-                  setStateTotais(
-                    await calculaTotais(
-                      stateCheckedDespesas,
-                      stateCheckedReceitas,
-                      stateAnoAtual,
-                      stateMesAtual
-                    )
-                  );
-                  setFormulario({ username: "", password: "" });
-                }
+              );
+              if (res.statusCode === 200) {
+                login(res.data.accessToken);
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
+                  )
+                );
+                setFormulario({ username: "", password: "" });
+              }
 
-                ctxSpin.setSpin(false);
-                setOpen(false);
-              }}
-            >
-              LOGIN
-            </Button>
+              ctxSpin.setSpin(false);
+              setOpen(false);
+            }}
+          >
+            LOGIN
+          </Button>
 
-            <Button
-              variant="contained"
-              size="small"
-              className={classes.botao}
-              onClick={async () => {
-                logout();
-                setOpen(false);
-                setStateTotais(emptyTotais);
-              }}
-            >
-              logout
-            </Button>
-          </Grid>
-        </form>
+          <Button
+            variant="contained"
+            size="small"
+            className={classes.botao}
+            onClick={async () => {
+              logout();
+              setOpen(false);
+              setStateTotais(emptyTotais);
+            }}
+          >
+            logout
+          </Button>
+        </Grid>
+      </form>
     </Grid>
   );
 }

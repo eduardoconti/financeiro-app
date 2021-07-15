@@ -14,7 +14,6 @@ export default function SpinCircular(props) {
   if (true) {
     return (
       <div className={classes.root}>
-
         <CircularProgress
           color="primary"
           disableShrink={false}
@@ -22,7 +21,7 @@ export default function SpinCircular(props) {
         />
       </div>
     );
-  }else{
-      return(<div></div>)
+  } else {
+    return <div></div>;
   }
 }

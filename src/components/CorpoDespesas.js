@@ -9,7 +9,6 @@ import { CategoryProvider } from "../Context/CategoryContext";
 export default function CorpoDespesas() {
   return (
     <Grid container spacing={1}>
-     
       <Grid item xs={12}>
         <GridDespesas />
       </Grid>

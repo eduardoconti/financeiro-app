@@ -9,7 +9,9 @@ export default function Transferencias() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const [formulario, setFormulario] = useState(emptyFormularioTransferencia(stateAnoAtual, stateMesAtual));
+  const [formulario, setFormulario] = useState(
+    emptyFormularioTransferencia(stateAnoAtual, stateMesAtual)
+  );
 
   return (
     <Grid container spacing={1}>

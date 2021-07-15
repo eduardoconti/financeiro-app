@@ -25,7 +25,7 @@ import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { SpinContext } from "../Context/SpinContext";
-import { getToken } from '../common/Auth'
+import { getToken } from "../common/Auth";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -41,7 +41,7 @@ export default function DataGridComponent({ setFormulario }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) 
+  const ctxSpin = useContext(SpinContext);
 
   const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;

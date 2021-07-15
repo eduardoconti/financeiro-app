@@ -1,7 +1,6 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
-export default function FcColumnActions(props){
-
+export default function FcColumnActions(props) {
   const theme = useTheme();
 
   return {
@@ -24,25 +23,7 @@ export default function FcColumnActions(props){
             aria-label="excluir"
             style={{ color: theme.palette.primary.dark, padding: 2 }}
             onClick={async () => {
-
-                await props.onClickDelete()
-                setStateTotais(
-                    await calculaTotais(
-                      stateCheckedDespesas,
-                      stateCheckedReceitas,
-                      stateAnoAtual,
-                      stateMesAtual
-                    ));
-                }}
-          >
-            <DeleteForeverTwoToneIcon />
-          </IconButton>
-          <IconButton
-            aria-label="transfere"
-            style={{ color: theme.palette.primary.dark, padding: 2 }}
-            onClick={async () => {
-
-              await props.OnClickTransfer()
+              await props.onClickDelete();
               setStateTotais(
                 await calculaTotais(
                   stateCheckedDespesas,
@@ -51,7 +32,23 @@ export default function FcColumnActions(props){
                   stateMesAtual
                 )
               );
-             
+            }}
+          >
+            <DeleteForeverTwoToneIcon />
+          </IconButton>
+          <IconButton
+            aria-label="transfere"
+            style={{ color: theme.palette.primary.dark, padding: 2 }}
+            onClick={async () => {
+              await props.OnClickTransfer();
+              setStateTotais(
+                await calculaTotais(
+                  stateCheckedDespesas,
+                  stateCheckedReceitas,
+                  stateAnoAtual,
+                  stateMesAtual
+                )
+              );
             }}
             size="small"
           >
@@ -66,7 +63,7 @@ export default function FcColumnActions(props){
               padding: 2,
             }}
             onClick={async () => {
-                await props.onClickFlag();
+              await props.onClickFlag();
             }}
           >
             <FiberManualRecordTwoToneIcon />
@@ -75,4 +72,4 @@ export default function FcColumnActions(props){
       );
     },
   };
-};
+}

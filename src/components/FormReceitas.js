@@ -8,9 +8,7 @@ import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioReceita } from "../common/EmptyStates";
 
-import {
-  setCreatedAlert,
-} from "../common/AlertFuncoes";
+import { setCreatedAlert } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
 import { getUserIdFromToken } from "../common/Auth";
 import { ContextTotais } from "../Context/TotaisContext";
@@ -43,17 +41,17 @@ export default function FormReceitas({ setFormulario, formulario }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) 
-  const ctxAlert = useContext(ContextAlert)
+  const ctxSpin = useContext(SpinContext);
+  const ctxAlert = useContext(ContextAlert);
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  
+
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
-        setCarteiras(carteiras);    
+      setCarteiras(carteiras);
     });
   }, []);
 
@@ -73,7 +71,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
       select
       SelectProps={{
         multiple: true,
-        value: []
+        value: [],
       }}
       onChange={(event) =>
         setFormulario({ ...formulario, pago: event.target.value })
@@ -102,7 +100,6 @@ export default function FormReceitas({ setFormulario, formulario }) {
 
   return (
     <Box className="Formularios">
-
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -180,7 +177,7 @@ export default function FormReceitas({ setFormulario, formulario }) {
                 )
               );
             }
-   
+
             ctxSpin.setSpin(true);
           }}
         >

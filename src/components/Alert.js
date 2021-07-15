@@ -1,11 +1,11 @@
-import React,{useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Snackbar } from "@material-ui/core";
-import { ContextAlert } from "../Context/AlertContext"
+import { ContextAlert } from "../Context/AlertContext";
 export default function AlertComponent() {
-
-  const ctxAlert = useContext(ContextAlert)
-  const alert = ctxAlert.alert, setAlert = ctxAlert.setAlert
+  const ctxAlert = useContext(ContextAlert);
+  const alert = ctxAlert.alert,
+    setAlert = ctxAlert.setAlert;
 
   const handleClose = () => {
     setAlert({
@@ -14,7 +14,7 @@ export default function AlertComponent() {
     });
   };
 
-  useEffect(() =>  {}, [alert]);
+  useEffect(() => {}, [alert]);
 
   return (
     <Snackbar

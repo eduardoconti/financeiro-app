@@ -15,19 +15,19 @@ import { AlertProvider } from "./Context/AlertContext";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
-  palette:{
-    primary:{
-      main:"#BB86FC"
+  palette: {
+    primary: {
+      main: "#BB86FC",
     },
-    secondary:{
-      main:"#03DAC5"
+    secondary: {
+      main: "#03DAC5",
     },
-    error:{
-      main:"#CF6679"
+    error: {
+      main: "#CF6679",
     },
 
     tonalOffset: 0.2,
-  }
+  },
 });
 
 function App() {
@@ -72,7 +72,7 @@ function App() {
                       </Grid>
                     </Grid>
 
-                    <Grid item  xs={12} sm={12} md={12} lg={4} xl={5}>
+                    <Grid item xs={12} sm={12} md={12} lg={4} xl={5}>
                       {/* RIGHT */}
                       <GraficosContainer />
                     </Grid>

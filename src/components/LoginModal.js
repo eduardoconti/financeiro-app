@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TransitionsModal({ open, setOpen, handleClose }) {
   const classes = useStyles();
-  
+
   return (
     <Grid>
       <Modal

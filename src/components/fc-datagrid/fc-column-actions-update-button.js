@@ -5,7 +5,7 @@ import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
 
 export default function ActionUpdateButon(props) {
   const theme = useTheme();
-  const { onClick} = props;
+  const { onClick } = props;
   return (
     <IconButton
       aria-label="alterar"

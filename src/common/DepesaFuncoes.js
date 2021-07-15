@@ -13,9 +13,7 @@ export async function getDespesas(
       stateCheckedDespesas.checkedPago &&
       stateCheckedDespesas.checkedAberto
     ) {
-      res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual
-      );
+      res = await API.get(ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual);
     } else if (stateCheckedDespesas.checkedPago) {
       res = await API.get(
         ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true"
@@ -37,8 +35,11 @@ export async function getValorDespesasPorCategoria(
   stateMesAtual
 ) {
   try {
-    let res 
-    if (stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto) {
+    let res;
+    if (
+      stateCheckedDespesas.checkedPago &&
+      stateCheckedDespesas.checkedAberto
+    ) {
       res = await API.get(
         ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/categoria/valor/"
       );
@@ -59,12 +60,11 @@ export async function getValorDespesasPorCategoria(
           "/categoria/valor/?pago=false"
       );
     }
-  
+
     return res.data;
   } catch (error) {
-    return errorResponse(error)
+    return errorResponse(error);
   }
- 
 }
 
 export async function getValorDespesasPorCarteira(
@@ -73,8 +73,11 @@ export async function getValorDespesasPorCarteira(
   stateMesAtual
 ) {
   try {
-    let res 
-    if (stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto) {
+    let res;
+    if (
+      stateCheckedDespesas.checkedPago &&
+      stateCheckedDespesas.checkedAberto
+    ) {
       res = await API.get(
         ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor/"
       );
@@ -95,12 +98,11 @@ export async function getValorDespesasPorCarteira(
           "/carteira/valor/?pago=false"
       );
     }
-  
+
     return res.data;
   } catch (error) {
     return errorResponse(error);
   }
- 
 }
 
 export async function deletaDespesa(id) {
@@ -115,7 +117,7 @@ export async function deletaDespesa(id) {
 export async function insereDespesa(despesa) {
   try {
     const res = await API.post(ENDPOINT, despesa);
-    return res.data
+    return res.data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -123,9 +125,7 @@ export async function insereDespesa(despesa) {
 
 export async function alteraFlagPago(despesa) {
   try {
-    const res = await API.patch(
-      ENDPOINT + "flag/" + despesa.id,
-      despesa );
+    const res = await API.patch(ENDPOINT + "flag/" + despesa.id, despesa);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -143,8 +143,9 @@ export async function alteraDespesa(despesa) {
 
 export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
   try {
-    const endpoint = ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total";
-    const res = await API.get( endpoint );
+    const endpoint =
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total";
+    const res = await API.get(endpoint);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -189,7 +190,6 @@ export async function retornaTotalDespesasPagas(stateAnoAtual, stateMesAtual) {
   } catch (error) {
     return errorResponse(error);
   }
-  
 }
 
 export async function retornaTotalDespesasAbertas(
@@ -198,12 +198,12 @@ export async function retornaTotalDespesasAbertas(
 ) {
   try {
     const res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=false"    );
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=false"
+    );
     return res.data;
   } catch (error) {
     return errorResponse(error);
   }
- 
 }
 
 export async function retornaDespesaPorId(id) {
@@ -245,5 +245,5 @@ export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual, pago) {
 }
 
 function errorResponse(error) {
-  return error.response.data
+  return error.response.data;
 }

@@ -18,7 +18,7 @@ import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
-import { isAuthenticated } from '../common/Auth'
+import { isAuthenticated } from "../common/Auth";
 import { SpinContext } from "../Context/SpinContext";
 
 function retornaMes(mes) {
@@ -63,35 +63,34 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
 export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
-  
 
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   useEffect(() => {
-
-    if(isAuthenticated()){
+    if (isAuthenticated()) {
       async function retornaDadosGrafico(stateAnoAtual) {
         ctxSpin.setSpin(true);
-        let dados = []
-        
-        let {data: despesas } = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
-        let {data: receitas } = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
+        let dados = [];
+
+        let { data: despesas } = await rertornaDespesasAgrupadasPorMes(
+          stateAnoAtual
+        );
+        let { data: receitas } = await rertornaReceitasAgrupadasPorMes(
+          stateAnoAtual
+        );
         try {
           adicionaNoArrayDeDados(dados, receitas, despesas);
-        } catch (error) {
-  
-        }
+        } catch (error) {}
         ctxSpin.setSpin(false);
         return dados;
-
       }
-  
+
       retornaDadosGrafico(stateAnoAtual).then((dados) => {
         setDados(dados);
-      }); 
+      });
     } // eslint-disable-next-line
   }, [stateAnoAtual, stateTotais]);
 
@@ -115,14 +114,14 @@ export default function GraficoReceitas() {
           data={dados}
           margin={{
             right: 20,
-            left: 5
+            left: 5,
           }}
         >
-          <XAxis dataKey="name" fill="#FFF" stroke="#FFF"/>
-          <YAxis domain={[0, 6000]} fill="#FFF" stroke="#FFF"/>
+          <XAxis dataKey="name" fill="#FFF" stroke="#FFF" />
+          <YAxis domain={[0, 6000]} fill="#FFF" stroke="#FFF" />
           <Tooltip />
           <Legend formatter={renderColorfulLegendText} />
-          <CartesianGrid strokeDasharray="3 3"/>
+          <CartesianGrid strokeDasharray="3 3" />
           <Area
             type="monotone"
             dataKey="receita"
@@ -131,8 +130,18 @@ export default function GraficoReceitas() {
             fillOpacity={"60%"}
           />
 
-          <Bar dataKey="despesa" barSize={15} fill={theme.palette.error.main} stroke={theme.palette.error.dark} />
-          <Line type="monotone" dataKey="balanco" stroke={theme.palette.primary.dark} strokeWidth={3}/>
+          <Bar
+            dataKey="despesa"
+            barSize={15}
+            fill={theme.palette.error.main}
+            stroke={theme.palette.error.dark}
+          />
+          <Line
+            type="monotone"
+            dataKey="balanco"
+            stroke={theme.palette.primary.dark}
+            strokeWidth={3}
+          />
         </ComposedChart>
       </ResponsiveContainer>
     </Box>

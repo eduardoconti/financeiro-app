@@ -2,7 +2,7 @@ import React from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Grid } from "@material-ui/core";
-import {useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 export default function CheckboxLabels({ setStateChecked, stateChecked }) {
   const theme = useTheme();
   const handleChange = (event) => {

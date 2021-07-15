@@ -9,7 +9,7 @@ import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
-import { isAuthenticated } from '../common/Auth'
+import { isAuthenticated } from "../common/Auth";
 import { SpinContext } from "../Context/SpinContext";
 import { useTheme } from "@material-ui/core";
 
@@ -17,7 +17,7 @@ export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -30,12 +30,11 @@ export default function GraficoReceitas() {
   const theme = useTheme();
 
   useEffect(() => {
-
-    if(isAuthenticated()){
+    if (isAuthenticated()) {
       async function pegaReceitas() {
         ctxSpin.setSpin(true);
         let receitas;
-  
+
         if (stateGrafico === "1") {
           receitas = await getReceitas(
             stateCheckedReceitas,
@@ -51,13 +50,13 @@ export default function GraficoReceitas() {
           );
           setDescricao("Receitas por Carteira");
         }
-        if( receitas.statusCode === 200 ){
+        if (receitas.statusCode === 200) {
           setReceitas(receitas.data);
         }
         ctxSpin.setSpin(false);
       }
       pegaReceitas();
-    }// eslint-disable-next-line  
+    } // eslint-disable-next-line
   }, [
     stateCheckedReceitas,
     stateTotais,

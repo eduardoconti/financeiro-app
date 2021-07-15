@@ -3,7 +3,6 @@ import React, { createContext, useState } from "react";
 const ContextCategory = createContext();
 
 function CategoryProvider({ children }) {
-
   const [category, setCategory] = useState([]);
   return (
     <ContextCategory.Provider

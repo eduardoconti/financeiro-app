@@ -75,7 +75,6 @@ export default function FormDespesas() {
         ctxSpin.setSpin(false);
       }
       fetchData();
-
     }
     // eslint-disable-next-line
   }, [stateAnoAtual, stateMesAtual]);
