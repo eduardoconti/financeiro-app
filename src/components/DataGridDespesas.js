@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import DataGrid from "./DataGrid";
-import IconButton from "@material-ui/core/IconButton";
-import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
-import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
-import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
+
 import {
   getDespesas,
   deletaDespesa,
@@ -13,167 +10,83 @@ import {
   retornaDespesaPorId,
   insereDespesa,
 } from "../common/DepesaFuncoes";
-import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
-import {
-  setCreatedAlert,
-  setExclusionAlert,
-} from "../common/AlertFuncoes";
-import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { SpinContext } from "../Context/SpinContext";
 import { ContextForm } from "../Context/FormContext";
-import { ContextAlert } from "../Context/AlertContext";
-import { useTheme } from "@material-ui/core";
 import { FcColumnDescription } from "./fc-datagrid/fc-column-description";
-import {  getUserIdFromToken, isAuthenticated } from "../common/Auth";
+import { getUserIdFromToken, isAuthenticated } from "../common/Auth";
+import ActionFlagButon from "./fc-datagrid/fc-column-actions-flag-button";
+import ActionUpdateButon from "./fc-datagrid/fc-column-actions-update-button";
+import ActionDeleteButon from "./fc-datagrid/fc-column-actions-delete-button";
+import { FcColumnCategory } from "./fc-datagrid/fc-column-category";
+import { FcColumnWallet } from "./fc-datagrid/fc-column-wallet";
+import { FcColumnDueDate } from "./fc-datagrid/fc-column-duedate";
+import { FcColumnValue } from "./fc-datagrid/fc-column-value";
+import ActionReplicateButon from "./fc-datagrid/fc-column-actions-replicate-button";
 
 export default function DataGridDespesas() {
-  const theme = useTheme();
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext) ;
+  const ctxSpin = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
-  const ctxAlert = useContext(ContextAlert);
-  const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const setAlert = ctxAlert.setAlert;
 
   const [rows, setRows] = useState([]);
   let columns = [FcColumnDescription];
 
   if (window.innerWidth >= 960) {
-    columns.push(
-      {
-        field: "categoria",
-        headerName: "Categoria",
-        width: 120,
-      },
-      {
-        field: "carteira",
-        headerName: "Carteira",
-        width: 120,
-      },
-      {
-        field: "vencimento",
-        headerName: "Vencimento",
-        width: 120,
-      }
-    );
+    columns.push(FcColumnCategory, FcColumnWallet, FcColumnDueDate);
   }
-  columns.push(
-    {
-      field: "valor",
-      headerName: "Valor",
-      type: "number",
-      width: 90,
-    },
-    {
-      field: "operacoes",
-      headerName: "Operacoes",
-      width: 140,
-      sortable: false,
-      renderCell: function operacoes(field) {
-        return (
-          <Box>
-            <IconButton
-              aria-label="pago"
-              style={{
-                color: field.row.pago
-                  ? theme.palette.secondary.dark
-                  : theme.palette.error.main,
-                padding: 2,
-              }}
-              onClick={async () => {
-                ctxSpin.setSpin(true);
-                let despesa = {
-                  id: field.row.id,
-                  pago: !field.row.pago,
-                };
+  columns.push(FcColumnValue, {
+    field: "operacoes",
+    headerName: "Operacoes",
+    width: 150,
+    sortable: false,
+    renderCell: function operacoes(field) {
+      return (
+        <Box >
+          <ActionFlagButon
+            payed={field.row.pago}
+            onClick={async () => {
+              const { id, pago } = field.row;
+              const despesa = {
+                id: id,
+                pago: !pago,
+              };
 
-                const response = await alteraFlagPago(despesa);
-                await pegaDespesas();
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
-
-                setAlert(
-                  setCreatedAlert(
-                    response.statusCode,
-                    response.message,
-                    response.internalMessage
-                  )
-                );
-                ctxSpin.setSpin(false);
-              }}
-            >
-              <FiberManualRecordTwoToneIcon />
-            </IconButton>
-            <IconButton
-              aria-label="alterar"
-              style={{ color: theme.palette.primary.dark, padding: 2 }}
-              onClick={async () => {
-                const { data: formulario } = await retornaDespesaPorId(
-                  field.row.id
-                );
-                ctxForm.setForm(formataDadosParaFormulario(formulario));
-              }}
-            >
-              <CreateTwoToneIcon />
-            </IconButton>
-
-            <IconButton
-              aria-label="excluir"
-              style={{ color: theme.palette.error.main, padding: 2 }}
-              onClick={async () => {
-                ctxSpin.setSpin(true);
-                let response = await deletaDespesa(field.row.id);
-
-                setAlert(
-                  setExclusionAlert(
-                    response.statusCode,
-                    response.message,
-                    response.internalMessage
-                  )
-                );
-
-                await pegaDespesas();
-
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
-
-                ctxSpin.setSpin(false);
-              }}
-            >
-              <DeleteForeverTwoToneIcon />
-            </IconButton>
-            <IconButton
-              aria-label="transfere"
-              style={{ padding: 2 }}
-              onClick={async () => {
-                ctxSpin.setSpin(true);
-                const { data: despesa } = await retornaDespesaPorId(
-                  field.row.id
-                );
-                let nextDate = new Date(
+              const res = await alteraFlagPago(despesa);
+              await pegaDespesas();
+              return res;
+            }}
+          />
+          <ActionUpdateButon
+            onClick={async () => {
+              const { data: formulario } = await retornaDespesaPorId(
+                field.row.id
+              );
+              ctxForm.setForm(formataDadosParaFormulario(formulario));
+            }}
+          />
+          <ActionDeleteButon
+            onClick={async () => {
+              const response = await deletaDespesa(field.row.id);
+              await pegaDespesas();
+              return response;
+            }}
+          />
+          <ActionReplicateButon
+            onClick={async () => {
+              let res = await retornaDespesaPorId(field.row.id);
+              if (res.statusCode === 200) {
+                let { data: despesa } = res;
+                const nextDate = new Date(
                   stateAnoAtual,
                   stateMesAtual,
                   10
@@ -185,38 +98,20 @@ export default function DataGridDespesas() {
                 despesa.pago = false;
                 despesa.user = getUserIdFromToken();
 
-                const response = await insereDespesa(
-                  formataDadosParaFormulario(despesa)
-                );
+                res = await insereDespesa(formataDadosParaFormulario(despesa));
 
-                await pegaDespesas();
+                if (res.statusCode === 200) {
+                  await pegaDespesas();
+                }
 
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
-                setAlert(
-                  setCreatedAlert(
-                    response.statusCode,
-                    response.message,
-                    response.internalMessage
-                  )
-                );
-                ctxSpin.setSpin(false);
-              }}
-              size="small"
-            >
-              <ImportExportTwoToneIcon />
-            </IconButton>
-          </Box>
-        );
-      },
-    }
-  );
+                return res;
+              }
+            }}
+          />
+        </Box>
+      );
+    },
+  });
 
   async function pegaDespesas() {
     ctxSpin.setSpin(true);
@@ -227,7 +122,7 @@ export default function DataGridDespesas() {
         stateMesAtual
       );
 
-      if (despesas.statusCode < 400) {
+      if (despesas.statusCode === 200) {
         setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
     }
@@ -236,12 +131,7 @@ export default function DataGridDespesas() {
 
   useEffect(() => {
     pegaDespesas(); // eslint-disable-next-line
-  }, [
-    stateCheckedDespesas,
-    stateTotais,
-    stateAnoAtual,
-    stateMesAtual
-  ]);
+  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
 
   return (
     <Box>

@@ -72,7 +72,7 @@ export default function GraficoReceitas() {
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor={theme.palette.success.dark}
+        cor={theme.palette.secondary.main}
         descricao={descricao}
       />
       <Grafico

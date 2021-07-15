@@ -1,5 +1,6 @@
 import { useTheme } from "@material-ui/core";
-export default (props) => {
+import React from "react";
+export default function FcColumnActions(props){
 
   const theme = useTheme();
 

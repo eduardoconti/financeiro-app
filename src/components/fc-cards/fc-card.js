@@ -29,13 +29,13 @@ export default function FcCard(props) {
           <CardContent style={{ margin: 0, padding: 0 }}>
             <Typography
               variant="h6"
-              style={{ color: legendColor, paddingTop: 5 }}
+              style={{ color: legendColor }}
             >
               {description}
             </Typography>
             <Typography
               variant="h5"
-              style={{ color: theme.palette.common.white }}
+              style={{ color: theme.palette.primary.light }}
             >
               {value.toFixed(2)}
             </Typography>

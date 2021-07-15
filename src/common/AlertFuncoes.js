@@ -46,9 +46,7 @@ export function retornaStateAlertExclusao(codResponse, tabela, error) {
 }
 
 export function retornaStateAlertCadastro(codResponse, tabela, error) {
-  let message = "";
-  let type = "";
-  let title = "";
+  let message, type, title;
 
   if (codResponse === 200 || codResponse === 201) {
     title = (codResponse === 201 ? "Inserido " : "Alterado ") + tabela;
@@ -69,11 +67,10 @@ export function AlertWarning(title, message) {
     message: message,
     type: "warning",
   };
-
 }
 
 export function setExclusionAlert(codResponse, message, title) {
-  let type = "";
+  let type;
 
   if (codResponse === 200) {
     type = "success";
@@ -85,7 +82,7 @@ export function setExclusionAlert(codResponse, message, title) {
 }
 
 export function setCreatedAlert(codResponse, message, title) {
-  let type = "";
+  let type;
 
   if (codResponse === 200 || codResponse === 201) {
     type = "success";
