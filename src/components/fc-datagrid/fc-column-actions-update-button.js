@@ -9,7 +9,7 @@ export default function ActionUpdateButon(props) {
   return (
     <IconButton
       aria-label="alterar"
-      style={{ color: theme.palette.primary.dark, padding: 2 }}
+      style={{ color: theme.palette.primary.main, padding: 2 }}
       onClick={onClick}
     >
       <CreateTwoToneIcon />

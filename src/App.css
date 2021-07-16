@@ -1,5 +1,6 @@
 .Container {
   padding: 5px;
+  background-color:#121212;
 }
 
 .DataGrid,
@@ -8,7 +9,7 @@
 .Header,
 .Footer,
 .Card {
-  background-color:rgba(255,255,255,0.7);
+  
   border-radius: 10px;
   display: flex;
 }
@@ -21,6 +22,7 @@
 }
 .DataGrid {
   height: 360px;
+  background-color:rgba(255, 255, 255, 0.05);
 }
 
 .DataGridColumn{
@@ -29,10 +31,11 @@
 
 .Formularios {
   padding: 5px;
+  background-color:rgba(255, 255, 255, 0.05);
 }
 
 .Grafico {
-  background-color:rgba(255,255,255,0.05);
+  background-color:rgba(255, 255, 255, 0.05);
   height: 100%;
   min-height: 200px;
   flex-direction: column;

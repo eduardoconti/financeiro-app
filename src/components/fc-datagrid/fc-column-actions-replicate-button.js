@@ -8,6 +8,7 @@ import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { calculaTotais } from "../../common/Funcoes";
+import { useTheme } from "@material-ui/core";
 
 export default function ActionReplicateButon(props) {
   const { onClick } = props;
@@ -16,6 +17,7 @@ export default function ActionReplicateButon(props) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
+  const theme = useTheme();
 
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -25,7 +27,7 @@ export default function ActionReplicateButon(props) {
   return (
     <IconButton
       aria-label="transfere"
-      style={{ padding: 2 }}
+      style={{color:theme.palette.secondary.dark, padding: 2 }}
       onClick={async () => {
         ctxSpin.setSpin(true);
         const response = await onClick();

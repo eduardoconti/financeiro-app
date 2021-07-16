@@ -16,6 +16,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
+    type: 'dark',
     primary: {
       main: "#BB86FC",
     },
@@ -25,8 +26,11 @@ const theme = createMuiTheme({
     error: {
       main: "#CF6679",
     },
-
-    tonalOffset: 0.2,
+    background:{
+      default:"#121212",
+      paper01:"rgba(255, 255, 255, 0.05)"
+    }
+    
   },
 });
 
@@ -39,7 +43,7 @@ function App() {
         <AlertProvider>
           <CheckedProvider>
             <TotaisProvider>
-              <Box className="Container">
+              <Box style={{padding:theme.spacing(1), backgroundColor: theme.palette.background.default}}>
                 <AnoMesProvider>
                   <Grid container direction="row" spacing={1}>
                     <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>

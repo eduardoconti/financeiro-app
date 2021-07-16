@@ -16,20 +16,16 @@ export default function BotaoMes() {
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
-      fontWeight: "bold",
-      boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
-      color: "#fff",
-      "&:hover": {
-        boxShadow:
-          "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
-      },
+      fontFamily: theme.typography.fontFamily,
+      fontWeight: "bold",     
     },
     ativo: {
-      backgroundColor: theme.palette.secondary.light,
+      backgroundColor: theme.palette.secondary.main,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
       fontWeight: "bold",
+      fontFamily: theme.typography.fontFamily,
       color: "#fff",
       boxShadow:
         "inset 2px 2px 2px 1px rgba(0, 0, 0, 0.2),  0px 0px 1px 1px rgba(0, 0, 0, 0.2)",

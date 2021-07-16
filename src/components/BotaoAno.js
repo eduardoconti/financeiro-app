@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   botao: {
-    backgroundColor: theme.palette.grey[800],
+    backgroundColor: theme.palette.grey[900],
     maxWidth: "100%",
     minHeight: 36,
     borderRadius: 5,
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     color: "#FFF",
     "&:hover": {
-      background: theme.palette.grey[800],
+      background: theme.palette.grey[900],
       boxShadow:
         "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
     },

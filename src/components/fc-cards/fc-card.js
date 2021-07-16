@@ -19,7 +19,7 @@ export default function FcCard(props) {
     <Card
       className="Card"
       variant="outlined"
-      style={{ backgroundColor: theme.palette.grey[900] }}
+      style={{ backgroundColor: theme.palette.background.paper01 }}
     >
       {ctxSpin.spin ? (
         <SpinCircular />
