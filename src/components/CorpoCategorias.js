@@ -1,33 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import FormularioCategorias from "./FormCategorias";
 import { Grid } from "@material-ui/core";
-import GridCategorias from "./DataGridCategorias";
-import { emptyFormularioCategoria } from "../common/EmptyStates";
+import { DataGridProvider } from "../Context/DataGridContext";
+import FcDataGridCategory from "./fc-datagrid/category/fc-datagrid-category";
 
 export default function CorpoCategorias() {
-  const [rows, setRows] = useState([]);
-  const [formulario, setFormulario] = useState(emptyFormularioCategoria);
-  return (
-    <Grid container spacing={1} direction="row">
-      <Grid item xs={12} md={8}>
-        <GridCategorias
-          rows={rows}
-          setRows={(rows) => {
-            setRows(rows);
-          }}
-          setFormulario={(formulario) => setFormulario(formulario)}
-        ></GridCategorias>
-      </Grid>
 
-      <Grid item xs={12} md={4}>
-        <FormularioCategorias
-          setRows={(rows) => {
-            setRows(rows);
-          }}
-          formulario={formulario}
-          setFormulario={(formulario) => setFormulario(formulario)}
-        />
+  return (
+    <DataGridProvider>
+      <Grid container spacing={1} direction="row">
+        <Grid item xs={12} md={8}>
+          <FcDataGridCategory/>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <FormularioCategorias />
+        </Grid>
       </Grid>
-    </Grid>
+    </DataGridProvider>
   );
 }

@@ -16,6 +16,8 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { SpinContext } from "../Context/SpinContext";
 import { ContextAlert } from "../Context/AlertContext";
+import { ContextForm } from "../Context/FormContext";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -33,21 +35,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormReceitas({ setFormulario, formulario }) {
+export default function FormReceitas() {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
-  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
-
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
+  const ctxForm = useContext(ContextForm);
+
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const formulario = ctxForm.form;
+  const setFormulario = ctxForm.setForm;
+
+  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
@@ -69,10 +75,6 @@ export default function FormReceitas({ setFormulario, formulario }) {
       style={{ width: 150 }}
       value={formulario.pago ? formulario.pago : " "}
       select
-      SelectProps={{
-        multiple: true,
-        value: [],
-      }}
       onChange={(event) =>
         setFormulario({ ...formulario, pago: event.target.value })
       }

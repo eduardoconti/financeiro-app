@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
-import CardSaldo from "./CardSaldoCarteira";
 import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
@@ -8,6 +7,7 @@ import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
 } from "../common/TransferenciaFuncoes";
+import FcCardWalletBalance from "./fc-cards/fc-card-wallet-balance";
 
 async function RetornaCards() {
   let object = await retornaDadosParaCard();
@@ -15,11 +15,10 @@ async function RetornaCards() {
   return object.map((obj, i) => {
     return (
       <Grid item xs={6} md={3} key={i}>
-        <CardSaldo
-          valor={obj.valor}
-          descricao={obj.descricao}
-          cor="#3EA99F"
-        ></CardSaldo>
+        <FcCardWalletBalance
+          value={obj.valor}
+          description={obj.descricao}
+        ></FcCardWalletBalance>
       </Grid>
     );
   });

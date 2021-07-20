@@ -11,7 +11,6 @@ export default function ActionFlagButon(props) {
   const { onClick, payed } = props;
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
-
   return (
     <IconButton
       aria-label="pago"

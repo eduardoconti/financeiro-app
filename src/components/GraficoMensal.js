@@ -81,6 +81,13 @@ export default function GraficoReceitas() {
         let { data: receitas } = await rertornaReceitasAgrupadasPorMes(
           stateAnoAtual
         );
+
+        despesas = despesas.map( desp =>{
+          return {
+            ...desp,
+            valor: desp.valor.toFixed(2)
+          }
+        })
         try {
           adicionaNoArrayDeDados(dados, receitas, despesas);
         } catch (error) {}

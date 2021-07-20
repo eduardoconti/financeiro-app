@@ -11,7 +11,7 @@ import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { calculaTotais } from "../../common/Funcoes";
 export default function ActionDeleteButon(props) {
   const theme = useTheme();
-  const { onClick } = props;
+  let { onClick, refreshTotal = true } = props;
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
   const ctxTotais = useContext(ContextTotais);
@@ -24,6 +24,7 @@ export default function ActionDeleteButon(props) {
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
+  console.log(refreshTotal)
   return (
     <IconButton
       aria-label="excluir"
@@ -38,15 +39,16 @@ export default function ActionDeleteButon(props) {
             response.internalMessage
           )
         );
-
-        setStateTotais(
-          await calculaTotais(
-            stateCheckedDespesas,
-            stateCheckedReceitas,
-            stateAnoAtual,
-            stateMesAtual
-          )
-        );
+        if (refreshTotal) {
+          setStateTotais(
+            await calculaTotais(
+              stateCheckedDespesas,
+              stateCheckedReceitas,
+              stateAnoAtual,
+              stateMesAtual
+            )
+          );
+        }
 
         ctxSpin.setSpin(false);
       }}

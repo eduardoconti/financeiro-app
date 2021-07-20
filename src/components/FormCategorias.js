@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -12,6 +12,8 @@ import {
 import Alert from "./Alert";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
 import { getUserIdFromToken } from "../common/Auth";
+import { ContextForm } from "../Context/FormContext";
+import { ContextDataGrid } from "../Context/DataGridContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,11 +33,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormCategorias({ setRows, formulario, setFormulario }) {
+export default function FormCategorias() {
   const classes = useStyles();
-  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   const [alert, setAlert] = useState(emptyAlertState);
-
+  const ctxForm = useContext(ContextForm);
+  const ctxDataGrid = useContext(ContextDataGrid);
+  const formulario = ctxForm.form;
+  const setFormulario = ctxForm.setForm;
+  const setRows = ctxDataGrid.setRows;
+  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   return (
     <Box className="Formularios">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />

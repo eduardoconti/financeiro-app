@@ -12,8 +12,10 @@ import { ContextAnoMes } from "../Context/AnoMesContext";
 import {
   emptyFormularioDespesa,
   emptyFormularioReceita,
+  emptyFormularioCategoria
 } from "../common/EmptyStates";
 import AlertComponent from "./Alert";
+
 
 export default function CurrentBody({ stateCurrentBody }) {
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -35,7 +37,12 @@ export default function CurrentBody({ stateCurrentBody }) {
       </FormProvider>
     );
   } else if (stateCurrentBody === Constants.CORPO_CATEGORIAS) {
-    return <CorpoCategorias />;
+    return (
+      <FormProvider form={emptyFormularioCategoria}>
+        <AlertComponent />
+        <CorpoCategorias />
+      </FormProvider>
+    );
   } else if (stateCurrentBody === Constants.CORPO_CARTEIRAS) {
     return <CorpoCarteiras />;
   } else if (stateCurrentBody === Constants.CORPO_SALDO) {
