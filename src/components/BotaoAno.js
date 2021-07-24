@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import Menu from "./MenuItemForm";
+import Menu from "./fc-forms/fc-menu-tem/fc-menu-item";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";

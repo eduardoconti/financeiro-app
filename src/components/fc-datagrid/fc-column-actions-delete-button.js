@@ -24,7 +24,6 @@ export default function ActionDeleteButon(props) {
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
-  console.log(refreshTotal)
   return (
     <IconButton
       aria-label="excluir"

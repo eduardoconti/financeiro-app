@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -9,14 +9,15 @@ import { Box } from "@material-ui/core";
 import { emptyFormularioReceita } from "../common/EmptyStates";
 
 import { setCreatedAlert } from "../common/AlertFuncoes";
-import Menu from "./MenuItemForm";
-import { getUserIdFromToken } from "../common/Auth";
+import Menu from "./fc-forms/fc-menu-tem/fc-menu-item";
+import { getUserIdFromToken,isAuthenticated } from "../common/Auth";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { SpinContext } from "../Context/SpinContext";
 import { ContextAlert } from "../Context/AlertContext";
 import { ContextForm } from "../Context/FormContext";
+import { ContextWallet } from "../Context/WalletContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormReceitas() {
-  const [carteiras, setCarteiras] = useState([]);
+
   const classes = useStyles();
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
@@ -44,7 +45,8 @@ export default function FormReceitas() {
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
   const ctxForm = useContext(ContextForm);
-
+  const ctxWallet = useContext(ContextWallet);
+  
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
@@ -56,12 +58,19 @@ export default function FormReceitas() {
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
-    retornaCarteiras().then((carteiras) => {
-      setCarteiras(carteiras);
-    });
-  }, []);
+    if (isAuthenticated()) {
+      async function fetchData() {
+        ctxSpin.setSpin(true);
+        ctxWallet.setWallet(await retornaCarteiras());
+        ctxForm.setForm(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
+        ctxSpin.setSpin(false);
+      }
+      fetchData();
+    }
+    // eslint-disable-next-line
+  }, [stateAnoAtual, stateMesAtual]);
 
-  let MenuCarteira = Menu(carteiras);
+  let MenuCarteira = Menu(ctxWallet.wallet);
   let MenuPago = Menu([
     { id: false, descricao: "Aberto" },
     { id: true, descricao: "Pago" },

@@ -53,8 +53,8 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
 
     dados.push({
       name: retornaMes(i),
-      despesa: despesa,
-      receita: receita,
+      despesa: despesa.toFixed(2),
+      receita: receita.toFixed(2),
       balanco: (receita - despesa).toFixed(2),
     });
   }
@@ -72,32 +72,28 @@ export default function GraficoReceitas() {
   useEffect(() => {
     if (isAuthenticated()) {
       async function retornaDadosGrafico(stateAnoAtual) {
-        ctxSpin.setSpin(true);
+        
         let dados = [];
-
-        let { data: despesas } = await rertornaDespesasAgrupadasPorMes(
-          stateAnoAtual
-        );
-        let { data: receitas } = await rertornaReceitasAgrupadasPorMes(
-          stateAnoAtual
-        );
-
-        despesas = despesas.map( desp =>{
-          return {
-            ...desp,
-            valor: desp.valor.toFixed(2)
-          }
-        })
+        let receitas = [];
+        let despesas = [];
         try {
-          adicionaNoArrayDeDados(dados, receitas, despesas);
-        } catch (error) {}
-        ctxSpin.setSpin(false);
+          receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
+          despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
+        } catch (error) {
+          return dados;
+        }
+
+        if ([despesas.statusCode, receitas.statusCode].includes(200)) {
+          adicionaNoArrayDeDados(dados, receitas.data, despesas.data);
+        }
+        
         return dados;
       }
-
+      ctxSpin.setSpin(true);
       retornaDadosGrafico(stateAnoAtual).then((dados) => {
         setDados(dados);
       });
+      ctxSpin.setSpin(false);
     } // eslint-disable-next-line
   }, [stateAnoAtual, stateTotais]);
 
