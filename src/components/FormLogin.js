@@ -73,6 +73,7 @@ export default function FormLogin({ setOpen }) {
             label="password"
             variant="outlined"
             size="small"
+            type="password"
             style={{ width: 180, margin: 10 }}
             required={true}
             value={formulario.password}

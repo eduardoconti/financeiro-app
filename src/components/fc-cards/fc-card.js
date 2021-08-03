@@ -17,9 +17,14 @@ export default function FcCard(props) {
   }
   return (
     <Card
-      className="Card"
       variant="outlined"
-      style={{ backgroundColor: theme.palette.background.paper01 }}
+      style={{
+        textAlign: "center",
+        height: "100%",
+        borderRadius: theme.shape.borderRadius,
+        border: "none",
+        backgroundColor: theme.palette.background.paper01,
+      }}
     >
       {ctxSpin.spin ? (
         <SpinCircular />
@@ -29,6 +34,7 @@ export default function FcCard(props) {
             <Typography variant="h6" style={{ color: legendColor }}>
               {description}
             </Typography>
+
             <Typography
               variant="h5"
               style={{ color: theme.palette.primary.light }}

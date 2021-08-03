@@ -1,33 +1,21 @@
-import React, { useState } from "react";
-import FormularioCarteiras from "./FormCarteiras";
+import React from "react";
 import { Grid } from "@material-ui/core";
-import GridCarteiras from "./DataGridCarteiras";
-import { emptyFormularioCarteira } from "../common/EmptyStates";
+import FcFormWallet from "./fc-forms/wallet/fc-form-wallet";
+import FcDataGridWallet from "./fc-datagrid/wallet/fc-datagrid-wallet";
+import { DataGridProvider } from "../Context/DataGridContext";
 
 export default function CorpoCarteiras() {
-  const [rows, setRows] = useState([]);
-  const [formulario, setFormulario] = useState(emptyFormularioCarteira);
   return (
-    <Grid container spacing={1} direction="row">
-      <Grid item xs={12} md={8}>
-        <GridCarteiras
-          rows={rows}
-          setRows={(rows) => {
-            setRows(rows);
-          }}
-          setFormulario={(formulario) => setFormulario(formulario)}
-        ></GridCarteiras>
-      </Grid>
+    <DataGridProvider>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={8}>
+          <FcDataGridWallet />
+        </Grid>
 
-      <Grid item xs={12} md={4}>
-        <FormularioCarteiras
-          setRows={(rows) => {
-            setRows(rows);
-          }}
-          formulario={formulario}
-          setFormulario={(formulario) => setFormulario(formulario)}
-        />
+        <Grid item xs={12} md={4}>
+          <FcFormWallet />
+        </Grid>
       </Grid>
-    </Grid>
+    </DataGridProvider>
   );
 }

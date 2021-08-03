@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import {
   BarChart,
@@ -10,27 +11,22 @@ import {
   Legend,
 } from "recharts";
 
-const renderColorfulLegendText = (value, entry) => {
-  const { color } = entry;
-
-  return <span style={{ color }}>{value} </span>;
-};
-
 export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
+  const theme = useTheme();
   return (
-    <ResponsiveContainer>
-      <BarChart
-        data={data}
-        margin={{
-          right: 20,
-          left: 5,
-        }}
-      >
+    <ResponsiveContainer height={180}>
+      <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey={chaveX} fill="#FFF" stroke="#FFF" />
-        <Legend formatter={renderColorfulLegendText} />
-        <YAxis type="number" domain={[0, 7000]} fill="#FFF" stroke="#FFF" />
-        <Tooltip />
+        <Legend />
+        <YAxis type="number" fill="#FFF" stroke="#FFF" domain={[0, 5000]} />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: theme.palette.grey[900],
+            borderRadius: theme.shape.borderRadius,
+            border: "none",
+          }}
+        />
         <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} />
       </BarChart>
     </ResponsiveContainer>

@@ -11,7 +11,6 @@ export default function CorpoDespesas() {
         <Grid item xs={12}>
           <FcDataGridExpense />
         </Grid>
-
         <Grid item xs={12}>
           <FcFormExpense />
         </Grid>

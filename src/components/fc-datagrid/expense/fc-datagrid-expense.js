@@ -14,8 +14,10 @@ import FcDataGrid from "../fc-datagrid";
 
 import { isAuthenticated } from "../../../common/Auth";
 import FcColumnActionsExpense from "./fc-column-actions-expense";
-import { getDespesas,formataDadosParaLinhasDataGrid } from "../../../common/DepesaFuncoes";
-
+import {
+  getDespesas,
+  formataDadosParaLinhasDataGrid,
+} from "../../../common/DepesaFuncoes";
 
 export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
@@ -28,7 +30,7 @@ export default function FcDataGridExpense() {
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const rows = ctxDataGrid.rows
+  const rows = ctxDataGrid.rows;
 
   let columns = [FcColumnDescription];
 
@@ -36,14 +38,14 @@ export default function FcDataGridExpense() {
     columns.push(FcColumnCategory, FcColumnWallet, FcColumnDueDate);
   }
 
-  columns.push(FcColumnValue,{
+  columns.push(FcColumnValue, {
     field: "actions",
     headerName: "Operação",
     width: 140,
     sortable: false,
-    renderCell: function operacoes(field){
-      return( <FcColumnActionsExpense field={field}/>);
-    }
+    renderCell: function operacoes(field) {
+      return <FcColumnActionsExpense field={field} />;
+    },
   });
 
   async function setRowsDataGrid() {
@@ -65,7 +67,5 @@ export default function FcDataGridExpense() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
 
-  return (
-      <FcDataGrid rows={rows} columns={columns} />
-  );
+  return <FcDataGrid rows={rows} columns={columns} />;
 }

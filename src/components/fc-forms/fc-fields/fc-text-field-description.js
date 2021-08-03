@@ -13,7 +13,7 @@ export default function FcTextFieldDescription(props) {
       label="Descricao"
       variant="outlined"
       size="small"
-      style={{ width: 150 }}
+      fullWidth
       value={form.descricao ? form.descricao : " "}
       onChange={(event) => {
         setForm({

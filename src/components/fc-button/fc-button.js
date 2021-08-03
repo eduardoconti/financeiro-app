@@ -8,16 +8,15 @@ export default function FcButton(props) {
     <Button
       variant="contained"
       size="small"
-      onClick={async() => {
+      onClick={async () => {
         setSpin(true);
         onClick();
         //await new Promise(r => setTimeout(r, 1000));
         setSpin(false);
-
       }}
       className={className}
     >
-      {spin ? <SpinCircular size={20} color="secondary"/> :  description }
+      {spin ? <SpinCircular size={20} color="secondary" /> : description}
     </Button>
   );
 }

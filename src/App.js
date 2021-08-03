@@ -1,10 +1,6 @@
-import "./App.css";
-
 import React, { useState } from "react";
-import { Grid, Box } from "@material-ui/core";
-import LeftMenu from "./components/LeftMenu";
+import { Grid } from "@material-ui/core";
 import GraficosContainer from "./components/GraficosContainer";
-import BotaoMes from "./components/BotaoMes";
 import Corpo from "./components/Corpo";
 import Dash from "./components/Dash";
 import { SpinProvider } from "./Context/SpinContext";
@@ -12,11 +8,18 @@ import { CheckedProvider } from "./Context/CheckedContext";
 import { TotaisProvider } from "./Context/TotaisContext";
 import { AnoMesProvider } from "./Context/AnoMesContext";
 import { AlertProvider } from "./Context/AlertContext";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
+import {
+  createMuiTheme,
+  makeStyles,
+  MuiThemeProvider,
+} from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
+import BotaoMes from "./components/BotaoMes";
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: "dark",
     primary: {
       main: "#BB86FC",
     },
@@ -26,16 +29,47 @@ const theme = createMuiTheme({
     error: {
       main: "#CF6679",
     },
-    background:{
-      default:"#121212",
-      paper01:"rgba(255, 255, 255, 0.05)"
-    }
-    
+    background: {
+      default: "#121212",
+      paper01: "rgba(255, 255, 255, 0.03)",
+      paper02: "rgba(255, 255, 255, 0.07)",
+      paper03: "rgba(255, 255, 255, 0.12)",
+    },
+  },
+  mixins: {
+    toolbar: {
+      minHeight: 48,
+      "@media (min-width:0px) and (orientation: landscape)": {
+        minHeight: 42,
+      },
+      "@media(min-width:600px)": {
+        minHeight: 48,
+      },
+    },
   },
 });
+console.log(theme);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    minHeight: 48,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+  },
+}));
 
 function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
+  const classes = useStyles();
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -43,46 +77,48 @@ function App() {
         <AlertProvider>
           <CheckedProvider>
             <TotaisProvider>
-              <Box style={{padding:theme.spacing(1), backgroundColor: theme.palette.background.default}}>
-                <AnoMesProvider>
-                  <Grid container direction="row" spacing={1}>
-                    <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
-                      {/* LEFT */}
-                      <LeftMenu
-                        setStateCurrentBody={(currentBody) =>
-                          setStateCurrentBody(currentBody)
-                        }
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} sm={12} md={12} lg={7} xl={6}>
-                      {/* MID */}
-                      <Grid container item spacing={1}>
-                        {/* BOTOES MESES */}
-                        <Grid item xs={12}>
-                          <BotaoMes />
+              <AnoMesProvider>
+                <div
+                  style={{
+                    backgroundColor: theme.palette.background.default,
+                    display: "flex",
+                  }}
+                >
+                  <CssBaseline>
+                    <ButtonAppBar
+                      setStateCurrentBody={(currentBody) =>
+                        setStateCurrentBody(currentBody)
+                      }
+                    />
+                    <main className={classes.content}>
+                      <div className={classes.toolbar} />
+                      <Grid container spacing={1}>
+                        <Grid item xs={12} md={9}>
+                          <Grid container spacing={1}>
+                            <Grid item xs={12}>
+                              <BotaoMes />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Dash
+                                setStateCurrentBody={(currentBody) =>
+                                  setStateCurrentBody(currentBody)
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={12}>
+                              <Corpo stateCurrentBody={stateCurrentBody} />
+                            </Grid>
+                          </Grid>
                         </Grid>
 
-                        <Dash
-                          setStateCurrentBody={(currentBody) =>
-                            setStateCurrentBody(currentBody)
-                          }
-                        />
-
-                        {/* BODY ( FORM, GRID...) */}
-                        <Grid item xs={12}>
-                          <Corpo stateCurrentBody={stateCurrentBody} />
+                        <Grid item xs={12} md={3}>
+                          <GraficosContainer />
                         </Grid>
                       </Grid>
-                    </Grid>
-
-                    <Grid item xs={12} sm={12} md={12} lg={4} xl={5}>
-                      {/* RIGHT */}
-                      <GraficosContainer />
-                    </Grid>
-                  </Grid>
-                </AnoMesProvider>
-              </Box>
+                    </main>
+                  </CssBaseline>
+                </div>
+              </AnoMesProvider>
             </TotaisProvider>
           </CheckedProvider>
         </AlertProvider>

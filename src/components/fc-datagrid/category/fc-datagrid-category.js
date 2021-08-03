@@ -10,10 +10,9 @@ import { retornaCategorias } from "../../../common/CategoriaFuncoes";
 import FcColumnActionsCategory from "./fc-columns-actions-category";
 
 export default function FcDataGridCategory() {
-
   const ctxDataGrid = useContext(ContextDataGrid);
   const ctxSpin = useContext(SpinContext);
-  const rows = ctxDataGrid.rows
+  const rows = ctxDataGrid.rows;
 
   let columns = [FcColumnDescription];
 
@@ -22,9 +21,9 @@ export default function FcDataGridCategory() {
     headerName: "Operação",
     width: 140,
     sortable: false,
-    renderCell: function operacoes(field){
-      return( <FcColumnActionsCategory field={field}/>);
-    }
+    renderCell: function operacoes(field) {
+      return <FcColumnActionsCategory field={field} />;
+    },
   });
 
   async function setRowsDataGrid() {
@@ -44,7 +43,5 @@ export default function FcDataGridCategory() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, []);
 
-  return (
-      <FcDataGrid rows={rows} columns={columns} />
-  );
+  return <FcDataGrid rows={rows} columns={columns} />;
 }

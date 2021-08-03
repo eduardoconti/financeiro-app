@@ -2,5 +2,5 @@ export const FcColumnValue = {
   field: "valor",
   headerName: "Valor",
   type: "number",
-  width: 90,
+  width: 120,
 };

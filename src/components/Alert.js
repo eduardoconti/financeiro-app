@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Snackbar } from "@material-ui/core";
 import { ContextAlert } from "../Context/AlertContext";
@@ -13,8 +13,6 @@ export default function AlertComponent() {
       isOpen: false,
     });
   };
-
-  useEffect(() => {}, [alert]);
 
   return (
     <Snackbar

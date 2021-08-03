@@ -1,32 +1,21 @@
-import React, { useContext, useState } from "react";
-import GridTransferencias from "./DataGridTransferencias";
-import FormularioTransferencias from "./FormTransferencias";
+import React from "react";
 import { Grid } from "@material-ui/core";
-import { emptyFormularioTransferencia } from "../common/EmptyStates";
-import { ContextAnoMes } from "../Context/AnoMesContext";
+import { DataGridProvider } from "../Context/DataGridContext";
+import FcDataGridTransfer from "./fc-datagrid/transfer/fc-datagrid-transfer";
+import FcFormTransfer from "./fc-forms/transfer/fc-form-transfer";
 
 export default function Transferencias() {
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const [formulario, setFormulario] = useState(
-    emptyFormularioTransferencia(stateAnoAtual, stateMesAtual)
-  );
-
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <GridTransferencias
-          setFormulario={(formulario) => setFormulario(formulario)}
-        />
-      </Grid>
+    <DataGridProvider>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <FcDataGridTransfer />
+        </Grid>
 
-      <Grid item xs={12}>
-        <FormularioTransferencias
-          formulario={formulario}
-          setFormulario={(formulario) => setFormulario(formulario)}
-        />
+        <Grid item xs={12}>
+          <FcFormTransfer />
+        </Grid>
       </Grid>
-    </Grid>
+    </DataGridProvider>
   );
 }

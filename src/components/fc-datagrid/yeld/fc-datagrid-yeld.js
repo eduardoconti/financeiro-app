@@ -11,10 +11,12 @@ import { FcColumnValue } from "../fc-column-value";
 import FcDataGrid from "../fc-datagrid";
 
 import { isAuthenticated } from "../../../common/Auth";
-import { getReceitas,formataDadosParaLinhasDataGrid } from "../../../common/ReceitaFuncoes";
+import {
+  getReceitas,
+  formataDadosParaLinhasDataGrid,
+} from "../../../common/ReceitaFuncoes";
 import FcColumnActionsYeld from "./fc-column-actions-yeld";
 import { FcColumnPaymentDate } from "../fc-column-payment-date";
-
 
 export default function FcDataGridYeld() {
   const ctxTotais = useContext(ContextTotais);
@@ -27,7 +29,7 @@ export default function FcDataGridYeld() {
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const rows = ctxDataGrid.rows
+  const rows = ctxDataGrid.rows;
 
   let columns = [FcColumnDescription];
 
@@ -35,14 +37,14 @@ export default function FcDataGridYeld() {
     columns.push(FcColumnWallet, FcColumnPaymentDate);
   }
 
-  columns.push(FcColumnValue,{
+  columns.push(FcColumnValue, {
     field: "actions",
     headerName: "Operação",
     width: 140,
     sortable: false,
-    renderCell: function operacoes(field){
-      return( <FcColumnActionsYeld field={field}/>);
-    }
+    renderCell: function operacoes(field) {
+      return <FcColumnActionsYeld field={field} />;
+    },
   });
 
   async function setRowsDataGrid() {
@@ -64,7 +66,5 @@ export default function FcDataGridYeld() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
 
-  return (
-      <FcDataGrid rows={rows} columns={columns} />
-  );
+  return <FcDataGrid rows={rows} columns={columns} />;
 }

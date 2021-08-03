@@ -11,7 +11,7 @@ export default function RadioButtons({ setStateGrafico, cor, descricao }) {
   const theme = useTheme();
 
   return (
-    <Grid container direction="row" spacing={1} alignItems="center">
+    <Grid container item direction="row" spacing={1} alignItems="center">
       <Grid item xs={1}>
         <Radio
           checked={selectedValue === "1"}

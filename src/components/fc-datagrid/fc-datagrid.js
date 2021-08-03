@@ -1,28 +1,49 @@
 import React from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import { Grid, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
-  dataGrid: {
-    backgroundColor: theme.palette.background.paper01,
+  container: {
     height: 360,
-    borderRadius: theme.borderRadius,
+    backgroundColor: theme.palette.background.paper01,
+    borderRadius: theme.shape.borderRadius,
+    padding: theme.spacing(1),
+  },
+  columnHeader: {
+    border: "none",
+  },
+  root: {
+    border: "none",
+
+    "& .MuiDataGrid-cell": {
+      color: theme.palette.contrastThreshold,
+      borderBottom: 0,
+    },
+
+    "& .MuiDataGrid-columnSeparator": {
+      display: "none",
+    },
+    "& .MuiDataGrid-columnsContainer": {
+      borderBottom: 0,
+    },
   },
 }));
 export default function FcDataGrid(props) {
   const classes = useStyles();
   return (
-    <Grid className={classes.dataGrid}>
+    <Box className={classes.container}>
       <DataGrid
         rows={props.rows}
         columns={props.columns}
-        rowHeight={26}
+        rowHeight={30}
         hideFooterSelectedRowCount
         hideFooterRowCount
         disableColumnMenu
         hideFooter
         hideFooterPagination
-        getRowClassName={() => "DataGridColumn"}
+        className={classes.root}
       />
-    </Grid>
+    </Box>
   );
 }

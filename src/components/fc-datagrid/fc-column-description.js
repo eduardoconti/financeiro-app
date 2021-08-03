@@ -1,6 +1,6 @@
 export const FcColumnDescription = {
   field: "descricao",
   headerName: "Descrição",
-  width: 170,
+  width: 200,
 };
 //headerClassName:'DataGridColumn'  }

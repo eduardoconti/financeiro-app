@@ -5,13 +5,13 @@ import {
   getReceitas,
   retornaReceitasAgrupadasPorCarteiraChecked,
 } from "../common/ReceitaFuncoes";
-import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { isAuthenticated } from "../common/Auth";
 import { SpinContext } from "../Context/SpinContext";
 import { useTheme } from "@material-ui/core";
+import FcSurface from "./fc-surface/fc-surface";
 
 export default function GraficoReceitas() {
   const ctxTotais = useContext(ContextTotais);
@@ -66,7 +66,7 @@ export default function GraficoReceitas() {
   ]);
 
   return (
-    <Box className="Grafico">
+    <FcSurface>
       <Radio
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
@@ -81,6 +81,6 @@ export default function GraficoReceitas() {
         cor={theme.palette.secondary.main}
         stroke={theme.palette.secondary.dark}
       />
-    </Box>
+    </FcSurface>
   );
 }

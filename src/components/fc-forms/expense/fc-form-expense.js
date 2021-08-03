@@ -7,23 +7,22 @@ import FcSelectFieldCategory from "../fc-fields/fc-select-field-category";
 import FcSelectFieldWallet from "../fc-fields/fc-select-field-wallet";
 import FcTextFieldDescription from "../fc-fields/fc-text-field-description";
 import FcTextFieldDueDate from "../fc-fields/fc-text-field-due-date";
+import FcTextFieldValue from "../fc-fields/fc-text-field-value";
 import FcSelectFieldPayed from "../fc-fields/fc-select-field-payed";
 import FcFormButtonInsertExpense from "./fc-form-button-insert-expense";
 import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
-import FcFormControl from '../fc-form-control';
-import { Grid } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import FcFormButtonUpdateExpense from "./fc-form-button-update-expense";
 
 const useStyles = makeStyles((theme) => ({
-    container:{
-      backgroundColor: theme.palette.background.paper01,
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(1),
-    }
-  }));
+  container: {
+    backgroundColor: theme.palette.background.paper01,
+    borderRadius: theme.shape.borderRadius,
+    padding: theme.spacing(1),
+  },
+}));
 
-  
-export default function FcFormExpense(){
+export default function FcFormExpense() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxForm = useContext(ContextForm);
 
@@ -32,21 +31,46 @@ export default function FcFormExpense(){
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   useEffect(() => {
-        ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+    ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
     // eslint-disable-next-line
   }, [stateAnoAtual, stateMesAtual]);
 
   return (
-    <Grid className={classes.container}>
-      <FcFormControl>
-        <FcTextFieldDescription />
-        <FcSelectFieldCategory />
-        <FcSelectFieldWallet />
-        <FcTextFieldDueDate />
-        <FcSelectFieldPayed />
-        { ctxForm.form.id === 0 ? <FcFormButtonInsertExpense/> : <FcFormButtonUpdateExpense/> }     
-       <FcFormButtonClear/>
-      </FcFormControl>
-    </Grid>
+    <Box className={classes.container}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={3} lg={3}>
+          <FcTextFieldDescription />
+        </Grid>
+        <Grid item xs={6} sm={3} lg={2}>
+          <FcSelectFieldCategory />
+        </Grid>
+        <Grid item xs={6} sm={3} lg={2}>
+          <FcSelectFieldWallet />
+        </Grid>
+        <Grid item xs={12} sm={3} lg={2}>
+          <FcTextFieldValue />
+        </Grid>
+        <Grid item xs={6} sm={3} lg={3}>
+          <FcTextFieldDueDate />
+        </Grid>
+        <Grid item xs={6} sm={3} lg={2}>
+          <FcSelectFieldPayed />
+        </Grid>
+        <Grid item xs={12} sm={6} lg={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              {ctxForm.form.id === 0 ? (
+                <FcFormButtonInsertExpense />
+              ) : (
+                <FcFormButtonUpdateExpense />
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              <FcFormButtonClear />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }

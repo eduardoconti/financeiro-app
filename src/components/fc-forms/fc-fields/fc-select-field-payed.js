@@ -15,7 +15,7 @@ export default function FcSelectFieldPayed() {
       label="Pago"
       variant="outlined"
       size="small"
-      style={{ width: 150 }}
+      fullWidth
       value={ctxForm.form.pago ? ctxForm.form.pago : false}
       select
       onChange={(event) => {

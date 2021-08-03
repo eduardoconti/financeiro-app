@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import CheckboxLabels from "../CheckBox";
-import * as Constants from "../../common/Constantes";
+
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import FcCard from "./fc-card";
@@ -14,7 +14,7 @@ export default function FcCardExpense(props) {
   const setStateChecked = ctxChecked.setStateCheckedDespesas;
 
   const onClick = () => {
-    setStateCurrentBody(Constants.CORPO_DESPESAS);
+    setStateCurrentBody();
   };
 
   return (

@@ -9,19 +9,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SpinCircular( props ) {
+export default function SpinCircular(props) {
   const classes = useStyles();
-  const { size = 55, color = "primary"} = props
+  const { size = 55, color = "primary" } = props;
 
-    return (
-      <div className={classes.root}>
-        <CircularProgress
-          color={color}
-          disableShrink={false}
-          variant="indeterminate"
-          size={size}
-        />
-      </div>
-    );
-
+  return (
+    <div className={classes.root}>
+      <CircularProgress
+        color={color}
+        disableShrink={false}
+        variant="indeterminate"
+        size={size}
+      />
+    </div>
+  );
 }

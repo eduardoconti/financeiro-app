@@ -23,6 +23,7 @@ export default function Dash({ setStateCurrentBody }) {
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateTotais = ctxSpin.stateTotais;
+
   useEffect(() => {
     ctxSpin.setSpin(true);
     async function setTotais() {
@@ -47,19 +48,19 @@ export default function Dash({ setStateCurrentBody }) {
     stateTotais,
   ]);
   return (
-    <Grid container item spacing={1}>
+    <Grid container spacing={1}>
       {/* CARDS */}
       <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
         <FcCardExpense
-          setStateCurrentBody={(currentBody) =>
-            setStateCurrentBody(currentBody)
+          setStateCurrentBody={() =>
+            setStateCurrentBody(Constantes.CORPO_DESPESAS)
           }
         />
       </Grid>
       <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
         <FcCardYeld
-          setStateCurrentBody={(currentBody) =>
-            setStateCurrentBody(currentBody)
+          setStateCurrentBody={() =>
+            setStateCurrentBody(Constantes.CORPO_RECEITAS)
           }
         />
       </Grid>

@@ -14,12 +14,12 @@ import {
 import HeaderGrafico from "./HeaderGraficos";
 import { rertornaReceitasAgrupadasPorMes } from "../common/ReceitaFuncoes";
 import { rertornaDespesasAgrupadasPorMes } from "../common/DepesaFuncoes";
-import { Box } from "@material-ui/core";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../common/Auth";
 import { SpinContext } from "../Context/SpinContext";
+import FcSurface from "./fc-surface/fc-surface";
 
 function retornaMes(mes) {
   if (mes === 1) return "Jan";
@@ -66,27 +66,25 @@ export default function GraficoReceitas() {
   const ctxSpin = useContext(SpinContext);
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
-
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   useEffect(() => {
     if (isAuthenticated()) {
       async function retornaDadosGrafico(stateAnoAtual) {
-        
         let dados = [];
         let receitas = [];
         let despesas = [];
         try {
           receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
           despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
+
+          if ([despesas.statusCode, receitas.statusCode].includes(200)) {
+            adicionaNoArrayDeDados(dados, receitas.data, despesas.data);
+          }
         } catch (error) {
           return dados;
         }
 
-        if ([despesas.statusCode, receitas.statusCode].includes(200)) {
-          adicionaNoArrayDeDados(dados, receitas.data, despesas.data);
-        }
-        
         return dados;
       }
       ctxSpin.setSpin(true);
@@ -97,14 +95,8 @@ export default function GraficoReceitas() {
     } // eslint-disable-next-line
   }, [stateAnoAtual, stateTotais]);
 
-  const renderColorfulLegendText = (value, entry) => {
-    const { color } = entry;
-
-    return <span style={{ color }}>{value} </span>;
-  };
-
   return (
-    <Box className="Grafico">
+    <FcSurface>
       <HeaderGrafico
         setStateGrafico={(stateGrafico) => {
           //setStateGrafico(stateGrafico);
@@ -112,18 +104,18 @@ export default function GraficoReceitas() {
         cor={theme.palette.primary.dark}
         descricao="Grafico Geral"
       />
-      <ResponsiveContainer>
-        <ComposedChart
-          data={dados}
-          margin={{
-            right: 20,
-            left: 5,
-          }}
-        >
+      <ResponsiveContainer height={170}>
+        <ComposedChart data={dados}>
           <XAxis dataKey="name" fill="#FFF" stroke="#FFF" />
           <YAxis domain={[0, 6000]} fill="#FFF" stroke="#FFF" />
-          <Tooltip />
-          <Legend formatter={renderColorfulLegendText} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: theme.palette.grey[900],
+              borderRadius: theme.shape.borderRadius,
+              border: "none",
+            }}
+          />
+          <Legend />
           <CartesianGrid strokeDasharray="3 3" />
           <Area
             type="monotone"
@@ -147,6 +139,6 @@ export default function GraficoReceitas() {
           />
         </ComposedChart>
       </ResponsiveContainer>
-    </Box>
+    </FcSurface>
   );
 }

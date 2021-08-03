@@ -6,20 +6,20 @@ export default function FcTextFieldDueDate(props) {
   const ctxForm = useContext(ContextForm);
   const setForm = ctxForm.setForm;
   const form = ctxForm.form;
-
+  const { id = "vencimento", label = "Vencimento" } = props;
   return (
     <TextField
-      id="vencimento"
-      label="Vencimento"
+      id={id}
+      label={label}
       variant="outlined"
       size="small"
       type="date"
-      value={form.vencimento ? form.vencimento : " "}
+      fullWidth
+      value={form[id] ? form[id] : " "}
       onChange={(event) => {
-
         setForm({
           ...form,
-          vencimento: event.target.value,
+          [id]: event.target.value,
         });
       }}
     />

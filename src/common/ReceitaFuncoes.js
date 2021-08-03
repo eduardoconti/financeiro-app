@@ -144,14 +144,13 @@ export async function retornaReceitasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    const res = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/" +
-        stateMesAtual +
-        "/carteira/valor/?pago=" +
-        pago
-    );
+    let ep =
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor/";
+
+    if (typeof pago !== "undefined") {
+      ep += "?pago=" + pago;
+    }
+    const res = await API.get(ep);
     return res.data;
   } catch (error) {
     errorResponse(error);

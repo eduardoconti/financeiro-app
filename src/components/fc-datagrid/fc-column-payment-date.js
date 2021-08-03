@@ -1,6 +1,5 @@
-export const FcColumnPaymentDate= {
-    field: "pagamento",
-    headerName: "pagamento",
-    width: 120,
-  };
-  
+export const FcColumnPaymentDate = {
+  field: "pagamento",
+  headerName: "pagamento",
+  width: 120,
+};

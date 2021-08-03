@@ -21,6 +21,7 @@ export default function ActionFlagButon(props) {
       onClick={async () => {
         ctxSpin.setSpin(true);
         const { statusCode, message, internalMessage } = await onClick();
+
         ctxAlert.setAlert(
           setCreatedAlert(statusCode, message, internalMessage)
         );

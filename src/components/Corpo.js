@@ -12,10 +12,12 @@ import { ContextAnoMes } from "../Context/AnoMesContext";
 import {
   emptyFormularioDespesa,
   emptyFormularioReceita,
-  emptyFormularioCategoria
+  emptyFormularioCategoria,
+  emptyFormularioCarteira,
+  emptyFormularioTransferencia,
 } from "../common/EmptyStates";
 import AlertComponent from "./Alert";
-
+import CorpoBalanco from "./CorpoBalanco";
 
 export default function CurrentBody({ stateCurrentBody }) {
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -44,22 +46,24 @@ export default function CurrentBody({ stateCurrentBody }) {
       </FormProvider>
     );
   } else if (stateCurrentBody === Constants.CORPO_CARTEIRAS) {
-    return <CorpoCarteiras />;
+    return (
+      <FormProvider form={emptyFormularioCarteira}>
+        <AlertComponent />
+        <CorpoCarteiras />
+      </FormProvider>
+    );
   } else if (stateCurrentBody === Constants.CORPO_SALDO) {
     return <CorpoSaldo />;
   } else if (stateCurrentBody === Constants.CORPO_TRANSFERENCIAS) {
-    return <CorpoTransferencias />;
-  } else if (stateCurrentBody === Constants.CORPO_BALANCO) {
     return (
-      <AlertComponent
-        alert={{
-          isOpen: true,
-          title: "Alerta",
-          type: "warning",
-          message: "Em Desenvolvimento",
-        }}
-        setAlert={() => {}}
-      />
+      <FormProvider
+        form={emptyFormularioTransferencia(stateAnoAtual, stateMesAtual)}
+      >
+        <AlertComponent />
+        <CorpoTransferencias />
+      </FormProvider>
     );
+  } else if (stateCurrentBody === Constants.CORPO_BALANCO) {
+    return <CorpoBalanco />;
   }
 }

@@ -1,20 +1,19 @@
 import React from "react";
-import FormularioCategorias from "./FormCategorias";
 import { Grid } from "@material-ui/core";
 import { DataGridProvider } from "../Context/DataGridContext";
 import FcDataGridCategory from "./fc-datagrid/category/fc-datagrid-category";
+import FcFormCategory from "./fc-forms/category/fc-form-category";
 
 export default function CorpoCategorias() {
-
   return (
     <DataGridProvider>
-      <Grid container spacing={1} direction="row">
+      <Grid container spacing={1}>
         <Grid item xs={12} md={8}>
-          <FcDataGridCategory/>
+          <FcDataGridCategory />
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <FormularioCategorias />
+          <FcFormCategory />
         </Grid>
       </Grid>
     </DataGridProvider>

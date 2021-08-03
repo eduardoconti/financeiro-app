@@ -6,13 +6,13 @@ import GraficoMensal from "./GraficoMensal";
 export default function GraficosContainer() {
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={4} md={4} lg={12}>
+      <Grid item xs={12} sm={12} md={12} lg={12}>
         <GraficoMensal />
       </Grid>
-      <Grid item xs={12} sm={4} md={4} lg={12}>
+      <Grid item xs={12} sm={6} md={12} lg={12}>
         <GraficoDespesas />
       </Grid>
-      <Grid item xs={12} sm={4} md={4} lg={12}>
+      <Grid item xs={12} sm={6} md={12} lg={12}>
         <GraficoReceitas />
       </Grid>
     </Grid>

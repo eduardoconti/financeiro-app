@@ -167,14 +167,12 @@ export async function retornaDespesasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    const total = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/" +
-        stateMesAtual +
-        "/carteira/valor/?pago=" +
-        pago
-    );
+    let ep =
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor";
+    if (typeof pago !== "undefined") {
+      ep += "?pago=" + pago;
+    }
+    const total = await API.get(ep);
     return total.data;
   } catch (error) {
     return errorResponse(error);
