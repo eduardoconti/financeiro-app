@@ -48,7 +48,7 @@ const theme = createMuiTheme({
     },
   },
 });
-console.log(theme);
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

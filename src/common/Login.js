@@ -6,7 +6,6 @@ export async function ObtemToken(body) {
     const res = await API.post(ENDPOINT, body);
     return res.data;
   } catch (error) {
-    console.log(error.response);
     return errorResponse(error);
   }
 }

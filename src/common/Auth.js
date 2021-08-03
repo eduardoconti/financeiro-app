@@ -3,7 +3,6 @@ export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUserIdFromToken = () => {
   const parse = JSON.parse(atob(localStorage.getItem(TOKEN_KEY).split(".")[1]));
-  console.log(parse);
   return parse.userId;
 };
 export const login = (token) => {

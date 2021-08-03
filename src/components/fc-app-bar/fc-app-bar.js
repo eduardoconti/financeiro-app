@@ -20,7 +20,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import CategoryIcon from "@material-ui/icons/Category";
 import LoginModal from "../../components/LoginModal";
 import bg from "../../img/6.jpg";
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   menuButton: {
-    marginRight: theme.spacing(4),
+    marginRight: theme.spacing(8),
+    left:theme.spacing(1)
   },
   title: {
     flexGrow: 1,
@@ -95,9 +96,12 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    width: theme.spacing(7) + 1,
+    width: 0,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1,
+      width: theme.spacing(7) + 1,
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: theme.spacing(8) + 1,
     },
   },
   toolbar: {
@@ -129,7 +133,6 @@ export default function ButtonAppBar({ setStateCurrentBody }) {
       "Categorias",
       <CategoryIcon />,
       () => {
-        console.log("categorias");
         setStateCurrentBody(Constants.CORPO_CATEGORIAS);
       },
     ],
@@ -137,7 +140,6 @@ export default function ButtonAppBar({ setStateCurrentBody }) {
       "Carteiras",
       <AccountBalanceWalletIcon />,
       () => {
-        console.log("carteiras");
         setStateCurrentBody(Constants.CORPO_CARTEIRAS);
       },
     ],
@@ -145,7 +147,6 @@ export default function ButtonAppBar({ setStateCurrentBody }) {
       "Transferencias",
       <AccountBalanceIcon />,
       () => {
-        console.log("transferencias");
         setStateCurrentBody(Constants.CORPO_TRANSFERENCIAS);
       },
     ],
@@ -198,9 +199,9 @@ export default function ButtonAppBar({ setStateCurrentBody }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" className={classes.title}>
-            Home
-          </Typography>
+            <Typography variant="h6" className={classes.title}>
+              Home
+            </Typography>
 
           <Button color="inherit" onClick={() => handleOpen()}>
             Login
