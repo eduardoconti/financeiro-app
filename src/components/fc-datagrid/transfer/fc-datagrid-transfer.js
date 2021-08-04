@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
 
-import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { SpinContext } from "../../../Context/SpinContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
@@ -17,12 +16,10 @@ import { FcColumnWalletDestiny } from "./fc-column-wallet-destiny";
 import { FcColumnWalletOrigin } from "./fc-column-wallet-origin";
 
 export default function FcDataGridTransfer() {
-  const ctxTotais = useContext(ContextTotais);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxDataGrid = useContext(ContextDataGrid);
   const ctxSpin = useContext(SpinContext);
 
-  const stateTotais = ctxTotais.stateTotais;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const rows = ctxDataGrid.rows;
