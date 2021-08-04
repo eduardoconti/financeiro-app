@@ -27,7 +27,7 @@ export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
             border: "none",
           }}
         />
-        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} />
+        <Bar dataKey={chaveY} fill={cor} maxBarSize={20} stroke={stroke} />
       </BarChart>
     </ResponsiveContainer>
   );
