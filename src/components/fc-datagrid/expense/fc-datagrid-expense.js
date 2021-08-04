@@ -5,7 +5,7 @@ import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { SpinContext } from "../../../Context/SpinContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import { FcColumnDescription } from "../fc-column-description";
+import FcColumnDescription  from "../fc-column-description";
 import { FcColumnCategory } from "../fc-column-category";
 import { FcColumnWallet } from "../fc-column-wallet";
 import { FcColumnDueDate } from "../fc-column-duedate";
@@ -31,8 +31,8 @@ export default function FcDataGridExpense() {
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const rows = ctxDataGrid.rows;
-
-  let columns = [FcColumnDescription];
+  
+  let columns = [new FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
     columns.push(FcColumnCategory, FcColumnWallet, FcColumnDueDate);

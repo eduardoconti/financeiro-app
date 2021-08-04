@@ -1,7 +1,7 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import PersonIcon from "@material-ui/icons/Person";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -20,6 +20,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import CategoryIcon from "@material-ui/icons/Category";
 import LoginModal from "../../components/LoginModal";
 import bg from "../../img/6.jpg";
+import Brightness4Icon from "@material-ui/icons/Brightness4";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -28,8 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   menuButton: {
-    marginRight: theme.spacing(8),
-    left:theme.spacing(1)
+    marginRight: theme.spacing(4),
+    [theme.breakpoints.down("sm")]: {
+      marginRight: theme.spacing(2),
+    },
+    left: theme.spacing(1),
+    padding:theme.spacing(1)
   },
   title: {
     flexGrow: 1,
@@ -42,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     }),
     boxShadow: "none",
     color: "#FFF",
-    backgroundImage: 'url("src/img/smoke.png")',
     backgroundColor: theme.palette.grey.A400,
   },
   appBarShift: {
@@ -120,6 +124,9 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     minHeight: 20,
     height: 20,
+  },
+  headerIcon: {
+    padding: theme.spacing(1),
   },
 }));
 
@@ -199,13 +206,26 @@ export default function ButtonAppBar({ setStateCurrentBody }) {
           >
             <MenuIcon />
           </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Home
-            </Typography>
-
           <Button color="inherit" onClick={() => handleOpen()}>
-            Login
+            Home
           </Button>
+          <div className={classes.title} />
+          <IconButton
+            color="inherit"
+            aria-label="Light/Dark"
+            onClick={() => handleOpen()}
+            className={classes.headerIcon}
+          >
+            <Brightness4Icon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="Login"
+            onClick={() => handleOpen()}
+            className={classes.headerIcon}
+          >
+            <PersonIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
 

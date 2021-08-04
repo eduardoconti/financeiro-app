@@ -2,19 +2,20 @@ import React, { useEffect, useContext } from "react";
 
 import { SpinContext } from "../../../Context/SpinContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import { FcColumnDescription } from "../fc-column-description";
+
 import FcDataGrid from "../fc-datagrid";
 
 import { isAuthenticated } from "../../../common/Auth";
 import { retornaCategorias } from "../../../common/CategoriaFuncoes";
 import FcColumnActionsCategory from "./fc-columns-actions-category";
+import FcColumnDescription from "../fc-column-description";
 
 export default function FcDataGridCategory() {
   const ctxDataGrid = useContext(ContextDataGrid);
   const ctxSpin = useContext(SpinContext);
   const rows = ctxDataGrid.rows;
 
-  let columns = [FcColumnDescription];
+  let columns = [new FcColumnDescription()];
 
   columns.push({
     field: "actions",
