@@ -2,7 +2,6 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import PersonIcon from "@material-ui/icons/Person";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import * as Constants from "../../common/Constantes";
@@ -21,6 +20,8 @@ import CategoryIcon from "@material-ui/icons/Category";
 import LoginModal from "../../components/LoginModal";
 import bg from "../../img/6.jpg";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
+import Brightness7Icon from "@material-ui/icons/Brightness7";
+import HomeIcon from "@material-ui/icons/Home";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(2),
     },
     left: theme.spacing(1),
-    padding:theme.spacing(1)
+    padding: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
@@ -46,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     boxShadow: "none",
-    color: "#FFF",
-    backgroundColor: theme.palette.grey.A400,
+    color: theme.palette.text.primary,
+    //backgroundColor: theme.palette.grey.A400,
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     zIndex: theme.zIndex.drawer + 3,
     overflowScrolling: "touch",
+    //opacity:'100'
   },
   hide: {
     display: "none",
@@ -130,7 +132,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar({ setStateCurrentBody }) {
+export default function ButtonAppBar({
+  setStateCurrentBody,
+  setDarkTheme,
+  darkTheme,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -206,17 +212,22 @@ export default function ButtonAppBar({ setStateCurrentBody }) {
           >
             <MenuIcon />
           </IconButton>
-          <Button color="inherit" onClick={() => handleOpen()}>
-            Home
-          </Button>
+          <IconButton
+            color="inherit"
+            aria-label="Login"
+            //onClick={}
+            className={classes.headerIcon}
+          >
+            <HomeIcon />
+          </IconButton>
           <div className={classes.title} />
           <IconButton
             color="inherit"
             aria-label="Light/Dark"
-            onClick={() => handleOpen()}
+            onClick={() => setDarkTheme(!darkTheme)}
             className={classes.headerIcon}
           >
-            <Brightness4Icon />
+            {darkTheme ? <Brightness4Icon /> : <Brightness7Icon />}
           </IconButton>
           <IconButton
             color="inherit"

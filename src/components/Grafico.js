@@ -17,12 +17,12 @@ export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
     <ResponsiveContainer height={180}>
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey={chaveX} fill="#FFF" stroke="#FFF" />
+        <XAxis dataKey={chaveX} fill= {theme.palette.text.primary} stroke= {theme.palette.text.primary} />
         <Legend />
-        <YAxis type="number" fill="#FFF" stroke="#FFF" domain={[0, 5000]} />
+        <YAxis type="number" fill= {theme.palette.text.primary} stroke= {theme.palette.text.primary} domain={[0, 5000]} />
         <Tooltip
           contentStyle={{
-            backgroundColor: theme.palette.grey[900],
+            backgroundColor: theme.palette.background.paper,
             borderRadius: theme.shape.borderRadius,
             border: "none",
           }}

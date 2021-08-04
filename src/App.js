@@ -17,58 +17,66 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
 import BotaoMes from "./components/BotaoMes";
-const theme = createMuiTheme({
-  palette: {
-    type: "dark",
-    primary: {
-      main: "#BB86FC",
-    },
-    secondary: {
-      main: "#03DAC5",
-    },
-    error: {
-      main: "#CF6679",
-    },
-    background: {
-      default: "#121212",
-      paper01: "rgba(255, 255, 255, 0.03)",
-      paper02: "rgba(255, 255, 255, 0.07)",
-      paper03: "rgba(255, 255, 255, 0.12)",
-    },
-  },
-  mixins: {
-    toolbar: {
-      minHeight: 48,
-      "@media (min-width:0px) and (orientation: landscape)": {
-        minHeight: 42,
-      },
-      "@media(min-width:600px)": {
-        minHeight: 48,
-      },
-    },
-  },
-});
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    minHeight: 48,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-  },
-}));
 
 function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
+  const [darkTheme, setDarkTheme] = useState(false);
+  const theme = createMuiTheme({
+    palette: {
+      type: darkTheme ? "dark" : "light",
+      primary: {
+        main: darkTheme ? "#BB86FC" : "#3700B3",
+      },
+      secondary: {
+        main: darkTheme ? "#03DAC5" : "#018786",
+      },
+      error: {
+        main: darkTheme ? "#CF6679" : "#B00020",
+      },
+      background: {
+        default: darkTheme ? "#121212" : "#FFF",
+        paper01: darkTheme
+          ? "rgba(255, 255, 255, 0.04)"
+          : "rgba(0, 0, 0, 0.04)",
+        paper02: darkTheme
+          ? "rgba(255, 255, 255, 0.07)"
+          : "rgba(0, 0, 0, 0.07)",
+        paper03: darkTheme
+          ? "rgba(255, 255, 255, 0.12)"
+          : "rgba(0, 0, 0, 0.12)",
+      },
+    },
+    mixins: {
+      toolbar: {
+        minHeight: 48,
+        "@media (min-width:0px) and (orientation: landscape)": {
+          minHeight: 42,
+        },
+        "@media(min-width:600px)": {
+          minHeight: 48,
+        },
+      },
+    },
+  });
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    toolbar: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      minHeight: 48,
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(1),
+    },
+  }));
+
   const classes = useStyles();
 
   return (
@@ -89,6 +97,8 @@ function App() {
                       setStateCurrentBody={(currentBody) =>
                         setStateCurrentBody(currentBody)
                       }
+                      setDarkTheme={(darkTheme) => setDarkTheme(darkTheme)}
+                      darkTheme={darkTheme}
                     />
                     <main className={classes.content}>
                       <div className={classes.toolbar} />

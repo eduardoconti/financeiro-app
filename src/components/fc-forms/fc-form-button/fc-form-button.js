@@ -3,10 +3,13 @@ import { makeStyles } from "@material-ui/core";
 import FcButton from "../../fc-button/fc-button";
 const useStyles = makeStyles((theme) => ({
   botao: {
-    background: theme.palette.primary.dark,
+    background:
+      theme.palette.type === "dark"
+        ? theme.palette.primary.dark
+        : theme.palette.primary.light,
     height: 36,
     width: 100,
-    color: "#fff",
+    color: theme.palette.text.primary,
     "&:hover": {
       background: theme.palette.primary.main,
       boxShadow:

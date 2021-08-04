@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     textAlign: "center",
     fontWeight: "bold",
-    color: "#FFF",
+    color: theme.palette.text.primary,
     "&:hover": {
       background: theme.palette.grey[900],
       boxShadow:

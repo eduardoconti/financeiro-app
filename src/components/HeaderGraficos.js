@@ -34,10 +34,10 @@ export default function RadioButtons({ setStateGrafico, cor, descricao }) {
           size="small"
         />
       </Grid>
-      <Grid item xs={8} style={{ textAlign: "center", color: "#FFF" }}>
+      <Grid item xs={8} style={{ textAlign: "center", color:  theme.palette.text.primary }}>
         <Typography
           variant="subtitle1"
-          style={{ color: theme.palette.common.white, paddingTop: 5 }}
+          style={{ color: theme.palette.text.primary, paddingTop: 5 }}
         >
           {descricao}
         </Typography>

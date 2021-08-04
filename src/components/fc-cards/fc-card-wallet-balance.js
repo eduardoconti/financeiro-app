@@ -1,9 +1,11 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 
 import FcCard from "./fc-card";
 
 export default function FcCardWalletBalance(props) {
   const { value, description } = props;
+  const theme = useTheme();
   function onClick() {
     return null;
   }
@@ -12,7 +14,7 @@ export default function FcCardWalletBalance(props) {
       onClick={onClick}
       value={value}
       description={description}
-      legendColor="#FFF"
+      legendColor={theme.palette.text.primary}
     />
   );
 }

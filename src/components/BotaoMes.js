@@ -18,11 +18,14 @@ export default function BotaoMes() {
       textAlign: "center",
     },
     ativo: {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor:
+        theme.palette.type === "dark"
+          ? theme.palette.primary.dark
+          : theme.palette.primary.light,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
-      color: "#fff",
+      color: theme.palette.text.primary,
     },
   }));
 

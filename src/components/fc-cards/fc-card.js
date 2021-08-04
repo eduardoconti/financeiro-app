@@ -13,7 +13,7 @@ export default function FcCard(props) {
   const ctxSpin = useContext(SpinContext);
 
   if (!legendColor) {
-    legendColor = theme.palette.common.white;
+    legendColor = theme.palette.text.primary;
   }
   return (
     <Card
@@ -22,7 +22,6 @@ export default function FcCard(props) {
         textAlign: "center",
         height: "100%",
         borderRadius: theme.shape.borderRadius,
-        border: "none",
         backgroundColor: theme.palette.background.paper01,
       }}
     >

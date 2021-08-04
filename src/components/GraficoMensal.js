@@ -101,16 +101,28 @@ export default function GraficoReceitas() {
         setStateGrafico={(stateGrafico) => {
           //setStateGrafico(stateGrafico);
         }}
-        cor={theme.palette.primary.dark}
+        cor={
+          theme.palette.type === "dark"
+            ? theme.palette.primary.dark
+            : theme.palette.primary.light
+        }
         descricao="Grafico Geral"
       />
       <ResponsiveContainer height={170}>
         <ComposedChart data={dados}>
-          <XAxis dataKey="name" fill="#FFF" stroke="#FFF" />
-          <YAxis domain={[0, 6000]} fill="#FFF" stroke="#FFF" />
+          <XAxis
+            dataKey="name"
+            fill={theme.palette.text.primary}
+            stroke={theme.palette.text.primary}
+          />
+          <YAxis
+            domain={[0, 6000]}
+            fill={theme.palette.text.primary}
+            stroke={theme.palette.text.primary}
+          />
           <Tooltip
             contentStyle={{
-              backgroundColor: theme.palette.grey[900],
+              backgroundColor: theme.palette.background.paper,
               borderRadius: theme.shape.borderRadius,
               border: "none",
             }}
@@ -134,7 +146,11 @@ export default function GraficoReceitas() {
           <Line
             type="monotone"
             dataKey="balanco"
-            stroke={theme.palette.primary.dark}
+            stroke={
+              theme.palette.type === "dark"
+                ? theme.palette.primary.dark
+                : theme.palette.primary.light
+            }
             strokeWidth={3}
           />
         </ComposedChart>
