@@ -22,6 +22,7 @@ import bg from "../../img/6.jpg";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
+import { Tooltip } from "@material-ui/core";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -212,31 +213,38 @@ export default function ButtonAppBar({
           >
             <MenuIcon />
           </IconButton>
-          <IconButton
-            color="inherit"
-            aria-label="Login"
-            //onClick={}
-            className={classes.headerIcon}
-          >
-            <HomeIcon />
-          </IconButton>
+
+          <Tooltip title="Home">
+            <IconButton
+              color="inherit"
+              aria-label="Login/Logout"
+              //onClick={}
+              className={classes.headerIcon}
+            >
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
           <div className={classes.title} />
-          <IconButton
-            color="inherit"
-            aria-label="Light/Dark"
-            onClick={() => setDarkTheme(!darkTheme)}
-            className={classes.headerIcon}
-          >
-            {darkTheme ? <Brightness4Icon /> : <Brightness7Icon />}
-          </IconButton>
-          <IconButton
-            color="inherit"
-            aria-label="Login"
-            onClick={() => handleOpen()}
-            className={classes.headerIcon}
-          >
-            <PersonIcon />
-          </IconButton>
+          <Tooltip title="Set light/dark mode">
+            <IconButton
+              color="inherit"
+              aria-label="Light/Dark"
+              onClick={() => setDarkTheme(!darkTheme)}
+              className={classes.headerIcon}
+            >
+              {darkTheme ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Login">
+            <IconButton
+              color="inherit"
+              aria-label="Login"
+              onClick={() => handleOpen()}
+              className={classes.headerIcon}
+            >
+              <PersonIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
 
@@ -266,7 +274,9 @@ export default function ButtonAppBar({
           <List>
             {menuOptions.map((data) => (
               <ListItem button key={data[0]} onClick={data[2]}>
-                <ListItemIcon>{data[1]}</ListItemIcon>
+                <Tooltip title={data[0]}>
+                  <ListItemIcon>{data[1]}</ListItemIcon>
+                </Tooltip>
                 <ListItemText primary={data[0]} />
               </ListItem>
             ))}
