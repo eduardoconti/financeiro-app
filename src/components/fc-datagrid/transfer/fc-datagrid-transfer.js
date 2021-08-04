@@ -59,7 +59,7 @@ export default function FcDataGridTransfer() {
   }
   useEffect(() => {
     setRowsDataGrid(); // eslint-disable-next-line
-  }, [stateTotais, stateAnoAtual, stateMesAtual]);
+  }, [stateAnoAtual, stateMesAtual]);
 
   return <FcDataGrid rows={rows} columns={columns} />;
 }

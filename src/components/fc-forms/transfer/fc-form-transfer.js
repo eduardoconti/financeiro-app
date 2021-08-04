@@ -30,22 +30,22 @@ export default function FcFormTransfer() {
   return (
     <FcSurface>
       <Grid container spacing={2}>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={4} lg={3}>
           <FcSelectFieldWallet id="carteiraOrigem" label="Origem" />
         </Grid>
-        <Grid item xs={12} sm={3} lg={2}>
+        <Grid item xs={6} sm={4} lg={3}>
           <FcSelectFieldWallet id="carteiraDestino" label="Destino" />
         </Grid>
         <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldValue />
         </Grid>
-        <Grid item xs={6} sm={3} lg={3}>
+        <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldDueDate id="transferencia" label="Transferencia" />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={12} sm={4} lg={2}>
           <FcSelectFieldPayed />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid item xs={12} sm={4} lg={3}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               {ctxForm.form.id === 0 ? (

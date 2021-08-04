@@ -5,18 +5,19 @@ import { ContextAlert } from "../../../Context/AlertContext";
 import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioTransferencia } from "../../../common/EmptyStates";
-import { insereTransferencia } from "../../../common/TransferenciaFuncoes";
+import {
+  formataDadosParaLinhasDataGrid,
+  getTransferencias,
+  insereTransferencia,
+} from "../../../common/TransferenciaFuncoes";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
-import { ContextChecked } from "../../../Context/CheckedContext";
-import { ContextTotais } from "../../../Context/TotaisContext";
-import { calculaTotais } from "../../../common/Funcoes";
+import { ContextDataGrid } from "../../../Context/DataGridContext";
 
 export default function FcFormButtonInsertTransfer() {
   const ctxForm = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
+  const ctxDataGrid = useContext(ContextDataGrid);
 
   return (
     <FcFormButton
@@ -24,6 +25,7 @@ export default function FcFormButtonInsertTransfer() {
       onClick={async () => {
         let response;
         ctxForm.form.user = getUserIdFromToken();
+        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
 
         response = await insereTransferencia(ctxForm.form);
 
@@ -36,22 +38,19 @@ export default function FcFormButtonInsertTransfer() {
         );
 
         if ([200, 201].includes(response.statusCode)) {
-          ctxTotais.setStateTotais(
-            await calculaTotais(
-              ctxChecked.stateCheckedDespesas,
-              ctxChecked.stateCheckedReceitas,
+          ctxForm.setForm(
+            emptyFormularioTransferencia(
               ctxAnoMes.stateAnoAtual,
               ctxAnoMes.stateMesAtual
             )
           );
-        }
 
-        ctxForm.setForm(
-          emptyFormularioTransferencia(
+          let { data } = await getTransferencias(
             ctxAnoMes.stateAnoAtual,
             ctxAnoMes.stateMesAtual
-          )
-        );
+          );
+          ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(data));
+        }
       }}
     />
   );

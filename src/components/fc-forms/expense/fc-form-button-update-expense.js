@@ -9,6 +9,7 @@ import { getUserIdFromToken } from "../../../common/Auth";
 import { alteraDespesa } from "../../../common/DepesaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
+import { emptyFormularioDespesa } from "../../../common/EmptyStates";
 export default function FcFormButtonUpdateExpense() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -42,6 +43,7 @@ export default function FcFormButtonUpdateExpense() {
               ctxAnoMes.stateMesAtual
             )
           );
+          ctxForm.setForm(emptyFormularioDespesa(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual));
         }
       }}
     />

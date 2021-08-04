@@ -9,6 +9,7 @@ import { getUserIdFromToken } from "../../../common/Auth";
 import { alteraReceita } from "../../../common/ReceitaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
+import { emptyFormularioReceita } from "../../../common/EmptyStates";
 export default function FcFormButtonUpdateYeld() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -42,6 +43,7 @@ export default function FcFormButtonUpdateYeld() {
               ctxAnoMes.stateMesAtual
             )
           );
+          ctxForm.setForm(emptyFormularioReceita(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual));
         }
       }}
     />
