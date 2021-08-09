@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { DataGridProvider } from "../Context/DataGridContext";
-import FcDataGridCategory from "./fc-datagrid/category/fc-datagrid-category";
-import FcFormCategory from "./fc-forms/category/fc-form-category";
+import { DataGridProvider } from "../../Context/DataGridContext";
+import FcDataGridCategory from "../../components/fc-datagrid/category/fc-datagrid-category";
+import FcFormCategory from "../../components/fc-forms/category/fc-form-category";
 
 export default function CorpoCategorias() {
   return (

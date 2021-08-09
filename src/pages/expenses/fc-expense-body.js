@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { DataGridProvider } from "../Context/DataGridContext";
-import FcDataGridExpense from "./fc-datagrid/expense/fc-datagrid-expense";
-import FcFormExpense from "./fc-forms/expense/fc-form-expense";
+import { DataGridProvider } from "../../Context/DataGridContext";
+import FcDataGridExpense from "../../components/fc-datagrid/expense/fc-datagrid-expense";
+import FcFormExpense from "../../components/fc-forms/expense/fc-form-expense";
 
 export default function CorpoDespesas() {
   return (

@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { DataGridProvider } from "../Context/DataGridContext";
-import FcDataGridTransfer from "./fc-datagrid/transfer/fc-datagrid-transfer";
-import FcFormTransfer from "./fc-forms/transfer/fc-form-transfer";
+import { DataGridProvider } from "../../Context/DataGridContext";
+import FcDataGridTransfer from "../../components/fc-datagrid/transfer/fc-datagrid-transfer";
+import FcFormTransfer from "../../components/fc-forms/transfer/fc-form-transfer";
 
 export default function Transferencias() {
   return (

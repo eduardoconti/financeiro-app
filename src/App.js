@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import GraficosContainer from "./components/GraficosContainer";
-import Corpo from "./components/Corpo";
+
 import Dash from "./components/Dash";
 import { SpinProvider } from "./Context/SpinContext";
 import { CheckedProvider } from "./Context/CheckedContext";
 import { TotaisProvider } from "./Context/TotaisContext";
 import { AnoMesProvider } from "./Context/AnoMesContext";
 import { AlertProvider } from "./Context/AlertContext";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   createMuiTheme,
   makeStyles,
@@ -17,9 +17,16 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
 import BotaoMes from "./components/BotaoMes";
+import FcExpense from "./pages/expenses/fc-expense";
+import AlertComponent from "./components/Alert";
+import FcYield from "./pages/yield/fc-yield";
+import FcTransfer from "./pages/transfer/fc-transfer";
+import FcBalance from "./pages/balance/fc-balance";
+import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
+import FcWallet from "./pages/wallet/fc-wallet";
+import FcCategory from "./pages/category/fc-category";
 
 function App() {
-  const [stateCurrentBody, setStateCurrentBody] = useState(0);
   const [darkTheme, setDarkTheme] = useState(false);
   const theme = createMuiTheme({
     palette: {
@@ -93,39 +100,59 @@ function App() {
                   }}
                 >
                   <CssBaseline>
-                    <ButtonAppBar
-                      setStateCurrentBody={(currentBody) =>
-                        setStateCurrentBody(currentBody)
-                      }
-                      setDarkTheme={(darkTheme) => setDarkTheme(darkTheme)}
-                      darkTheme={darkTheme}
-                    />
-                    <main className={classes.content}>
-                      <div className={classes.toolbar} />
-                      <Grid container spacing={1}>
-                        <Grid item xs={12} md={9}>
-                          <Grid container spacing={1}>
-                            <Grid item xs={12}>
-                              <BotaoMes />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Dash
-                                setStateCurrentBody={(currentBody) =>
-                                  setStateCurrentBody(currentBody)
-                                }
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Corpo stateCurrentBody={stateCurrentBody} />
+                    <Router>
+                      <ButtonAppBar
+                        setDarkTheme={(darkTheme) => setDarkTheme(darkTheme)}
+                        darkTheme={darkTheme}
+                      />
+
+                      <main className={classes.content}>
+                        <AlertComponent />
+                        <div className={classes.toolbar} />
+                        <Grid container spacing={1}>
+                          <Grid item xs={12} md={9}>
+                            <Grid container spacing={1}>
+                              <Grid item xs={12}>
+                                <BotaoMes />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Dash />
+                              </Grid>
+                              <Grid item xs={12}>
+                                <Switch>
+                                  <Route exact path="/" component={FcExpense} />
+                                  <Route path="/receitas" component={FcYield} />
+                                  <Route
+                                    path="/transferencias"
+                                    component={FcTransfer}
+                                  />
+                                  <Route
+                                    path="/balanco"
+                                    component={FcBalance}
+                                  />
+                                  <Route
+                                    path="/saldo"
+                                    component={FcBalanceMonth}
+                                  />
+                                  <Route
+                                    path="/carteiras"
+                                    component={FcWallet}
+                                  />
+                                  <Route
+                                    path="/categorias"
+                                    component={FcCategory}
+                                  />
+                                </Switch>
+                              </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
 
-                        <Grid item xs={12} md={3}>
-                          <GraficosContainer />
+                          <Grid item xs={12} md={3}>
+                            <GraficosContainer />
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    </main>
+                      </main>
+                    </Router>
                   </CssBaseline>
                 </div>
               </AnoMesProvider>

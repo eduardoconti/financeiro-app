@@ -28,7 +28,7 @@ export default function FcCard(props) {
       {ctxSpin.spin ? (
         <SpinCircular />
       ) : (
-        <CardActionArea onClick={() => onClick()}>
+        <CardActionArea onClick={onClick}>
           <CardContent style={{ margin: 0, padding: 0 }}>
             <Typography variant="h6" style={{ color: legendColor }}>
               {description}

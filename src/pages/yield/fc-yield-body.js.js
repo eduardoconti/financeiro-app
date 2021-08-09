@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { DataGridProvider } from "../Context/DataGridContext";
-import FcDataGridYeld from "./fc-datagrid/yeld/fc-datagrid-yeld";
-import FcFormYeld from "./fc-forms/yeld/fc-form-yeld";
+import { DataGridProvider } from "../../Context/DataGridContext";
+import FcDataGridYeld from "../../components/fc-datagrid/yeld/fc-datagrid-yeld";
+import FcFormYeld from "../../components/fc-forms/yeld/fc-form-yeld";
 export default function CorpoReceitas() {
   return (
     <DataGridProvider>

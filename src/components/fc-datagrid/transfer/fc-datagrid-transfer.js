@@ -12,8 +12,8 @@ import {
   getTransferencias,
   formataDadosParaLinhasDataGrid,
 } from "../../../common/TransferenciaFuncoes";
-import { FcColumnWalletDestiny } from "./fc-column-wallet-destiny";
-import { FcColumnWalletOrigin } from "./fc-column-wallet-origin";
+import  FcColumnWalletDestiny  from "./fc-column-wallet-destiny";
+import  FcColumnWalletOrigin  from "./fc-column-wallet-origin";
 
 export default function FcDataGridTransfer() {
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -24,9 +24,9 @@ export default function FcDataGridTransfer() {
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const rows = ctxDataGrid.rows;
 
-  let columns = [FcColumnWalletOrigin];
+  let columns = [new FcColumnWalletOrigin()];
 
-  columns.push(FcColumnWalletDestiny);
+  columns.push(new FcColumnWalletDestiny());
 
   columns.push(FcColumnValue, {
     field: "actions",

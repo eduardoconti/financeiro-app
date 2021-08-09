@@ -4,20 +4,23 @@ import CheckboxLabels from "../CheckBox";
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import FcCard from "./fc-card";
-
-export default function FcCardYeld({ setStateCurrentBody }) {
+import { useHistory } from "react-router-dom";
+export default function FcCardYeld() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const valor = ctxTotais.stateTotais.totalReceitas;
   const stateChecked = ctxChecked.stateCheckedReceitas;
   const setStateChecked = ctxChecked.setStateCheckedReceitas;
 
-  const onClick = () => {
-    setStateCurrentBody();
+  const history = useHistory();
+
+  const routeChange = () => {
+    let path = `receitas`;
+    history.push(path);
   };
 
   return (
-    <FcCard onClick={onClick} value={valor} description="Receitas">
+    <FcCard onClick={routeChange} value={valor} description="Receitas">
       <CheckboxLabels
         setStateChecked={setStateChecked}
         stateChecked={stateChecked}

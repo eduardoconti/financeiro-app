@@ -42,7 +42,6 @@ export default function FcDataGrid(props) {
         rowHeight={30}
         hideFooterSelectedRowCount
         hideFooterRowCount
-        disableColumnMenu
         hideFooter
         hideFooterPagination
         className={classes.root}

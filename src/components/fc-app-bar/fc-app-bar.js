@@ -4,7 +4,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import PersonIcon from "@material-ui/icons/Person";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import * as Constants from "../../common/Constantes";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -23,6 +22,7 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
 import { Tooltip } from "@material-ui/core";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -133,37 +133,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar({
-  setStateCurrentBody,
-  setDarkTheme,
-  darkTheme,
-}) {
+export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [openLogin, setOpenLogin] = React.useState(false);
+
+  const history = useHistory();
+
+  const routeChange = (path) => {
+    console.log(path);
+    history.push(path);
+  };
+  const OPTIONS_NAME = 0,
+    OPTIONS_COMPONENT = 1,
+    OPTIONS_ROUTE = 2;
+
   const menuOptions = [
-    [
-      "Categorias",
-      <CategoryIcon />,
-      () => {
-        setStateCurrentBody(Constants.CORPO_CATEGORIAS);
-      },
-    ],
-    [
-      "Carteiras",
-      <AccountBalanceWalletIcon />,
-      () => {
-        setStateCurrentBody(Constants.CORPO_CARTEIRAS);
-      },
-    ],
-    [
-      "Transferencias",
-      <AccountBalanceIcon />,
-      () => {
-        setStateCurrentBody(Constants.CORPO_TRANSFERENCIAS);
-      },
-    ],
+    ["Categorias", <CategoryIcon />, `categorias`],
+    ["Carteiras", <AccountBalanceWalletIcon />, "carteiras"],
+    ["Transferencias", <AccountBalanceIcon />, "transferencias"],
   ];
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -218,7 +207,7 @@ export default function ButtonAppBar({
             <IconButton
               color="inherit"
               aria-label="Login/Logout"
-              //onClick={}
+              onClick={() => routeChange(``)}
               className={classes.headerIcon}
             >
               <HomeIcon />
@@ -273,11 +262,15 @@ export default function ButtonAppBar({
         <div className={classes.sidebarWrapper}>
           <List>
             {menuOptions.map((data) => (
-              <ListItem button key={data[0]} onClick={data[2]}>
-                <Tooltip title={data[0]}>
-                  <ListItemIcon>{data[1]}</ListItemIcon>
+              <ListItem
+                button
+                key={data[OPTIONS_NAME]}
+                onClick={() => routeChange(data[OPTIONS_ROUTE])}
+              >
+                <Tooltip title={data[OPTIONS_NAME]}>
+                  <ListItemIcon>{data[OPTIONS_COMPONENT]}</ListItemIcon>
                 </Tooltip>
-                <ListItemText primary={data[0]} />
+                <ListItemText primary={data[OPTIONS_NAME]} />
               </ListItem>
             ))}
           </List>

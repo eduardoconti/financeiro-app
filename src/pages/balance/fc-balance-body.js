@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Grid } from "@material-ui/core";
-import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
-import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes";
-import { retornaCarteiras } from "../common/CarteiraFuncoes";
+import { retornaReceitasAgrupadasPorCarteira } from "../../common/ReceitaFuncoes";
+import { retornaDespesasAgrupadasPorCarteira } from "../../common/DepesaFuncoes";
+import { retornaCarteiras } from "../../common/CarteiraFuncoes";
 import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
-} from "../common/TransferenciaFuncoes";
-import FcCardWalletBalance from "./fc-cards/fc-card-wallet-balance";
-import { SpinContext } from "../Context/SpinContext";
-import { ContextAnoMes } from "../Context/AnoMesContext";
+} from "../../common/TransferenciaFuncoes";
+import FcCardWalletBalance from "../../components/fc-cards/fc-card-wallet-balance";
+import { SpinContext } from "../../Context/SpinContext";
+import { ContextAnoMes } from "../../Context/AnoMesContext";
 
 async function RetornaCards(ano, mes) {
   let object = await retornaDadosParaCard(ano, mes);
