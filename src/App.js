@@ -28,6 +28,7 @@ import FcCategory from "./pages/category/fc-category";
 
 function App() {
   const [darkTheme, setDarkTheme] = useState(false);
+  const [value, setValue] = useState(0.04);
   const theme = createMuiTheme({
     palette: {
       type: darkTheme ? "dark" : "light",
@@ -43,8 +44,8 @@ function App() {
       background: {
         default: darkTheme ? "#121212" : "#FFF",
         paper01: darkTheme
-          ? "rgba(255, 255, 255, 0.04)"
-          : "rgba(0, 0, 0, 0.04)",
+          ? "rgba(255, 255, 255," + value + ")"
+          : "rgba(0, 0, 0," + value + ")",
         paper02: darkTheme
           ? "rgba(255, 255, 255, 0.07)"
           : "rgba(0, 0, 0, 0.07)",
@@ -104,6 +105,8 @@ function App() {
                       <ButtonAppBar
                         setDarkTheme={(darkTheme) => setDarkTheme(darkTheme)}
                         darkTheme={darkTheme}
+                        setValue={(value)=>setValue(value)}
+                        value={value}
                       />
 
                       <main className={classes.content}>

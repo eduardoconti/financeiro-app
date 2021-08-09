@@ -5,12 +5,19 @@ import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTw
 import { SpinContext } from "../../Context/SpinContext";
 import { ContextAlert } from "../../Context/AlertContext";
 import { setCreatedAlert } from "../../common/AlertFuncoes";
+import { ContextTotais } from "../../Context/TotaisContext";
+import { ContextChecked } from "../../Context/CheckedContext";
+import { ContextAnoMes } from "../../Context/AnoMesContext";
+import { calculaTotais } from "../../common/Funcoes";
 
 export default function ActionFlagButon(props) {
   const theme = useTheme();
   const { onClick, payed } = props;
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes);
   return (
     <IconButton
       aria-label="pago"
@@ -25,6 +32,17 @@ export default function ActionFlagButon(props) {
         ctxAlert.setAlert(
           setCreatedAlert(statusCode, message, internalMessage)
         );
+
+        if (statusCode === 200) {
+          ctxTotais.setStateTotais(
+            await calculaTotais(
+              ctxChecked.stateCheckedDespesas,
+              ctxChecked.stateCheckedReceitas,
+              ctxAnoMes.stateAnoAtual,
+              ctxAnoMes.stateMesAtual
+            )
+          );
+        }
 
         ctxSpin.setSpin(false);
       }}

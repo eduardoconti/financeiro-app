@@ -23,6 +23,7 @@ import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
 import { Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import DiscreteSlider from "../fc-slider";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -133,7 +134,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
+export default function ButtonAppBar({
+  setDarkTheme,
+  darkTheme,
+  setValue,
+  value,
+}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -214,6 +220,9 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             </IconButton>
           </Tooltip>
           <div className={classes.title} />
+          <div className={classes.headerIcon}>
+            <DiscreteSlider value={value} setValue={setValue} />
+          </div>
           <Tooltip title="Set light/dark mode">
             <IconButton
               color="inherit"
