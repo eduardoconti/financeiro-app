@@ -25,10 +25,15 @@ import FcBalance from "./pages/balance/fc-balance";
 import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
 import FcCategory from "./pages/category/fc-category";
+import { getModeType, isDefinedMode, setMode } from "./common/Config";
 
 function App() {
-  const [darkTheme, setDarkTheme] = useState(false);
-  const [value, setValue] = useState(0.04);
+  if (!isDefinedMode()) {
+    setMode(false);
+  }
+
+  const [darkTheme, setDarkTheme] = useState(getModeType());
+
   const theme = createMuiTheme({
     palette: {
       type: darkTheme ? "dark" : "light",
@@ -43,9 +48,7 @@ function App() {
       },
       background: {
         default: darkTheme ? "#121212" : "#FFF",
-        paper01: darkTheme
-          ? "rgba(255, 255, 255," + value + ")"
-          : "rgba(0, 0, 0," + value + ")",
+        paper01: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.04)",
         paper02: darkTheme
           ? "rgba(255, 255, 255, 0.07)"
           : "rgba(0, 0, 0, 0.07)",
@@ -105,8 +108,6 @@ function App() {
                       <ButtonAppBar
                         setDarkTheme={(darkTheme) => setDarkTheme(darkTheme)}
                         darkTheme={darkTheme}
-                        setValue={(value)=>setValue(value)}
-                        value={value}
                       />
 
                       <main className={classes.content}>
