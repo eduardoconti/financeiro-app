@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
+import { ContextDataGrid } from "../../Context/DataGridContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,6 +13,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper01,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(1),
+  },
+  selectedRows: {
+    backgroundColor: theme.palette.background.paper01,
+    borderRadius: theme.shape.borderRadius,
+    padding: theme.spacing(1),
+    height: 48,
   },
   columnHeader: {
     border: "none",
@@ -32,19 +39,28 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 export default function FcDataGrid(props) {
   const classes = useStyles();
+  const ctxDataGrid = useContext(ContextDataGrid);
+
   return (
     <Box className={classes.container}>
       <DataGrid
         rows={props.rows}
         columns={props.columns}
         rowHeight={30}
+        checkboxSelection
+        disableSelectionOnClick
         hideFooterSelectedRowCount
         hideFooterRowCount
         hideFooter
         hideFooterPagination
         className={classes.root}
+        onSelectionChange={(props)=>{
+          const { rowIds} = props
+          ctxDataGrid.setSelectedRows(rowIds);
+        }}
       />
     </Box>
   );
