@@ -126,8 +126,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   paper: {
-    minHeight: 20,
-    height: 20,
+  
   },
   headerIcon: {
     padding: theme.spacing(1),
@@ -177,9 +176,7 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
-        classes={{
-          paper: classes.paper,
-        }}
+       
       >
         <LoginModal
           open={openLogin}

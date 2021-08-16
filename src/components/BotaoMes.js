@@ -48,7 +48,7 @@ export default function BotaoMes() {
 
     return months.map((month, i) => {
       return (
-        <Grid item xs={2} sm={1} lg={1} key={i}>
+        <Grid item xs={2} sm={1} key={i}>
           <CardActionArea
             className={stateMesAtual === i + 1 ? classes.ativo : classes.botao}
             onClick={() => setStateMesAtual(i + 1)}

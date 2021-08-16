@@ -5,7 +5,7 @@ import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { SpinContext } from "../../../Context/SpinContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import FcColumnDescription  from "../fc-column-description";
+import FcColumnDescription from "../fc-column-description";
 import { FcColumnCategory } from "../fc-column-category";
 import { FcColumnWallet } from "../fc-column-wallet";
 import { FcColumnDueDate } from "../fc-column-duedate";
@@ -18,6 +18,7 @@ import {
   getDespesas,
   formataDadosParaLinhasDataGrid,
 } from "../../../common/DepesaFuncoes";
+import { setStorageDataGridRows } from "../../../common/DataGridStorage";
 
 export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
@@ -31,7 +32,7 @@ export default function FcDataGridExpense() {
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const rows = ctxDataGrid.rows;
-  
+
   let columns = [new FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
@@ -59,6 +60,9 @@ export default function FcDataGridExpense() {
 
       if (despesas.statusCode === 200) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
+        setStorageDataGridRows(
+          JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
+        );
       }
     }
     ctxSpin.setSpin(false);

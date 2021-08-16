@@ -5,7 +5,7 @@ import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { SpinContext } from "../../../Context/SpinContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import  FcColumnDescription  from "../fc-column-description";
+import FcColumnDescription from "../fc-column-description";
 import { FcColumnWallet } from "../fc-column-wallet";
 import { FcColumnValue } from "../fc-column-value";
 import FcDataGrid from "../fc-datagrid";
@@ -17,6 +17,7 @@ import {
 } from "../../../common/ReceitaFuncoes";
 import FcColumnActionsYeld from "./fc-column-actions-yeld";
 import { FcColumnPaymentDate } from "../fc-column-payment-date";
+import { setStorageDataGridRows } from "../../../common/DataGridStorage";
 
 export default function FcDataGridYeld() {
   const ctxTotais = useContext(ContextTotais);
@@ -50,14 +51,16 @@ export default function FcDataGridYeld() {
   async function setRowsDataGrid() {
     ctxSpin.setSpin(true);
     if (isAuthenticated()) {
-      let despesas = await getReceitas(
+      let receitas = await getReceitas(
         stateCheckedReceitas,
         stateAnoAtual,
         stateMesAtual
       );
 
-      if (despesas.statusCode === 200) {
-        ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
+      if (receitas.statusCode === 200) {
+        let formated = formataDadosParaLinhasDataGrid(receitas.data);
+        ctxDataGrid.setRows(formated);
+        setStorageDataGridRows(JSON.stringify(formated));
       }
     }
     ctxSpin.setSpin(false);
