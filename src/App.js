@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
-import GraficosContainer from "./components/GraficosContainer";
 
 import Dash from "./components/Dash";
 import { SpinProvider } from "./Context/SpinContext";
@@ -26,6 +25,7 @@ import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
 import FcCategory from "./pages/category/fc-category";
 import { getModeType, isDefinedMode, setMode } from "./common/Config";
+import FcHome from "./pages/home/fc-home";
 
 function App() {
   if (!isDefinedMode()) {
@@ -114,7 +114,7 @@ function App() {
                         <AlertComponent />
                         <div className={classes.toolbar} />
                         <Grid container spacing={1}>
-                          <Grid item xs={12} md={9}>
+                          <Grid item xs={12} /*md={9}*/>
                             <Grid container spacing={1}>
                               <Grid item xs={12}>
                                 <BotaoMes />
@@ -124,7 +124,12 @@ function App() {
                               </Grid>
                               <Grid item xs={12}>
                                 <Switch>
-                                  <Route exact path="/" component={FcExpense} />
+                                  <Route exact path="/" component={FcHome} />
+                                  <Route
+                                    exact
+                                    path="/despesas"
+                                    component={FcExpense}
+                                  />
                                   <Route path="/receitas" component={FcYield} />
                                   <Route
                                     path="/transferencias"
@@ -149,10 +154,6 @@ function App() {
                                 </Switch>
                               </Grid>
                             </Grid>
-                          </Grid>
-
-                          <Grid item xs={12} md={3}>
-                            <GraficosContainer />
                           </Grid>
                         </Grid>
                       </main>

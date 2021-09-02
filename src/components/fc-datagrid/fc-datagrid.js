@@ -50,7 +50,7 @@ export default function FcDataGrid(props) {
         rows={props.rows}
         columns={props.columns}
         rowHeight={30}
-        checkboxSelection
+        checkboxSelection={props.checkboxSelection}
         disableSelectionOnClick
         hideFooterSelectedRowCount
         hideFooterRowCount

@@ -8,18 +8,18 @@ import {
   Tooltip,
   Line,
   Legend,
-  Area,
   ResponsiveContainer,
 } from "recharts";
-import HeaderGrafico from "./HeaderGraficos";
-import { rertornaReceitasAgrupadasPorMes } from "../common/ReceitaFuncoes";
-import { rertornaDespesasAgrupadasPorMes } from "../common/DepesaFuncoes";
-import { ContextTotais } from "../Context/TotaisContext";
-import { ContextAnoMes } from "../Context/AnoMesContext";
+
+import { rertornaReceitasAgrupadasPorMes } from "../../common/ReceitaFuncoes";
+import { rertornaDespesasAgrupadasPorMes } from "../../common/DepesaFuncoes";
+import { ContextTotais } from "../../Context/TotaisContext";
+import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
-import { isAuthenticated } from "../common/Auth";
-import { SpinContext } from "../Context/SpinContext";
-import FcSurface from "./fc-surface/fc-surface";
+import { isAuthenticated } from "../../common/Auth";
+import { SpinContext } from "../../Context/SpinContext";
+import FcSurface from "../fc-surface/fc-surface";
+import RadioButtons from "./fc-graphics-header";
 
 function retornaMes(mes) {
   if (mes === 1) return "Jan";
@@ -43,6 +43,7 @@ function retornaDados(obj) {
 }
 
 function adicionaNoArrayDeDados(dados, receitas, despesas) {
+  let saldo = 0;
   for (let i = 1; i <= 12; i++) {
     let { valor: receita } = retornaDados(
       receitas.find((receita) => receita.mes === i)
@@ -50,17 +51,19 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
     let { valor: despesa } = retornaDados(
       despesas.find((despesa) => despesa.mes === i)
     );
-
+    let balanco = receita - despesa;
+    saldo += balanco;
     dados.push({
       name: retornaMes(i),
       despesa: despesa.toFixed(2),
       receita: receita.toFixed(2),
-      balanco: (receita - despesa).toFixed(2),
+      balanco: balanco.toFixed(2),
+      saldo: saldo.toFixed(2),
     });
   }
 }
 
-export default function GraficoReceitas() {
+export default function FcGraphicsGeneral() {
   const ctxTotais = useContext(ContextTotais);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxSpin = useContext(SpinContext);
@@ -68,12 +71,14 @@ export default function GraficoReceitas() {
   const stateTotais = ctxTotais.stateTotais;
   const [dados, setDados] = useState([]);
   const theme = useTheme();
+
   useEffect(() => {
     if (isAuthenticated()) {
       async function retornaDadosGrafico(stateAnoAtual) {
         let dados = [];
         let receitas = [];
         let despesas = [];
+
         try {
           receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
           despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
@@ -97,7 +102,7 @@ export default function GraficoReceitas() {
 
   return (
     <FcSurface>
-      <HeaderGrafico
+      <RadioButtons
         setStateGrafico={(stateGrafico) => {
           //setStateGrafico(stateGrafico);
         }}
@@ -108,7 +113,7 @@ export default function GraficoReceitas() {
         }
         descricao="Grafico Geral"
       />
-      <ResponsiveContainer height={170}>
+      <ResponsiveContainer height={250}>
         <ComposedChart data={dados}>
           <XAxis
             dataKey="name"
@@ -116,7 +121,7 @@ export default function GraficoReceitas() {
             stroke={theme.palette.text.primary}
           />
           <YAxis
-            domain={[0, 6000]}
+            //domain={[0, domain]}
             fill={theme.palette.text.primary}
             stroke={theme.palette.text.primary}
           />
@@ -129,8 +134,8 @@ export default function GraficoReceitas() {
           />
           <Legend />
           <CartesianGrid strokeDasharray="3 3" />
-          <Area
-            type="monotone"
+          <Bar
+            //type="monotone"
             dataKey="receita"
             fill={theme.palette.secondary.main}
             stroke={theme.palette.secondary.main}
@@ -151,6 +156,12 @@ export default function GraficoReceitas() {
                 ? theme.palette.primary.dark
                 : theme.palette.primary.light
             }
+            strokeWidth={3}
+          />
+          <Line
+            type="monotone"
+            dataKey="saldo"
+            stroke={theme.palette.warning.light}
             strokeWidth={3}
           />
         </ComposedChart>

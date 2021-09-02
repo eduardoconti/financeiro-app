@@ -11,7 +11,7 @@ import {
   Legend,
 } from "recharts";
 
-export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
+export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }) {
   const theme = useTheme();
   return (
     <ResponsiveContainer height={180}>

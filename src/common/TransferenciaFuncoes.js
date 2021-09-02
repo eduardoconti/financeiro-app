@@ -108,15 +108,17 @@ export function formataDadosParaFormulario(transferencia) {
 
 export async function retornaValoresTransferenciasOrigem(
   stateAnoAtual,
-  stateMesAtual
+  stateMesAtual,
+  pago
 ) {
   try {
+    let ep =
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/valor/origem";
+    if (typeof(pago) !== "undefined") {
+      ep += "/?pago=" + pago;
+    }
     const total = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/" +
-        stateMesAtual +
-        "/valor/origem/?pago=true",
+      ep, 
       headers
     );
     return total.data;
@@ -127,17 +129,16 @@ export async function retornaValoresTransferenciasOrigem(
 
 export async function retornaValoresTransferenciasDestino(
   stateAnoAtual,
-  stateMesAtual
+  stateMesAtual,
+  pago
 ) {
   try {
-    const total = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/" +
-        stateMesAtual +
-        "/valor/destino/?pago=true",
-      headers
-    );
+    let ep =
+      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/valor/destino";
+    if (typeof(pago) !== "undefined") {
+      ep += "/?pago=" + pago;
+    }
+    const total = await API.get(ep, headers);
     return total.data;
   } catch (error) {
     return error.response.status;

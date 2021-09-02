@@ -69,5 +69,5 @@ export default function FcDataGridYeld() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
 
-  return <FcDataGrid rows={rows} columns={columns} />;
+  return <FcDataGrid rows={rows} columns={columns} checkboxSelection />;
 }

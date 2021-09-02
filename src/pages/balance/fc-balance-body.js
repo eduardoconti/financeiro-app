@@ -43,10 +43,10 @@ async function retornaDadosParaCard(ano, mes) {
     );
     const {
       data: transferenciasOrigem,
-    } = await retornaValoresTransferenciasOrigem(ano, mes);
+    } = await retornaValoresTransferenciasOrigem(ano, mes, undefined);
     const {
       data: transferenciasDestino,
-    } = await retornaValoresTransferenciasDestino(ano, mes);
+    } = await retornaValoresTransferenciasDestino(ano, mes, undefined);
     const dadosCard = [];
 
     carteiras.forEach((carteira, i) => {

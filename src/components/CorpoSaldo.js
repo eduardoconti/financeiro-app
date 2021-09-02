@@ -44,10 +44,10 @@ async function retornaDadosParaCard() {
     );
     const {
       data: transferenciasOrigem,
-    } = await retornaValoresTransferenciasOrigem(0, 0);
+    } = await retornaValoresTransferenciasOrigem(0, 0, true);
     const {
       data: transferenciasDestino,
-    } = await retornaValoresTransferenciasDestino(0, 0);
+    } = await retornaValoresTransferenciasDestino(0, 0, true);
     const dadosCard = [];
 
     carteiras.forEach((carteira, i) => {

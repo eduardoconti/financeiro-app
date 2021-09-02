@@ -16,7 +16,7 @@ export default function FcCardExpense(props) {
   const history = useHistory();
 
   const routeChange = () => {
-    let path = ``;
+    let path = `despesas`;
     history.push(path);
   };
 

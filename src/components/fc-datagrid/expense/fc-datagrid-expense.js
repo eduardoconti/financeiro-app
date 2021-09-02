@@ -71,5 +71,5 @@ export default function FcDataGridExpense() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
 
-  return <FcDataGrid rows={rows} columns={columns} />;
+  return <FcDataGrid rows={rows} columns={columns} checkboxSelection />;
 }

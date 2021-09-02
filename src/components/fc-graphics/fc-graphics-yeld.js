@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import Grafico from "./Grafico";
-import Radio from "./HeaderGraficos";
+
 import {
   getReceitas,
   retornaReceitasAgrupadasPorCarteiraChecked,
-} from "../common/ReceitaFuncoes";
-import { ContextTotais } from "../Context/TotaisContext";
-import { ContextChecked } from "../Context/CheckedContext";
-import { ContextAnoMes } from "../Context/AnoMesContext";
-import { isAuthenticated } from "../common/Auth";
-import { SpinContext } from "../Context/SpinContext";
+} from "../../common/ReceitaFuncoes";
+import { ContextTotais } from "../../Context/TotaisContext";
+import { ContextChecked } from "../../Context/CheckedContext";
+import { ContextAnoMes } from "../../Context/AnoMesContext";
+import { isAuthenticated } from "../../common/Auth";
+import { SpinContext } from "../../Context/SpinContext";
 import { useTheme } from "@material-ui/core";
-import FcSurface from "./fc-surface/fc-surface";
+import FcSurface from "../fc-surface/fc-surface";
+import RadioButtons from "./fc-graphics-header";
+import FcGraphic from "./fc-graphics";
 
-export default function GraficoReceitas() {
+export default function FcGraphicsYeld() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -67,14 +68,14 @@ export default function GraficoReceitas() {
 
   return (
     <FcSurface>
-      <Radio
+      <RadioButtons
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
         cor={theme.palette.secondary.main}
         descricao={descricao}
       />
-      <Grafico
+      <FcGraphic
         data={receitas}
         chaveX="descricao"
         chaveY="valor"

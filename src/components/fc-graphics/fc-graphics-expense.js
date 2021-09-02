@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import Radio from "./HeaderGraficos";
+
 import {
   getValorDespesasPorCategoria,
   getValorDespesasPorCarteira,
-} from "../common/DepesaFuncoes";
-import Grafico from "./Grafico";
-import { ContextTotais } from "../Context/TotaisContext";
-import { ContextChecked } from "../Context/CheckedContext";
-import { ContextAnoMes } from "../Context/AnoMesContext";
-import { SpinContext } from "../Context/SpinContext";
+} from "../../common/DepesaFuncoes";
+import { ContextTotais } from "../../Context/TotaisContext";
+import { ContextChecked } from "../../Context/CheckedContext";
+import { ContextAnoMes } from "../../Context/AnoMesContext";
+import { SpinContext } from "../../Context/SpinContext";
 import { useTheme } from "@material-ui/core";
-import { getToken } from "../common/Auth";
-import FcSurface from "./fc-surface/fc-surface";
+import { isAuthenticated } from "../../common/Auth";
+import FcSurface from "../fc-surface/fc-surface";
+import RadioButtons from "./fc-graphics-header";
+import FcGraphic from "./fc-graphics";
 
-export default function GraficoDespesas() {
+export default function FcGraphicsExpense() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -30,7 +31,7 @@ export default function GraficoDespesas() {
   const theme = useTheme();
   useEffect(() => {
     async function pegaDespesas() {
-      if (getToken()) {
+      if (isAuthenticated()) {
         ctxSpin.setSpin(true);
         let despesas;
 
@@ -70,14 +71,14 @@ export default function GraficoDespesas() {
 
   return (
     <FcSurface>
-      <Radio
+      <RadioButtons
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
         cor={theme.palette.error.main}
         descricao={descricao}
       />
-      <Grafico
+      <FcGraphic
         data={despesas}
         chaveX="descricao"
         chaveY="valor"
