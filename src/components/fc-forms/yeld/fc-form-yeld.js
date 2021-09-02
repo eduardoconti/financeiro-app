@@ -53,7 +53,7 @@ export default function FcFormYeld() {
         <Grid item xs={6} sm={3} lg={2}>
           <FcSelectFieldPayed />
         </Grid>
-        <Grid item xs={6} sm={4} lg={3}>
+        <Grid item xs={12} sm={4} lg={3}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               {ctxForm.form.id === 0 ? (
