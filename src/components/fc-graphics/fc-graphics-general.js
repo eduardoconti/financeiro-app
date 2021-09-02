@@ -44,6 +44,7 @@ function retornaDados(obj) {
 
 function adicionaNoArrayDeDados(dados, receitas, despesas) {
   let saldo = 0;
+
   for (let i = 1; i <= 12; i++) {
     let { valor: receita } = retornaDados(
       receitas.find((receita) => receita.mes === i)
@@ -53,13 +54,15 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
     );
     let balanco = receita - despesa;
     saldo += balanco;
-    dados.push({
-      name: retornaMes(i),
-      despesa: despesa.toFixed(2),
-      receita: receita.toFixed(2),
-      balanco: balanco.toFixed(2),
-      saldo: saldo.toFixed(2),
-    });
+    if ((receita > 0 || despesa > 0)) {
+      dados.push({
+        name: retornaMes(i),
+        despesa: despesa.toFixed(2),
+        receita: receita.toFixed(2),
+        balanco: balanco.toFixed(2),
+        saldo: saldo.toFixed(2),
+      });
+    }
   }
 }
 
@@ -140,11 +143,12 @@ export default function FcGraphicsGeneral() {
             fill={theme.palette.secondary.main}
             stroke={theme.palette.secondary.main}
             fillOpacity={"60%"}
+            maxBarSize={30}
           />
 
           <Bar
             dataKey="despesa"
-            barSize={15}
+            maxBarSize={30}
             fill={theme.palette.error.main}
             stroke={theme.palette.error.dark}
           />
