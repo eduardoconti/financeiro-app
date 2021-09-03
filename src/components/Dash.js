@@ -55,7 +55,6 @@ export default function Dash() {
   ];
   return (
     <Grid container spacing={1}>
-
       {cards.map((component, i) => {
         return (
           <Grid item xs={6} sm={6} md={6} lg={3} xl={3} key={i}>
@@ -63,7 +62,6 @@ export default function Dash() {
           </Grid>
         );
       })}
-
     </Grid>
   );
 }

@@ -3,6 +3,7 @@ import { React } from "react";
 import FcGraphicsExpense from "../../components/fc-graphics/fc-graphics-expense";
 import FcGraphicsGeneral from "../../components/fc-graphics/fc-graphics-general";
 import FcGraphicsYeld from "../../components/fc-graphics/fc-graphics-yeld";
+
 export default function FcHomeBody() {
   return (
     <Grid container spacing={1}>

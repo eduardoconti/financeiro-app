@@ -4,8 +4,6 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import FormLogin from "./FormLogin";
-import { CategoryProvider } from "../Context/CategoryContext";
-import { WalletProvider } from "../Context/WalletContext";
 import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -50,15 +48,11 @@ export default function TransitionsModal({ open, setOpen, handleClose }) {
         }}
       >
         <Fade in={open}>
-          <CategoryProvider>
-            <WalletProvider>
-              <FormLogin
-                setOpen={(open) => {
-                  setOpen(open);
-                }}
-              />
-            </WalletProvider>
-          </CategoryProvider>
+          <FormLogin
+            setOpen={(open) => {
+              setOpen(open);
+            }}
+          />
         </Fade>
       </Modal>
     </Grid>

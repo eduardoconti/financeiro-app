@@ -83,7 +83,6 @@ function App() {
       minHeight: 48,
     },
     content: {
-      flexGrow: 1,
       padding: theme.spacing(1),
     },
   }));
@@ -110,53 +109,52 @@ function App() {
                         darkTheme={darkTheme}
                       />
 
-                      <main className={classes.content}>
-                        <AlertComponent />
-                        <div className={classes.toolbar} />
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} /*md={9}*/>
-                            <Grid container spacing={1}>
-                              <Grid item xs={12}>
-                                <BotaoMes />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Dash />
-                              </Grid>
-                              <Grid item xs={12}>
-                                <Switch>
-                                  <Route exact path="/" component={FcHome} />
-                                  <Route
-                                    exact
-                                    path="/despesas"
-                                    component={FcExpense}
-                                  />
-                                  <Route path="/receitas" component={FcYield} />
-                                  <Route
-                                    path="/transferencias"
-                                    component={FcTransfer}
-                                  />
-                                  <Route
-                                    path="/balanco"
-                                    component={FcBalance}
-                                  />
-                                  <Route
-                                    path="/saldo"
-                                    component={FcBalanceMonth}
-                                  />
-                                  <Route
-                                    path="/carteiras"
-                                    component={FcWallet}
-                                  />
-                                  <Route
-                                    path="/categorias"
-                                    component={FcCategory}
-                                  />
-                                </Switch>
-                              </Grid>
-                            </Grid>
-                          </Grid>
+                      <AlertComponent />
+                      <Grid container spacing={1} className={classes.content}>
+                        {<div className={classes.toolbar} />}
+                        <Grid item xs={12}>
+                          <BotaoMes />
                         </Grid>
-                      </main>
+                        <Grid item xs={12}>
+                          <Dash />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Switch>
+                            <Route exact path="/" component={FcHome} />
+                            <Route
+                              exact
+                              path="/despesas"
+                              component={FcExpense}
+                            />
+                            <Route exact path="/receitas" component={FcYield} />
+                            <Route
+                              exact
+                              path="/transferencias"
+                              component={FcTransfer}
+                            />
+                            <Route
+                              exact
+                              path="/balanco"
+                              component={FcBalance}
+                            />
+                            <Route
+                              exact
+                              path="/saldo"
+                              component={FcBalanceMonth}
+                            />
+                            <Route
+                              exact
+                              path="/carteiras"
+                              component={FcWallet}
+                            />
+                            <Route
+                              exact
+                              path="/categorias"
+                              component={FcCategory}
+                            />
+                          </Switch>
+                        </Grid>
+                      </Grid>
                     </Router>
                   </CssBaseline>
                 </div>

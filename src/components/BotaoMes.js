@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Typography } from "@material-ui/core";
+import { monthNames } from "../common/fc-constants";
 export default function BotaoMes() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
@@ -30,23 +31,10 @@ export default function BotaoMes() {
   }));
 
   const MonthButtons = () => {
-    const months = [
-      "jan",
-      "fev",
-      "mar",
-      "abr",
-      "mai",
-      "jun",
-      "jul",
-      "ago",
-      "set",
-      "out",
-      "nov",
-      "dez",
-    ];
+
     const classes = useStyles();
 
-    return months.map((month, i) => {
+    return monthNames.map((month, i) => {
       return (
         <Grid item xs={2} sm={1} key={i}>
           <CardActionArea

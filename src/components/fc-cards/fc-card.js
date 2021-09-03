@@ -23,6 +23,7 @@ export default function FcCard(props) {
         height: "100%",
         borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.background.paper01,
+        border: 'none'
       }}
     >
       {ctxSpin.spin ? (
