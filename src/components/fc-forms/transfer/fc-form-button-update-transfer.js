@@ -4,7 +4,11 @@ import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
 import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
-import { alteraTransferencia, formataDadosParaLinhasDataGrid, getTransferencias } from "../../../common/TransferenciaFuncoes";
+import {
+  alteraTransferencia,
+  formataDadosParaLinhasDataGrid,
+  getTransferencias,
+} from "../../../common/TransferenciaFuncoes";
 import { emptyFormularioTransferencia } from "../../../common/EmptyStates";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
@@ -34,7 +38,6 @@ export default function FcFormButtonUpdateTransfer() {
         );
 
         if ([200, 201].includes(response.statusCode)) {
-        
           ctxForm.setForm(
             emptyFormularioTransferencia(
               ctxAnoMes.stateAnoAtual,

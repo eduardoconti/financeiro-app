@@ -4,13 +4,12 @@ import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
-import { alteraReceita } from "../../../common/ReceitaFuncoes";
+import { deletaDespesa } from "../../../common/DepesaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
-import { emptyFormularioReceita } from "../../../common/EmptyStates";
-import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
-export default function FcFormButtonUpdateYeld() {
+import { emptyFormularioDespesa } from "../../../common/EmptyStates";
+import FcFormIconButtonDelete from "../fc-form-button/fc-form-icon-button-delete";
+export default function FcFormButtonDeleteExpense() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxTotais = useContext(ContextTotais);
@@ -18,14 +17,11 @@ export default function FcFormButtonUpdateYeld() {
   const ctxAlert = useContext(ContextAlert);
 
   return (
-    <FcFormIconButtonUpdate
-      description="alterar"
+    <FcFormIconButtonDelete
+      description="delete"
+      disabled={ctxForm.form.id === 0}
       onClick={async () => {
-        let response;
-        ctxForm.form.user = getUserIdFromToken();
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-
-        response = await alteraReceita(ctxForm.form);
+        let response = await deletaDespesa(ctxForm.form.id);
 
         ctxAlert.setAlert(
           setCreatedAlert(
@@ -44,7 +40,7 @@ export default function FcFormButtonUpdateYeld() {
             )
           );
           ctxForm.setForm(
-            emptyFormularioReceita(
+            emptyFormularioDespesa(
               ctxAnoMes.stateAnoAtual,
               ctxAnoMes.stateMesAtual
             )

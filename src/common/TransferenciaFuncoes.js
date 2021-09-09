@@ -114,13 +114,10 @@ export async function retornaValoresTransferenciasOrigem(
   try {
     let ep =
       ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/valor/origem";
-    if (typeof(pago) !== "undefined") {
+    if (typeof pago !== "undefined") {
       ep += "/?pago=" + pago;
     }
-    const total = await API.get(
-      ep, 
-      headers
-    );
+    const total = await API.get(ep, headers);
     return total.data;
   } catch (error) {
     return error.response.status;
@@ -135,7 +132,7 @@ export async function retornaValoresTransferenciasDestino(
   try {
     let ep =
       ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/valor/destino";
-    if (typeof(pago) !== "undefined") {
+    if (typeof pago !== "undefined") {
       ep += "/?pago=" + pago;
     }
     const total = await API.get(ep, headers);

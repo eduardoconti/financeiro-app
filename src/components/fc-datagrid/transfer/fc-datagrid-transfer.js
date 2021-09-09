@@ -12,8 +12,8 @@ import {
   getTransferencias,
   formataDadosParaLinhasDataGrid,
 } from "../../../common/TransferenciaFuncoes";
-import  FcColumnWalletDestiny  from "./fc-column-wallet-destiny";
-import  FcColumnWalletOrigin  from "./fc-column-wallet-origin";
+import FcColumnWalletDestiny from "./fc-column-wallet-destiny";
+import FcColumnWalletOrigin from "./fc-column-wallet-origin";
 
 export default function FcDataGridTransfer() {
   const ctxAnoMes = useContext(ContextAnoMes);

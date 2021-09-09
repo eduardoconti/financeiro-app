@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import FcFormButton from "../fc-form-button/fc-form-button";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
@@ -10,6 +9,7 @@ import { alteraDespesa } from "../../../common/DepesaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
+import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
 export default function FcFormButtonUpdateExpense() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -18,7 +18,7 @@ export default function FcFormButtonUpdateExpense() {
   const ctxAlert = useContext(ContextAlert);
 
   return (
-    <FcFormButton
+    <FcFormIconButtonUpdate
       description="alterar"
       onClick={async () => {
         let response;
@@ -43,7 +43,12 @@ export default function FcFormButtonUpdateExpense() {
               ctxAnoMes.stateMesAtual
             )
           );
-          ctxForm.setForm(emptyFormularioDespesa(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual));
+          ctxForm.setForm(
+            emptyFormularioDespesa(
+              ctxAnoMes.stateAnoAtual,
+              ctxAnoMes.stateMesAtual
+            )
+          );
         }
       }}
     />

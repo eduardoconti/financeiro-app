@@ -5,7 +5,6 @@ import FcDataGridExpense from "../../components/fc-datagrid/expense/fc-datagrid-
 import FcFormExpense from "../../components/fc-forms/expense/fc-form-expense";
 import FcSelectedRows from "../../components/fc-datagrid/fc-selected-rows";
 
-
 export default function CorpoDespesas() {
   return (
     <DataGridProvider>
@@ -14,7 +13,7 @@ export default function CorpoDespesas() {
           <FcDataGridExpense />
         </Grid>
         <Grid item xs={12}>
-          <FcSelectedRows/>
+          <FcSelectedRows />
         </Grid>
         <Grid item xs={12}>
           <FcFormExpense />

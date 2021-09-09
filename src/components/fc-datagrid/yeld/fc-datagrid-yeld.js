@@ -4,6 +4,7 @@ import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { SpinContext } from "../../../Context/SpinContext";
+import { ContextForm } from "../../../Context/FormContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
 import FcColumnDescription from "../fc-column-description";
 import { FcColumnWallet } from "../fc-column-wallet";
@@ -14,6 +15,8 @@ import { isAuthenticated } from "../../../common/Auth";
 import {
   getReceitas,
   formataDadosParaLinhasDataGrid,
+  formataDadosParaFormulario,
+  getYieldById,
 } from "../../../common/ReceitaFuncoes";
 import FcColumnActionsYeld from "./fc-column-actions-yeld";
 import { FcColumnPaymentDate } from "../fc-column-payment-date";
@@ -25,6 +28,7 @@ export default function FcDataGridYeld() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxDataGrid = useContext(ContextDataGrid);
   const ctxSpin = useContext(SpinContext);
+  const ctxForm = useContext(ContextForm);
 
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
@@ -39,9 +43,9 @@ export default function FcDataGridYeld() {
   }
 
   columns.push(FcColumnValue, {
-    field: "actions",
-    headerName: "Operação",
-    width: 140,
+    field: "payed",
+    headerName: "Pago",
+    width: 120,
     sortable: false,
     renderCell: function operacoes(field) {
       return <FcColumnActionsYeld field={field} />;
@@ -69,5 +73,18 @@ export default function FcDataGridYeld() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
 
-  return <FcDataGrid rows={rows} columns={columns} checkboxSelection />;
+  return (
+    <FcDataGrid
+      rows={rows}
+      columns={columns}
+      checkboxSelection
+      rowClick={async (GridRowParams) => {
+        const { row } = GridRowParams;
+        const getYield = await getYieldById(row.id);
+        if (getYield.statusCode === 200) {
+          ctxForm.setForm(formataDadosParaFormulario(getYield.data));
+        }
+      }}
+    />
+  );
 }

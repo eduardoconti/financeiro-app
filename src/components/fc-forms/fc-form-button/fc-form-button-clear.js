@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import FcFormButton from "../fc-form-button/fc-form-button";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
+import FcFormIconButtonClear from "./fc-form-icon-button-clear";
 export default function FcFormButtonClear() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
   return (
-    <FcFormButton
+    <FcFormIconButtonClear
       description="limpar"
       onClick={() => {
         ctxForm.setForm(

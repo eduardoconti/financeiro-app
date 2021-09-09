@@ -12,6 +12,8 @@ import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
 import { Grid, Box } from "@material-ui/core";
 import FcFormButtonUpdateYeld from "./fc-form-button-update-yeld";
 import FcTextFieldPaymentDate from "../fc-fields/fc-text-field-payment-date";
+import FcFormButtonDeleteYield from "./fc-form-button-delete-yield";
+import FcFormButtonInsertYieldNextMonth from "./fc-form-button-insert-yield-next-month";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,32 +39,38 @@ export default function FcFormYeld() {
   return (
     <Box className={classes.container}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={4} lg={3}>
+        <Grid item xs={12} sm={4} lg={4}>
           <FcTextFieldDescription />
         </Grid>
 
-        <Grid item xs={6} sm={4} lg={2}>
+        <Grid item xs={6} sm={4} lg={4}>
           <FcSelectFieldWallet />
         </Grid>
-        <Grid item xs={6} sm={4} lg={2}>
+        <Grid item xs={6} sm={4} lg={4}>
           <FcTextFieldValue />
         </Grid>
-        <Grid item xs={6} sm={3} lg={3}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcTextFieldPaymentDate />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldPayed />
         </Grid>
-        <Grid item xs={12} sm={4} lg={3}>
+        <Grid item xs={12}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               {ctxForm.form.id === 0 ? (
                 <FcFormButtonInsertYeld />
               ) : (
                 <FcFormButtonUpdateYeld />
               )}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
+              <FcFormButtonDeleteYield />
+            </Grid>
+            <Grid item xs={3}>
+              <FcFormButtonInsertYieldNextMonth />
+            </Grid>
+            <Grid item xs={3}>
               <FcFormButtonClear />
             </Grid>
           </Grid>

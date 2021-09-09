@@ -13,6 +13,8 @@ import FcFormButtonInsertExpense from "./fc-form-button-insert-expense";
 import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
 import { Grid, Box } from "@material-ui/core";
 import FcFormButtonUpdateExpense from "./fc-form-button-update-expense";
+import FcFormButtonDeleteExpense from "./fc-form-button-delete-expense";
+import FcFormButtonInsertExpenseNextMonth from "./fc-form-button-insert-expense-next-month";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,34 +40,40 @@ export default function FcFormExpense() {
   return (
     <Box className={classes.container}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={3} lg={3}>
+        <Grid item xs={12} sm={3} lg={4}>
           <FcTextFieldDescription />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldCategory />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldWallet />
         </Grid>
-        <Grid item xs={12} sm={3} lg={2}>
+        <Grid item xs={12} sm={3} lg={4}>
           <FcTextFieldValue />
         </Grid>
-        <Grid item xs={6} sm={3} lg={3}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcTextFieldDueDate />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldPayed />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
+        <Grid item xs={12} lg={4}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={3} lg>
               {ctxForm.form.id === 0 ? (
                 <FcFormButtonInsertExpense />
               ) : (
                 <FcFormButtonUpdateExpense />
               )}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
+              <FcFormButtonDeleteExpense />
+            </Grid>
+            <Grid item xs={3}>
+              <FcFormButtonInsertExpenseNextMonth />
+            </Grid>
+            <Grid item xs={3}>
               <FcFormButtonClear />
             </Grid>
           </Grid>

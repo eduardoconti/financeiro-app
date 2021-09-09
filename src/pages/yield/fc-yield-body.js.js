@@ -12,7 +12,7 @@ export default function CorpoReceitas() {
           <FcDataGridYeld />
         </Grid>
         <Grid item xs={12}>
-          <FcSelectedRows/>
+          <FcSelectedRows />
         </Grid>
         <Grid item xs={12}>
           <FcFormYeld />

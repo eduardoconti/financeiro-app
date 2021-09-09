@@ -17,9 +17,18 @@ export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }) {
     <ResponsiveContainer height={180}>
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey={chaveX} fill= {theme.palette.text.primary} stroke= {theme.palette.text.primary} />
+        <XAxis
+          dataKey={chaveX}
+          fill={theme.palette.text.primary}
+          stroke={theme.palette.text.primary}
+        />
         <Legend />
-        <YAxis type="number" fill= {theme.palette.text.primary} stroke= {theme.palette.text.primary} domain={[0, 5000]} />
+        <YAxis
+          type="number"
+          fill={theme.palette.text.primary}
+          stroke={theme.palette.text.primary}
+          domain={[0, 5000]}
+        />
         <Tooltip
           contentStyle={{
             backgroundColor: theme.palette.background.paper,

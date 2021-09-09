@@ -11,7 +11,7 @@ function DataGridProvider({ children }) {
         rows,
         setRows,
         selectedRows,
-        setSelectedRows
+        setSelectedRows,
       }}
     >
       {children}

@@ -14,7 +14,7 @@ export default function FcTextFieldValue(props) {
       variant="outlined"
       size="small"
       fullWidth
-      value={form.valor ? form.valor : '' }
+      value={form.valor ? form.valor : ""}
       onChange={(event) => {
         let valor = event.target.value;
         if (valor) {

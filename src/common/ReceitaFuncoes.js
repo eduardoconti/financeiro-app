@@ -193,7 +193,14 @@ export function formataDadosParaFormulario(receita) {
     pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
   };
 }
-
+export async function getYieldById(id) {
+  try {
+    const res = await API.get(ENDPOINT + "id/" + id);
+    return res.data;
+  } catch (error) {
+    return errorResponse(error);
+  }
+}
 function errorResponse(error) {
   return error.response.data;
 }

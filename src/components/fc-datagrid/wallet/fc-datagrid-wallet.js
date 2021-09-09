@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 
 import { SpinContext } from "../../../Context/SpinContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import FcColumnDescription  from "../fc-column-description";
+import FcColumnDescription from "../fc-column-description";
 import FcDataGrid from "../fc-datagrid";
 
 import { isAuthenticated } from "../../../common/Auth";

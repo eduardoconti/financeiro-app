@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import FcFormButton from "../fc-form-button/fc-form-button";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
@@ -10,6 +9,7 @@ import { insereReceita } from "../../../common/ReceitaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioReceita } from "../../../common/EmptyStates";
+import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
 export default function FcFormButtonInsertYeld() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -18,7 +18,7 @@ export default function FcFormButtonInsertYeld() {
   const ctxAlert = useContext(ContextAlert);
 
   return (
-    <FcFormButton
+    <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
         let response;
@@ -44,7 +44,12 @@ export default function FcFormButtonInsertYeld() {
             )
           );
 
-          ctxForm.setForm(emptyFormularioReceita(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual));
+          ctxForm.setForm(
+            emptyFormularioReceita(
+              ctxAnoMes.stateAnoAtual,
+              ctxAnoMes.stateMesAtual
+            )
+          );
         }
       }}
     />

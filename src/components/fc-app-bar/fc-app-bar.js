@@ -125,9 +125,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(1),
   },
-  paper: {
-  
-  },
+  paper: {},
   headerIcon: {
     padding: theme.spacing(1),
   },
@@ -176,7 +174,6 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
-       
       >
         <LoginModal
           open={openLogin}

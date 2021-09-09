@@ -17,8 +17,11 @@ import FcColumnActionsExpense from "./fc-column-actions-expense";
 import {
   getDespesas,
   formataDadosParaLinhasDataGrid,
+  getExpenseById,
+  formataDadosParaFormulario,
 } from "../../../common/DepesaFuncoes";
 import { setStorageDataGridRows } from "../../../common/DataGridStorage";
+import { ContextForm } from "../../../Context/FormContext";
 
 export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
@@ -26,7 +29,7 @@ export default function FcDataGridExpense() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxDataGrid = useContext(ContextDataGrid);
   const ctxSpin = useContext(SpinContext);
-
+  const ctxForm = useContext(ContextForm);
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
@@ -40,9 +43,9 @@ export default function FcDataGridExpense() {
   }
 
   columns.push(FcColumnValue, {
-    field: "actions",
-    headerName: "Operação",
-    width: 140,
+    field: "payed",
+    headerName: "Pago",
+    width: 100,
     sortable: false,
     renderCell: function operacoes(field) {
       return <FcColumnActionsExpense field={field} />;
@@ -71,5 +74,18 @@ export default function FcDataGridExpense() {
     setRowsDataGrid(); // eslint-disable-next-line
   }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
 
-  return <FcDataGrid rows={rows} columns={columns} checkboxSelection />;
+  return (
+    <FcDataGrid
+      rows={rows}
+      columns={columns}
+      checkboxSelection
+      rowClick={async (GridRowParams) => {
+        const { row } = GridRowParams;
+        const getExpense = await getExpenseById(row.id);
+        if (getExpense.statusCode === 200) {
+          ctxForm.setForm(formataDadosParaFormulario(getExpense.data));
+        }
+      }}
+    />
+  );
 }

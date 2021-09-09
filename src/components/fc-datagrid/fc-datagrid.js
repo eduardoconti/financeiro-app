@@ -50,6 +50,7 @@ export default function FcDataGrid(props) {
         rows={props.rows}
         columns={props.columns}
         rowHeight={30}
+        onRowClick={props.rowClick}
         checkboxSelection={props.checkboxSelection}
         disableSelectionOnClick
         hideFooterSelectedRowCount
@@ -57,8 +58,8 @@ export default function FcDataGrid(props) {
         hideFooter
         hideFooterPagination
         className={classes.root}
-        onSelectionChange={(props)=>{
-          const { rowIds} = props
+        onSelectionChange={(props) => {
+          const { rowIds } = props;
           ctxDataGrid.setSelectedRows(rowIds);
         }}
       />
