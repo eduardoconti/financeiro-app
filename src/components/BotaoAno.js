@@ -23,18 +23,21 @@ const useStyles = makeStyles((theme) => ({
   },
 
   botao: {
-    backgroundColor: theme.palette.grey[900],
-    maxWidth: "100%",
+    background: theme.palette.background.paper01,
     minHeight: 36,
     borderRadius: 5,
     textAlign: "center",
     fontWeight: "bold",
+  },
+  ativo: {
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? theme.palette.primary.dark
+        : theme.palette.primary.light,
+    minHeight: 36,
+    borderRadius: 5,
+    textAlign: "center",
     color: theme.palette.text.primary,
-    "&:hover": {
-      background: theme.palette.grey[900],
-      boxShadow:
-        "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
-    },
   },
 }));
 

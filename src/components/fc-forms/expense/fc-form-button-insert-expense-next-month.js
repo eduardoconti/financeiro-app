@@ -22,7 +22,8 @@ export default function FcFormButtonInsertExpenseNextMonth() {
 
   return (
     <FcFormIconButtonAddNextMonth
-      description="cadastrar"
+      description="next-month-expense"
+      disabled={ctxForm.form.id === 0}
       onClick={async () => {
         let res = await retornaDespesaPorId(ctxForm.form.id);
         if (res.statusCode === 200) {

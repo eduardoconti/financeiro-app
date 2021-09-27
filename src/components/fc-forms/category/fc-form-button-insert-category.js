@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import FcFormButton from "../fc-form-button/fc-form-button";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
 import { getUserIdFromToken } from "../../../common/Auth";
@@ -10,6 +9,7 @@ import {
 } from "../../../common/CategoriaFuncoes";
 import { emptyFormularioCategoria } from "../../../common/EmptyStates";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
+import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
 
 export default function FcFormButtonInsertCategory() {
   const ctxForm = useContext(ContextForm);
@@ -17,7 +17,7 @@ export default function FcFormButtonInsertCategory() {
   const ctxDataGrid = useContext(ContextDataGrid);
 
   return (
-    <FcFormButton
+    <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
         let response;

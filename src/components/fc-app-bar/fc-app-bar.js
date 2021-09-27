@@ -24,6 +24,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import { Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { setMode } from "../../common/Config";
+import BotaoAno from "../BotaoAno";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -208,7 +209,9 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             </IconButton>
           </Tooltip>
           <div className={classes.title} />
-
+          <Tooltip title="Set light/dark mode">
+          <BotaoAno/>
+          </Tooltip>
           <Tooltip title="Set light/dark mode">
             <IconButton
               color="inherit"
