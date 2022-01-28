@@ -13,7 +13,7 @@ import {
 
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
-import { useTheme, Box, Typography } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
 import { SpinContext } from "../../Context/SpinContext";
 import FcSurface from "../fc-surface/fc-surface";
