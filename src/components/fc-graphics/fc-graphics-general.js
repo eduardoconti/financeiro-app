@@ -11,16 +11,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { rertornaReceitasAgrupadasPorMes } from "../../common/ReceitaFuncoes";
-import { rertornaDespesasAgrupadasPorMes } from "../../common/DepesaFuncoes";
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
-import { useTheme } from "@material-ui/core";
+import { useTheme, Box, Typography } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
 import { SpinContext } from "../../Context/SpinContext";
 import FcSurface from "../fc-surface/fc-surface";
 import RadioButtons from "./fc-graphics-header";
-import { monthNames } from "../../common/fc-constants";
+import api from "../../common/Api";
 
 export default function FcGraphicsGeneral() {
   const ctxTotais = useContext(ContextTotais);
@@ -30,33 +28,22 @@ export default function FcGraphicsGeneral() {
   const stateTotais = ctxTotais.stateTotais;
   const [dados, setDados] = useState([]);
   const theme = useTheme();
+  const ENDPOINT = "graphic/";
 
   useEffect(() => {
-    if (isAuthenticated()) {
-      async function retornaDadosGrafico(stateAnoAtual) {
-        let dados = [];
-        let receitas = [];
-        let despesas = [];
-
+    async function retornaDadosGrafico(stateAnoAtual) {
+      if (isAuthenticated()) {
         try {
-          receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
-          despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
-
-          if ([despesas.statusCode, receitas.statusCode].includes(200)) {
-            adicionaNoArrayDeDados(dados, receitas.data, despesas.data);
-          }
-        } catch (error) {
-          return dados;
-        }
-
-        return dados;
+          let response = await api.get(ENDPOINT + "general");
+          setDados(response.data.data.months);
+        } catch (error) {}
       }
-      ctxSpin.setSpin(true);
-      retornaDadosGrafico(stateAnoAtual).then((dados) => {
-        setDados(dados);
-      });
-      ctxSpin.setSpin(false);
-    } // eslint-disable-next-line
+    }
+
+    ctxSpin.setSpin(true);
+    retornaDadosGrafico(stateAnoAtual);
+    ctxSpin.setSpin(false);
+    // eslint-disable-next-line
   }, [stateAnoAtual, stateTotais]);
 
   return (
@@ -75,7 +62,7 @@ export default function FcGraphicsGeneral() {
       <ResponsiveContainer height={250}>
         <ComposedChart data={dados}>
           <XAxis
-            dataKey="name"
+            dataKey="month"
             fill={theme.palette.text.primary}
             stroke={theme.palette.text.primary}
           />
@@ -95,7 +82,8 @@ export default function FcGraphicsGeneral() {
           <CartesianGrid strokeDasharray="3 3" />
           <Bar
             //type="monotone"
-            dataKey="receita"
+            dataKey="earnings.total"
+            name="Receitas"
             fill={theme.palette.secondary.main}
             stroke={theme.palette.secondary.main}
             fillOpacity={"60%"}
@@ -103,14 +91,23 @@ export default function FcGraphicsGeneral() {
           />
 
           <Bar
-            dataKey="despesa"
+            dataKey="expenses.total"
+            name="Despesas"
             maxBarSize={30}
             fill={theme.palette.error.main}
             stroke={theme.palette.error.dark}
           />
+          {/* <Line
+            dataKey="expensesOpen"
+            name="Despesas em aberto"
+            maxBarSize={30}
+            fill={theme.palette.error.dark}
+            stroke={theme.palette.error.main}
+          /> */}
           <Line
             type="monotone"
-            dataKey="balanco"
+            dataKey="ballance"
+            name="Balanço"
             stroke={
               theme.palette.type === "dark"
                 ? theme.palette.primary.dark
@@ -120,46 +117,23 @@ export default function FcGraphicsGeneral() {
           />
           <Line
             type="monotone"
-            dataKey="saldo"
+            dataKey="totalBallance"
+            name="Saldo"
             stroke={theme.palette.warning.light}
             strokeWidth={3}
           />
         </ComposedChart>
       </ResponsiveContainer>
+      {/* <Box>
+        <Typography
+          variant="h5"
+          style={{ color: theme.palette.secondary.main }}
+          
+        >
+          {console.log(dados)}
+          Total receitas pago = {dados.geral.earnings.totalPayed}
+        </Typography>
+      </Box> */}
     </FcSurface>
   );
-}
-
-function retornaMes(mes) {
-  return monthNames[mes];
-}
-
-function retornaDados(obj) {
-  if (typeof obj === "undefined") {
-    return { valor: 0 };
-  } else return obj;
-}
-
-function adicionaNoArrayDeDados(dados, receitas, despesas) {
-  let saldo = 0;
-
-  for (let i = 1; i <= 12; i++) {
-    let { valor: receita } = retornaDados(
-      receitas.find((receita) => receita.mes === i)
-    );
-    let { valor: despesa } = retornaDados(
-      despesas.find((despesa) => despesa.mes === i)
-    );
-    let balanco = receita - despesa;
-    saldo += balanco;
-    if (receita > 0 || despesa > 0) {
-      dados.push({
-        name: retornaMes(i - 1),
-        despesa: despesa.toFixed(2),
-        receita: receita.toFixed(2),
-        balanco: balanco.toFixed(2),
-        saldo: saldo.toFixed(2),
-      });
-    }
-  }
 }
