@@ -38,15 +38,15 @@ export default function FcGraphicsExpense() {
         if (stateGrafico === "1") {
           despesas = await getValorDespesasPorCategoria(
             stateCheckedDespesas,
-            stateAnoAtual,
-            stateMesAtual
+            0,
+            0
           );
           setDescricao("Despesas por Categoria");
         } else if (stateGrafico === "2") {
           despesas = await getValorDespesasPorCarteira(
             stateCheckedDespesas,
-            stateAnoAtual,
-            stateMesAtual
+            0,
+            0
           );
           setDescricao("Despesas por Carteira");
         }

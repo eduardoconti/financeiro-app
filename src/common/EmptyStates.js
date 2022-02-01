@@ -3,8 +3,8 @@ export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
 
   return {
     descricao: "",
-    categoria: 0,
-    carteira: 0,
+    categoriaId: 0,
+    carteiraId: 0,
     valor: 0,
     pago: false,
     pagamento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
@@ -37,7 +37,7 @@ export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
 
   return {
     descricao: "",
-    carteira: "",
+    carteiraId: "",
     valor: 0,
     pago: false,
     pagamento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
@@ -71,6 +71,7 @@ export const emptyChecked = {
 export const emptyAlertState = {
   isOpen: false,
   message: "",
+  reason:"",
   type: "",
   title: "",
 };

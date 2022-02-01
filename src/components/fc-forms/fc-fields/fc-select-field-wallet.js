@@ -9,7 +9,7 @@ export default function FcSelectFieldWallet(props) {
   const [wallets, setWallets] = useState([]);
   const [spin, setSpin] = useState(false);
   const ctxForm = useContext(ContextForm);
-  const { id = "carteira", label = "Carteira" } = props;
+  const { id = "carteiraId", label = "Carteira" } = props;
 
   useEffect(() => {
     if (isAuthenticated()) {

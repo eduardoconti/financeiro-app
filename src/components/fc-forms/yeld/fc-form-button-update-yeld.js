@@ -22,8 +22,9 @@ export default function FcFormButtonUpdateYeld() {
       description="alterar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
+        ctxForm.form.userId = getUserIdFromToken();
         ctxForm.form.valor = parseFloat(ctxForm.form.valor);
+        ctxForm.form.pagamento = new Date(ctxForm.form.pagamento + ':').toISOString();
 
         response = await alteraReceita(ctxForm.form);
 

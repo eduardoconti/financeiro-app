@@ -13,14 +13,26 @@ export async function getDespesas(
       stateCheckedDespesas.checkedPago &&
       stateCheckedDespesas.checkedAberto
     ) {
-      res = await API.get(ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual);
+      res = await API.get(
+        ENDPOINT + "?mes=" + stateMesAtual + "&ano=" + stateAnoAtual
+      );
     } else if (stateCheckedDespesas.checkedPago) {
       res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true"
+        ENDPOINT +
+          "?mes=" +
+          stateMesAtual +
+          "&ano=" +
+          stateAnoAtual +
+          "&pago=true"
       );
     } else if (stateCheckedDespesas.checkedAberto) {
       res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=false"
+        ENDPOINT +
+          "?mes=" +
+          stateMesAtual +
+          "&ano=" +
+          stateAnoAtual +
+          "&pago=false"
       );
     }
     return res.data;
@@ -143,8 +155,11 @@ export async function alteraDespesa(despesa) {
 
 export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
   try {
-    const endpoint =
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total";
+    const query =
+      stateAnoAtual && stateMesAtual
+        ? "/?ano=" + stateAnoAtual + "&mes=" + stateMesAtual
+        : "";
+    const endpoint = ENDPOINT + "total" + query;
     const res = await API.get(endpoint);
     return res.data;
   } catch (error) {
@@ -167,10 +182,16 @@ export async function retornaDespesasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    let ep =
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor";
+    let ep = ENDPOINT + "carteira/valor";
+
     if (typeof pago !== "undefined") {
       ep += "?pago=" + pago;
+    }
+    if (typeof stateAnoAtual !== "undefined") {
+      ep += "&ano=" + stateAnoAtual;
+    }
+    if (typeof stateMesAtual !== "undefined") {
+      ep += "&mes=" + stateMesAtual;
     }
     const total = await API.get(ep);
     return total.data;
@@ -214,21 +235,28 @@ export async function retornaDespesaPorId(id) {
 }
 export function formataDadosParaLinhasDataGrid(despesas) {
   return despesas.map((despesa) => {
+    const{id,descricao, pago, valor} = despesa
     return {
-      ...despesa,
-      categoria: despesa.categoria.descricao,
-      carteira: despesa.carteira.descricao,
+      id: id,
+      descricao: descricao,
+      pago: pago,
+      valor:valor.toFixed(2),
+      categoriaId: despesa.categoria.descricao,
+      carteiraId: despesa.carteira.descricao,
       vencimento: new Date(despesa.vencimento).toUTCString().slice(5, 12),
-      valor: despesa.valor.toFixed(2),
     };
   });
 }
 
 export function formataDadosParaFormulario(despesa) {
+  const{id,descricao, pago, valor} = despesa
   return {
-    ...despesa,
-    categoria: despesa.categoria.id,
-    carteira: despesa.carteira.id,
+    id: id,
+    descricao: descricao,
+    pago: pago,
+    valor:valor,
+    categoriaId: despesa.categoria.id,
+    carteiraId: despesa.carteira.id,
     vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
   };
 }

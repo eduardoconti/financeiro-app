@@ -33,13 +33,13 @@ async function retornaDadosParaCard() {
   try {
     const carteiras = await retornaCarteiras();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
-      0,
-      0,
+      undefined,
+      undefined,
       true
     );
     const { data: receitas } = await retornaReceitasAgrupadasPorCarteira(
-      0,
-      0,
+      undefined,
+      undefined,
       true
     );
     const {

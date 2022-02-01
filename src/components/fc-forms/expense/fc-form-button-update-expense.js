@@ -22,8 +22,9 @@ export default function FcFormButtonUpdateExpense() {
       description="alterar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
+        ctxForm.form.userId = getUserIdFromToken();
         ctxForm.form.valor = parseFloat(ctxForm.form.valor);
+        ctxForm.form.vencimento = new Date(ctxForm.form.vencimento + ':').toISOString();
 
         response = await alteraDespesa(ctxForm.form);
 

@@ -94,9 +94,12 @@ export async function alteraFlagPago(receita) {
 
 export async function retornaTotalReceitas(stateAnoAtual, stateMesAtual) {
   try {
-    const res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total"
-    );
+    const query =
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+        ? "/?ano=" + stateAnoAtual + "&mes=" + stateMesAtual
+        : "";
+    const res = await API.get(ENDPOINT + "total" + query);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -144,11 +147,16 @@ export async function retornaReceitasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    let ep =
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor/";
+    let ep = ENDPOINT + "carteira/valor/";
 
     if (typeof pago !== "undefined") {
       ep += "?pago=" + pago;
+    }
+    if (typeof stateAnoAtual !== "undefined") {
+      ep += "&ano=" + stateAnoAtual;
+    }
+    if (typeof stateMesAtual !== "undefined") {
+      ep += "&mes=" + stateMesAtual;
     }
     const res = await API.get(ep);
     return res.data;
@@ -177,19 +185,27 @@ export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual, pago) {
 
 export function formataDadosParaLinhasDataGrid(receita) {
   return receita.map((receita) => {
+    const { id, descricao, pago, valor } = receita;
     return {
-      ...receita,
-      carteira: receita.carteira.descricao,
+      id: id,
+      descricao: descricao,
+      pago: pago,
+      carteiraId: receita.carteira.descricao,
       pagamento: new Date(receita.pagamento).toUTCString().slice(5, 12),
-      valor: receita.valor.toFixed(2),
+      valor: valor.toFixed(2),
     };
   });
+  
 }
 
 export function formataDadosParaFormulario(receita) {
+  const { id, descricao, pago, valor } = receita;
   return {
-    ...receita,
-    carteira: receita.carteira.id,
+    valor: valor,
+    id: id,
+    descricao: descricao,
+    pago: pago,
+    carteiraId: receita.carteira.id,
     pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
   };
 }

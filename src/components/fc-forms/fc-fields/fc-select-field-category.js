@@ -23,15 +23,15 @@ export default function FcSelectFieldCategory() {
 
   return (
     <TextField
-      id="categoria"
+      id="categoriaId"
       label="Categoria"
       variant="outlined"
       size="small"
       fullWidth
-      value={ctxForm.form.categoria ? ctxForm.form.categoria : " "}
+      value={ctxForm.form.categoriaId ? ctxForm.form.categoriaId : " "}
       select
       onChange={(event) => {
-        ctxForm.setForm({ ...ctxForm.form, categoria: event.target.value });
+        ctxForm.setForm({ ...ctxForm.form, categoriaId: event.target.value });
       }}
     >
       {spin ? <SpinCircular size={20} /> : Menu(categories)}

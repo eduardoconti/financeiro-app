@@ -1,12 +1,8 @@
 import {
-  retornaTotalDespesasPagas,
-  retornaTotalDespesasAbertas,
-  retornaTotalGeralDespesasPagas,
+  retornaTotalDespesas,
 } from "./DepesaFuncoes";
 import {
-  retornaTotalReceitasPagas,
-  retornaTotalReceitasAbertas,
-  retornaTotalGeralReceitasPagas,
+  retornaTotalReceitas,
 } from "./ReceitaFuncoes";
 
 import { emptyTotais } from "./EmptyStates";
@@ -18,58 +14,46 @@ async function calculaTotais(
   stateMesAtual
 ) {
   try {
-    let totalDespesas;
-    let totalReceitas;
 
-    totalDespesas = 0;
-    let { data: totalDespesasPagas } = await retornaTotalDespesasPagas(
-      stateAnoAtual,
-      stateMesAtual
-    );
-    let { data: totalDespesasAbertas } = await retornaTotalDespesasAbertas(
-      stateAnoAtual,
-      stateMesAtual
-    );
-    let {
-      data: totalGeralDespesasPagas,
-    } = await retornaTotalGeralDespesasPagas();
-
-    stateCheckedDespesas.checkedPago
-      ? (totalDespesas += totalDespesasPagas)
-      : (totalDespesas += 0);
-    stateCheckedDespesas.checkedAberto
-      ? (totalDespesas += totalDespesasAbertas)
-      : (totalDespesas += 0);
-
-    totalReceitas = 0;
-    let { data: totalReceitasPagas } = await retornaTotalReceitasPagas(
-      stateAnoAtual,
-      stateMesAtual
-    );
-    let { data: totalReceitasAbertas } = await retornaTotalReceitasAbertas(
+    let { data: totalDespesas } = await retornaTotalDespesas(
       stateAnoAtual,
       stateMesAtual
     );
 
     let {
-      data: totalGeralReceitasPagas,
-    } = await retornaTotalGeralReceitasPagas();
+      data: totalGeralDespesas,
+    } = await retornaTotalDespesas();
 
-    stateCheckedReceitas.checkedPago
-      ? (totalReceitas += totalReceitasPagas)
-      : (totalReceitas += 0);
-    stateCheckedReceitas.checkedAberto
-      ? (totalReceitas += totalReceitasAbertas)
-      : (totalReceitas += 0);
+    let { data: totalReceitas }= await retornaTotalReceitas(
+      stateAnoAtual,
+      stateMesAtual
+    );
+
+    let { data: totalGeralReceitas } = await retornaTotalReceitas();
+    
+    let expenseValues = 0;
+    if( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto ){
+      expenseValues = totalDespesas.total;
+    }else if ( stateCheckedDespesas.checkedPago){
+      expenseValues = totalDespesas.totalPayed;
+    }else{
+      expenseValues = totalDespesas.totalOpen;
+    }
+
+    let earningValues = 0;
+    if( stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto ){
+      earningValues = totalReceitas.total;
+    }else if ( stateCheckedReceitas.checkedPago){
+      earningValues = totalReceitas.totalPayed;
+    }else{
+      earningValues = totalReceitas.totalOpen;
+    }
 
     return {
-      totalDespesas: totalDespesas,
-      totalReceitas: totalReceitas,
-      saldo: totalGeralReceitasPagas - totalGeralDespesasPagas,
-      balanco:
-        totalReceitasAbertas +
-        totalReceitasPagas -
-        (totalDespesasPagas + totalDespesasAbertas),
+      totalDespesas: expenseValues,
+      totalReceitas: earningValues,
+      saldo: totalGeralReceitas.totalPayed - totalGeralDespesas.totalPayed,
+      balanco:totalReceitas.total - totalDespesas.total,
     };
   } catch (error) {
     return emptyTotais;
