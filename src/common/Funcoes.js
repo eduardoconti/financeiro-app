@@ -6,6 +6,7 @@ import {
 } from "./ReceitaFuncoes";
 
 import { emptyTotais } from "./EmptyStates";
+import { lastDayOfMonth } from "./DateHelper";
 
 async function calculaTotais(
   stateCheckedDespesas,
@@ -15,6 +16,7 @@ async function calculaTotais(
 ) {
   try {
 
+    console.log(lastDayOfMonth(stateAnoAtual,stateMesAtual));
     let { data: totalDespesas } = await retornaTotalDespesas(
       stateAnoAtual,
       stateMesAtual

@@ -10,6 +10,8 @@ import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
 import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
+import { dateIso8601 } from "../../../common/DateHelper";
+
 export default function FcFormButtonInsertExpense() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -22,11 +24,11 @@ export default function FcFormButtonInsertExpense() {
       description="cadastrar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.vencimento = new Date(ctxForm.form.vencimento + ':').toISOString();
-        //ctxForm.form.vencimento = new Date(ctxForm.form.vencimento);
-        //console.log(ctxForm.form.vencimento);
+        const { form } = ctxForm
+
+        form.user = getUserIdFromToken();
+        form.valor = parseFloat(form.valor);
+        form.vencimento = dateIso8601(form.vencimento);
 
         response = await insereDespesa(ctxForm.form);
 
