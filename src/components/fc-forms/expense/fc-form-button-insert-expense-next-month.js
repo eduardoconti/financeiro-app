@@ -34,13 +34,17 @@ export default function FcFormButtonInsertExpenseNextMonth() {
             10
           ).toISOString();
 
-          despesa.id = 0;
-          despesa.vencimento = nextDate;
-          despesa.dataPagamento = nextDate;
-          despesa.pago = false;
-          despesa.user = getUserIdFromToken();
-
-          res = await insereDespesa(despesa);
+          res = await insereDespesa({
+            id: 0,
+            userId: getUserIdFromToken(),
+            descricao: despesa.descricao,
+            valor: despesa.valor,
+            vencimento: nextDate,
+            dataPagamento: nextDate,
+            pago: false,
+            carteiraId: despesa.carteira.id,
+            categoriaId: despesa.categoria.id,
+          });
 
           ctxAlert.setAlert(
             setCreatedAlert(res.statusCode, res.message, res.internalMessage)

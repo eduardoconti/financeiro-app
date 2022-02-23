@@ -34,7 +34,7 @@ export default function FcFormButtonInsertYieldNextMonth() {
           receita.id = 0;
           receita.pagamento = nextDate;
           receita.pago = false;
-          receita.user = getUserIdFromToken();
+          receita.userId = getUserIdFromToken();
 
           res = await insereReceita(receita);
 
