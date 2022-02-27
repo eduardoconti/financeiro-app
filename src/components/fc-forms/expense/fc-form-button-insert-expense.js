@@ -21,14 +21,15 @@ export default function FcFormButtonInsertExpense() {
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-        let response;
-        ctxForm.form.user = getUserIdFromToken();
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.vencimento = new Date(ctxForm.form.vencimento + ':').toISOString();
-        //ctxForm.form.vencimento = new Date(ctxForm.form.vencimento);
-        //console.log(ctxForm.form.vencimento);
 
-        response = await insereDespesa(ctxForm.form);
+        let despesa = {
+          ...ctxForm.form,
+          userId: getUserIdFromToken(),
+          valor: parseFloat(ctxForm.form.valor),
+          vencimento: new Date(ctxForm.form.vencimento + ':').toISOString(),
+        }
+
+        let response = await insereDespesa(despesa);
 
         ctxAlert.setAlert(
           setCreatedAlert(
