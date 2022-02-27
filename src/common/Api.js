@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./Auth";
 
 const api = axios.create({
-  baseURL: "https://controle-financeiro-efc.herokuapp.com/",
+  baseURL: process.env.REACT_APP_API_HOST,
   headers: { "Content-Type": "application/json" },
 });
 
