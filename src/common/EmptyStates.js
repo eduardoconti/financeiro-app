@@ -50,11 +50,13 @@ export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
 export const emptyFormularioCategoria = {
   descricao: "",
   id: 0,
+  userId: ""
 };
 
 export const emptyFormularioCarteira = {
   descricao: "",
   id: 0,
+  userId: ""
 };
 export const emptyTotais = {
   totalDespesas: 0,

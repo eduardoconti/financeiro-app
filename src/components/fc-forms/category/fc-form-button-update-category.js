@@ -14,7 +14,7 @@ export default function FcFormButtonUpdateCategory() {
       description="alterar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
+        ctxForm.form.userId = getUserIdFromToken();
 
         response = await alteraCategoria(ctxForm.form);
 

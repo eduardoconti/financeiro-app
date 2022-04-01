@@ -21,7 +21,7 @@ export default function FcFormButtonInsertCategory() {
       description="cadastrar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
+        ctxForm.form.userId = getUserIdFromToken();
 
         response = await insereCarteira(ctxForm.form);
 
