@@ -14,7 +14,7 @@ export default function FcFormButtonUpdateWallet() {
       description="alterar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
+        ctxForm.form.userId = getUserIdFromToken();
 
         response = await alteraCarteira(ctxForm.form);
 
