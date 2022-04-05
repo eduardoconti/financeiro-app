@@ -11,6 +11,8 @@ import CheckTwoToneIcon from "@material-ui/icons/CheckTwoTone";
 import { SpinContext } from "../../Context/SpinContext";
 import CloseTwoToneIcon from "@material-ui/icons/CloseTwoTone";
 import { getStorageDataGridRows } from "../../common/DataGridStorage";
+import ArrowForwardIosTwoToneIcon from "@material-ui/icons/ArrowForwardIosTwoTone";
+import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 
 const useStyles = makeStyles((theme) => ({
   selectedRows: {
@@ -54,12 +56,13 @@ function setSelectdeRows(selectedRows, rows) {
   }
 }
 
-export default function FcSelectedRows() {
+export default function FcSelectedRows(props) {
   const ctxDataGrid = useContext(ContextDataGrid);
   const ctxSpin = useContext(SpinContext);
   const classes = useStyles();
   const theme = useTheme();
   const [selected, setSelected] = useState(false);
+  let { onClick, onDeleted } = props;
 
   let total = totalizador(ctxDataGrid.selectedRows, ctxDataGrid.rows);
   return total > 0 ? (
@@ -104,6 +107,54 @@ export default function FcSelectedRows() {
           <Typography variant="subtitle1" className={classes.legend}>
             Total: {total.toFixed(2)}
           </Typography>
+        </div>
+        <div
+          style={{
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(3),
+          }}
+        >
+          <IconButton
+            aria-label="next-month"
+            style={{
+              color: theme.palette.secondary.dark,
+              padding: 2,
+            }}
+            onClick={async () => {
+              ctxSpin.setSpin(true);
+
+              const data = ctxDataGrid.selectedRows;
+              await onClick(data);
+
+              ctxSpin.setSpin(false);
+            }}
+          >
+            {<ArrowForwardIosTwoToneIcon />}
+          </IconButton>
+        </div>
+        <div
+          style={{
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(3),
+          }}
+        >
+          <IconButton
+            aria-label="delete"
+            style={{
+              color: theme.palette.error.dark,
+              padding: 2,
+            }}
+            onClick={async () => {
+              ctxSpin.setSpin(true);
+
+              const data = ctxDataGrid.selectedRows;
+              await onDeleted(data);
+
+              ctxSpin.setSpin(false);
+            }}
+          >
+            {<DeleteForeverTwoToneIcon />}
+          </IconButton>
         </div>
       </div>
     </Box>
