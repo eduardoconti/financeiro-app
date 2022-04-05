@@ -27,14 +27,12 @@ export default function FcFormButtonInsertExpense() {
         const { form } = ctxForm
 
         form.user = getUserIdFromToken();
-        form.valor = parseFloat(form.valor);
-        form.vencimento = dateIso8601(form.vencimento);
 
         let despesa = {
-          ...ctxForm.form,
+          ...form,
           userId: getUserIdFromToken(),
           valor: parseFloat(ctxForm.form.valor),
-          vencimento: new Date(ctxForm.form.vencimento + ':').toISOString(),
+          vencimento: dateIso8601(form.vencimento)
         }
 
         let response = await insereDespesa(despesa);

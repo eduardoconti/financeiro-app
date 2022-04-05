@@ -29,7 +29,7 @@ export default function FcSelectFieldWallet(props) {
       variant="outlined"
       size="small"
       fullWidth
-      value={ctxForm.form[id] ? ctxForm.form[id] : " "}
+      value={ctxForm.form[id] ?? ""}
       select
       onChange={(event) => {
         ctxForm.setForm({ ...ctxForm.form, [id]: event.target.value });

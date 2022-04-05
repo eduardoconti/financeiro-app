@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import FcTextFieldDescription from "../fc-fields/fc-text-field-description";
 import FcFormButtonInsertCategory from "./fc-form-button-insert-category";
@@ -6,9 +6,14 @@ import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
 import { Grid } from "@material-ui/core";
 import FcFormButtonUpdateCategory from "./fc-form-button-update-category";
 import FcSurface from "../../fc-surface/fc-surface";
+import { emptyFormularioCategoria } from "common";
 
 export default function FcFormCategory() {
   const ctxForm = useContext(ContextForm);
+  useEffect(() => {
+    ctxForm.setForm(emptyFormularioCategoria);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <FcSurface>

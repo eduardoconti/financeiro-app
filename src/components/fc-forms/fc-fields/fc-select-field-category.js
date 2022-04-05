@@ -28,7 +28,7 @@ export default function FcSelectFieldCategory() {
       variant="outlined"
       size="small"
       fullWidth
-      value={ctxForm.form.categoriaId ? ctxForm.form.categoriaId : " "}
+      value={ctxForm.form.categoriaId ?? ''}
       select
       onChange={(event) => {
         ctxForm.setForm({ ...ctxForm.form, categoriaId: event.target.value });

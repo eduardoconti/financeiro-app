@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { ContextForm } from "../../../Context/FormContext";
 import FcTextFieldDescription from "../fc-fields/fc-text-field-description";
@@ -6,6 +6,7 @@ import FcFormButtonInsertWallet from "./fc-form-button-insert-wallet";
 import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
 import { Grid, Box } from "@material-ui/core";
 import FcFormButtonUpdateWallet from "./fc-form-button-update-wallet";
+import { emptyFormularioCarteira } from "common";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
 export default function FcFormWallet() {
   const ctxForm = useContext(ContextForm);
   const classes = useStyles();
-
+  useEffect(() => {
+    ctxForm.setForm(emptyFormularioCarteira);
+    // eslint-disable-next-line
+  }, []);
   return (
     <Box className={classes.container}>
       <Grid container spacing={2}>
