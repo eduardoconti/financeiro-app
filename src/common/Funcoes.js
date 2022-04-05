@@ -1,9 +1,5 @@
-import {
-  retornaTotalDespesas,
-} from "./DepesaFuncoes";
-import {
-  retornaTotalReceitas,
-} from "./ReceitaFuncoes";
+import { retornaTotalDespesas } from "./DepesaFuncoes";
+import { retornaTotalReceitas } from "./ReceitaFuncoes";
 
 import { emptyTotais } from "./EmptyStates";
 
@@ -14,38 +10,41 @@ async function calculaTotais(
   stateMesAtual
 ) {
   try {
-
     let { data: totalDespesas } = await retornaTotalDespesas(
       stateAnoAtual,
       stateMesAtual
     );
 
-    let {
-      data: totalGeralDespesas,
-    } = await retornaTotalDespesas();
+    let { data: totalGeralDespesas } = await retornaTotalDespesas();
 
-    let { data: totalReceitas }= await retornaTotalReceitas(
+    let { data: totalReceitas } = await retornaTotalReceitas(
       stateAnoAtual,
       stateMesAtual
     );
 
     let { data: totalGeralReceitas } = await retornaTotalReceitas();
-    
+
     let expenseValues = 0;
-    if( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto ){
+    if (
+      stateCheckedDespesas.checkedPago &&
+      stateCheckedDespesas.checkedAberto
+    ) {
       expenseValues = totalDespesas.total;
-    }else if ( stateCheckedDespesas.checkedPago){
+    } else if (stateCheckedDespesas.checkedPago) {
       expenseValues = totalDespesas.totalPayed;
-    }else{
+    } else {
       expenseValues = totalDespesas.totalOpen;
     }
 
     let earningValues = 0;
-    if( stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto ){
+    if (
+      stateCheckedReceitas.checkedPago &&
+      stateCheckedReceitas.checkedAberto
+    ) {
       earningValues = totalReceitas.total;
-    }else if ( stateCheckedReceitas.checkedPago){
+    } else if (stateCheckedReceitas.checkedPago) {
       earningValues = totalReceitas.totalPayed;
-    }else{
+    } else {
       earningValues = totalReceitas.totalOpen;
     }
 
@@ -53,7 +52,7 @@ async function calculaTotais(
       totalDespesas: expenseValues,
       totalReceitas: earningValues,
       saldo: totalGeralReceitas.totalPayed - totalGeralDespesas.totalPayed,
-      balanco:totalReceitas.total - totalDespesas.total,
+      balanco: totalReceitas.total - totalDespesas.total,
     };
   } catch (error) {
     return emptyTotais;

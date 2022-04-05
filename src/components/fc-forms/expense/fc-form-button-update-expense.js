@@ -10,6 +10,7 @@ import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
+import { dateIso8601 } from "../../../common/DateHelper";
 export default function FcFormButtonUpdateExpense() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -24,7 +25,7 @@ export default function FcFormButtonUpdateExpense() {
         let response;
         ctxForm.form.userId = getUserIdFromToken();
         ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.vencimento = new Date(ctxForm.form.vencimento + ':').toISOString();
+        ctxForm.form.vencimento = dateIso8601(ctxForm.form.vencimento);
 
         response = await alteraDespesa(ctxForm.form);
 

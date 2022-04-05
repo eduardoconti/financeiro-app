@@ -1,4 +1,5 @@
 import API from "./Api";
+import { formatDateToDataGrid, formatDateToForm } from "./DateHelper";
 
 const ENDPOINT = "despesas/";
 
@@ -235,7 +236,7 @@ export async function retornaDespesaPorId(id) {
 }
 export function formataDadosParaLinhasDataGrid(despesas) {
   return despesas.map((despesa) => {
-    const{id,descricao, pago, valor} = despesa
+    const{id,descricao, pago, valor, vencimento} = despesa
     return {
       id: id,
       descricao: descricao,
@@ -243,13 +244,13 @@ export function formataDadosParaLinhasDataGrid(despesas) {
       valor:valor.toFixed(2),
       categoriaId: despesa.categoria.descricao,
       carteiraId: despesa.carteira.descricao,
-      vencimento: new Date(despesa.vencimento).toUTCString().slice(5, 12),
+      vencimento: formatDateToDataGrid(vencimento),
     };
   });
 }
 
 export function formataDadosParaFormulario(despesa) {
-  const{id,descricao, pago, valor} = despesa
+  const{id,descricao, pago, valor, vencimento} = despesa
   return {
     id: id,
     descricao: descricao,
@@ -257,7 +258,7 @@ export function formataDadosParaFormulario(despesa) {
     valor:valor,
     categoriaId: despesa.categoria.id,
     carteiraId: despesa.carteira.id,
-    vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
+    vencimento:formatDateToForm(vencimento),
   };
 }
 

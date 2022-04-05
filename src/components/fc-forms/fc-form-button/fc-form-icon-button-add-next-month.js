@@ -1,6 +1,7 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import ArrowForwardIosTwoToneIcon from "@material-ui/icons/ArrowForwardIosTwoTone";
+
 import FcIconButton from "../../fc-button/fc-icon-button";
 export default function FcFormIconButtonAddNextMonth(props) {
   const theme = useTheme();
@@ -12,7 +13,7 @@ export default function FcFormIconButtonAddNextMonth(props) {
       onClick={onClick}
       disabled={disabled}
     >
-      <ArrowForwardIcon fontSize="large" />
+      <ArrowForwardIosTwoToneIcon fontSize="large" />
     </FcIconButton>
   );
 }

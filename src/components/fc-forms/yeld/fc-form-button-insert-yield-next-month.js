@@ -10,6 +10,7 @@ import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioReceita } from "../../../common/EmptyStates";
 import FcFormIconButtonAddNextMonth from "../fc-form-button/fc-form-icon-button-add-next-month";
 import { getYieldById, insereReceita } from "../../../common/ReceitaFuncoes";
+import { addMonth } from "../../../common/DateHelper";
 export default function FcFormButtonInsertYieldNextMonth() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -24,19 +25,23 @@ export default function FcFormButtonInsertYieldNextMonth() {
       onClick={async () => {
         let res = await getYieldById(ctxForm.form.id);
         if (res.statusCode === 200) {
-          let { data: receita } = res;
-          const nextDate = new Date(
-            ctxAnoMes.stateAnoAtual,
-            ctxAnoMes.stateMesAtual,
-            10
-          ).toISOString();
+          let {
+            data: {
+              carteira: { id: carteiraId },
+              ...receita
+            },
+          } = res;
+          const nextDate = addMonth(receita.pagamento);
 
-          receita.id = 0;
-          receita.pagamento = nextDate;
-          receita.pago = false;
-          receita.userId = getUserIdFromToken();
-
-          res = await insereReceita(receita);
+          res = await insereReceita({
+            id: 0,
+            carteiraId,
+            pago: false,
+            pagamento: nextDate,
+            vencimento: nextDate,
+            userId: getUserIdFromToken(),
+            ...receita,
+          });
 
           ctxAlert.setAlert(
             setCreatedAlert(res.statusCode, res.message, res.internalMessage)
