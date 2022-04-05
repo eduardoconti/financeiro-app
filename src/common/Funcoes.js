@@ -4,10 +4,10 @@ import { retornaTotalReceitas } from "./ReceitaFuncoes";
 import { emptyTotais } from "./EmptyStates";
 
 async function calculaTotais(
-  stateCheckedDespesas,
-  stateCheckedReceitas,
-  stateAnoAtual,
-  stateMesAtual
+  stateCheckedDespesas = false,
+  stateCheckedReceitas = false,
+  stateAnoAtual = 0,
+  stateMesAtual = 0
 ) {
   try {
     let { data: totalDespesas } = await retornaTotalDespesas(

@@ -64,7 +64,6 @@ export default function CorpoDespesas() {
                   categoriaId: categoria.id,
                   pago: false,
                 });
-
                 ctxAlert.setAlert(
                   setCreatedAlert(
                     insertRes.statusCode,
@@ -86,7 +85,6 @@ export default function CorpoDespesas() {
                   )
                 );
               });
-
               setStateTotais(
                 await calculaTotais(
                   stateCheckedDespesas,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import PersonIcon from "@material-ui/icons/Person";
@@ -135,8 +135,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [openLogin, setOpenLogin] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
 
   const history = useHistory();
 
@@ -209,9 +209,9 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             </IconButton>
           </Tooltip>
           <div className={classes.title} />
-          <Tooltip title="Set light/dark mode">
-          <BotaoAno/>
-          </Tooltip>
+
+          <BotaoAno />
+
           <Tooltip title="Set light/dark mode">
             <IconButton
               color="inherit"
