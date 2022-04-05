@@ -20,3 +20,7 @@ export function lastDayOfMonth(year, month){
 export function firstDayOfMonth(year, month){
     return `${year}-${month}-01T:00:00:00`;
 }
+
+export function addMonth(dateString){
+    return moment(dateString).add(1,'month').format("YYYY-MM-DD[T]hh:mm:ss");;
+}

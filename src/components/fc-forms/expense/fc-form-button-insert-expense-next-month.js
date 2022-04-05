@@ -13,6 +13,7 @@ import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
 import FcFormIconButtonAddNextMonth from "../fc-form-button/fc-form-icon-button-add-next-month";
+import { addMonth } from "../../../common/DateHelper";
 export default function FcFormButtonInsertExpenseNextMonth() {
   const ctxForm = useContext(ContextForm);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -27,20 +28,32 @@ export default function FcFormButtonInsertExpenseNextMonth() {
       onClick={async () => {
         let res = await retornaDespesaPorId(ctxForm.form.id);
         if (res.statusCode === 200) {
-          let { data: despesa } = res;
-          const nextDate = new Date(
-            ctxAnoMes.stateAnoAtual,
-            ctxAnoMes.stateMesAtual,
-            10
-          ).toISOString();
+          let {
+            data: {
+              carteira: { id: carteiraId },
+              categoria:{ id: categoriaId },
+              descricao,
+              ...despesa
+            },
+          } = res;
+          const nextDate = addMonth(despesa.vencimento);
+          const split = descricao.split("/");
+          if (split.length === 2) {
+            descricao = parseInt(split[0]) + 1 + "/" + split[1];
+          }
 
-          despesa.id = 0;
           despesa.vencimento = nextDate;
           despesa.dataPagamento = nextDate;
           despesa.pago = false;
-          despesa.user = getUserIdFromToken();
+          despesa.userId = getUserIdFromToken();
 
-          res = await insereDespesa(despesa);
+          res = await insereDespesa({
+            id: 0,
+            descricao,
+            carteiraId,
+            categoriaId,
+            ...despesa,
+          });
 
           ctxAlert.setAlert(
             setCreatedAlert(res.statusCode, res.message, res.internalMessage)

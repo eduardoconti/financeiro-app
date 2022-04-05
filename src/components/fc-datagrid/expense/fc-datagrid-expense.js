@@ -83,7 +83,6 @@ export default function FcDataGridExpense() {
         const { row } = GridRowParams;
         const getExpense = await getExpenseById(row.id);
         if (getExpense.statusCode === 200) {
-          console.log(getExpense.data);
           ctxForm.setForm(formataDadosParaFormulario(getExpense.data));
         }
       }}
