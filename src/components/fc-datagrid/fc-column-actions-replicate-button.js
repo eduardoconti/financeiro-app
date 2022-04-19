@@ -33,7 +33,7 @@ export default function ActionReplicateButon(props) {
         const response = await onClick();
         ctxAlert.setAlert(
           setCreatedAlert(
-            response.statusCode,
+            response.status,
             response.message,
             response.internalMessage
           )

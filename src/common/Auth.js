@@ -7,6 +7,7 @@ export const getUserIdFromToken = () => {
   return parse.userId;
 };
 export const login = (token) => {
+  console.log(token)
   localStorage.setItem(TOKEN_KEY, token);
 };
 export const logout = () => {

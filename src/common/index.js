@@ -13,5 +13,4 @@ export * from './fc-constants';
 export * from './Funcoes';
 export * from './Login';
 export * from './ReceitaFuncoes';
-export * from './SuccesResponse';
 export * from './TransferenciaFuncoes';

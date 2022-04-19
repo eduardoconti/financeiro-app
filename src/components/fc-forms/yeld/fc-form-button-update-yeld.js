@@ -30,12 +30,12 @@ export default function FcFormButtonUpdateYeld() {
 
         ctxAlert.setAlert(
           setCreatedAlert(
-            response.statusCode,
+            response.status,
             response.message,
             response.internalMessage
           )
         );
-        if ([200, 201].includes(response.statusCode)) {
+        if ([200, 201].includes(response.status)) {
           ctxTotais.setStateTotais(
             await calculaTotais(
               ctxChecked.stateCheckedDespesas,

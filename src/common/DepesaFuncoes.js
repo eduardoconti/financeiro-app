@@ -1,7 +1,7 @@
 import API from "./Api";
-import { formatDateToDataGrid, formatDateToForm } from "./DateHelper";
+import { firstDayOfMonth, formatDateToDataGrid, formatDateToForm, lastDayOfMonth } from "./DateHelper";
 
-const ENDPOINT = "despesas/";
+const ENDPOINT = "expense";
 
 export async function getDespesas(
   stateCheckedDespesas,
@@ -9,34 +9,25 @@ export async function getDespesas(
   stateMesAtual
 ) {
   try {
-    let res;
-    if (
-      stateCheckedDespesas.checkedPago &&
-      stateCheckedDespesas.checkedAberto
-    ) {
-      res = await API.get(
-        ENDPOINT + "?mes=" + stateMesAtual + "&ano=" + stateAnoAtual
-      );
-    } else if (stateCheckedDespesas.checkedPago) {
-      res = await API.get(
-        ENDPOINT +
-          "?mes=" +
-          stateMesAtual +
-          "&ano=" +
-          stateAnoAtual +
-          "&pago=true"
-      );
-    } else if (stateCheckedDespesas.checkedAberto) {
-      res = await API.get(
-        ENDPOINT +
-          "?mes=" +
-          stateMesAtual +
-          "&ano=" +
-          stateAnoAtual +
-          "&pago=false"
-      );
+    let endpoint = ENDPOINT;
+    let char = '?'
+    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
+      endpoint += "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual);
+      char = "&"
     }
-    return res.data;
+
+    if (!stateCheckedDespesas.checkedPago) {
+      endpoint += char + "pago=false"
+    }
+    if (!stateCheckedDespesas.checkedAberto) {
+      endpoint += char + "pago=true"
+    }
+
+    const { data } = await API.get(endpoint);
+    return data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -48,33 +39,27 @@ export async function getValorDespesasPorCategoria(
   stateMesAtual
 ) {
   try {
-    let res;
-    if (
-      stateCheckedDespesas.checkedPago &&
-      stateCheckedDespesas.checkedAberto
-    ) {
-      res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/categoria/valor/"
-      );
-    } else if (stateCheckedDespesas.checkedPago) {
-      res = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/" +
-          stateMesAtual +
-          "/categoria/valor/?pago=true"
-      );
-    } else if (stateCheckedDespesas.checkedAberto) {
-      res = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/" +
-          stateMesAtual +
-          "/categoria/valor/?pago=false"
-      );
+    let endpoint;
+    let char = "?";
+    endpoint =
+      ENDPOINT + "/values/category"
+
+    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
+      endpoint += "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual);
+      char = "&"
     }
 
-    return res.data;
+    if (!stateCheckedDespesas.checkedPago) {
+      endpoint += char + "pago=false";
+    }
+    if (!stateCheckedDespesas.checkedAberto) {
+      endpoint += char + "pago=true";
+    }
+    const { data } = await API.get(endpoint);
+    return data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -86,33 +71,29 @@ export async function getValorDespesasPorCarteira(
   stateMesAtual
 ) {
   try {
-    let res;
+    let endpoint;
+    let char = "?";
+    endpoint =
+      ENDPOINT + "/values/wallet"
+
+    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
+      endpoint += "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual);
+      char = "&"
+    }
     if (
       stateCheckedDespesas.checkedPago &&
       stateCheckedDespesas.checkedAberto
     ) {
-      res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor/"
-      );
     } else if (stateCheckedDespesas.checkedPago) {
-      res = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/" +
-          stateMesAtual +
-          "/carteira/valor/?pago=true"
-      );
+      endpoint += char + "pago=true";
     } else if (stateCheckedDespesas.checkedAberto) {
-      res = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/" +
-          stateMesAtual +
-          "/carteira/valor/?pago=false"
-      );
+      endpoint += char + "pago=false";
     }
-
-    return res.data;
+    const { data } = await API.get(endpoint);
+    return data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -120,7 +101,7 @@ export async function getValorDespesasPorCarteira(
 
 export async function deletaDespesa(id) {
   try {
-    const res = await API.delete(ENDPOINT + id);
+    const res = await API.delete(ENDPOINT + '/' + id);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -138,7 +119,7 @@ export async function insereDespesa(despesa) {
 
 export async function alteraFlagPago(despesa) {
   try {
-    const res = await API.patch(ENDPOINT + "flag/" + despesa.id, despesa);
+    const res = await API.patch(ENDPOINT + "/flag/" + despesa.id, despesa);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -147,7 +128,7 @@ export async function alteraFlagPago(despesa) {
 
 export async function alteraDespesa(despesa) {
   try {
-    const res = await API.put(ENDPOINT + despesa.id, despesa);
+    const res = await API.put(ENDPOINT + '/' + despesa.id, despesa);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -158,20 +139,12 @@ export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
   try {
     const query =
       stateAnoAtual && stateMesAtual
-        ? "/?ano=" + stateAnoAtual + "&mes=" + stateMesAtual
+        ? "?start=" + firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" + lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
-    const endpoint = ENDPOINT + "total" + query;
+    const endpoint = ENDPOINT + "/values" + query;
     const res = await API.get(endpoint);
     return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function retornaTotalGeralDespesasPagas() {
-  try {
-    const total = await API.get(ENDPOINT + "total/?pago=true");
-    return total.data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -183,44 +156,23 @@ export async function retornaDespesasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    let ep = ENDPOINT + "carteira/valor";
+    let endpoint;
+    let char = "?";
+    endpoint =
+      ENDPOINT + "/values/wallet"
 
-    if (typeof pago !== "undefined") {
-      ep += "?pago=" + pago;
+    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
+      endpoint += "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual);
+      char = "&"
     }
-    if (typeof stateAnoAtual !== "undefined") {
-      ep += "&ano=" + stateAnoAtual;
+    if (typeof pago !== 'undefined') {
+      endpoint += char + "pago=" + pago
     }
-    if (typeof stateMesAtual !== "undefined") {
-      ep += "&mes=" + stateMesAtual;
-    }
-    const total = await API.get(ep);
-    return total.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function retornaTotalDespesasPagas(stateAnoAtual, stateMesAtual) {
-  try {
-    const res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=true"
-    );
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function retornaTotalDespesasAbertas(
-  stateAnoAtual,
-  stateMesAtual
-) {
-  try {
-    const res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=false"
-    );
-    return res.data;
+    const { data } = await API.get(endpoint);
+    return data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -228,7 +180,7 @@ export async function retornaTotalDespesasAbertas(
 
 export async function retornaDespesaPorId(id) {
   try {
-    const despesa = await API.get(ENDPOINT + "id/" + id);
+    const despesa = await API.get(ENDPOINT + '/' + id);
     return despesa.data;
   } catch (error) {
     return errorResponse(error);
@@ -236,12 +188,12 @@ export async function retornaDespesaPorId(id) {
 }
 export function formataDadosParaLinhasDataGrid(despesas) {
   return despesas.map((despesa) => {
-    const{id,descricao, pago, valor, vencimento} = despesa
+    const { id, descricao, pago, valor, vencimento } = despesa
     return {
       id: id,
       descricao: descricao,
       pago: pago,
-      valor:valor.toFixed(2),
+      valor: valor.toFixed(2),
       categoriaId: despesa.categoria.descricao,
       carteiraId: despesa.carteira.descricao,
       vencimento: formatDateToDataGrid(vencimento),
@@ -250,30 +202,22 @@ export function formataDadosParaLinhasDataGrid(despesas) {
 }
 
 export function formataDadosParaFormulario(despesa) {
-  const{id,descricao, pago, valor, vencimento} = despesa
+  const { id, descricao, pago, valor, vencimento } = despesa
   return {
     id: id,
     descricao: descricao,
     pago: pago,
-    valor:valor,
+    valor: valor,
     categoriaId: despesa.categoria.id,
     carteiraId: despesa.carteira.id,
-    vencimento:formatDateToForm(vencimento),
+    vencimento: formatDateToForm(vencimento),
   };
 }
 
-export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual, pago) {
-  try {
-    const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/");
-    return total.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
 
 export async function getExpenseById(id) {
   try {
-    const res = await API.get(ENDPOINT + "id/" + id);
+    const res = await API.get(ENDPOINT + '/' + id);
     return res.data;
   } catch (error) {
     return errorResponse(error);

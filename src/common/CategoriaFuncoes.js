@@ -1,6 +1,6 @@
 import API from "./Api";
 
-const ENDPOINT = "categorias/";
+const ENDPOINT = "category/";
 const headers = {
   headers: {
     "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export async function insereCategoria(categoria) {
   try {
     const res = await API.post(ENDPOINT, categoria, headers);
     return {
-      statusCode: res.status.valueOf(),
+      status: res.status.valueOf(),
       data: res.data,
       message: "Inserido Categoria",
     };
@@ -33,7 +33,7 @@ export async function deletaCategoria(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
     return {
-      statusCode: res.status.valueOf(),
+      status: res.status.valueOf(),
       data: res.data,
       message: "Excluido Categoria",
     };
@@ -46,7 +46,7 @@ export async function alteraCategoria(carteira) {
   try {
     const res = await API.put(ENDPOINT + carteira.id, carteira, headers);
     return {
-      statusCode: res.status.valueOf(),
+      status: res.status.valueOf(),
       data: res.data,
       message: "Alterado Categoria",
     };

@@ -61,7 +61,7 @@ export default function FcDataGridYeld() {
         stateMesAtual
       );
 
-      if (receitas.statusCode === 200) {
+      if (receitas.status === 200) {
         let formated = formataDadosParaLinhasDataGrid(receitas.data);
         ctxDataGrid.setRows(formated);
         setStorageDataGridRows(JSON.stringify(formated));
@@ -81,7 +81,7 @@ export default function FcDataGridYeld() {
       rowClick={async (GridRowParams) => {
         const { row } = GridRowParams;
         const getYield = await getYieldById(row.id);
-        if (getYield.statusCode === 200) {
+        if (getYield.status === 200) {
           ctxForm.setForm(formataDadosParaFormulario(getYield.data));
         }
       }}

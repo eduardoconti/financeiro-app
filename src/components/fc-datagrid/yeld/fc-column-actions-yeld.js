@@ -32,7 +32,7 @@ export default function FcColumnActionsYeld(props) {
         stateMesAtual
       );
 
-      if (receitas.statusCode === 200) {
+      if (receitas.status === 200) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(receitas.data));
       }
       ctxSpin.setSpin(false);

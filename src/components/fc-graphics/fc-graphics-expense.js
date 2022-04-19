@@ -50,7 +50,7 @@ export default function FcGraphicsExpense() {
           );
           setDescricao("Despesas por Carteira");
         }
-        if (despesas.statusCode < 400) {
+        if (despesas.status < 400) {
           setDespesas(
             despesas.data.map((desp) => {
               return { ...desp, valor: desp.valor.toFixed(2) };

@@ -51,7 +51,7 @@ export default function FcGraphicsYeld() {
           );
           setDescricao("Receitas por Carteira");
         }
-        if (receitas.statusCode === 200) {
+        if (receitas.status === 200) {
           setReceitas(receitas.data);
         }
         ctxSpin.setSpin(false);
