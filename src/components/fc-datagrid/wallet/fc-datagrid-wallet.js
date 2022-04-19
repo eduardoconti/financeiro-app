@@ -31,7 +31,7 @@ export default function FcDataGridWallet() {
     if (isAuthenticated()) {
       let categories = await retornaCarteiras();
 
-      /*if (categories.statusCode === 200) {
+      /*if (categories.status === 200) {
         ctxDataGrid.setRows(categories.data);
       }*/
       ctxDataGrid.setRows(categories);

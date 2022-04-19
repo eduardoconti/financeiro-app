@@ -101,12 +101,12 @@ export default function FormLogin({ setOpen }) {
 
                   ctxAlert.setAlert(
                     setCreatedAlert(
-                      res.statusCode,
+                      res.status,
                       res.message,
                       res.internalMessage
                     )
                   );
-                  if (res.statusCode === 200) {
+                  if (res.status === 201) {
                     login(res.data.accessToken);
                     setStateTotais(
                       await calculaTotais(

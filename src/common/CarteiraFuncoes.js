@@ -1,6 +1,6 @@
 import API from "./Api";
 
-const ENDPOINT = "carteiras/";
+const ENDPOINT = "wallet/";
 
 export async function retornaCarteiras() {
   try {
@@ -16,7 +16,7 @@ export async function insereCarteira(carteira) {
   try {
     const res = await API.post(ENDPOINT, carteira);
     return {
-      statusCode: res.status.valueOf(),
+      status: res.status.valueOf(),
       data: res.data,
       message: "Inserido Carteira",
     };
@@ -29,7 +29,7 @@ export async function deletaCarteira(id) {
   try {
     const res = await API.delete(ENDPOINT + id);
     return {
-      statusCode: res.status.valueOf(),
+      status: res.status.valueOf(),
       data: res.data,
       message: "Deletado Categoria",
     };
@@ -42,7 +42,7 @@ export async function alteraCarteira(carteira) {
   try {
     const res = await API.put(ENDPOINT + carteira.id, carteira);
     return {
-      statusCode: res.status.valueOf(),
+      status: res.status.valueOf(),
       data: res.data,
       message: "Alterado Categoria",
     };

@@ -67,7 +67,7 @@ export default function CorpoDespesas() {
 
                 ctxAlert.setAlert(
                   setCreatedAlert(
-                    insertRes.statusCode,
+                    insertRes.status,
                     insertRes.message,
                     insertRes.internalMessage
                   )
@@ -80,7 +80,7 @@ export default function CorpoDespesas() {
 
                 ctxAlert.setAlert(
                   setCreatedAlert(
-                    deleted.statusCode,
+                    deleted.status,
                     deleted.message,
                     deleted.internalMessage
                   )

@@ -27,7 +27,7 @@ export default function FcFormButtonInsertExpenseNextMonth() {
       disabled={ctxForm.form.id === 0}
       onClick={async () => {
         let res = await retornaDespesaPorId(ctxForm.form.id);
-        if (res.statusCode === 200) {
+        if (res.status === 200) {
           let {
             data: {
               carteira: { id: carteiraId },
@@ -56,9 +56,9 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           });
 
           ctxAlert.setAlert(
-            setCreatedAlert(res.statusCode, res.message, res.internalMessage)
+            setCreatedAlert(res.status, res.message, res.internalMessage)
           );
-          if ([200, 201].includes(res.statusCode)) {
+          if ([200, 201].includes(res.status)) {
             ctxTotais.setStateTotais(
               await calculaTotais(
                 ctxChecked.stateCheckedDespesas,

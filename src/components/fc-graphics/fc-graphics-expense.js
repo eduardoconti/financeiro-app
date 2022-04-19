@@ -38,19 +38,19 @@ export default function FcGraphicsExpense() {
         if (stateGrafico === "1") {
           despesas = await getValorDespesasPorCategoria(
             stateCheckedDespesas,
-            0,
-            0
+            stateAnoAtual,
+            stateMesAtual
           );
           setDescricao("Despesas por Categoria");
         } else if (stateGrafico === "2") {
           despesas = await getValorDespesasPorCarteira(
             stateCheckedDespesas,
-            0,
-            0
+            stateAnoAtual,
+            stateMesAtual
           );
           setDescricao("Despesas por Carteira");
         }
-        if (despesas.statusCode < 400) {
+        if (despesas.status < 400) {
           setDespesas(
             despesas.data.map((desp) => {
               return { ...desp, valor: desp.valor.toFixed(2) };

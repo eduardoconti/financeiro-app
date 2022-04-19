@@ -22,7 +22,7 @@ export default function FcColumnActionsCategory(props) {
       ctxSpin.setSpin(true);
       let res = await retornaCategorias();
 
-      /*if (res.statusCode == 200) {
+      /*if (res.status == 200) {
         ctxDataGrid.setRows(res.data);
       }*/
       ctxDataGrid.setRows(res);

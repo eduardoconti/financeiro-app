@@ -32,7 +32,7 @@ export default function FcDataGridCategory() {
     if (isAuthenticated()) {
       let categories = await retornaCategorias();
 
-      /*if (categories.statusCode === 200) {
+      /*if (categories.status === 200) {
         ctxDataGrid.setRows(categories.data);
       }*/
       ctxDataGrid.setRows(categories);

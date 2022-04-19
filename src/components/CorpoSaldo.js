@@ -9,6 +9,7 @@ import {
 } from "../common/TransferenciaFuncoes";
 import FcCardWalletBalance from "./fc-cards/fc-card-wallet-balance";
 import { SpinContext } from "../Context/SpinContext";
+import { isAuthenticated } from "common";
 
 async function RetornaCards() {
   let object = await retornaDadosParaCard();
@@ -44,10 +45,10 @@ async function retornaDadosParaCard() {
     );
     const {
       data: transferenciasOrigem,
-    } = await retornaValoresTransferenciasOrigem(0, 0, true);
+    } = await retornaValoresTransferenciasOrigem(undefined, undefined, true);
     const {
       data: transferenciasDestino,
-    } = await retornaValoresTransferenciasDestino(0, 0, true);
+    } = await retornaValoresTransferenciasDestino(undefined, undefined, true);
     const dadosCard = [];
 
     carteiras.forEach((carteira, i) => {
@@ -89,7 +90,9 @@ export default function CorpoSaldo() {
   const ctxSpin = useContext(SpinContext);
 
   useEffect(() => {
-    set();
+    if (isAuthenticated()) {
+      set();
+    }
 
     async function set() {
       ctxSpin.setSpin(true);

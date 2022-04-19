@@ -31,7 +31,7 @@ export default function FcColumnActionsExpense(props) {
         stateMesAtual
       );
 
-      if (despesas.statusCode === 200) {
+      if (despesas.status === 200) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
     }

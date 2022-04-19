@@ -20,7 +20,7 @@ export default function FcFormButtonUpdateCategory() {
 
         ctxAlert.setAlert(
           setCreatedAlert(
-            response.statusCode,
+            response.status,
             response.message,
             response.internalMessage
           )

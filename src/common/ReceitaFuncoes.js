@@ -1,5 +1,6 @@
 import API from "./Api";
-const ENDPOINT = "receitas/";
+import { firstDayOfMonth, lastDayOfMonth } from "./DateHelper";
+const ENDPOINT = "earning";
 
 export async function getReceitas(
   stateCheckedReceitas,
@@ -14,14 +15,26 @@ export async function getReceitas(
         stateCheckedReceitas.checkedAberto) ||
       (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
     ) {
-      res = await API.get(ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual);
+      res = await API.get(
+        ENDPOINT + "?start=" + firstDayOfMonth(stateAnoAtual, stateMesAtual) + "&end=" + lastDayOfMonth(stateAnoAtual, stateMesAtual)
+      );
     } else if (stateCheckedReceitas.checkedPago) {
       res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true"
+        ENDPOINT +
+        "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&pago=true"
       );
     } else if (stateCheckedReceitas.checkedAberto) {
       res = await API.get(
-        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=false"
+        ENDPOINT +
+        "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&pago=false"
       );
     }
 
@@ -37,20 +50,29 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
   stateMesAtual
 ) {
   try {
-    let res, endpoint;
+    let endpoint;
+    let char = "?";
     endpoint =
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/carteira/valor";
+      ENDPOINT + "/values/wallet"
+
+    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
+      endpoint += "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual);
+      char = "&"
+    }
     if (
       stateCheckedReceitas.checkedPago &&
       stateCheckedReceitas.checkedAberto
     ) {
     } else if (stateCheckedReceitas.checkedPago) {
-      endpoint += "?pago=true";
+      endpoint += char + "pago=true";
     } else if (stateCheckedReceitas.checkedAberto) {
-      endpoint += "?pago=false";
+      endpoint += char + "pago=false";
     }
-    res = await API.get(endpoint);
-    return res.data;
+    const { data } = await API.get(endpoint);
+    return data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -58,7 +80,7 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
 
 export async function deletaReceita(id) {
   try {
-    const res = await API.delete(ENDPOINT + id);
+    const res = await API.delete(ENDPOINT + '/' + id);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -76,7 +98,7 @@ export async function insereReceita(receita) {
 
 export async function alteraReceita(receita) {
   try {
-    const res = await API.put(ENDPOINT + receita.id, receita);
+    const res = await API.put(ENDPOINT + '/' + receita.id, receita);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -85,7 +107,7 @@ export async function alteraReceita(receita) {
 
 export async function alteraFlagPago(receita) {
   try {
-    const res = await API.patch(ENDPOINT + "flag/" + receita.id, receita);
+    const res = await API.patch(ENDPOINT + "/flag/" + receita.id, receita);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -95,51 +117,18 @@ export async function alteraFlagPago(receita) {
 export async function retornaTotalReceitas(stateAnoAtual, stateMesAtual) {
   try {
     const query =
-      typeof stateAnoAtual !== "undefined" &&
-      typeof stateMesAtual !== "undefined"
-        ? "/?ano=" + stateAnoAtual + "&mes=" + stateMesAtual
+      stateAnoAtual && stateMesAtual
+        ? "?start=" + firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" + lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
-    const res = await API.get(ENDPOINT + "total" + query);
+    const endpoint = ENDPOINT + "/values" + query;
+    const res = await API.get(endpoint);
     return res.data;
   } catch (error) {
     return errorResponse(error);
   }
 }
 
-export async function retornaTotalReceitasPagas(stateAnoAtual, stateMesAtual) {
-  try {
-    const res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=true"
-    );
-
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function retornaTotalGeralReceitasPagas() {
-  try {
-    const res = await API.get(ENDPOINT + "total/?pago=true");
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function retornaTotalReceitasAbertas(
-  stateAnoAtual,
-  stateMesAtual
-) {
-  try {
-    const res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/total/?pago=false"
-    );
-    return res.data;
-  } catch (error) {
-    errorResponse(error);
-  }
-}
 
 export async function retornaReceitasAgrupadasPorCarteira(
   stateAnoAtual,
@@ -147,19 +136,23 @@ export async function retornaReceitasAgrupadasPorCarteira(
   pago
 ) {
   try {
-    let ep = ENDPOINT + "carteira/valor/";
+    let endpoint;
+    let char = "?";
+    endpoint =
+      ENDPOINT + "/values/wallet"
 
-    if (typeof pago !== "undefined") {
-      ep += "?pago=" + pago;
+    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
+      endpoint += "?start=" +
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual);
+      char = "&"
     }
-    if (typeof stateAnoAtual !== "undefined") {
-      ep += "&ano=" + stateAnoAtual;
+    if (typeof pago !== 'undefined') {
+      endpoint += char + "pago=" + pago;
     }
-    if (typeof stateMesAtual !== "undefined") {
-      ep += "&mes=" + stateMesAtual;
-    }
-    const res = await API.get(ep);
-    return res.data;
+    const { data } = await API.get(endpoint);
+    return data;
   } catch (error) {
     errorResponse(error);
   }
@@ -167,21 +160,13 @@ export async function retornaReceitasAgrupadasPorCarteira(
 
 export async function retornaReceitaPorId(id) {
   try {
-    const res = await API.get(ENDPOINT + "id/" + id);
+    const res = await API.get(ENDPOINT + "/" + id);
     return res.data;
   } catch (error) {
     errorResponse(error);
   }
 }
 
-export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual, pago) {
-  try {
-    const res = await API.get(ENDPOINT + stateAnoAtual + "/mes/");
-    return res.data;
-  } catch (error) {
-    errorResponse(error);
-  }
-}
 
 export function formataDadosParaLinhasDataGrid(receita) {
   return receita.map((receita) => {
@@ -195,7 +180,7 @@ export function formataDadosParaLinhasDataGrid(receita) {
       valor: valor.toFixed(2),
     };
   });
-  
+
 }
 
 export function formataDadosParaFormulario(receita) {
@@ -211,7 +196,7 @@ export function formataDadosParaFormulario(receita) {
 }
 export async function getYieldById(id) {
   try {
-    const res = await API.get(ENDPOINT + "id/" + id);
+    const res = await API.get(ENDPOINT + "/" + id);
     return res.data;
   } catch (error) {
     return errorResponse(error);

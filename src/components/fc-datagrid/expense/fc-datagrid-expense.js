@@ -61,7 +61,7 @@ export default function FcDataGridExpense() {
         stateMesAtual
       );
 
-      if (despesas.statusCode === 200) {
+      if (despesas.status === 200) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
         setStorageDataGridRows(
           JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
@@ -82,7 +82,7 @@ export default function FcDataGridExpense() {
       rowClick={async (GridRowParams) => {
         const { row } = GridRowParams;
         const getExpense = await getExpenseById(row.id);
-        if (getExpense.statusCode === 200) {
+        if (getExpense.status === 200) {
           ctxForm.setForm(formataDadosParaFormulario(getExpense.data));
         }
       }}
