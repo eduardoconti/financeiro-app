@@ -7,7 +7,7 @@ export default function FcColumnWalletOrigin() {
     width = 200;
   }
   return {
-    field: "carteiraOrigem",
+    field: "carteiraOrigemId",
     headerName: "Origem",
     width: width,
   };

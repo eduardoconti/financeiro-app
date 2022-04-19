@@ -7,26 +7,26 @@ export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
     carteiraId: 0,
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
+    pagamento: new Date(stateAnoAtual, stateMesAtual, dia)
       .toISOString()
       .slice(0, 10),
-    vencimento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
+    vencimento: new Date(stateAnoAtual, stateMesAtual, dia)
       .toISOString()
       .slice(0, 10),
     id: 0,
   };
 }
 
-export function emptyFormularioTransferencia(stateAnoAtual, stateMesAtual) {
+export function emptyFormularioTransferencia(stateAnoAtual = 0, stateMesAtual = 0) {
   let dia = new Date().getDate();
 
   return {
     id: 0,
-    carteiraOrigem: "",
-    carteiraDestino: "",
+    carteiraOrigemId: "",
+    carteiraDestinoId: "",
     valor: 0,
     pago: false,
-    transferencia: new Date(stateAnoAtual, stateMesAtual - 1, dia)
+    transferencia: new Date(stateAnoAtual, stateMesAtual, dia)
       .toISOString()
       .slice(0, 10),
   };
@@ -40,7 +40,7 @@ export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
     carteiraId: "",
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual - 1, dia)
+    pagamento: new Date(stateAnoAtual, stateMesAtual, dia)
       .toISOString()
       .slice(0, 10),
     id: 0,
@@ -50,13 +50,11 @@ export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
 export const emptyFormularioCategoria = {
   descricao: "",
   id: 0,
-  userId: ""
 };
 
 export const emptyFormularioCarteira = {
   descricao: "",
   id: 0,
-  userId: ""
 };
 export const emptyTotais = {
   totalDespesas: 0,
@@ -73,7 +71,7 @@ export const emptyChecked = {
 export const emptyAlertState = {
   isOpen: false,
   message: "",
-  reason:"",
+  reason: "",
   type: "",
   title: "",
 };

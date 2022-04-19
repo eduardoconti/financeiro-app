@@ -32,7 +32,7 @@ function retornaDados(obj) {
 }
 async function retornaDadosParaCard(ano, mes) {
   try {
-    const carteiras = await retornaCarteiras();
+    const { data: carteiras } = await retornaCarteiras();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       ano,
       mes

@@ -4,7 +4,6 @@ import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { alteraDespesa } from "../../../common/DepesaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
@@ -23,7 +22,6 @@ export default function FcFormButtonUpdateExpense() {
       description="alterar"
       onClick={async () => {
         let response;
-        ctxForm.form.userId = getUserIdFromToken();
         ctxForm.form.valor = parseFloat(ctxForm.form.valor);
         ctxForm.form.vencimento = dateIso8601(ctxForm.form.vencimento);
 

@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import {
   insereCarteira,
@@ -21,7 +20,6 @@ export default function FcFormButtonInsertCategory() {
       description="cadastrar"
       onClick={async () => {
         let response;
-        ctxForm.form.userId = getUserIdFromToken();
 
         response = await insereCarteira(ctxForm.form);
 
@@ -34,7 +32,8 @@ export default function FcFormButtonInsertCategory() {
         );
 
         ctxForm.setForm(emptyFormularioCarteira);
-        ctxDataGrid.setRows(await retornaCarteiras());
+        const { data } = await retornaCarteiras();
+        ctxDataGrid.setRows(data);
       }}
     />
   );

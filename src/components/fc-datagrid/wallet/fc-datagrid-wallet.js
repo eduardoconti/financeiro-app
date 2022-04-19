@@ -29,12 +29,12 @@ export default function FcDataGridWallet() {
   async function setRowsDataGrid() {
     ctxSpin.setSpin(true);
     if (isAuthenticated()) {
-      let categories = await retornaCarteiras();
+      let { data } = await retornaCarteiras();
 
       /*if (categories.status === 200) {
         ctxDataGrid.setRows(categories.data);
       }*/
-      ctxDataGrid.setRows(categories);
+      ctxDataGrid.setRows(data);
     }
     ctxSpin.setSpin(false);
   }

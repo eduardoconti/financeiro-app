@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { alteraCategoria } from "../../../common/CategoriaFuncoes";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
@@ -13,18 +12,26 @@ export default function FcFormButtonUpdateCategory() {
     <FcFormIconButtonUpdate
       description="alterar"
       onClick={async () => {
-        let response;
-        ctxForm.form.userId = getUserIdFromToken();
 
-        response = await alteraCategoria(ctxForm.form);
-
-        ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
-        );
+        const { status, ...response} = await alteraCategoria(ctxForm.form);
+        if(status === 200){
+          ctxAlert.setAlert(
+            setCreatedAlert(
+              status,
+              response.message,
+              response.internalMessage
+            )
+          );
+        }else {
+          ctxAlert.setAlert(
+            setCreatedAlert(
+              status,
+              response.title,
+              response.detail
+            )
+          );
+        }
+        
       }}
     />
   );

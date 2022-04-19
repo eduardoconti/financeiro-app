@@ -4,7 +4,6 @@ import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import {
   insereDespesa,
   retornaDespesaPorId,
@@ -45,7 +44,6 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           despesa.vencimento = nextDate;
           despesa.dataPagamento = nextDate;
           despesa.pago = false;
-          despesa.userId = getUserIdFromToken();
 
           res = await insereDespesa({
             id: 0,

@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import {
   insereCategoria,
@@ -21,7 +20,6 @@ export default function FcFormButtonInsertCategory() {
       description="cadastrar"
       onClick={async () => {
         let response;
-        ctxForm.form.userId = getUserIdFromToken();
 
         response = await insereCategoria(ctxForm.form);
 

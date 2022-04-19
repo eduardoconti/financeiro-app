@@ -15,12 +15,12 @@ export function formatDateToForm(dateString = undefined) {
 }
 
 export function lastDayOfMonth(year, month) {
-    return moment(`${year}-${month}-01`).endOf('month').toDate().toISOString();
+    return moment({ year, month, day: 1 }).endOf('month').toDate().toISOString();
 }
 
 export function firstDayOfMonth(year, month) {
 
-    return moment(`${year}-${String(month).padStart(2, '0')}-01`).toDate().toISOString();
+    return moment({ year, month, day: 1 }).toDate().toISOString();
 }
 
 export function addMonth(dateString) {

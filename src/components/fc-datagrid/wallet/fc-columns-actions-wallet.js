@@ -20,12 +20,12 @@ export default function FcColumnActionsWallet(props) {
   async function setDataGridRows() {
     if (isAuthenticated()) {
       ctxSpin.setSpin(true);
-      let res = await retornaCarteiras();
+      let { data } = await retornaCarteiras();
 
       /*if (res.status == 200) {
         ctxDataGrid.setRows(res.data);
       }*/
-      ctxDataGrid.setRows(res);
+      ctxDataGrid.setRows(data);
       ctxSpin.setSpin(false);
     }
   }

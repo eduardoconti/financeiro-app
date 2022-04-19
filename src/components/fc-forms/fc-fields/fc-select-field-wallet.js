@@ -14,7 +14,8 @@ export default function FcSelectFieldWallet(props) {
   useEffect(() => {
     if (isAuthenticated()) {
       async function fetchData() {
-        setWallets(await retornaCarteiras());
+        const { data } = await retornaCarteiras();
+        setWallets(data);
       }
       setSpin(true);
       fetchData();

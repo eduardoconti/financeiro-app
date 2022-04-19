@@ -31,10 +31,10 @@ export default function FcFormTransfer() {
     <FcSurface>
       <Grid container spacing={2}>
         <Grid item xs={6} sm={4} lg={3}>
-          <FcSelectFieldWallet id="carteiraOrigem" label="Origem" />
+          <FcSelectFieldWallet id="carteiraOrigemId" label="Origem" />
         </Grid>
         <Grid item xs={6} sm={4} lg={3}>
-          <FcSelectFieldWallet id="carteiraDestino" label="Destino" />
+          <FcSelectFieldWallet id="carteiraDestinoId" label="Destino" />
         </Grid>
         <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldValue />

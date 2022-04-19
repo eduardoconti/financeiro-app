@@ -4,22 +4,18 @@ const ENDPOINT = "wallet/";
 
 export async function retornaCarteiras() {
   try {
-    const res = await API.get(ENDPOINT);
-    return res.data;
+    const { data } = await API.get(ENDPOINT);
+    return data;
   } catch (error) {
- 
+
     return [{ id: 0, descricao: "" }];
   }
 }
 
 export async function insereCarteira(carteira) {
   try {
-    const res = await API.post(ENDPOINT, carteira);
-    return {
-      status: res.status.valueOf(),
-      data: res.data,
-      message: "Inserido Carteira",
-    };
+    const { data } = await API.post(ENDPOINT, carteira);
+    return data;
   } catch (error) {
     return error.response.data;
   }
@@ -27,12 +23,8 @@ export async function insereCarteira(carteira) {
 
 export async function deletaCarteira(id) {
   try {
-    const res = await API.delete(ENDPOINT + id);
-    return {
-      status: res.status.valueOf(),
-      data: res.data,
-      message: "Deletado Categoria",
-    };
+    const { data } = await API.delete(ENDPOINT + id);
+    return data;
   } catch (error) {
     return error.response.data;
   }
@@ -40,13 +32,10 @@ export async function deletaCarteira(id) {
 
 export async function alteraCarteira(carteira) {
   try {
-    const res = await API.put(ENDPOINT + carteira.id, carteira);
-    return {
-      status: res.status.valueOf(),
-      data: res.data,
-      message: "Alterado Categoria",
-    };
+    const { data } = await API.put(ENDPOINT + carteira.id, carteira);
+    return data;
   } catch (error) {
+    console.log(error.response.data)
     return error.response.data;
   }
 }

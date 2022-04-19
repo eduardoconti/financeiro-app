@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { alteraCarteira } from "../../../common/CarteiraFuncoes";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
@@ -13,16 +12,20 @@ export default function FcFormButtonUpdateWallet() {
     <FcFormIconButtonUpdate
       description="alterar"
       onClick={async () => {
-        let response;
-        ctxForm.form.userId = getUserIdFromToken();
-
-        response = await alteraCarteira(ctxForm.form);
+        const {
+          status,
+          message,
+          internalMessage,
+          detail,
+          title,
+          invalidFields,
+        } = await alteraCarteira(ctxForm.form);
 
         ctxAlert.setAlert(
           setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
+            status,
+            message ?? title + " Reason: " + JSON.stringify(invalidFields),
+            internalMessage ?? detail
           )
         );
       }}

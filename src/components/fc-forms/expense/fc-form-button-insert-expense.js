@@ -4,7 +4,6 @@ import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { insereDespesa } from "../../../common/DepesaFuncoes";
 import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
@@ -26,25 +25,22 @@ export default function FcFormButtonInsertExpense() {
 
         const { form } = ctxForm
 
-        form.user = getUserIdFromToken();
-
         let despesa = {
           ...form,
-          userId: getUserIdFromToken(),
           valor: parseFloat(ctxForm.form.valor),
           vencimento: dateIso8601(form.vencimento)
         }
 
-        let response = await insereDespesa(despesa);
+        let { status, message, internalMessage } = await insereDespesa(despesa);
 
         ctxAlert.setAlert(
           setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
+            status,
+            message,
+            internalMessage
           )
         );
-        if ([200, 201].includes(response.status)) {
+        if ([200, 201].includes(status)) {
           ctxTotais.setStateTotais(
             await calculaTotais(
               ctxChecked.stateCheckedDespesas,

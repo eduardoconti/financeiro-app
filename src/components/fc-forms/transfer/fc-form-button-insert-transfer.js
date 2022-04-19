@@ -28,6 +28,7 @@ export default function FcFormButtonInsertTransfer() {
         ctxForm.form.valor = parseFloat(ctxForm.form.valor);
         ctxForm.form.transferencia = new Date(ctxForm.form.transferencia + ':').toISOString();
 
+        console.log(ctxForm.form)
         response = await insereTransferencia(ctxForm.form);
 
         ctxAlert.setAlert(
