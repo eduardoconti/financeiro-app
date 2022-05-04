@@ -70,6 +70,7 @@ export default function FcGraphicsGeneral() {
             //domain={[0, domain]}
             fill={theme.palette.text.primary}
             stroke={theme.palette.text.primary}
+            scale="linear"
           />
           <Tooltip
             contentStyle={{

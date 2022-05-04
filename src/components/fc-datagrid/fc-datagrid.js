@@ -97,15 +97,14 @@ export default function FcDataGrid(props) {
         checkboxSelection={props.checkboxSelection}
         disableSelectionOnClick
         hideFooterSelectedRowCount
-        hideFooterRowCount
         hideFooter
         hideFooterPagination
         className={classes.root}
-        onSelectionChange={(props) => {
-          const { rowIds } = props;
-          ctxDataGrid.setSelectedRows(rowIds);
+        onSelectionModelChange={(props) => {
+          ctxDataGrid.setSelectedRows(props);
         }}
         getRowClassName={(params) => `super-app-theme--Open`}
+        
       />
     </Box>
   );
