@@ -7,7 +7,6 @@ function stateAlert(title, message, type) {
   };
 }
 
-
 export function setExclusionAlert(codResponse, message, title) {
   let type;
 
@@ -20,10 +19,10 @@ export function setExclusionAlert(codResponse, message, title) {
   return stateAlert(title, message, type);
 }
 
-export function setCreatedAlert(codResponse, message, title) {
+export function setCreatedAlert(status, message, title) {
   let type;
 
-  if (codResponse === 200 || codResponse === 201) {
+  if ([200, 201, 204].includes(status)) {
     type = "success";
   } else {
     type = "error";

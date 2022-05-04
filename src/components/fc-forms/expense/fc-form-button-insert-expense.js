@@ -31,13 +31,13 @@ export default function FcFormButtonInsertExpense() {
           vencimento: dateIso8601(form.vencimento)
         }
 
-        let { status, message, internalMessage } = await insereDespesa(despesa);
+        let { status, message, internalMessage, title, detail } = await insereDespesa(despesa);
 
         ctxAlert.setAlert(
           setCreatedAlert(
             status,
-            message,
-            internalMessage
+            message ?? detail,
+            internalMessage ?? title
           )
         );
         if ([200, 201].includes(status)) {

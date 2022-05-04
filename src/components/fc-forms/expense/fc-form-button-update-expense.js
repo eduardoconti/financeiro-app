@@ -11,44 +11,42 @@ import { emptyFormularioDespesa } from "../../../common/EmptyStates";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
 import { dateIso8601 } from "../../../common/DateHelper";
 export default function FcFormButtonUpdateExpense() {
-  const ctxForm = useContext(ContextForm);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { form, setForm } = useContext(ContextForm);
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
   const ctxAlert = useContext(ContextAlert);
 
   return (
     <FcFormIconButtonUpdate
       description="alterar"
       onClick={async () => {
-        let response;
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.vencimento = dateIso8601(ctxForm.form.vencimento);
+        form.valor = parseFloat(form.valor);
+        form.vencimento = dateIso8601(form.vencimento);
 
-        response = await alteraDespesa(ctxForm.form);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await alteraDespesa(form);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
-        if ([200, 201].includes(response.status)) {
+        if ([200, 201].includes(status)) {
           ctxTotais.setStateTotais(
             await calculaTotais(
-              ctxChecked.stateCheckedDespesas,
-              ctxChecked.stateCheckedReceitas,
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
+              stateCheckedDespesas,
+              stateCheckedReceitas,
+              stateAnoAtual,
+              stateMesAtual
             )
           );
-          ctxForm.setForm(
-            emptyFormularioDespesa(
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
-            )
-          );
+          setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
         }
       }}
     />

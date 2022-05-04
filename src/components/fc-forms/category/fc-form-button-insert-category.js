@@ -19,20 +19,21 @@ export default function FcFormButtonInsertCategory() {
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-        let response;
-
-        response = await insereCategoria(ctxForm.form);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await insereCategoria(ctxForm.form);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
-
-        ctxForm.setForm(emptyFormularioCategoria);
-        ctxDataGrid.setRows(await retornaCategorias());
+        if (status === 201) {
+          ctxForm.setForm(emptyFormularioCategoria);
+          ctxDataGrid.setRows(await retornaCategorias());
+        }
       }}
     />
   );

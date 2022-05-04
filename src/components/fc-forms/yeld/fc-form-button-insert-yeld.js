@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
@@ -10,46 +10,45 @@ import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioReceita } from "../../../common/EmptyStates";
 import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
+import { dateIso8601 } from "common";
 export default function FcFormButtonInsertYeld() {
-  const ctxForm = useContext(ContextForm);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { form, setForm } = useContext(ContextForm);
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
   const ctxAlert = useContext(ContextAlert);
 
   return (
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-        let response;
-        ctxForm.form.userId = getUserIdFromToken();
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.pagamento = new Date(ctxForm.form.pagamento + ':').toISOString();
-        response = await insereReceita(ctxForm.form);
+        form.userId = getUserIdFromToken();
+        form.valor = parseFloat(form.valor);
+        form.pagamento = dateIso8601(form.pagamento);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await insereReceita(form);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
-        if ([200, 201].includes(response.status)) {
+        if ([200, 201].includes(status)) {
           ctxTotais.setStateTotais(
             await calculaTotais(
-              ctxChecked.stateCheckedDespesas,
-              ctxChecked.stateCheckedReceitas,
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
+              stateCheckedDespesas,
+              stateCheckedReceitas,
+              stateAnoAtual,
+              stateMesAtual
             )
           );
 
-          ctxForm.setForm(
-            emptyFormularioReceita(
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
-            )
-          );
+          setForm(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
         }
       }}
     />

@@ -12,20 +12,22 @@ import FcFormIconButtonAddNextMonth from "../fc-form-button/fc-form-icon-button-
 import { getYieldById, insereReceita } from "../../../common/ReceitaFuncoes";
 import { addMonth } from "../../../common/DateHelper";
 export default function FcFormButtonInsertYieldNextMonth() {
-  const ctxForm = useContext(ContextForm);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { form, setForm } = useContext(ContextForm);
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
   const ctxAlert = useContext(ContextAlert);
 
   return (
     <FcFormIconButtonAddNextMonth
       description="nextMonth"
-      disabled={ctxForm.form.id === 0}
+      disabled={form.id === 0}
       onClick={async () => {
-        let res = await getYieldById(ctxForm.form.id);
+        const res = await getYieldById(form.id);
         if (res.status === 200) {
-          let {
+          const {
             data: {
               carteira: { id: carteiraId },
               ...receita
@@ -33,37 +35,35 @@ export default function FcFormButtonInsertYieldNextMonth() {
           } = res;
           const nextDate = addMonth(receita.pagamento);
 
-          res = await insereReceita({
+          const {
+            status,
+            message,
+            internalMessage,
+            title,
+            detail,
+          } = await insereReceita({
             id: 0,
             carteiraId,
             pago: false,
             pagamento: nextDate,
             vencimento: nextDate,
-            userId: getUserIdFromToken(),
             ...receita,
           });
 
           ctxAlert.setAlert(
-            setCreatedAlert(res.status, res.message, res.internalMessage)
+            setCreatedAlert(status, message ?? detail, internalMessage ?? title)
           );
-          if ([200, 201].includes(res.status)) {
+          if ([200, 201].includes(status)) {
             ctxTotais.setStateTotais(
               await calculaTotais(
-                ctxChecked.stateCheckedDespesas,
-                ctxChecked.stateCheckedReceitas,
-                ctxAnoMes.stateAnoAtual,
-                ctxAnoMes.stateMesAtual
+                stateCheckedDespesas,
+                stateCheckedReceitas,
+                stateAnoAtual,
+                stateMesAtual
               )
             );
-            ctxForm.setForm(
-              emptyFormularioReceita(
-                ctxAnoMes.stateAnoAtual,
-                ctxAnoMes.stateMesAtual
-              )
-            );
+            setForm(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
           }
-
-          return res;
         }
       }}
     />

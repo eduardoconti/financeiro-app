@@ -11,7 +11,7 @@ import { ContextDataGrid } from "../../../Context/DataGridContext";
 import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
 
 export default function FcFormButtonInsertCategory() {
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
   const ctxDataGrid = useContext(ContextDataGrid);
 
@@ -19,19 +19,19 @@ export default function FcFormButtonInsertCategory() {
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-        let response;
-
-        response = await insereCarteira(ctxForm.form);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await insereCarteira(form);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
 
-        ctxForm.setForm(emptyFormularioCarteira);
+        setForm(emptyFormularioCarteira);
         const { data } = await retornaCarteiras();
         ctxDataGrid.setRows(data);
       }}

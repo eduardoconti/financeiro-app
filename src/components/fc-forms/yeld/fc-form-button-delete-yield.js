@@ -10,41 +10,40 @@ import { emptyFormularioReceita } from "../../../common/EmptyStates";
 import FcFormIconButtonDelete from "../fc-form-button/fc-form-icon-button-delete";
 import { deletaReceita } from "../../../common/ReceitaFuncoes";
 export default function FcFormButtonDeleteYield() {
-  const ctxForm = useContext(ContextForm);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { form, setForm } = useContext(ContextForm);
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
   const ctxAlert = useContext(ContextAlert);
 
   return (
     <FcFormIconButtonDelete
       description="delete"
-      disabled={ctxForm.form.id === 0}
+      disabled={form.id === 0}
       onClick={async () => {
-        let response = await deletaReceita(ctxForm.form.id);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await deletaReceita(form.id);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
-        if ([200, 201].includes(response.status)) {
+        if ([200, 201].includes(status)) {
           ctxTotais.setStateTotais(
             await calculaTotais(
-              ctxChecked.stateCheckedDespesas,
-              ctxChecked.stateCheckedReceitas,
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
+              stateCheckedDespesas,
+              stateCheckedReceitas,
+              stateAnoAtual,
+              stateMesAtual
             )
           );
-          ctxForm.setForm(
-            emptyFormularioReceita(
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
-            )
-          );
+          setForm(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
         }
       }}
     />

@@ -21,16 +21,18 @@ export default function FcFormButtonDeleteExpense() {
       description="delete"
       disabled={ctxForm.form.id === 0}
       onClick={async () => {
-        let response = await deletaDespesa(ctxForm.form.id);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await deletaDespesa(ctxForm.form.id);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
-        if ([200, 201].includes(response.status)) {
+        if ([200, 201].includes(status)) {
           ctxTotais.setStateTotais(
             await calculaTotais(
               ctxChecked.stateCheckedDespesas,

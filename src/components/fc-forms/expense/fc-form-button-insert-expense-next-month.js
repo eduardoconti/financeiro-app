@@ -30,7 +30,7 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           let {
             data: {
               carteira: { id: carteiraId },
-              categoria:{ id: categoriaId },
+              categoria: { id: categoriaId },
               descricao,
               ...despesa
             },
@@ -45,7 +45,13 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           despesa.dataPagamento = nextDate;
           despesa.pago = false;
 
-          res = await insereDespesa({
+          const {
+            status,
+            message,
+            internalMessage,
+            title,
+            detail,
+          } = await insereDespesa({
             id: 0,
             descricao,
             carteiraId,
@@ -54,9 +60,9 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           });
 
           ctxAlert.setAlert(
-            setCreatedAlert(res.status, res.message, res.internalMessage)
+            setCreatedAlert(status, message ?? detail, internalMessage ?? title)
           );
-          if ([200, 201].includes(res.status)) {
+          if ([200, 201].includes(status)) {
             ctxTotais.setStateTotais(
               await calculaTotais(
                 ctxChecked.stateCheckedDespesas,
