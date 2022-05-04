@@ -18,7 +18,7 @@ export default function FcGraphicsYeld() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
+  const { setSpin } = useContext(SpinContext);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -33,7 +33,7 @@ export default function FcGraphicsYeld() {
   useEffect(() => {
     if (isAuthenticated()) {
       async function pegaReceitas() {
-        ctxSpin.setSpin(true);
+        setSpin(true);
         let receitas;
 
         if (stateGrafico === "1") {
@@ -51,19 +51,20 @@ export default function FcGraphicsYeld() {
           );
           setDescricao("Receitas por Carteira");
         }
-        if (receitas.statusCode === 200) {
+        if (receitas.status === 200) {
           setReceitas(receitas.data);
         }
-        ctxSpin.setSpin(false);
+        setSpin(false);
       }
       pegaReceitas();
-    } // eslint-disable-next-line
+    }
   }, [
     stateCheckedReceitas,
     stateTotais,
     stateAnoAtual,
     stateMesAtual,
     stateGrafico,
+    setSpin,
   ]);
 
   return (

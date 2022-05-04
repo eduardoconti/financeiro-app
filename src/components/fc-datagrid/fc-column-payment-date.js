@@ -1,5 +1,5 @@
 export const FcColumnPaymentDate = {
   field: "pagamento",
   headerName: "Pagamento",
-  width: 130,
+  width: 150,
 };

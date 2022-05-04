@@ -37,8 +37,8 @@ export default function BotaoMes() {
       return (
         <Grid item xs={2} sm={1} key={i}>
           <CardActionArea
-            className={stateMesAtual === i + 1 ? classes.ativo : classes.botao}
-            onClick={() => setStateMesAtual(i + 1)}
+            className={stateMesAtual === i ? classes.ativo : classes.botao}
+            onClick={() => setStateMesAtual(i)}
           >
             <Typography variant="button">{month}</Typography>
           </CardActionArea>

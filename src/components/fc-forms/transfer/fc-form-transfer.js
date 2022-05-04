@@ -17,24 +17,23 @@ import FcSurface from "../../fc-surface/fc-surface";
 
 export default function FcFormTransfer() {
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   useEffect(() => {
-    ctxForm.setForm(emptyFormularioTransferencia(stateAnoAtual, stateMesAtual));
-    // eslint-disable-next-line
-  }, [stateAnoAtual, stateMesAtual]);
+    setForm(emptyFormularioTransferencia(stateAnoAtual, stateMesAtual));
+  }, [setForm, stateAnoAtual, stateMesAtual]);
 
   return (
     <FcSurface>
       <Grid container spacing={2}>
         <Grid item xs={6} sm={4} lg={3}>
-          <FcSelectFieldWallet id="carteiraOrigem" label="Origem" />
+          <FcSelectFieldWallet id="carteiraOrigemId" label="Origem" />
         </Grid>
         <Grid item xs={6} sm={4} lg={3}>
-          <FcSelectFieldWallet id="carteiraDestino" label="Destino" />
+          <FcSelectFieldWallet id="carteiraDestinoId" label="Destino" />
         </Grid>
         <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldValue />
@@ -48,7 +47,7 @@ export default function FcFormTransfer() {
         <Grid item xs={12} sm={4} lg={3}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {ctxForm.form.id === 0 ? (
+              {form.id === 0 ? (
                 <FcFormButtonInsertTransfer />
               ) : (
                 <FcFormButtonUpdateTransfer />

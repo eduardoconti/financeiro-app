@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import {
   insereCarteira,
@@ -12,7 +11,7 @@ import { ContextDataGrid } from "../../../Context/DataGridContext";
 import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
 
 export default function FcFormButtonInsertCategory() {
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
   const ctxDataGrid = useContext(ContextDataGrid);
 
@@ -20,21 +19,21 @@ export default function FcFormButtonInsertCategory() {
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-        let response;
-        ctxForm.form.userId = getUserIdFromToken();
-
-        response = await insereCarteira(ctxForm.form);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await insereCarteira(form);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.statusCode,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
 
-        ctxForm.setForm(emptyFormularioCarteira);
-        ctxDataGrid.setRows(await retornaCarteiras());
+        setForm(emptyFormularioCarteira);
+        const { data } = await retornaCarteiras();
+        ctxDataGrid.setRows(data);
       }}
     />
   );

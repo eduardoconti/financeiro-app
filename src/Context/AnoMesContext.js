@@ -1,10 +1,11 @@
-import React, { createContext, useState } from "react";
+import { dateNow } from "common";
+import { createContext, useState } from "react";
 
 const ContextAnoMes = createContext();
 
 function AnoMesProvider({ children }) {
-  const [stateMesAtual, setStateMesAtual] = useState(new Date().getMonth() + 1);
-  const [stateAnoAtual, setStateAnoAtual] = useState(new Date().getFullYear());
+  const [stateMesAtual, setStateMesAtual] = useState(dateNow().getMonth());
+  const [stateAnoAtual, setStateAnoAtual] = useState(dateNow().getFullYear());
   return (
     <ContextAnoMes.Provider
       value={{

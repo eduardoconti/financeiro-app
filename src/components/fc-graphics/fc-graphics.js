@@ -27,7 +27,8 @@ export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }) {
           type="number"
           fill={theme.palette.text.primary}
           stroke={theme.palette.text.primary}
-          domain={[0, 4500]}
+          scale="linear"
+          interval="preserveStartEnd"
         />
         <Tooltip
           contentStyle={{

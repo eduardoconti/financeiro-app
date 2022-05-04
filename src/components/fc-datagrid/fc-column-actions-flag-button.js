@@ -27,13 +27,19 @@ export default function ActionFlagButon(props) {
       }}
       onClick={async () => {
         ctxSpin.setSpin(true);
-        const { statusCode, message, internalMessage } = await onClick();
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await onClick();
 
         ctxAlert.setAlert(
-          setCreatedAlert(statusCode, message, internalMessage)
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
 
-        if (statusCode === 200) {
+        if (status === 200) {
           ctxTotais.setStateTotais(
             await calculaTotais(
               ctxChecked.stateCheckedDespesas,

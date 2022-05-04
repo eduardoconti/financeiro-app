@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   ComposedChart,
   Bar,
@@ -11,8 +11,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { ContextTotais } from "../../Context/TotaisContext";
-import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
 import { SpinContext } from "../../Context/SpinContext";
@@ -21,30 +19,29 @@ import RadioButtons from "./fc-graphics-header";
 import api from "../../common/Api";
 
 export default function FcGraphicsGeneral() {
-  const ctxTotais = useContext(ContextTotais);
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const stateTotais = ctxTotais.stateTotais;
+  const { setSpin } = useContext(SpinContext);
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   const ENDPOINT = "graphic/";
 
   useEffect(() => {
-    async function retornaDadosGrafico(stateAnoAtual) {
+    async function retornaDadosGrafico() {
       if (isAuthenticated()) {
         try {
-          let response = await api.get(ENDPOINT + "general");
-          setDados(response.data.data.months);
+          let {
+            data: {
+              data: { months },
+            },
+          } = await api.get(ENDPOINT + "general");
+          setDados(months);
         } catch (error) {}
       }
     }
 
-    ctxSpin.setSpin(true);
-    retornaDadosGrafico(stateAnoAtual);
-    ctxSpin.setSpin(false);
-    // eslint-disable-next-line
-  }, [stateAnoAtual, stateTotais]);
+    setSpin(true);
+    retornaDadosGrafico();
+    setSpin(false);
+  }, [setSpin]);
 
   return (
     <FcSurface>
@@ -70,6 +67,7 @@ export default function FcGraphicsGeneral() {
             //domain={[0, domain]}
             fill={theme.palette.text.primary}
             stroke={theme.palette.text.primary}
+            scale="linear"
           />
           <Tooltip
             contentStyle={{

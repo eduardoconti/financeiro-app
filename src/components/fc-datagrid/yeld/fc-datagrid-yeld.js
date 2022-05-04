@@ -26,15 +26,14 @@ export default function FcDataGridYeld() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
+  const { rows, setRows } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
 
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const rows = ctxDataGrid.rows;
 
   let columns = [new FcColumnDescription()];
 
@@ -52,26 +51,26 @@ export default function FcDataGridYeld() {
     },
   });
 
-  async function setRowsDataGrid() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let receitas = await getReceitas(
-        stateCheckedReceitas,
-        stateAnoAtual,
-        stateMesAtual
-      );
-
-      if (receitas.statusCode === 200) {
-        let formated = formataDadosParaLinhasDataGrid(receitas.data);
-        ctxDataGrid.setRows(formated);
-        setStorageDataGridRows(JSON.stringify(formated));
-      }
-    }
-    ctxSpin.setSpin(false);
-  }
   useEffect(() => {
-    setRowsDataGrid(); // eslint-disable-next-line
-  }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
+    async function setRowsDataGrid() {
+      setSpin(true);
+      if (isAuthenticated()) {
+        let receitas = await getReceitas(
+          stateCheckedReceitas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+
+        if (receitas.status === 200) {
+          let formated = formataDadosParaLinhasDataGrid(receitas.data);
+          setRows(formated);
+          setStorageDataGridRows(JSON.stringify(formated));
+        }
+      }
+      setSpin(false);
+    }
+    setRowsDataGrid();
+  }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual, setSpin, setRows]);
 
   return (
     <FcDataGrid
@@ -81,7 +80,7 @@ export default function FcDataGridYeld() {
       rowClick={async (GridRowParams) => {
         const { row } = GridRowParams;
         const getYield = await getYieldById(row.id);
-        if (getYield.statusCode === 200) {
+        if (getYield.status === 200) {
           ctxForm.setForm(formataDadosParaFormulario(getYield.data));
         }
       }}

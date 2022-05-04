@@ -15,28 +15,27 @@ export default function ActionReplicateButon(props) {
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
   const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const {stateCheckedDespesas, stateCheckedReceitas} = useContext(ContextChecked);
+  const {stateAnoAtual, stateMesAtual} = useContext(ContextAnoMes);
   const theme = useTheme();
 
   const setStateTotais = ctxTotais.setStateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+
   return (
     <IconButton
       aria-label="transfere"
       style={{ color: theme.palette.secondary.dark, padding: 2 }}
       onClick={async () => {
         ctxSpin.setSpin(true);
-        const response = await onClick();
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await onClick();
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.statusCode,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
         setStateTotais(
           await calculaTotais(

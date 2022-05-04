@@ -32,7 +32,7 @@ function retornaDados(obj) {
 }
 async function retornaDadosParaCard(ano, mes) {
   try {
-    const carteiras = await retornaCarteiras();
+    const { data: carteiras } = await retornaCarteiras();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       ano,
       mes
@@ -77,28 +77,26 @@ async function retornaDadosParaCard(ano, mes) {
       }
     });
 
-    return await dadosCard;
-  } catch (error) {
-    console.log(error);
-  }
+    return dadosCard;
+  } catch (error) {}
 }
 
 export default function CorpoBalanco() {
   const [cards, setCards] = useState([]);
-  const ctxSpin = useContext(SpinContext);
+  const { setSpin } = useContext(SpinContext);
   const ctxAnoMes = useContext(ContextAnoMes);
 
   useEffect(() => {
     set();
 
     async function set() {
-      ctxSpin.setSpin(true);
+      setSpin(true);
       setCards(
         await RetornaCards(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual)
       );
-      ctxSpin.setSpin(false);
-    } // eslint-disable-next-line
-  }, [ctxAnoMes]);
+      setSpin(false);
+    }
+  }, [ctxAnoMes, setSpin]);
 
   return (
     <Grid container direction="row" spacing={1}>

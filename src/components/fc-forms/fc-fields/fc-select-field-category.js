@@ -11,10 +11,10 @@ export default function FcSelectFieldCategory() {
   const ctxForm = useContext(ContextForm);
 
   useEffect(() => {
+    async function fetchData() {
+      setCategories(await retornaCategorias());
+    }
     if (isAuthenticated()) {
-      async function fetchData() {
-        setCategories(await retornaCategorias());
-      }
       setSpin(true);
       fetchData();
       setSpin(false);
@@ -28,7 +28,7 @@ export default function FcSelectFieldCategory() {
       variant="outlined"
       size="small"
       fullWidth
-      value={ctxForm.form.categoriaId ?? ''}
+      value={ctxForm.form.categoriaId ?? ""}
       select
       onChange={(event) => {
         ctxForm.setForm({ ...ctxForm.form, categoriaId: event.target.value });

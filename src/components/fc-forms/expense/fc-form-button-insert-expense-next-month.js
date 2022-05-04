@@ -4,7 +4,6 @@ import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextAlert } from "../../../Context/AlertContext";
-import { getUserIdFromToken } from "../../../common/Auth";
 import {
   insereDespesa,
   retornaDespesaPorId,
@@ -27,11 +26,11 @@ export default function FcFormButtonInsertExpenseNextMonth() {
       disabled={ctxForm.form.id === 0}
       onClick={async () => {
         let res = await retornaDespesaPorId(ctxForm.form.id);
-        if (res.statusCode === 200) {
+        if (res.status === 200) {
           let {
             data: {
               carteira: { id: carteiraId },
-              categoria:{ id: categoriaId },
+              categoria: { id: categoriaId },
               descricao,
               ...despesa
             },
@@ -45,9 +44,14 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           despesa.vencimento = nextDate;
           despesa.dataPagamento = nextDate;
           despesa.pago = false;
-          despesa.userId = getUserIdFromToken();
 
-          res = await insereDespesa({
+          const {
+            status,
+            message,
+            internalMessage,
+            title,
+            detail,
+          } = await insereDespesa({
             id: 0,
             descricao,
             carteiraId,
@@ -56,9 +60,9 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           });
 
           ctxAlert.setAlert(
-            setCreatedAlert(res.statusCode, res.message, res.internalMessage)
+            setCreatedAlert(status, message ?? detail, internalMessage ?? title)
           );
-          if ([200, 201].includes(res.statusCode)) {
+          if ([200, 201].includes(status)) {
             ctxTotais.setStateTotais(
               await calculaTotais(
                 ctxChecked.stateCheckedDespesas,

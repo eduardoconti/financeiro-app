@@ -78,7 +78,6 @@ export default function BotaoAno() {
         {stateAnoAtual}
       </CardActionArea>
       <Dialog
-        disableBackdropClick
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}

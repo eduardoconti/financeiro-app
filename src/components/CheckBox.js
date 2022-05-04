@@ -31,7 +31,7 @@ export default function CheckboxLabels({ setStateChecked, stateChecked }) {
   };
 
   return (
-    <Grid container spacing={1} justify="center">
+    <Grid container spacing={1} justifyContent="center">
       <FormControlLabel
         control={
           <Checkbox

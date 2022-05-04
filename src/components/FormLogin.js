@@ -57,7 +57,7 @@ export default function FormLogin({ setOpen }) {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <Grid container spacing={2} alignItems="center" justify="center">
+      <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <TextField
             id="username"
@@ -101,12 +101,12 @@ export default function FormLogin({ setOpen }) {
 
                   ctxAlert.setAlert(
                     setCreatedAlert(
-                      res.statusCode,
+                      res.status,
                       res.message,
                       res.internalMessage
                     )
                   );
-                  if (res.statusCode === 200) {
+                  if (res.status === 201) {
                     login(res.data.accessToken);
                     setStateTotais(
                       await calculaTotais(

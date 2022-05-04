@@ -35,7 +35,7 @@ export default function FcColumnActionsTransfer(props) {
         stateMesAtual
       );
 
-      if (transferencias.statusCode === 200) {
+      if (transferencias.status === 200) {
         ctxDataGrid.setRows(
           formataDadosParaLinhasDataGrid(transferencias.data)
         );

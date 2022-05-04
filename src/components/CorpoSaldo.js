@@ -9,6 +9,7 @@ import {
 } from "../common/TransferenciaFuncoes";
 import FcCardWalletBalance from "./fc-cards/fc-card-wallet-balance";
 import { SpinContext } from "../Context/SpinContext";
+import { isAuthenticated } from "common";
 
 async function RetornaCards() {
   let object = await retornaDadosParaCard();
@@ -31,7 +32,7 @@ function retornaDados(obj) {
 }
 async function retornaDadosParaCard() {
   try {
-    const carteiras = await retornaCarteiras();
+    const { data: carteiras } = await retornaCarteiras();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       undefined,
       undefined,
@@ -44,10 +45,10 @@ async function retornaDadosParaCard() {
     );
     const {
       data: transferenciasOrigem,
-    } = await retornaValoresTransferenciasOrigem(0, 0, true);
+    } = await retornaValoresTransferenciasOrigem(undefined, undefined, true);
     const {
       data: transferenciasDestino,
-    } = await retornaValoresTransferenciasDestino(0, 0, true);
+    } = await retornaValoresTransferenciasDestino(undefined, undefined, true);
     const dadosCard = [];
 
     carteiras.forEach((carteira, i) => {
@@ -80,23 +81,28 @@ async function retornaDadosParaCard() {
 
     return await dadosCard;
   } catch (error) {
-    console.log(error);
+
   }
 }
 
 export default function CorpoSaldo() {
   const [cards, setCards] = useState([]);
-  const ctxSpin = useContext(SpinContext);
+  const {setSpin} = useContext(SpinContext);
+  
+
 
   useEffect(() => {
-    set();
-
     async function set() {
-      ctxSpin.setSpin(true);
+      setSpin(true);
       setCards(await RetornaCards());
-      ctxSpin.setSpin(false);
-    } // eslint-disable-next-line
-  }, []);
+      setSpin(false);
+    } 
+
+    if (isAuthenticated()) {
+      set();
+    }
+
+  }, [setSpin]);
 
   return (
     <Grid container direction="row" spacing={1}>

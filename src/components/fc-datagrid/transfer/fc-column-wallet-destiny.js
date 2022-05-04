@@ -7,7 +7,7 @@ export default function FcColumnWalletDestiny() {
   }
 
   return {
-    field: "carteiraDestino",
+    field: "carteiraDestinoId",
     headerName: "Destino",
     width: width,
   };

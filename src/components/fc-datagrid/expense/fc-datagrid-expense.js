@@ -22,24 +22,29 @@ import {
 } from "../../../common/DepesaFuncoes";
 import { setStorageDataGridRows } from "../../../common/DataGridStorage";
 import { ContextForm } from "../../../Context/FormContext";
+import { FcColumnPaymentDate } from "../fc-column-payment-date";
 
 export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
+  const { rows, setRows } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const rows = ctxDataGrid.rows;
 
   let columns = [new FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
-    columns.push(FcColumnCategory, FcColumnWallet, FcColumnDueDate);
+    columns.push(
+      FcColumnCategory,
+      FcColumnWallet,
+      FcColumnDueDate,
+      FcColumnPaymentDate
+    );
   }
 
   columns.push(FcColumnValue, {
@@ -52,27 +57,34 @@ export default function FcDataGridExpense() {
     },
   });
 
-  async function setRowsDataGrid() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let despesas = await getDespesas(
-        stateCheckedDespesas,
-        stateAnoAtual,
-        stateMesAtual
-      );
-
-      if (despesas.statusCode === 200) {
-        ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
-        setStorageDataGridRows(
-          JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
-        );
-      }
-    }
-    ctxSpin.setSpin(false);
-  }
   useEffect(() => {
-    setRowsDataGrid(); // eslint-disable-next-line
-  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
+    async function setRowsDataGrid() {
+      setSpin(true);
+      if (isAuthenticated()) {
+        let despesas = await getDespesas(
+          stateCheckedDespesas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+
+        if (despesas.status === 200) {
+          setRows(formataDadosParaLinhasDataGrid(despesas.data));
+          setStorageDataGridRows(
+            JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
+          );
+        }
+      }
+      setSpin(false);
+    }
+    setRowsDataGrid();
+  }, [
+    stateCheckedDespesas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    setSpin,
+    setRows,
+  ]);
 
   return (
     <FcDataGrid
@@ -81,9 +93,9 @@ export default function FcDataGridExpense() {
       checkboxSelection
       rowClick={async (GridRowParams) => {
         const { row } = GridRowParams;
-        const getExpense = await getExpenseById(row.id);
-        if (getExpense.statusCode === 200) {
-          ctxForm.setForm(formataDadosParaFormulario(getExpense.data));
+        const { data, status } = await getExpenseById(row.id);
+        if (status === 200) {
+          ctxForm.setForm(formataDadosParaFormulario(data));
         }
       }}
     />

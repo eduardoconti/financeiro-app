@@ -30,13 +30,15 @@ export default function ActionDeleteButon(props) {
       style={{ color: theme.palette.error.main, padding: 2 }}
       onClick={async () => {
         ctxSpin.setSpin(true);
-        const response = await onClick();
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await onClick();
         ctxAlert.setAlert(
-          setExclusionAlert(
-            response.statusCode,
-            response.message,
-            response.internalMessage
-          )
+          setExclusionAlert(status, message ?? detail, internalMessage ?? title)
         );
         if (refreshTotal) {
           setStateTotais(

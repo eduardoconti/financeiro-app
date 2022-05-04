@@ -15,13 +15,12 @@ export default function Dash() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
+  const { setSpin } = useContext(SpinContext);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateTotais = ctxSpin.stateTotais;
 
   useEffect(() => {
     async function setTotais() {
@@ -36,15 +35,16 @@ export default function Dash() {
         );
       }
     }
-    ctxSpin.setSpin(true);
+    setSpin(true);
     setTotais();
-    ctxSpin.setSpin(false); // eslint-disable-next-line
+    setSpin(false);
   }, [
     stateCheckedDespesas,
     stateCheckedReceitas,
     stateAnoAtual,
     stateMesAtual,
-    stateTotais,
+    setSpin,
+    setStateTotais
   ]);
 
   const cards = [
