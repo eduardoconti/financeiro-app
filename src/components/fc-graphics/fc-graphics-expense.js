@@ -18,7 +18,7 @@ export default function FcGraphicsExpense() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
+  const { setSpin } = useContext(SpinContext);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
@@ -32,7 +32,7 @@ export default function FcGraphicsExpense() {
   useEffect(() => {
     async function pegaDespesas() {
       if (isAuthenticated()) {
-        ctxSpin.setSpin(true);
+        setSpin(true);
         let despesas;
 
         if (stateGrafico === "1") {
@@ -53,16 +53,17 @@ export default function FcGraphicsExpense() {
         if (despesas.status === 200) {
           setDespesas(despesas.data);
         }
-        ctxSpin.setSpin(false);
+        setSpin(false);
       }
     }
-    pegaDespesas(); // eslint-disable-next-line
+    pegaDespesas();
   }, [
     stateCheckedDespesas,
     stateTotais,
     stateAnoAtual,
     stateMesAtual,
     stateGrafico,
+    setSpin,
   ]);
 
   return (

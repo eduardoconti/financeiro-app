@@ -12,11 +12,11 @@ export default function FcSelectFieldWallet(props) {
   const { id = "carteiraId", label = "Carteira" } = props;
 
   useEffect(() => {
+    async function fetchData() {
+      const { data } = await retornaCarteiras();
+      setWallets(data);
+    }
     if (isAuthenticated()) {
-      async function fetchData() {
-        const { data } = await retornaCarteiras();
-        setWallets(data);
-      }
       setSpin(true);
       fetchData();
       setSpin(false);

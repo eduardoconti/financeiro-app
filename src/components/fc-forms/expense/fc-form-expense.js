@@ -26,16 +26,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FcFormExpense() {
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxForm = useContext(ContextForm);
+  const {form, setForm} = useContext(ContextForm);
 
   const classes = useStyles();
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   useEffect(() => {
-    ctxForm.setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
-    // eslint-disable-next-line
-  }, [stateAnoAtual, stateMesAtual]);
+    setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+  }, [setForm, stateAnoAtual, stateMesAtual]);
 
   return (
     <Box className={classes.container}>
@@ -61,7 +60,7 @@ export default function FcFormExpense() {
         <Grid item xs={12} lg={4}>
           <Grid container spacing={2}>
             <Grid item xs={3} lg>
-              {ctxForm.form.id === 0 ? (
+              {form.id === 0 ? (
                 <FcFormButtonInsertExpense />
               ) : (
                 <FcFormButtonUpdateExpense />

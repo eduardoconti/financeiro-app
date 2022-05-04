@@ -17,12 +17,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FcFormWallet() {
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
   const classes = useStyles();
   useEffect(() => {
-    ctxForm.setForm(emptyFormularioCarteira);
-    // eslint-disable-next-line
-  }, []);
+    setForm(emptyFormularioCarteira);
+  }, [setForm]);
   return (
     <Box className={classes.container}>
       <Grid container spacing={2}>
@@ -32,7 +31,7 @@ export default function FcFormWallet() {
         <Grid item xs={12} md={8} lg={8}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {ctxForm.form.id === 0 ? (
+              {form.id === 0 ? (
                 <FcFormButtonInsertWallet />
               ) : (
                 <FcFormButtonUpdateWallet />

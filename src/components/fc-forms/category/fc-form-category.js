@@ -9,11 +9,10 @@ import FcSurface from "../../fc-surface/fc-surface";
 import { emptyFormularioCategoria } from "common";
 
 export default function FcFormCategory() {
-  const ctxForm = useContext(ContextForm);
+  const { setForm, form } = useContext(ContextForm);
   useEffect(() => {
-    ctxForm.setForm(emptyFormularioCategoria);
-    // eslint-disable-next-line
-  }, []);
+    setForm(emptyFormularioCategoria);
+  }, [setForm]);
 
   return (
     <FcSurface>
@@ -24,7 +23,7 @@ export default function FcFormCategory() {
         <Grid item xs={12} lg={8}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {ctxForm.form.id === 0 ? (
+              {form.id === 0 ? (
                 <FcFormButtonInsertCategory />
               ) : (
                 <FcFormButtonUpdateCategory />

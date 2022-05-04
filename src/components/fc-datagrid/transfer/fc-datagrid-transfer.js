@@ -17,12 +17,11 @@ import FcColumnWalletOrigin from "./fc-column-wallet-origin";
 
 export default function FcDataGridTransfer() {
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
+  const { rows, setRows } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const rows = ctxDataGrid.rows;
 
   let columns = [new FcColumnWalletOrigin()];
 
@@ -38,25 +37,24 @@ export default function FcDataGridTransfer() {
     },
   });
 
-  async function setRowsDataGrid() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let transferencias = await getTransferencias(
-        stateAnoAtual,
-        stateMesAtual
-      );
-
-      if (transferencias.status === 200) {
-        ctxDataGrid.setRows(
-          formataDadosParaLinhasDataGrid(transferencias.data)
-        );
-      }
-    }
-    ctxSpin.setSpin(false);
-  }
   useEffect(() => {
-    setRowsDataGrid(); // eslint-disable-next-line
-  }, [stateAnoAtual, stateMesAtual]);
+    async function setRowsDataGrid() {
+      setSpin(true);
+      if (isAuthenticated()) {
+        let transferencias = await getTransferencias(
+          stateAnoAtual,
+          stateMesAtual
+        );
+
+        if (transferencias.status === 200) {
+          setRows(formataDadosParaLinhasDataGrid(transferencias.data));
+        }
+      }
+      setSpin(false);
+    }
+
+    setRowsDataGrid();
+  }, [setRows, setSpin, stateAnoAtual, stateMesAtual]);
 
   return <FcDataGrid rows={rows} columns={columns} />;
 }

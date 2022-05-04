@@ -10,9 +10,8 @@ import { retornaCarteiras } from "../../../common/CarteiraFuncoes";
 import FcColumnActionsWallet from "./fc-columns-actions-wallet";
 
 export default function FcDataGridWallet() {
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
-  const rows = ctxDataGrid.rows;
+  const { rows, setRows } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
 
   let columns = [new FcColumnDescription()];
 
@@ -26,22 +25,17 @@ export default function FcDataGridWallet() {
     },
   });
 
-  async function setRowsDataGrid() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let { data } = await retornaCarteiras();
-
-      /*if (categories.status === 200) {
-        ctxDataGrid.setRows(categories.data);
-      }*/
-      ctxDataGrid.setRows(data);
-    }
-    ctxSpin.setSpin(false);
-  }
-
   useEffect(() => {
-    setRowsDataGrid(); // eslint-disable-next-line
-  }, []);
+    async function setRowsDataGrid() {
+      setSpin(true);
+      if (isAuthenticated()) {
+        let { data } = await retornaCarteiras();
+        setRows(data);
+      }
+      setSpin(false);
+    }
+    setRowsDataGrid();
+  }, [setRows, setSpin]);
 
   return <FcDataGrid rows={rows} columns={columns} />;
 }

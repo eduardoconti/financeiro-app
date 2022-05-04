@@ -11,9 +11,8 @@ import FcColumnActionsCategory from "./fc-columns-actions-category";
 import FcColumnDescription from "../fc-column-description";
 
 export default function FcDataGridCategory() {
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
-  const rows = ctxDataGrid.rows;
+  const { rows, setRows } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
 
   let columns = [new FcColumnDescription()];
 
@@ -27,22 +26,17 @@ export default function FcDataGridCategory() {
     },
   });
 
-  async function setRowsDataGrid() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let categories = await retornaCategorias();
-
-      /*if (categories.status === 200) {
-        ctxDataGrid.setRows(categories.data);
-      }*/
-      ctxDataGrid.setRows(categories);
-    }
-    ctxSpin.setSpin(false);
-  }
-
   useEffect(() => {
-    setRowsDataGrid(); // eslint-disable-next-line
-  }, []);
+    async function setRowsDataGrid() {
+      setSpin(true);
+      if (isAuthenticated()) {
+        let categories = await retornaCategorias();
+        setRows(categories);
+      }
+      setSpin(false);
+    }
+    setRowsDataGrid();
+  }, [setRows, setSpin]);
 
   return <FcDataGrid rows={rows} columns={columns} />;
 }

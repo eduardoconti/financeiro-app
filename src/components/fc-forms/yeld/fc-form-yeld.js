@@ -25,16 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FcFormYeld() {
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
 
   const classes = useStyles();
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   useEffect(() => {
-    ctxForm.setForm(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
-    // eslint-disable-next-line
-  }, [stateAnoAtual, stateMesAtual]);
+    setForm(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
+  }, [setForm, stateAnoAtual, stateMesAtual]);
 
   return (
     <Box className={classes.container}>
@@ -58,7 +57,7 @@ export default function FcFormYeld() {
         <Grid item xs={12}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              {ctxForm.form.id === 0 ? (
+              {form.id === 0 ? (
                 <FcFormButtonInsertYeld />
               ) : (
                 <FcFormButtonUpdateYeld />

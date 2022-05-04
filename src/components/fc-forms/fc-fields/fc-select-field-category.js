@@ -11,10 +11,10 @@ export default function FcSelectFieldCategory() {
   const ctxForm = useContext(ContextForm);
 
   useEffect(() => {
+    async function fetchData() {
+      setCategories(await retornaCategorias());
+    }
     if (isAuthenticated()) {
-      async function fetchData() {
-        setCategories(await retornaCategorias());
-      }
       setSpin(true);
       fetchData();
       setSpin(false);

@@ -87,19 +87,22 @@ async function retornaDadosParaCard() {
 
 export default function CorpoSaldo() {
   const [cards, setCards] = useState([]);
-  const ctxSpin = useContext(SpinContext);
+  const {setSpin} = useContext(SpinContext);
+  
+
 
   useEffect(() => {
+    async function set() {
+      setSpin(true);
+      setCards(await RetornaCards());
+      setSpin(false);
+    } 
+
     if (isAuthenticated()) {
       set();
     }
 
-    async function set() {
-      ctxSpin.setSpin(true);
-      setCards(await RetornaCards());
-      ctxSpin.setSpin(false);
-    } // eslint-disable-next-line
-  }, []);
+  }, [setSpin]);
 
   return (
     <Grid container direction="row" spacing={1}>

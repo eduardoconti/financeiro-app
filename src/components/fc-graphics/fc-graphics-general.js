@@ -23,7 +23,7 @@ import api from "../../common/Api";
 export default function FcGraphicsGeneral() {
   const ctxTotais = useContext(ContextTotais);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
+  const { setSpin } = useContext(SpinContext);
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
   const [dados, setDados] = useState([]);
@@ -34,17 +34,20 @@ export default function FcGraphicsGeneral() {
     async function retornaDadosGrafico(stateAnoAtual) {
       if (isAuthenticated()) {
         try {
-          let response = await api.get(ENDPOINT + "general");
-          setDados(response.data.data.months);
+          let {
+            data: {
+              data: { months },
+            },
+          } = await api.get(ENDPOINT + "general");
+          setDados(months);
         } catch (error) {}
       }
     }
 
-    ctxSpin.setSpin(true);
+    setSpin(true);
     retornaDadosGrafico(stateAnoAtual);
-    ctxSpin.setSpin(false);
-    // eslint-disable-next-line
-  }, [stateAnoAtual, stateTotais]);
+    setSpin(false);
+  }, [setSpin, stateAnoAtual, stateTotais]);
 
   return (
     <FcSurface>

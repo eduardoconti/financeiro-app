@@ -28,14 +28,13 @@ export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
+  const { rows, setRows } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const rows = ctxDataGrid.rows;
 
   let columns = [new FcColumnDescription()];
 
@@ -58,27 +57,34 @@ export default function FcDataGridExpense() {
     },
   });
 
-  async function setRowsDataGrid() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let despesas = await getDespesas(
-        stateCheckedDespesas,
-        stateAnoAtual,
-        stateMesAtual
-      );
-
-      if (despesas.status === 200) {
-        ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
-        setStorageDataGridRows(
-          JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
-        );
-      }
-    }
-    ctxSpin.setSpin(false);
-  }
   useEffect(() => {
-    setRowsDataGrid(); // eslint-disable-next-line
-  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
+    async function setRowsDataGrid() {
+      setSpin(true);
+      if (isAuthenticated()) {
+        let despesas = await getDespesas(
+          stateCheckedDespesas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+
+        if (despesas.status === 200) {
+          setRows(formataDadosParaLinhasDataGrid(despesas.data));
+          setStorageDataGridRows(
+            JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
+          );
+        }
+      }
+      setSpin(false);
+    }
+    setRowsDataGrid();
+  }, [
+    stateCheckedDespesas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    setSpin,
+    setRows,
+  ]);
 
   return (
     <FcDataGrid
