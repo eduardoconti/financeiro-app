@@ -50,12 +50,8 @@ export default function FcGraphicsExpense() {
           );
           setDescricao("Despesas por Carteira");
         }
-        if (despesas.status < 400) {
-          setDespesas(
-            despesas.data.map((desp) => {
-              return { ...desp, valor: desp.valor.toFixed(2) };
-            })
-          );
+        if (despesas.status === 200) {
+          setDespesas(despesas.data);
         }
         ctxSpin.setSpin(false);
       }

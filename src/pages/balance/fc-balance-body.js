@@ -77,9 +77,9 @@ async function retornaDadosParaCard(ano, mes) {
       }
     });
 
-    return await dadosCard;
+    return dadosCard;
   } catch (error) {
-    console.log(error);
+
   }
 }
 

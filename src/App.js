@@ -9,7 +9,7 @@ import { AnoMesProvider } from "./Context/AnoMesContext";
 import { AlertProvider } from "./Context/AlertContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
-  createMuiTheme,
+  createTheme,
   makeStyles,
   MuiThemeProvider,
 } from "@material-ui/core/styles";
@@ -34,7 +34,7 @@ function App() {
 
   const [darkTheme, setDarkTheme] = useState(getModeType());
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       type: darkTheme ? "dark" : "light",
       primary: {

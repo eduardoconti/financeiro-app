@@ -35,7 +35,6 @@ export async function alteraCarteira(carteira) {
     const { data } = await API.put(ENDPOINT + carteira.id, carteira);
     return data;
   } catch (error) {
-    console.log(error.response.data)
     return error.response.data;
   }
 }

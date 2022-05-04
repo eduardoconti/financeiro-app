@@ -3,8 +3,8 @@ export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
 
   return {
     descricao: "",
-    categoriaId: 0,
-    carteiraId: 0,
+    categoriaId: undefined,
+    carteiraId: undefined,
     valor: 0,
     pago: false,
     pagamento: new Date(stateAnoAtual, stateMesAtual, dia)

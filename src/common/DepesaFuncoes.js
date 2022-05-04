@@ -1,5 +1,10 @@
 import API from "./Api";
-import { firstDayOfMonth, formatDateToDataGrid, formatDateToForm, lastDayOfMonth } from "./DateHelper";
+import {
+  firstDayOfMonth,
+  formatDateToDataGrid,
+  formatDateToForm,
+  lastDayOfMonth,
+} from "./DateHelper";
 
 const ENDPOINT = "expense";
 
@@ -10,20 +15,24 @@ export async function getDespesas(
 ) {
   try {
     let endpoint = ENDPOINT;
-    let char = '?'
-    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
-      endpoint += "?start=" +
+    let char = "?";
+    if (
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+    ) {
+      endpoint +=
+        "?start=" +
         firstDayOfMonth(stateAnoAtual, stateMesAtual) +
         "&end=" +
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&"
+      char = "&";
     }
 
     if (!stateCheckedDespesas.checkedPago) {
-      endpoint += char + "pago=false"
+      endpoint += char + "pago=false";
     }
     if (!stateCheckedDespesas.checkedAberto) {
-      endpoint += char + "pago=true"
+      endpoint += char + "pago=true";
     }
 
     const { data } = await API.get(endpoint);
@@ -41,15 +50,18 @@ export async function getValorDespesasPorCategoria(
   try {
     let endpoint;
     let char = "?";
-    endpoint =
-      ENDPOINT + "/values/category"
+    endpoint = ENDPOINT + "/values/category";
 
-    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
-      endpoint += "?start=" +
+    if (
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+    ) {
+      endpoint +=
+        "?start=" +
         firstDayOfMonth(stateAnoAtual, stateMesAtual) +
         "&end=" +
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&"
+      char = "&";
     }
 
     if (!stateCheckedDespesas.checkedPago) {
@@ -73,15 +85,18 @@ export async function getValorDespesasPorCarteira(
   try {
     let endpoint;
     let char = "?";
-    endpoint =
-      ENDPOINT + "/values/wallet"
+    endpoint = ENDPOINT + "/values/wallet";
 
-    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
-      endpoint += "?start=" +
+    if (
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+    ) {
+      endpoint +=
+        "?start=" +
         firstDayOfMonth(stateAnoAtual, stateMesAtual) +
         "&end=" +
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&"
+      char = "&";
     }
     if (
       stateCheckedDespesas.checkedPago &&
@@ -101,7 +116,7 @@ export async function getValorDespesasPorCarteira(
 
 export async function deletaDespesa(id) {
   try {
-    const res = await API.delete(ENDPOINT + '/' + id);
+    const res = await API.delete(ENDPOINT + "/" + id);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -128,7 +143,7 @@ export async function alteraFlagPago(despesa) {
 
 export async function alteraDespesa(despesa) {
   try {
-    const res = await API.put(ENDPOINT + '/' + despesa.id, despesa);
+    const res = await API.put(ENDPOINT + "/" + despesa.id, despesa);
     return res.data;
   } catch (error) {
     return errorResponse(error);
@@ -139,8 +154,10 @@ export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
   try {
     const query =
       stateAnoAtual && stateMesAtual
-        ? "?start=" + firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" + lastDayOfMonth(stateAnoAtual, stateMesAtual)
+        ? "?start=" +
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await API.get(endpoint);
@@ -158,18 +175,21 @@ export async function retornaDespesasAgrupadasPorCarteira(
   try {
     let endpoint;
     let char = "?";
-    endpoint =
-      ENDPOINT + "/values/wallet"
+    endpoint = ENDPOINT + "/values/wallet";
 
-    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
-      endpoint += "?start=" +
+    if (
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+    ) {
+      endpoint +=
+        "?start=" +
         firstDayOfMonth(stateAnoAtual, stateMesAtual) +
         "&end=" +
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&"
+      char = "&";
     }
-    if (typeof pago !== 'undefined') {
-      endpoint += char + "pago=" + pago
+    if (typeof pago !== "undefined") {
+      endpoint += char + "pago=" + pago;
     }
     const { data } = await API.get(endpoint);
     return data;
@@ -180,7 +200,7 @@ export async function retornaDespesasAgrupadasPorCarteira(
 
 export async function retornaDespesaPorId(id) {
   try {
-    const despesa = await API.get(ENDPOINT + '/' + id);
+    const despesa = await API.get(ENDPOINT + "/" + id);
     return despesa.data;
   } catch (error) {
     return errorResponse(error);
@@ -188,7 +208,8 @@ export async function retornaDespesaPorId(id) {
 }
 export function formataDadosParaLinhasDataGrid(despesas) {
   return despesas.map((despesa) => {
-    const { id, descricao, pago, valor, vencimento } = despesa
+
+    const { id, descricao, pago, valor, vencimento, pagamento } = despesa;
     return {
       id: id,
       descricao: descricao,
@@ -197,31 +218,59 @@ export function formataDadosParaLinhasDataGrid(despesas) {
       categoriaId: despesa.categoria.descricao,
       carteiraId: despesa.carteira.descricao,
       vencimento: formatDateToDataGrid(vencimento),
+      pagamento: pagamento ? formatDateToDataGrid(pagamento) : undefined,
     };
   });
 }
 
 export function formataDadosParaFormulario(despesa) {
-  const { id, descricao, pago, valor, vencimento } = despesa
+  const { id, descricao, pago, valor, vencimento, categoria, carteira } = despesa;
   return {
     id: id,
     descricao: descricao,
     pago: pago,
     valor: valor,
-    categoriaId: despesa.categoria.id,
-    carteiraId: despesa.carteira.id,
+    categoriaId: categoria.id,
+    carteiraId: carteira.id,
     vencimento: formatDateToForm(vencimento),
   };
 }
 
-
 export async function getExpenseById(id) {
   try {
-    const res = await API.get(ENDPOINT + '/' + id);
+    const res = await API.get(ENDPOINT + "/" + id);
     return res.data;
   } catch (error) {
     return errorResponse(error);
   }
+}
+
+export function buildParams(
+  stateAnoAtual,
+  stateMesAtual,
+  stateCheckedDespesas
+) {
+  let endpoint = "";
+  let char = "";
+  if (
+    typeof stateAnoAtual !== "undefined" &&
+    typeof stateMesAtual !== "undefined"
+  ) {
+    endpoint +=
+      "?start=" +
+      firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+      "&end=" +
+      lastDayOfMonth(stateAnoAtual, stateMesAtual);
+    char = "&";
+  }
+
+  if (!stateCheckedDespesas.checkedPago) {
+    endpoint += char + "pago=false";
+  }
+  if (!stateCheckedDespesas.checkedAberto) {
+    endpoint += char + "pago=true";
+  }
+  return endpoint;
 }
 
 function errorResponse(error) {

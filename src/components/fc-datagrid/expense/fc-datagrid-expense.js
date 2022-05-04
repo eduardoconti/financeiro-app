@@ -22,6 +22,7 @@ import {
 } from "../../../common/DepesaFuncoes";
 import { setStorageDataGridRows } from "../../../common/DataGridStorage";
 import { ContextForm } from "../../../Context/FormContext";
+import { FcColumnPaymentDate } from "../fc-column-payment-date";
 
 export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
@@ -39,7 +40,12 @@ export default function FcDataGridExpense() {
   let columns = [new FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
-    columns.push(FcColumnCategory, FcColumnWallet, FcColumnDueDate);
+    columns.push(
+      FcColumnCategory,
+      FcColumnWallet,
+      FcColumnDueDate,
+      FcColumnPaymentDate
+    );
   }
 
   columns.push(FcColumnValue, {
@@ -81,9 +87,9 @@ export default function FcDataGridExpense() {
       checkboxSelection
       rowClick={async (GridRowParams) => {
         const { row } = GridRowParams;
-        const getExpense = await getExpenseById(row.id);
-        if (getExpense.status === 200) {
-          ctxForm.setForm(formataDadosParaFormulario(getExpense.data));
+        const { data, status } = await getExpenseById(row.id);
+        if (status === 200) {
+          ctxForm.setForm(formataDadosParaFormulario(data));
         }
       }}
     />

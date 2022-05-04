@@ -11,7 +11,6 @@ export async function retornaCategorias() {
     const res = await API.get(ENDPOINT, headers);
     return res.data;
   } catch (error) {
-    console.log(error);
     return [{ id: 0, descricao: "" }];
   }
 }

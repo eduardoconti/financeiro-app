@@ -2,12 +2,16 @@ import moment from "moment";
 import 'moment/locale/pt-br';
 
 moment.locale('pt-br')
+export function dateNow() {
+    return moment().toDate();
+}
+
 export function dateIso8601(dateString) {
     return moment(dateString).format("YYYY-MM-DD[T]hh:mm:ss");
 }
 
-export function formatDateToDataGrid(dateString = undefined) {
-    return moment(moment(dateString).toDate().toISOString()).format('ll').slice(0, -8);
+export function formatDateToDataGrid(dateString) {
+    return moment(moment(dateString).toDate().toISOString()).format('DD dddd');
 }
 
 export function formatDateToForm(dateString = undefined) {

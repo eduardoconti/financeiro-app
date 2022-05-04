@@ -81,7 +81,7 @@ async function retornaDadosParaCard() {
 
     return await dadosCard;
   } catch (error) {
-    console.log(error);
+
   }
 }
 
