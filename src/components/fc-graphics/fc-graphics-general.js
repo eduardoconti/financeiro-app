@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   ComposedChart,
   Bar,
@@ -11,8 +11,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { ContextTotais } from "../../Context/TotaisContext";
-import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
 import { SpinContext } from "../../Context/SpinContext";
@@ -21,17 +19,13 @@ import RadioButtons from "./fc-graphics-header";
 import api from "../../common/Api";
 
 export default function FcGraphicsGeneral() {
-  const ctxTotais = useContext(ContextTotais);
-  const ctxAnoMes = useContext(ContextAnoMes);
   const { setSpin } = useContext(SpinContext);
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const stateTotais = ctxTotais.stateTotais;
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   const ENDPOINT = "graphic/";
 
   useEffect(() => {
-    async function retornaDadosGrafico(stateAnoAtual) {
+    async function retornaDadosGrafico() {
       if (isAuthenticated()) {
         try {
           let {
@@ -45,9 +39,9 @@ export default function FcGraphicsGeneral() {
     }
 
     setSpin(true);
-    retornaDadosGrafico(stateAnoAtual);
+    retornaDadosGrafico();
     setSpin(false);
-  }, [setSpin, stateAnoAtual, stateTotais]);
+  }, [setSpin]);
 
   return (
     <FcSurface>
