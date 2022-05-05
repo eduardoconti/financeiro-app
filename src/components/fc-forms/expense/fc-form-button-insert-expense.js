@@ -25,13 +25,13 @@ export default function FcFormButtonInsertExpense() {
 
         const { form } = ctxForm
 
-        let despesa = {
+        const despesa = {
           ...form,
           valor: parseFloat(ctxForm.form.valor),
           vencimento: dateIso8601(form.vencimento)
         }
 
-        let { status, message, internalMessage, title, detail } = await insereDespesa(despesa);
+        const { status, message, internalMessage, title, detail } = await insereDespesa(despesa);
 
         ctxAlert.setAlert(
           setCreatedAlert(

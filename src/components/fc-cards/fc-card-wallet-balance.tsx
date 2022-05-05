@@ -1,9 +1,11 @@
 import { useTheme } from "@material-ui/core";
-import React from "react";
 
 import FcCard from "./fc-card";
 
-export default function FcCardWalletBalance(props) {
+export default function FcCardWalletBalance(props: {
+  value: number;
+  description: string;
+}) {
   const { value, description } = props;
   const theme = useTheme();
   function onClick() {

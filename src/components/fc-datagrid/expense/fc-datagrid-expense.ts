@@ -1,28 +1,32 @@
-import React, { useEffect, useContext } from "react";
+import { HttpStatus } from "common/enum";
+import { useEffect, useContext } from "react";
 
-import { ContextTotais } from "../../../Context/TotaisContext";
-import { ContextChecked } from "../../../Context/CheckedContext";
-import { ContextAnoMes } from "../../../Context/AnoMesContext";
-import { SpinContext } from "../../../Context/SpinContext";
-import { ContextDataGrid } from "../../../Context/DataGridContext";
+import { ExpenseService } from "api/expense/service";
+import {
+  ContextAlert,
+  ContextAnoMes,
+  ContextChecked,
+  ContextDataGrid,
+  ContextForm,
+  ContextTotais,
+  SpinContext,
+} from "Context";
+import {
+  formataDadosParaFormulario,
+  formataDadosParaLinhasDataGrid,
+  isAuthenticated,
+  setCreatedAlert,
+  setStorageDataGridRows,
+} from "common";
+import { GridColumns, GridRowParams } from "@material-ui/data-grid";
 import FcColumnDescription from "../fc-column-description";
 import { FcColumnCategory } from "../fc-column-category";
 import { FcColumnWallet } from "../fc-column-wallet";
 import { FcColumnDueDate } from "../fc-column-duedate";
-import { FcColumnValue } from "../fc-column-value";
-import FcDataGrid from "../fc-datagrid";
-
-import { isAuthenticated } from "../../../common/Auth";
-import FcColumnActionsExpense from "./fc-column-actions-expense";
-import {
-  getDespesas,
-  formataDadosParaLinhasDataGrid,
-  getExpenseById,
-  formataDadosParaFormulario,
-} from "../../../common/DepesaFuncoes";
-import { setStorageDataGridRows } from "../../../common/DataGridStorage";
-import { ContextForm } from "../../../Context/FormContext";
 import { FcColumnPaymentDate } from "../fc-column-payment-date";
+import { FcColumnValue } from "../fc-column-value";
+import FcColumnActionsExpense from "./fc-column-actions-expense";
+import FcDataGrid from "../fc-datagrid";
 
 export default function FcDataGridExpense() {
   const ctxTotais = useContext(ContextTotais);
@@ -31,12 +35,13 @@ export default function FcDataGridExpense() {
   const { rows, setRows } = useContext(ContextDataGrid);
   const { setSpin } = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
+  const { setAlert } = useContext(ContextAlert);
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
-  let columns = [new FcColumnDescription()];
+  let columns: GridColumns = [FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
     columns.push(
@@ -53,7 +58,7 @@ export default function FcDataGridExpense() {
     width: 100,
     sortable: false,
     renderCell: function operacoes(field) {
-      return <FcColumnActionsExpense field={field} />;
+      return FcColumnActionsExpense({ field });
     },
   });
 
@@ -61,18 +66,25 @@ export default function FcDataGridExpense() {
     async function setRowsDataGrid() {
       setSpin(true);
       if (isAuthenticated()) {
-        let despesas = await getDespesas(
+        const {
+          status,
+          message,
+          internalMessage,
+          data,
+        } = await new ExpenseService().getDespesas(
           stateCheckedDespesas,
           stateAnoAtual,
           stateMesAtual
         );
 
-        if (despesas.status === 200) {
-          setRows(formataDadosParaLinhasDataGrid(despesas.data));
+        if (status === HttpStatus.OK) {
+          setRows(formataDadosParaLinhasDataGrid(data));
           setStorageDataGridRows(
-            JSON.stringify(formataDadosParaLinhasDataGrid(despesas.data))
+            JSON.stringify(formataDadosParaLinhasDataGrid(data))
           );
         }
+
+        setAlert(setCreatedAlert(status, message, internalMessage));
       }
       setSpin(false);
     }
@@ -84,20 +96,20 @@ export default function FcDataGridExpense() {
     stateMesAtual,
     setSpin,
     setRows,
+    setAlert,
   ]);
 
-  return (
-    <FcDataGrid
-      rows={rows}
-      columns={columns}
-      checkboxSelection
-      rowClick={async (GridRowParams) => {
-        const { row } = GridRowParams;
-        const { data, status } = await getExpenseById(row.id);
-        if (status === 200) {
-          ctxForm.setForm(formataDadosParaFormulario(data));
-        }
-      }}
-    />
-  );
+  return FcDataGrid({
+    rows,
+    columns,
+    checkboxSelection: true,
+    rowClick: async (GridRowParams: GridRowParams) => {
+      const expenseService = new ExpenseService();
+      const { row } = GridRowParams;
+      const { data, status } = await expenseService.getExpenseById(row.id);
+      if (status === HttpStatus.OK) {
+        ctxForm.setForm(expenseService.formataDadosParaFormulario(data));
+      }
+    },
+  });
 }

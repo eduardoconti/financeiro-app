@@ -48,6 +48,7 @@ function App() {
       },
       background: {
         default: darkTheme ? "#121212" : "#FFF",
+        paper: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.04)",
         paper01: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.04)",
         paper02: darkTheme
           ? "rgba(255, 255, 255, 0.07)"

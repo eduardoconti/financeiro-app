@@ -3,10 +3,10 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { Typography, useTheme } from "@material-ui/core";
-import SpinCircular from "../fc-spin/fc-spin";
-import { SpinContext } from "../../Context/SpinContext";
+import { SpinContext } from "Context";
+import SpinCircular from "components/fc-spin/fc-spin";
 
-export default function FcCard(props) {
+export default function FcCard(props: any) {
   const { onClick, description, value, children } = props;
   let { legendColor } = props;
   const theme = useTheme();
@@ -22,7 +22,7 @@ export default function FcCard(props) {
         textAlign: "center",
         height: "100%",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.background.paper01,
+        backgroundColor: theme.palette.background.paper,
         border: "none",
       }}
     >

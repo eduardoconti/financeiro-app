@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, TextField, Button } from "@material-ui/core";
-import { ObtemToken } from "../common/Login";
+
 import { login, logout } from "../common/Auth";
 import { SpinContext } from "../Context/SpinContext";
 import { ContextTotais } from "../Context/TotaisContext";
@@ -11,6 +11,7 @@ import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { emptyTotais } from "../common/EmptyStates";
 import { setCreatedAlert } from "../common/AlertFuncoes";
+import { ObtemToken } from "common";
 
 const useStyles = makeStyles((theme) => ({
   root: {

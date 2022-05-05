@@ -10,19 +10,19 @@ async function calculaTotais(
   stateMesAtual = 0
 ) {
   try {
-    let { data: totalDespesas } = await retornaTotalDespesas(
+    const { data: totalDespesas } = await retornaTotalDespesas(
       stateAnoAtual,
       stateMesAtual
     );
 
-    let { data: totalGeralDespesas } = await retornaTotalDespesas();
+    const { data: totalGeralDespesas } = await retornaTotalDespesas();
 
-    let { data: totalReceitas } = await retornaTotalReceitas(
+    const { data: totalReceitas } = await retornaTotalReceitas(
       stateAnoAtual,
       stateMesAtual
     );
 
-    let { data: totalGeralReceitas } = await retornaTotalReceitas();
+    const { data: totalGeralReceitas } = await retornaTotalReceitas();
 
     let expenseValues = 0;
     if (

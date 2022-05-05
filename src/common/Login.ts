@@ -1,7 +1,7 @@
 import API from "./Api";
 const ENDPOINT = "auth/login";
 
-export async function ObtemToken(body) {
+export async function ObtemToken(body: any) {
   try {
     const res = await API.post(ENDPOINT, body);
     return res.data;
@@ -10,6 +10,6 @@ export async function ObtemToken(body) {
   }
 }
 
-function errorResponse(error) {
+function errorResponse(error: any) {
   return error.response.data;
 }

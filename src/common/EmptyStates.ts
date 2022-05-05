@@ -1,5 +1,9 @@
-export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
-  let dia = new Date().getDate();
+import { getDay } from "./DateHelper";
+
+export function emptyFormularioDespesa(
+  stateAnoAtual: number,
+  stateMesAtual: number
+) {
 
   return {
     descricao: "",
@@ -7,18 +11,20 @@ export function emptyFormularioDespesa(stateAnoAtual, stateMesAtual) {
     carteiraId: undefined,
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual, dia)
+    pagamento: new Date(stateAnoAtual, stateMesAtual, getDay())
       .toISOString()
       .slice(0, 10),
-    vencimento: new Date(stateAnoAtual, stateMesAtual, dia)
+    vencimento: new Date(stateAnoAtual, stateMesAtual, getDay())
       .toISOString()
       .slice(0, 10),
     id: 0,
   };
 }
 
-export function emptyFormularioTransferencia(stateAnoAtual = 0, stateMesAtual = 0) {
-  let dia = new Date().getDate();
+export function emptyFormularioTransferencia(
+  stateAnoAtual = 0,
+  stateMesAtual = 0
+) {
 
   return {
     id: 0,
@@ -26,21 +32,23 @@ export function emptyFormularioTransferencia(stateAnoAtual = 0, stateMesAtual = 
     carteiraDestinoId: "",
     valor: 0,
     pago: false,
-    transferencia: new Date(stateAnoAtual, stateMesAtual, dia)
+    transferencia: new Date(stateAnoAtual, stateMesAtual, getDay())
       .toISOString()
       .slice(0, 10),
   };
 }
 
-export function emptyFormularioReceita(stateAnoAtual, stateMesAtual) {
-  let dia = new Date().getDate();
+export function emptyFormularioReceita(
+  stateAnoAtual: number,
+  stateMesAtual: number
+) {
 
   return {
     descricao: "",
     carteiraId: "",
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual, dia)
+    pagamento: new Date(stateAnoAtual, stateMesAtual, getDay())
       .toISOString()
       .slice(0, 10),
     id: 0,

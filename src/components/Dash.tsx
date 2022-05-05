@@ -1,29 +1,29 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Grid } from "@material-ui/core";
-import { ContextTotais } from "../Context/TotaisContext";
-import { ContextChecked } from "../Context/CheckedContext";
-import { calculaTotais } from "../common/Funcoes";
-import { ContextAnoMes } from "../Context/AnoMesContext";
-import { SpinContext } from "../Context/SpinContext";
-import { isAuthenticated } from "../common/Auth";
+
 import FcCardExpense from "./fc-cards/fc-card-expense";
 import FcCardYeld from "./fc-cards/fc-card-yields";
 import FcCardBalance from "./fc-cards/fc-card-balance";
 import FcCardBalanceMonth from "./fc-cards/fc-card-balance-month";
+import {
+  ContextAnoMes,
+  ContextChecked,
+  ContextTotais,
+  SpinContext,
+} from "Context";
+import { calculaTotais, isAuthenticated } from "common";
 
 export default function Dash() {
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { setStateTotais } = useContext(ContextTotais);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const { setSpin } = useContext(SpinContext);
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const setStateTotais = ctxTotais.setStateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
   useEffect(() => {
     async function setTotais() {
+      setSpin(true);
       if (isAuthenticated()) {
         setStateTotais(
           await calculaTotais(
@@ -34,17 +34,16 @@ export default function Dash() {
           )
         );
       }
+      setSpin(false);
     }
-    setSpin(true);
     setTotais();
-    setSpin(false);
   }, [
     stateCheckedDespesas,
     stateCheckedReceitas,
     stateAnoAtual,
     stateMesAtual,
     setSpin,
-    setStateTotais
+    setStateTotais,
   ]);
 
   const cards = [
