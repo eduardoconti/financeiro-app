@@ -32,7 +32,7 @@ const useStyles = makeStyles(
         [theme.breakpoints.down("sm")]: {
           height: 220,
         },
-        backgroundColor: theme.palette.background.paper01,
+        backgroundColor: theme.palette.background.paper,
         borderRadius: theme.shape.borderRadius,
         padding: theme.spacing(1),
       },
@@ -48,7 +48,7 @@ const useStyles = makeStyles(
           borderBottom: 0,
         },
         "& .super-app-theme--Open": {
-          backgroundColor: getBackgroundColor(theme.palette.background.paper01),
+          backgroundColor: getBackgroundColor(theme.palette.background.paper),
           "&:hover": {
             backgroundColor: getHoverBackgroundColor(
               theme.palette.primary.main
@@ -72,9 +72,9 @@ const useStyles = makeStyles(
           },
         },
         "& .super-app-theme--Rejected": {
-          backgroundColor: getBackgroundColor(theme.palette.error.main),
+          backgroundColor: getBackgroundColor(theme.palette.error.light),
           "&:hover": {
-            backgroundColor: getHoverBackgroundColor(theme.palette.error.main),
+            backgroundColor: getHoverBackgroundColor(theme.palette.error.light),
           },
         },
       },

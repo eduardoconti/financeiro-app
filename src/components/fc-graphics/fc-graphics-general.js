@@ -70,7 +70,7 @@ export default function FcGraphicsGeneral() {
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: theme.palette.background.paper,
+              backgroundColor: theme.palette.background.default,
               borderRadius: theme.shape.borderRadius,
               border: "none",
             }}
@@ -82,14 +82,14 @@ export default function FcGraphicsGeneral() {
             dataKey="expenses.total"
             name="Despesas"
             maxBarSize={30}
-            fill={theme.palette.error.main}
-            stroke={theme.palette.error.dark}
+            fill={ theme.palette.type === "dark" ? theme.palette.error.light :  theme.palette.error.dark }
+            stroke={theme.palette.error.main}
           />
           <Bar
             dataKey="earnings.total"
             name="Receitas"
-            fill={theme.palette.secondary.main}
-            stroke={theme.palette.secondary.main}
+            fill={ theme.palette.type === "dark" ? theme.palette.success.light : theme.palette.success.dark }
+            stroke={theme.palette.success.main}
             fillOpacity={"60%"}
             maxBarSize={30}
           />
@@ -106,8 +106,8 @@ export default function FcGraphicsGeneral() {
             name="Balanço"
             stroke={
               theme.palette.type === "dark"
-                ? theme.palette.primary.dark
-                : theme.palette.primary.light
+                ? theme.palette.info.light
+                : theme.palette.info.dark
             }
             strokeWidth={3}
           />

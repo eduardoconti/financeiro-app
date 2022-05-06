@@ -37,25 +37,18 @@ function App() {
   const theme = createTheme({
     palette: {
       type: darkTheme ? "dark" : "light",
-      primary: {
-        main: darkTheme ? "#BB86FC" : "#3700B3",
-      },
-      secondary: {
-        main: darkTheme ? "#03DAC5" : "#018786",
-      },
-      error: {
-        main: darkTheme ? "#CF6679" : "#B00020",
-      },
+      // primary: {
+      //   main: darkTheme ? "#BB86FC" : "#3700B3",
+      // },
+      // success: {
+      //   main: darkTheme ? "#03DAC5" : "#018786",
+      // },
+      // error: {
+      //   main: darkTheme ? "#CF6679" : "#B00020",
+      // },
       background: {
         default: darkTheme ? "#121212" : "#FFF",
-        paper: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.04)",
-        paper01: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.04)",
-        paper02: darkTheme
-          ? "rgba(255, 255, 255, 0.07)"
-          : "rgba(0, 0, 0, 0.07)",
-        paper03: darkTheme
-          ? "rgba(255, 255, 255, 0.12)"
-          : "rgba(0, 0, 0, 0.12)",
+        paper: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.05)",
       },
     },
     mixins: {

@@ -24,7 +24,7 @@ export default function ActionReplicateButon(props) {
   return (
     <IconButton
       aria-label="transfere"
-      style={{ color: theme.palette.secondary.dark, padding: 2 }}
+      style={{ color: theme.palette.success.dark, padding: 2 }}
       onClick={async () => {
         ctxSpin.setSpin(true);
         const {

@@ -56,8 +56,8 @@ export default function FcSelectedRows(props) {
           aria-label="selected"
           style={{
             color: selected
-              ? theme.palette.error.dark
-              : theme.palette.secondary.dark,
+              ? theme.palette.error.light
+              : theme.palette.success.main,
             padding: 2,
           }}
           onClick={() => {
@@ -95,7 +95,7 @@ export default function FcSelectedRows(props) {
           <IconButton
             aria-label="next-month"
             style={{
-              color: theme.palette.secondary.dark,
+              color: theme.palette.success.dark,
               padding: 2,
             }}
             onClick={async () => {
@@ -114,7 +114,7 @@ export default function FcSelectedRows(props) {
           <IconButton
             aria-label="flagPayed"
             style={{
-              color: theme.palette.secondary.dark,
+              color: theme.palette.success.light,
               padding: 2,
             }}
             onClick={async () => {
@@ -133,7 +133,7 @@ export default function FcSelectedRows(props) {
           <IconButton
             aria-label="flag"
             style={{
-              color: theme.palette.error.main,
+              color: theme.palette.error.light,
               padding: 2,
             }}
             onClick={async () => {

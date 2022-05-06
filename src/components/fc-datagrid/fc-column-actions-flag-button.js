@@ -22,7 +22,7 @@ export default function ActionFlagButon(props) {
     <IconButton
       aria-label="pago"
       style={{
-        color: payed ? theme.palette.secondary.dark : theme.palette.error.main,
+        color: payed ? theme.palette.success.dark : theme.palette.error.light,
         padding: 2,
       }}
       onClick={async () => {

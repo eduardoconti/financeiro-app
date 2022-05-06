@@ -23,7 +23,9 @@ export default function FcCardYeld() {
   };
 
   return (
-    <FcCard onClick={routeChange} value={totalReceitas} color={theme.palette.secondary.main}>
+    <FcCard onClick={routeChange} value={totalReceitas} color={ theme.palette.type === "dark"
+    ? theme.palette.success.light
+    : theme.palette.success.dark}>
       <CheckboxLabels
         setStateChecked={setStateCheckedReceitas}
         stateChecked={stateCheckedReceitas}

@@ -17,7 +17,7 @@ import FcFormButtonInsertYieldNextMonth from "./fc-form-button-insert-yield-next
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: theme.palette.background.paper01,
+    backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(1),
   },

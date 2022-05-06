@@ -25,7 +25,11 @@ export default function FcCardExpense() {
     <FcCard
       onClick={routeChange}
       value={valor}
-      color={theme.palette.error.main}
+      color={
+        theme.palette.type === "dark"
+          ? theme.palette.error.light
+          : theme.palette.error.dark
+      }
     >
       <CheckboxLabels
         setStateChecked={setStateCheckedDespesas}

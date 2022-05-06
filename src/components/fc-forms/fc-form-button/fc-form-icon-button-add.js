@@ -8,7 +8,7 @@ export default function FcFormIconButtonAdd(props) {
 
   return (
     <FcIconButton
-      color={theme.palette.secondary.main}
+      color={theme.palette.success.main}
       onClick={onClick}
       disabled={disabled}
     >

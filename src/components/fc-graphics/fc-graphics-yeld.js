@@ -73,15 +73,17 @@ export default function FcGraphicsYeld() {
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor={theme.palette.secondary.main}
+        cor={theme.palette.success.main}
         descricao={descricao}
       />
       <FcGraphic
         data={receitas}
         chaveX="descricao"
         chaveY="valor"
-        cor={theme.palette.secondary.main}
-        stroke={theme.palette.secondary.dark}
+        cor={ theme.palette.type === "dark"
+        ? theme.palette.success.light
+        : theme.palette.success.dark}
+        stroke={theme.palette.success.main}
       />
     </FcSurface>
   );

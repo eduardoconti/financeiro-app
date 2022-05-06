@@ -16,7 +16,7 @@ import { ObtemToken } from "common";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
     borderRadius: theme.shape.borderRadius,
     width: 250,
   },

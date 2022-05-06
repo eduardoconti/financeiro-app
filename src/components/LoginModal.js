@@ -1,4 +1,3 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -12,21 +11,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     margin: "20px",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  botao: {
-    backgroundColor: "#f9fefb",
-    width: "100%",
-    boxShadow: "2px 2px 2px 1px rgba(47, 65, 167, 0.2)",
-    "&:hover": {
-      backgroundColor: "#9Ebfc0",
-    },
-    fontWeight: "bold",
   },
 }));
 

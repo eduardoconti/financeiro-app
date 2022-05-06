@@ -13,7 +13,7 @@ export default function BotaoMes() {
 
   const useStyles = makeStyles((theme) => ({
     botao: {
-      background: theme.palette.background.paper01,
+      background: theme.palette.background.paper,
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",

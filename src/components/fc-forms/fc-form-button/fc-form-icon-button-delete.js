@@ -8,7 +8,7 @@ export default function FcFormIconButtonDelete(props) {
 
   return (
     <FcIconButton
-      color={disabled ? theme.palette.grey[600] : theme.palette.error.main}
+      color={disabled ? theme.palette.grey[600] : theme.palette.error.light}
       onClick={onClick}
       disabled={disabled}
     >

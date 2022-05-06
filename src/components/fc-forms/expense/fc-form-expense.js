@@ -11,14 +11,15 @@ import FcTextFieldValue from "../fc-fields/fc-text-field-value";
 import FcSelectFieldPayed from "../fc-fields/fc-select-field-payed";
 import FcFormButtonInsertExpense from "./fc-form-button-insert-expense";
 import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
-import { Grid, Box } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import FcFormButtonUpdateExpense from "./fc-form-button-update-expense";
 import FcFormButtonDeleteExpense from "./fc-form-button-delete-expense";
 import FcFormButtonInsertExpenseNextMonth from "./fc-form-button-insert-expense-next-month";
+import FcSurface from "components/fc-surface/fc-surface";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: theme.palette.background.paper01,
+    backgroundColor: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(1),
   },
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FcFormExpense() {
   const ctxAnoMes = useContext(ContextAnoMes);
-  const {form, setForm} = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
 
   const classes = useStyles();
   const stateMesAtual = ctxAnoMes.stateMesAtual;
@@ -37,8 +38,8 @@ export default function FcFormExpense() {
   }, [setForm, stateAnoAtual, stateMesAtual]);
 
   return (
-    <Box className={classes.container}>
-      <Grid container spacing={2}>
+    <FcSurface>
+      <Grid container spacing={1}>
         <Grid item xs={12} sm={3} lg={4}>
           <FcTextFieldDescription />
         </Grid>
@@ -78,6 +79,6 @@ export default function FcFormExpense() {
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </FcSurface>
   );
 }

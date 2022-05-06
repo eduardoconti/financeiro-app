@@ -72,15 +72,19 @@ export default function FcGraphicsExpense() {
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor={theme.palette.error.main}
+        cor={theme.palette.error.light}
         descricao={descricao}
       />
       <FcGraphic
         data={despesas}
         chaveX="descricao"
         chaveY="valor"
-        cor={theme.palette.error.main}
-        stroke={theme.palette.error.dark}
+        cor={
+          theme.palette.type === "dark"
+            ? theme.palette.error.light
+            : theme.palette.error.dark
+        }
+        stroke={theme.palette.error.main}
       />
     </FcSurface>
   );

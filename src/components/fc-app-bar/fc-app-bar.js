@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   background: {
-    backgroundColor: theme.palette.grey[900],
+    backgroundColor: theme.palette.background.paper,
     position: "absolute",
     height: "100%",
     width: "100%",

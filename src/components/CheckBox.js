@@ -38,7 +38,7 @@ export default function CheckboxLabels({ setStateChecked, stateChecked }) {
             checked={stateChecked.checkedPago}
             onChange={handleChange}
             name="checkedPago"
-            style={{ color: theme.palette.secondary.main }}
+            style={{ color: theme.palette.success.main }}
           />
         }
         style={{ margin: 0, padding: 0 }}
@@ -49,7 +49,7 @@ export default function CheckboxLabels({ setStateChecked, stateChecked }) {
             checked={stateChecked.checkedAberto}
             onChange={handleChange}
             name="checkedAberto"
-            style={{ color: theme.palette.error.main }}
+            style={{ color: theme.palette.error.light }}
           />
         }
         style={{ margin: 0, padding: 0 }}

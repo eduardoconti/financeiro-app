@@ -27,7 +27,7 @@ export default function ActionDeleteButon(props) {
   return (
     <IconButton
       aria-label="excluir"
-      style={{ color: theme.palette.error.main, padding: 2 }}
+      style={{ color: theme.palette.error.light, padding: 2 }}
       onClick={async () => {
         ctxSpin.setSpin(true);
         const {

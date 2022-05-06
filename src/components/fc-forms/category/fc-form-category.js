@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import FcTextFieldDescription from "../fc-fields/fc-text-field-description";
 import FcFormButtonInsertCategory from "./fc-form-button-insert-category";
@@ -16,22 +16,20 @@ export default function FcFormCategory() {
 
   return (
     <FcSurface>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <FcTextFieldDescription />
-        </Grid>
-        <Grid item xs={12} lg={8}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              {form.id === 0 ? (
-                <FcFormButtonInsertCategory />
-              ) : (
-                <FcFormButtonUpdateCategory />
-              )}
-            </Grid>
-            <Grid item xs={6}>
-              <FcFormButtonClear />
-            </Grid>
+      <Grid item xs={12}>
+        <FcTextFieldDescription />
+      </Grid>
+      <Grid item xs={12} lg={8}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            {form.id === 0 ? (
+              <FcFormButtonInsertCategory />
+            ) : (
+              <FcFormButtonUpdateCategory />
+            )}
+          </Grid>
+          <Grid item xs={6}>
+            <FcFormButtonClear />
           </Grid>
         </Grid>
       </Grid>
