@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "@material-ui/core/Button";
-import SpinCircular from "../fc-spin/fc-spin";
-export default function FcButton(props) {
+import SpinCircular from "components/fc-spin/fc-spin";
+
+export default function FcButton(props: any) {
   const { description, onClick, className } = props;
   const [spin, setSpin] = useState(false);
   return (
@@ -10,8 +11,7 @@ export default function FcButton(props) {
       size="small"
       onClick={async () => {
         setSpin(true);
-        onClick();
-        //await new Promise(r => setTimeout(r, 1000));
+        await onClick();
         setSpin(false);
       }}
       className={className}

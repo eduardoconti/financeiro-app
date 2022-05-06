@@ -1,3 +1,4 @@
+import { useTheme } from "@material-ui/core";
 import { ContextTotais } from "Context";
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
@@ -5,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import FcCard from "./fc-card";
 
 export default function FcCardBalance() {
+  const theme = useTheme();
   const {
     stateTotais: { saldo },
   } = useContext(ContextTotais);
@@ -15,5 +17,5 @@ export default function FcCardBalance() {
     history.push(path);
   };
 
-  return <FcCard onClick={routeChange} value={saldo} description="Saldo" />;
+  return <FcCard onClick={routeChange} value={saldo}  color={theme.palette.warning.main} />;
 }

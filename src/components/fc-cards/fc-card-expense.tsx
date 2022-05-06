@@ -4,8 +4,10 @@ import FcCard from "./fc-card";
 import { useHistory } from "react-router-dom";
 import { ContextChecked, ContextTotais } from "Context";
 import CheckboxLabels from "components/CheckBox";
+import { useTheme } from "@material-ui/core";
 
 export default function FcCardExpense() {
+  const theme = useTheme();
   const ctxTotais = useContext(ContextTotais);
   const { stateCheckedDespesas, setStateCheckedDespesas } = useContext(
     ContextChecked
@@ -20,7 +22,11 @@ export default function FcCardExpense() {
   };
 
   return (
-    <FcCard onClick={routeChange} value={valor} description="Despesas">
+    <FcCard
+      onClick={routeChange}
+      value={valor}
+      color={theme.palette.error.main}
+    >
       <CheckboxLabels
         setStateChecked={setStateCheckedDespesas}
         stateChecked={stateCheckedDespesas}

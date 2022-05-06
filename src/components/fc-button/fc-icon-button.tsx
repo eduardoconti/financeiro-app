@@ -1,7 +1,6 @@
-import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function FcIconButton(props) {
+export default function FcIconButton(props: any) {
   const { color, onClick, children, description, disabled = false } = props;
   return (
     <IconButton

@@ -1,6 +1,5 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress, { CircularProgressProps } from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > * + *": {
@@ -9,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SpinCircular(props) {
+export default function SpinCircular(props: CircularProgressProps) {
   const classes = useStyles();
   const { size = 55, color = "primary" } = props;
 

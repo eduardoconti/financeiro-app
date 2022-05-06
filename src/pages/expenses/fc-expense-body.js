@@ -14,6 +14,7 @@ import {
 } from "Context";
 import {
   addMonth,
+  alteraFlagPago,
   calculaTotais,
   deletaDespesa,
   getUserIdFromToken,
@@ -82,6 +83,39 @@ export default function CorpoDespesas() {
                     deleted.status,
                     deleted.message,
                     deleted.internalMessage
+                  )
+                );
+              });
+              setStateTotais(
+                await calculaTotais(
+                  stateCheckedDespesas,
+                  stateCheckedReceitas,
+                  stateAnoAtual,
+                  stateMesAtual
+                )
+              );
+            }}
+            onClickFlag={async (data, pago) => {
+              console.log(data, pago)
+              data.forEach(async (element) => {
+                const res = await retornaDespesaPorId(element);
+
+                const {
+                  data: { id },
+                } = res;
+
+                const {
+                  status,
+                  message,
+                  internalMessage,
+                  title,
+                  detail,
+                } = await alteraFlagPago({ id, pago });
+                ctxAlert.setAlert(
+                  setCreatedAlert(
+                    status,
+                    message ?? detail,
+                    internalMessage ?? title
                   )
                 );
               });

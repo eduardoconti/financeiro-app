@@ -28,9 +28,9 @@ const useStyles = makeStyles(
 
     return {
       container: {
-        height: 360,
+        height: 320,
         [theme.breakpoints.down("sm")]: {
-          height: 260,
+          height: 220,
         },
         backgroundColor: theme.palette.background.paper01,
         borderRadius: theme.shape.borderRadius,
@@ -88,7 +88,7 @@ export default function FcDataGrid(props) {
   const ctxDataGrid = useContext(ContextDataGrid);
 
   return (
-    <Box style={{ height: 400, width: "100%" }} className={classes.container}>
+    <Box style={{ height: 320, width: "100%" }} className={classes.container}>
       <DataGrid
         rows={props.rows}
         columns={props.columns}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import PersonIcon from "@material-ui/icons/Person";
@@ -17,7 +17,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CategoryIcon from "@material-ui/icons/Category";
 import LoginModal from "../../components/LoginModal";
-import bg from "../../img/6.jpg";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
@@ -51,10 +50,8 @@ const useStyles = makeStyles((theme) => ({
     }),
     boxShadow: "none",
     color: theme.palette.text.primary,
-    //backgroundColor: theme.palette.grey.A400,
   },
   appBarShift: {
-    //marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -68,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     zIndex: theme.zIndex.drawer + 3,
     overflowScrolling: "touch",
-    //opacity:'100'
   },
   hide: {
     display: "none",
@@ -82,15 +78,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   background: {
-    backgroundImage: `url(${bg})`,
+    backgroundColor: theme.palette.grey[900],
     position: "absolute",
     height: "100%",
     width: "100%",
     top: "0",
     left: "0",
-    backgroundSize: "cover",
-    backgroundPosition: "center center",
-    opacity: ".6",
   },
   drawerOpen: {
     width: drawerWidth,

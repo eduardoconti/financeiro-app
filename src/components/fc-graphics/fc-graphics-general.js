@@ -26,6 +26,7 @@ export default function FcGraphicsGeneral() {
 
   useEffect(() => {
     async function retornaDadosGrafico() {
+      setSpin(true);
       if (isAuthenticated()) {
         try {
           let {
@@ -36,11 +37,10 @@ export default function FcGraphicsGeneral() {
           setDados(months);
         } catch (error) {}
       }
+      setSpin(false);
     }
 
-    setSpin(true);
     retornaDadosGrafico();
-    setSpin(false);
   }, [setSpin]);
 
   return (
@@ -56,7 +56,7 @@ export default function FcGraphicsGeneral() {
         }
         descricao="Grafico Geral"
       />
-      <ResponsiveContainer height={250}>
+      <ResponsiveContainer height={220}>
         <ComposedChart data={dados}>
           <XAxis
             dataKey="month"
@@ -64,7 +64,6 @@ export default function FcGraphicsGeneral() {
             stroke={theme.palette.text.primary}
           />
           <YAxis
-            //domain={[0, domain]}
             fill={theme.palette.text.primary}
             stroke={theme.palette.text.primary}
             scale="linear"
@@ -78,15 +77,6 @@ export default function FcGraphicsGeneral() {
           />
           <Legend />
           <CartesianGrid strokeDasharray="3 3" />
-          <Bar
-            //type="monotone"
-            dataKey="earnings.total"
-            name="Receitas"
-            fill={theme.palette.secondary.main}
-            stroke={theme.palette.secondary.main}
-            fillOpacity={"60%"}
-            maxBarSize={30}
-          />
 
           <Bar
             dataKey="expenses.total"
@@ -95,13 +85,21 @@ export default function FcGraphicsGeneral() {
             fill={theme.palette.error.main}
             stroke={theme.palette.error.dark}
           />
-          {/* <Line
-            dataKey="expensesOpen"
-            name="Despesas em aberto"
+          <Bar
+            dataKey="earnings.total"
+            name="Receitas"
+            fill={theme.palette.secondary.main}
+            stroke={theme.palette.secondary.main}
+            fillOpacity={"60%"}
             maxBarSize={30}
-            fill={theme.palette.error.dark}
-            stroke={theme.palette.error.main}
-          /> */}
+          />
+          <Line
+            type="monotone"
+            dataKey="totalBallance"
+            name="Saldo"
+            stroke={theme.palette.warning.light}
+            strokeWidth={3}
+          />
           <Line
             type="monotone"
             dataKey="ballance"
@@ -113,25 +111,8 @@ export default function FcGraphicsGeneral() {
             }
             strokeWidth={3}
           />
-          <Line
-            type="monotone"
-            dataKey="totalBallance"
-            name="Saldo"
-            stroke={theme.palette.warning.light}
-            strokeWidth={3}
-          />
         </ComposedChart>
       </ResponsiveContainer>
-      {/* <Box>
-        <Typography
-          variant="h5"
-          style={{ color: theme.palette.secondary.main }}
-          
-        >
-          {console.log(dados)}
-          Total receitas pago = {dados.geral.earnings.totalPayed}
-        </Typography>
-      </Box> */}
     </FcSurface>
   );
 }

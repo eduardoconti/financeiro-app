@@ -113,9 +113,11 @@ function App() {
                       <AlertComponent />
                       <Grid container spacing={1} className={classes.content}>
                         {<div className={classes.toolbar} />}
-                        <Grid item xs={12}>
-                          <BotaoMes />
-                        </Grid>
+                        {window.innerWidth > theme.breakpoints.values.sm ? (
+                          <Grid item xs={12}>
+                            <BotaoMes />
+                          </Grid>
+                        ) : null}
                         <Grid item xs={12}>
                           <Dash />
                         </Grid>
