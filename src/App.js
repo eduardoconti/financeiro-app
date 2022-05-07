@@ -48,7 +48,7 @@ function App() {
       // },
       background: {
         default: darkTheme ? "#121212" : "#FFF",
-        paper: darkTheme ? "rgba(255, 255, 255,0.04)" : "rgba(0, 0, 0,0.05)",
+        paper: darkTheme ? "#212121" : "#fafafa",
       },
     },
     mixins: {

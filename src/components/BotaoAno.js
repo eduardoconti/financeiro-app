@@ -23,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
   botao: {
-    background: theme.palette.background.paper,
+    //background: theme.palette.background.paper,
     minHeight: 36,
-    borderRadius: 5,
+    borderRadius: "50%",
     textAlign: "center",
     fontWeight: "bold",
+    padding: theme.spacing(1)
   },
   ativo: {
     backgroundColor:
@@ -35,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
         ? theme.palette.primary.light
         : theme.palette.primary.dark,
     minHeight: 36,
-    borderRadius: 5,
     textAlign: "center",
     color: theme.palette.text.primary,
   },

@@ -1,11 +1,12 @@
 import {
+  Box,
   Grid,
   IconButton,
   makeStyles,
   Typography,
   useTheme,
 } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+import  { useContext, useState } from "react";
 import { ContextDataGrid } from "../../Context/DataGridContext";
 import CheckTwoToneIcon from "@material-ui/icons/CheckTwoTone";
 import { SpinContext } from "../../Context/SpinContext";
@@ -22,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   legend: {
-    color: theme.palette.primary.dark,
+    color: theme.palette.success.light,
+
   },
 }));
 
@@ -50,47 +52,42 @@ export default function FcSelectedRows(props) {
 
   const total = totalizador(ctxDataGrid.selectedRows, ctxDataGrid.rows);
   return total > 0 ? (
-    <Grid container spacing={0} className={classes.selectedRows}>
-      <Grid item xs={1}>
-        <IconButton
-          aria-label="selected"
-          style={{
-            color: selected
-              ? theme.palette.error.light
-              : theme.palette.success.main,
-            padding: 2,
-          }}
-          onClick={() => {
-            ctxSpin.setSpin(true);
-            const data = JSON.parse(getStorageDataGridRows());
-            if (!selected) {
-              const selectedData = data.filter((row) => {
-                if (ctxDataGrid.selectedRows.includes(row.id)) {
-                  return row;
-                }
-              });
-              ctxDataGrid.setRows(selectedData);
-            } else {
-              ctxDataGrid.setRows(JSON.parse(getStorageDataGridRows()));
-            }
-            setSelected(!selected);
-            ctxSpin.setSpin(false);
-          }}
-        >
-          {selected ? <CloseTwoToneIcon /> : <CheckTwoToneIcon />}
-        </IconButton>
-      </Grid>
-      <Grid item xs={2}>
-        <Typography variant="subtitle1" className={classes.legend}>
-          Rows: {ctxDataGrid.selectedRows.length}
-        </Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Typography variant="subtitle1" className={classes.legend} align="right">
-          Total: {total.toFixed(2)}
-        </Typography>
-      </Grid>
-      <Grid item xs={5} container justifyContent="flex-end" align="left">
+    <Box className={classes.selectedRows}>
+      <Grid container spacing={1} align="center">
+        <Grid item xs={2} sm={1}>
+          <IconButton
+            aria-label="selected"
+            style={{
+              color: selected
+                ? theme.palette.error.light
+                : theme.palette.success.main,
+              padding: 2,
+            }}
+            onClick={() => {
+              ctxSpin.setSpin(true);
+              const data = JSON.parse(getStorageDataGridRows());
+              if (!selected) {
+                const selectedData = data.filter((row) => {
+                  if (ctxDataGrid.selectedRows.includes(row.id)) {
+                    return row;
+                  }
+                });
+                ctxDataGrid.setRows(selectedData);
+              } else {
+                ctxDataGrid.setRows(JSON.parse(getStorageDataGridRows()));
+              }
+              setSelected(!selected);
+              ctxSpin.setSpin(false);
+            }}
+          >
+            {selected ? (
+              <CloseTwoToneIcon fontSize="large" />
+            ) : (
+              <CheckTwoToneIcon fontSize="large" />
+            )}
+          </IconButton>
+        </Grid>
+
         <Grid item xs={2} sm={1}>
           <IconButton
             aria-label="next-month"
@@ -107,7 +104,7 @@ export default function FcSelectedRows(props) {
               ctxSpin.setSpin(false);
             }}
           >
-            {<ArrowForwardIosTwoToneIcon />}
+            {<ArrowForwardIosTwoToneIcon fontSize="large" />}
           </IconButton>
         </Grid>
         <Grid item xs={2} sm={1}>
@@ -126,7 +123,7 @@ export default function FcSelectedRows(props) {
               ctxSpin.setSpin(false);
             }}
           >
-            {<FiberManualRecordTwoToneIcon />}
+            {<FiberManualRecordTwoToneIcon fontSize="large" />}
           </IconButton>
         </Grid>
         <Grid item xs={2} sm={1}>
@@ -145,7 +142,7 @@ export default function FcSelectedRows(props) {
               ctxSpin.setSpin(false);
             }}
           >
-            {<FiberManualRecordTwoToneIcon />}
+            {<FiberManualRecordTwoToneIcon fontSize="large" />}
           </IconButton>
         </Grid>
         <Grid item xs={2} sm={1}>
@@ -164,10 +161,21 @@ export default function FcSelectedRows(props) {
               ctxSpin.setSpin(false);
             }}
           >
-            {<DeleteForeverTwoToneIcon />}
+            {<DeleteForeverTwoToneIcon fontSize="large" />}
           </IconButton>
         </Grid>
+
+        <Grid item xs={2} lg={7}>
+          <Typography
+            variant="subtitle1"
+            className={classes.legend}
+            align="right"
+            
+          >
+            {total.toFixed(2)}
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   ) : null;
 }

@@ -18,8 +18,8 @@ const useStyles = makeStyles(
   (theme) => {
     const getBackgroundColor = (color) =>
       getThemePaletteMode(theme.palette) === "dark"
-        ? darken(color, 0.6)
-        : lighten(color, 0.6);
+        ? darken(color, 0.1)
+        : lighten(color, 0.1);
 
     const getHoverBackgroundColor = (color) =>
       getThemePaletteMode(theme.palette) === "dark"
@@ -48,7 +48,7 @@ const useStyles = makeStyles(
           borderBottom: 0,
         },
         "& .super-app-theme--Open": {
-          backgroundColor: getBackgroundColor(theme.palette.background.paper),
+          //backgroundColor: getBackgroundColor(theme.palette.background.paper),
           "&:hover": {
             backgroundColor: getHoverBackgroundColor(
               theme.palette.primary.main
