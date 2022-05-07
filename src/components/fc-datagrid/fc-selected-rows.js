@@ -53,8 +53,8 @@ export default function FcSelectedRows(props) {
   const total = totalizador(ctxDataGrid.selectedRows, ctxDataGrid.rows);
   return total > 0 ? (
     <Box className={classes.selectedRows}>
-      <Grid container spacing={1} align="center">
-        <Grid item xs={2} sm={1}>
+      <Grid container spacing={1} align="center" alignItems="center">
+        <Grid item xs={1} align="left">
           <IconButton
             aria-label="selected"
             style={{
@@ -81,9 +81,9 @@ export default function FcSelectedRows(props) {
             }}
           >
             {selected ? (
-              <CloseTwoToneIcon fontSize="large" />
+              <CloseTwoToneIcon />
             ) : (
-              <CheckTwoToneIcon fontSize="large" />
+              <CheckTwoToneIcon />
             )}
           </IconButton>
         </Grid>
@@ -165,7 +165,7 @@ export default function FcSelectedRows(props) {
           </IconButton>
         </Grid>
 
-        <Grid item xs={2} lg={7}>
+        <Grid item xs={3} lg={7}>
           <Typography
             variant="subtitle1"
             className={classes.legend}

@@ -37,5 +37,5 @@ export function getMonth(datestring?: string | Date | undefined): number {
 }
 
 export function getDay(datestring?: string | Date | undefined): number {
-  return moment(datestring).day();
+  return parseInt(moment(datestring).format('D'));
 }
