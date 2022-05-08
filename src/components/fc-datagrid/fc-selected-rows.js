@@ -6,7 +6,7 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
-import  { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContextDataGrid } from "../../Context/DataGridContext";
 import CheckTwoToneIcon from "@material-ui/icons/CheckTwoTone";
 import { SpinContext } from "../../Context/SpinContext";
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   legend: {
     color: theme.palette.success.light,
-
   },
 }));
 
@@ -43,48 +42,45 @@ function totalizador(selectedRows, rows) {
 }
 
 export default function FcSelectedRows(props) {
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const ctxSpin = useContext(SpinContext);
+  const { selectedRows, setRows, ...ctxDataGrid } = useContext(ContextDataGrid);
+  const { setSpin } = useContext(SpinContext);
   const classes = useStyles();
   const theme = useTheme();
-  const [selected, setSelected] = useState(false);
+  const [cropedRows, setCropedRows] = useState(false);
   const { onClick, onDeleted, onClickFlag } = props;
-
-  const total = totalizador(ctxDataGrid.selectedRows, ctxDataGrid.rows);
-  return total > 0 ? (
+  const storageData = JSON.parse(getStorageDataGridRows());
+  const total = totalizador(selectedRows, ctxDataGrid.rows);
+  
+  return selectedRows.length > 0 ? (
     <Box className={classes.selectedRows}>
       <Grid container spacing={1} align="center" alignItems="center">
         <Grid item xs={1} align="left">
           <IconButton
-            aria-label="selected"
+            aria-label="cropedRows"
             style={{
-              color: selected
+              color: cropedRows
                 ? theme.palette.error.light
                 : theme.palette.success.main,
               padding: 2,
             }}
             onClick={() => {
-              ctxSpin.setSpin(true);
-              const data = JSON.parse(getStorageDataGridRows());
-              if (!selected) {
-                const selectedData = data.filter((row) => {
-                  if (ctxDataGrid.selectedRows.includes(row.id)) {
+              setSpin(true);
+
+              if (!cropedRows) {
+                const selectedData = storageData.filter((row) => {
+                  if (selectedRows.includes(row.id)) {
                     return row;
                   }
                 });
-                ctxDataGrid.setRows(selectedData);
+                setRows(selectedData);
               } else {
-                ctxDataGrid.setRows(JSON.parse(getStorageDataGridRows()));
+                setRows(storageData);
               }
-              setSelected(!selected);
-              ctxSpin.setSpin(false);
+              setCropedRows(!cropedRows);
+              setSpin(false);
             }}
           >
-            {selected ? (
-              <CloseTwoToneIcon />
-            ) : (
-              <CheckTwoToneIcon />
-            )}
+            {cropedRows ? <CloseTwoToneIcon /> : <CheckTwoToneIcon />}
           </IconButton>
         </Grid>
 
@@ -96,12 +92,12 @@ export default function FcSelectedRows(props) {
               padding: 2,
             }}
             onClick={async () => {
-              ctxSpin.setSpin(true);
+              setSpin(true);
 
-              const data = ctxDataGrid.selectedRows;
+              const data = selectedRows;
               await onClick(data);
-              setSelected(false);
-              ctxSpin.setSpin(false);
+              setCropedRows(false);
+              setSpin(false);
             }}
           >
             {<ArrowForwardIosTwoToneIcon fontSize="large" />}
@@ -115,12 +111,12 @@ export default function FcSelectedRows(props) {
               padding: 2,
             }}
             onClick={async () => {
-              ctxSpin.setSpin(true);
+              setSpin(true);
 
-              const data = ctxDataGrid.selectedRows;
+              const data = selectedRows;
               await onClickFlag(data, true);
-              setSelected(false);
-              ctxSpin.setSpin(false);
+              setCropedRows(false);
+              setSpin(false);
             }}
           >
             {<FiberManualRecordTwoToneIcon fontSize="large" />}
@@ -134,12 +130,12 @@ export default function FcSelectedRows(props) {
               padding: 2,
             }}
             onClick={async () => {
-              ctxSpin.setSpin(true);
+              setSpin(true);
 
-              const data = ctxDataGrid.selectedRows;
+              const data = selectedRows;
               await onClickFlag(data, false);
-              setSelected(false);
-              ctxSpin.setSpin(false);
+              setCropedRows(false);
+              setSpin(false);
             }}
           >
             {<FiberManualRecordTwoToneIcon fontSize="large" />}
@@ -153,12 +149,12 @@ export default function FcSelectedRows(props) {
               padding: 2,
             }}
             onClick={async () => {
-              ctxSpin.setSpin(true);
+              setSpin(true);
 
-              const data = ctxDataGrid.selectedRows;
+              const data = selectedRows;
               await onDeleted(data);
-              setSelected(false);
-              ctxSpin.setSpin(false);
+              setCropedRows(false);
+              setSpin(false);
             }}
           >
             {<DeleteForeverTwoToneIcon fontSize="large" />}
@@ -170,7 +166,6 @@ export default function FcSelectedRows(props) {
             variant="subtitle1"
             className={classes.legend}
             align="right"
-            
           >
             {total.toFixed(2)}
           </Typography>

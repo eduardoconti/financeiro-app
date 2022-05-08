@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Menu from "./fc-forms/fc-menu-tem/fc-menu-item";
@@ -13,6 +12,7 @@ import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Box } from "@material-ui/core";
+import { monthNames } from "common";
 const useStyles = makeStyles((theme) => ({
   container: {
     // display: "flex",
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%",
     textAlign: "center",
     fontWeight: "bold",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   ativo: {
     backgroundColor:
@@ -42,17 +42,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BotaoAno() {
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const setStateAnoAtual = ctxAnoMes.setStateAnoAtual;
+export default function BotaoMesSmall() {
+  const { stateMesAtual, setStateMesAtual } = useContext(ContextAnoMes);
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [ano, setAno] = React.useState(stateAnoAtual);
+  const [ano, setAno] = React.useState(stateMesAtual);
 
   const handleChange = (event) => {
-    setAno(Number(event.target.value) || "");
+    setAno(event.target.value || "");
   };
 
   const handleClickOpen = () => {
@@ -65,29 +63,28 @@ export default function BotaoAno() {
 
   const confirm = () => {
     setOpen(false);
-    setStateAnoAtual(ano);
+    setStateMesAtual(ano);
   };
 
-  const Anos = Menu([
-    { id: 2020, descricao: "2020" },
-    { id: 2021, descricao: "2021" },
-    { id: 2022, descricao: "2022" },
-  ]);
+  const months = Menu(
+    monthNames.map((item, i) => {
+      return {
+        id: i,
+        descricao: item,
+      };
+    })
+  );
+
   return (
     <Box>
       <CardActionArea onClick={handleClickOpen} className={classes.botao}>
-        {stateAnoAtual}
+        {monthNames[stateMesAtual]}
       </CardActionArea>
-      <Dialog
-        disableEscapeKeyDown
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle>Selecione o Ano</DialogTitle>
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogContent>
           <form className={classes.container}>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-dialog-select-label">Ano</InputLabel>
+              <InputLabel id="demo-dialog-select-label">Mes</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
@@ -95,7 +92,7 @@ export default function BotaoAno() {
                 onChange={handleChange}
                 input={<Input />}
               >
-                {Anos}
+                {months}
               </Select>
             </FormControl>
           </form>

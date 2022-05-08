@@ -24,6 +24,8 @@ import { Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { setMode } from "../../common/Config";
 import BotaoAno from "../BotaoAno";
+import BotaoMes from "components/BotaoMes";
+import BotaoMesSmall from "components/BotaoMesSmall";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -108,8 +110,8 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    //alignItems: "center",
+    //justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
@@ -202,10 +204,12 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             </IconButton>
           </Tooltip>
           <div className={classes.title} />
-
+          
+          <BotaoMesSmall />
           <BotaoAno />
 
           <Tooltip title="Set light/dark mode">
+
             <IconButton
               color="inherit"
               aria-label="Light/Dark"

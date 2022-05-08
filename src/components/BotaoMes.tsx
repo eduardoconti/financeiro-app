@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import {
+  Grid,
+} from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Typography } from "@material-ui/core";
@@ -10,7 +12,6 @@ export default function BotaoMes() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const setStateMesAtual = ctxAnoMes.setStateMesAtual;
-
   const useStyles = makeStyles((theme) => ({
     botao: {
       background: theme.palette.background.paper,
@@ -30,7 +31,10 @@ export default function BotaoMes() {
     },
   }));
 
-  const MonthButtons = () => {
+
+
+  function MonthButtons(): JSX.Element[] {
+
     const classes = useStyles();
 
     return monthNames.map((month, i) => {
@@ -45,11 +49,11 @@ export default function BotaoMes() {
         </Grid>
       );
     });
-  };
+  }
 
   return (
     <Grid container spacing={1}>
-      <MonthButtons />
+      {MonthButtons()}
     </Grid>
   );
 }

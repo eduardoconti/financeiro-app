@@ -29,17 +29,13 @@ import FcColumnActionsExpense from "./fc-column-actions-expense";
 import FcDataGrid from "../fc-datagrid";
 
 export default function FcDataGridExpense() {
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const { rows, setRows } = useContext(ContextDataGrid);
+  const { stateTotais } = useContext(ContextTotais);
+  const { stateCheckedDespesas } = useContext(ContextChecked);
+  const { stateMesAtual, stateAnoAtual } = useContext(ContextAnoMes);
+  const { rows, setRows, selectedRows } = useContext(ContextDataGrid);
   const { setSpin } = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
   const { setAlert } = useContext(ContextAlert);
-  const stateTotais = ctxTotais.stateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   let columns: GridColumns = [FcColumnDescription()];
 
@@ -65,11 +61,13 @@ export default function FcDataGridExpense() {
   useEffect(() => {
     async function setRowsDataGrid() {
       setSpin(true);
-      if (isAuthenticated()) {
+      if (isAuthenticated() && selectedRows.length === 0) {
         const {
           status,
           message,
           internalMessage,
+          title,
+          detail,
           data,
         } = await new ExpenseService().getDespesas(
           stateCheckedDespesas,
@@ -84,7 +82,9 @@ export default function FcDataGridExpense() {
           );
         }
 
-        setAlert(setCreatedAlert(status, message, internalMessage));
+        setAlert(
+          setCreatedAlert(status, message ?? title, internalMessage ?? detail)
+        );
       }
       setSpin(false);
     }
@@ -97,6 +97,7 @@ export default function FcDataGridExpense() {
     setSpin,
     setRows,
     setAlert,
+    selectedRows,
   ]);
 
   return FcDataGrid({
