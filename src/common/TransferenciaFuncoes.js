@@ -48,7 +48,7 @@ export async function insereTransferencia(transferencia) {
 export async function alteraTransferencia(transferencia) {
   try {
     const { data } = await API.put(
-      ENDPOINT + transferencia.id,
+      ENDPOINT + "/" + transferencia.id,
       transferencia,
       headers
     );
