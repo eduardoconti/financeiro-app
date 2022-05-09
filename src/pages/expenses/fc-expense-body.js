@@ -47,8 +47,19 @@ export default function CorpoDespesas() {
                 const res = await retornaDespesaPorId(element);
 
                 let {
-                  data: { id, descricao, categoria, carteira, ...expense },
+                  data: {
+                    id,
+                    descricao,
+                    categoria,
+                    carteira,
+                    instalmentId,
+                    ...expense
+                  },
                 } = res;
+
+                if (instalmentId) {
+                  return;
+                }
 
                 const split = descricao.split("/");
                 if (split.length === 2) {

@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
-import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextForm } from "../../../Context/FormContext";
 import FcSelectFieldCategory from "../fc-fields/fc-select-field-category";
 import FcSelectFieldWallet from "../fc-fields/fc-select-field-wallet";
@@ -19,12 +18,12 @@ import FcTextFieldInstalment from "../fc-fields/fc-text-field-instalment";
 import FcTextFieldPaymentDate from "../fc-fields/fc-text-field-payment-date";
 
 export default function FcFormExpense() {
-  const { stateMesAtual, stateAnoAtual } = useContext(ContextAnoMes);
+
   const { form, setForm } = useContext(ContextForm);
 
   useEffect(() => {
-    setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
-  }, [setForm, stateAnoAtual, stateMesAtual]);
+    setForm(emptyFormularioDespesa());
+  }, [setForm]);
 
   return (
     <FcSurface>

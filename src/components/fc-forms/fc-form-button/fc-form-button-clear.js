@@ -1,21 +1,15 @@
-import React, { useContext } from "react";
-import { ContextForm } from "../../../Context/FormContext";
-import { ContextAnoMes } from "../../../Context/AnoMesContext";
-import { emptyFormularioDespesa } from "../../../common/EmptyStates";
+import { emptyFormularioDespesa } from "common";
+import { ContextForm } from "Context";
+import { useContext } from "react";
 import FcFormIconButtonClear from "./fc-form-icon-button-clear";
 export default function FcFormButtonClear() {
-  const ctxForm = useContext(ContextForm);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { setForm } = useContext(ContextForm);
+
   return (
     <FcFormIconButtonClear
       description="limpar"
       onClick={() => {
-        ctxForm.setForm(
-          emptyFormularioDespesa(
-            ctxAnoMes.stateAnoAtual,
-            ctxAnoMes.stateMesAtual
-          )
-        );
+        setForm(emptyFormularioDespesa());
       }}
     />
   );

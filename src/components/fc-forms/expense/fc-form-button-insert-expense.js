@@ -50,12 +50,7 @@ export default function FcFormButtonInsertExpense() {
               ctxAnoMes.stateMesAtual
             )
           );
-          ctxForm.setForm(
-            emptyFormularioDespesa(
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
-            )
-          );
+          ctxForm.setForm(emptyFormularioDespesa());
         }
       }}
     />

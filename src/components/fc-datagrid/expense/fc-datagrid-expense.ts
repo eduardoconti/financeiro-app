@@ -80,11 +80,11 @@ export default function FcDataGridExpense() {
           setStorageDataGridRows(
             JSON.stringify(formataDadosParaLinhasDataGrid(data))
           );
+        } else {
+          setAlert(
+            setCreatedAlert(status, message ?? title, internalMessage ?? detail)
+          );
         }
-
-        setAlert(
-          setCreatedAlert(status, message ?? title, internalMessage ?? detail)
-        );
       }
       setSpin(false);
     }

@@ -5,6 +5,7 @@ export class ExpenseDTO {
   categoriaId!: number;
   carteiraId!: number;
   valor!: number;
+  instalment!: number;
   vencimento?: Date | string;
   pagamento?: Date | string;
   updatedAt?: Date | string;
@@ -15,6 +16,7 @@ export class ExpenseDTO {
     valor: number,
     categoriaId: number,
     carteiraId: number,
+    instalment: number,
     userId?: string,
     vencimento?: Date | string,
     pagamento?: Date | string,
@@ -26,6 +28,7 @@ export class ExpenseDTO {
     this.valor = valor;
     this.categoriaId = categoriaId;
     this.carteiraId = carteiraId;
+    this.instalment = instalment;
     this.vencimento = vencimento;
     this.pagamento = pagamento;
     this.pago = pago;
@@ -42,12 +45,14 @@ export class ExpenseDTO {
     pagamento,
     pago,
     updatedAt,
+    instalment
   }: ExpenseDTO): ExpenseDTO => {
     return new ExpenseDTO(
       descricao,
       valor,
       categoriaId,
       carteiraId,
+      instalment,
       userId,
       vencimento,
       pagamento,

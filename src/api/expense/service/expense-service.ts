@@ -123,6 +123,7 @@ export class ExpenseService implements IExpenseService {
       vencimento,
       categoria: { id: categoriaId },
       carteira: { id: carteiraId },
+      instalment,
     } = despesa;
     return {
       id,
@@ -132,6 +133,8 @@ export class ExpenseService implements IExpenseService {
       categoriaId,
       carteiraId,
       vencimento: formatDateToForm(vencimento),
+      instalment
+      
     };
   }
 }

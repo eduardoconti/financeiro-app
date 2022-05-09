@@ -41,12 +41,7 @@ export default function FcFormButtonDeleteExpense() {
               ctxAnoMes.stateMesAtual
             )
           );
-          ctxForm.setForm(
-            emptyFormularioDespesa(
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
-            )
-          );
+          ctxForm.setForm(emptyFormularioDespesa());
         }
       }}
     />

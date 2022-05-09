@@ -35,6 +35,7 @@ export default function FcFormButtonInsertExpenseNextMonth() {
               ...despesa
             },
           } = res;
+
           const nextDate = addMonth(despesa.vencimento);
           const split = descricao.split("/");
           if (split.length === 2) {
@@ -71,15 +72,8 @@ export default function FcFormButtonInsertExpenseNextMonth() {
                 ctxAnoMes.stateMesAtual
               )
             );
-            ctxForm.setForm(
-              emptyFormularioDespesa(
-                ctxAnoMes.stateAnoAtual,
-                ctxAnoMes.stateMesAtual
-              )
-            );
+            ctxForm.setForm(emptyFormularioDespesa());
           }
-
-          return res;
         }
       }}
     />

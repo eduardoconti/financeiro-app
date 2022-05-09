@@ -1,9 +1,6 @@
 import { formatDateToForm } from "./DateHelper";
 
-export function emptyFormularioDespesa(
-  stateAnoAtual: number,
-  stateMesAtual: number
-) {
+export function emptyFormularioDespesa() {
   return {
     descricao: "",
     categoriaId: undefined,

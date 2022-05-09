@@ -47,7 +47,7 @@ export default function FcFormButtonUpdateExpense() {
               stateMesAtual
             )
           );
-          setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+          setForm(emptyFormularioDespesa());
         }
       }}
     />

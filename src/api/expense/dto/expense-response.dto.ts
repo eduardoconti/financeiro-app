@@ -8,6 +8,7 @@ export class ExpenseResposeDTO {
   categoria!: CategoryResponseDTO;
   carteira!: WalletResponseDTO;
   valor!: number;
+  instalment!: number;
   vencimento?: Date | string;
   pagamento?: Date | string;
   updatedAt?: Date | string;
@@ -18,6 +19,7 @@ export class ExpenseResposeDTO {
     valor: number,
     categoria: CategoryResponseDTO,
     carteira: WalletResponseDTO,
+    instalment: number,
     userId?: string,
     vencimento?: Date | string,
     pagamento?: Date | string,
@@ -45,12 +47,14 @@ export class ExpenseResposeDTO {
     pagamento,
     pago,
     updatedAt,
+    instalment,
   }: ExpenseResposeDTO): ExpenseResposeDTO => {
     return new ExpenseResposeDTO(
       descricao,
       valor,
       categoria,
       carteira,
+      instalment,
       userId,
       vencimento,
       pagamento,
