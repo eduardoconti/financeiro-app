@@ -2,11 +2,10 @@ import { useContext } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Snackbar } from "@material-ui/core";
 import { ContextAlert } from "../Context/AlertContext";
+import { useTheme } from "@material-ui/styles";
 export default function AlertComponent() {
-  const ctxAlert = useContext(ContextAlert);
-  const alert = ctxAlert.alert,
-    setAlert = ctxAlert.setAlert;
-
+  const { alert, setAlert } = useContext(ContextAlert);
+  const theme = useTheme();
   const handleClose = () => {
     setAlert({
       ...alert,
@@ -14,16 +13,23 @@ export default function AlertComponent() {
     });
   };
 
+  const anchorOrigin = {
+    vertical:
+      window.innerWidth > theme.breakpoints.values.xs ? "bottom" : "top",
+    horizontal:
+      window.innerWidth > theme.breakpoints.values.xs ? "left" : "center",
+  };
   return (
     <Snackbar
       open={alert.isOpen}
       onClose={handleClose}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      anchorOrigin={anchorOrigin}
       autoHideDuration={4000}
     >
-      <Alert variant="filled" severity={alert.type} onClose={handleClose}>
+      <Alert variant="standard" severity={alert.type} onClose={handleClose}>
         <AlertTitle>{alert.title}</AlertTitle>
         {alert.message}
+        {alert.reason ? <p>{alert.reason}</p> : null}
       </Alert>
     </Snackbar>
   );

@@ -12,7 +12,7 @@ export default function FcTextFieldInstalment(props: any) {
       variant="outlined"
       size="small"
       fullWidth
-      value={form.instalment ? form.instalment.toString() : "1"}
+      value={form.instalment ? form.instalment.toString() : ""}
       onChange={(event) => {
         setForm({
           ...form,

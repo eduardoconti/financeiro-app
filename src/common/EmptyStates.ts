@@ -66,7 +66,7 @@ export const emptyChecked = {
 export const emptyAlertState = {
   isOpen: false,
   message: "",
-  reason: "",
+  reason: "test",
   type: "",
   title: "",
 };
