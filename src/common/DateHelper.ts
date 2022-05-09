@@ -37,5 +37,9 @@ export function getMonth(datestring?: string | Date | undefined): number {
 }
 
 export function getDay(datestring?: string | Date | undefined): number {
-  return parseInt(moment(datestring).format('D'));
+  return parseInt(moment(datestring).format("D"));
+}
+
+export function isDate(datestring?: string | Date | undefined): boolean {
+  return moment(datestring).isValid();
 }

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import TextField from "@material-ui/core/TextField";
+import { isDate } from "common";
 
 export default function FcTextFieldPaymentDate(props) {
   const ctxForm = useContext(ContextForm);
@@ -15,12 +16,13 @@ export default function FcTextFieldPaymentDate(props) {
       size="small"
       type="date"
       fullWidth
-      InputLabelProps={{ shrink: true }} 
+      InputLabelProps={{ shrink: true }}
       value={form.pagamento ?? ""}
       onChange={(event) => {
         setForm({
           ...form,
           pagamento: event.target.value,
+          pago: isDate(event.target.value) ? true : false,
         });
       }}
     />

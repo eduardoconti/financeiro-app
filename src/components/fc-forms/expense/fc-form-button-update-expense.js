@@ -1,6 +1,7 @@
 import {
   alteraDespesa,
   calculaTotais,
+  dateIso8601,
   emptyFormularioDespesa,
   setCreatedAlert,
 } from "common";
@@ -22,7 +23,7 @@ export default function FcFormButtonUpdateExpense() {
     ContextChecked
   );
   const ctxAlert = useContext(ContextAlert);
-
+  const { vencimento, ...expense } = form;
   return (
     <FcFormIconButtonUpdate
       description="alterar"
@@ -33,7 +34,10 @@ export default function FcFormButtonUpdateExpense() {
           internalMessage,
           title,
           detail,
-        } = await alteraDespesa(form);
+        } = await alteraDespesa({
+          vencimento: dateIso8601(vencimento),
+          ...expense,
+        });
 
         ctxAlert.setAlert(
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)
