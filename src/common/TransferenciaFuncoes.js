@@ -1,5 +1,9 @@
 import API from "./Api";
-import { firstDayOfMonth, lastDayOfMonth } from "./DateHelper";
+import {
+  firstDayOfMonth,
+  formatDateToForm,
+  lastDayOfMonth,
+} from "./DateHelper";
 
 const ENDPOINT = "transference";
 const headers = {
@@ -84,14 +88,18 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
   });
 }
 
-export function formataDadosParaFormulario(transferencia) {
+export function formataDadosParaFormulario(transferenciaDto) {
+  const {
+    carteiraDestino,
+    carteiraOrigem,
+    transferencia,
+    ...rest
+  } = transferenciaDto;
   return {
-    ...transferencia,
-    transferencia: new Date(transferencia.transferencia)
-      .toISOString()
-      .slice(0, 10),
-    carteiraOrigemId: transferencia.carteiraOrigem.id,
-    carteiraDestinoId: transferencia.carteiraDestino.id,
+    ...rest,
+    transferencia: formatDateToForm(transferencia),
+    carteiraOrigemId: carteiraOrigem.id,
+    carteiraDestinoId: carteiraDestino.id,
   };
 }
 

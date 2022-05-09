@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import FcFormButton from "../fc-form-button/fc-form-button";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
@@ -12,9 +12,11 @@ import {
 import { emptyFormularioTransferencia } from "../../../common/EmptyStates";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
+import { formatDateToForm } from "common";
+import { HttpStatus } from "common/enum";
 
 export default function FcFormButtonUpdateTransfer() {
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxDataGrid = useContext(ContextDataGrid);
@@ -23,25 +25,23 @@ export default function FcFormButtonUpdateTransfer() {
     <FcFormButton
       description="alterar"
       onClick={async () => {
-        let response;
-        ctxForm.form.user = getUserIdFromToken();
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.transferencia = new Date(
-          ctxForm.form.transferencia + ":"
-        ).toISOString();
+        form.valor = parseFloat(form.valor);
+        form.transferencia = formatDateToForm();
 
-        response = await alteraTransferencia(ctxForm.form);
+        const {
+          status,
+          message,
+          internalMessage,
+          detail,
+          title,
+        } = await alteraTransferencia(form);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            response.status,
-            response.message,
-            response.internalMessage
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
 
-        if ([200, 201].includes(response.status)) {
-          ctxForm.setForm(
+        if ([HttpStatus.CREATED, HttpStatus.OK].includes(status)) {
+          setForm(
             emptyFormularioTransferencia(
               ctxAnoMes.stateAnoAtual,
               ctxAnoMes.stateMesAtual
