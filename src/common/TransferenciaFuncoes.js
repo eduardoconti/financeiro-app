@@ -11,10 +11,11 @@ export async function getTransferencias(stateAnoAtual, stateMesAtual) {
   var res = new Array(0);
 
   res = await API.get(
-    ENDPOINT + "?start=" +
-    firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-    "&end=" +
-    lastDayOfMonth(stateAnoAtual, stateMesAtual),
+    ENDPOINT +
+      "?start=" +
+      firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+      "&end=" +
+      lastDayOfMonth(stateAnoAtual, stateMesAtual),
     headers
   );
 
@@ -102,15 +103,18 @@ export async function retornaValoresTransferenciasOrigem(
   try {
     let endpoint;
     let char = "?";
-    endpoint =
-      ENDPOINT + "/values/origin"
+    endpoint = ENDPOINT + "/values/origin";
 
-    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
-      endpoint += "?start=" +
+    if (
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+    ) {
+      endpoint +=
+        "?start=" +
         firstDayOfMonth(stateAnoAtual, stateMesAtual) +
         "&end=" +
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&"
+      char = "&";
     }
     if (typeof pago !== "undefined") {
       endpoint += char + "pago=" + pago;
@@ -130,15 +134,18 @@ export async function retornaValoresTransferenciasDestino(
   try {
     let endpoint;
     let char = "?";
-    endpoint =
-      ENDPOINT + "/values/destiny"
+    endpoint = ENDPOINT + "/values/destiny";
 
-    if (typeof stateAnoAtual !== 'undefined' && typeof stateMesAtual !== 'undefined') {
-      endpoint += "?start=" +
+    if (
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
+    ) {
+      endpoint +=
+        "?start=" +
         firstDayOfMonth(stateAnoAtual, stateMesAtual) +
         "&end=" +
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&"
+      char = "&";
     }
     if (typeof pago !== "undefined") {
       endpoint += char + "pago=" + pago;

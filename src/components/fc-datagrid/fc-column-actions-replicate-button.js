@@ -15,8 +15,10 @@ export default function ActionReplicateButon(props) {
   const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
   const ctxTotais = useContext(ContextTotais);
-  const {stateCheckedDespesas, stateCheckedReceitas} = useContext(ContextChecked);
-  const {stateAnoAtual, stateMesAtual} = useContext(ContextAnoMes);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const theme = useTheme();
 
   const setStateTotais = ctxTotais.setStateTotais;

@@ -96,7 +96,7 @@ export default function CorpoDespesas() {
               );
             }}
             onClickFlag={async (data, pago) => {
-              console.log(data, pago)
+              console.log(data, pago);
               data.forEach(async (element) => {
                 const res = await retornaDespesaPorId(element);
 

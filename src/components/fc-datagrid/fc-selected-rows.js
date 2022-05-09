@@ -50,7 +50,7 @@ export default function FcSelectedRows(props) {
   const { onClick, onDeleted, onClickFlag } = props;
   const storageData = JSON.parse(getStorageDataGridRows());
   const total = totalizador(selectedRows, ctxDataGrid.rows);
-  
+
   return selectedRows.length > 0 ? (
     <Box className={classes.selectedRows}>
       <Grid container spacing={1} align="center" alignItems="center">

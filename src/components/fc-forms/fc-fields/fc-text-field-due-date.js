@@ -1,25 +1,24 @@
-import React, { useContext } from "react";
-import { ContextForm } from "../../../Context/FormContext";
+import { useContext } from "react";
+
 import TextField from "@material-ui/core/TextField";
+import { ContextForm } from "Context";
 
 export default function FcTextFieldDueDate(props) {
-  const ctxForm = useContext(ContextForm);
-  const setForm = ctxForm.setForm;
-  const form = ctxForm.form;
-  const { id = "vencimento", label = "Vencimento" } = props;
+  const { form, setForm } = useContext(ContextForm);
+
   return (
     <TextField
-      id={id}
-      label={label}
+      id="vencimento"
+      label="Vencimento"
       variant="outlined"
       size="small"
       type="date"
       fullWidth
-      value={form[id] ? form[id] : " "}
+      value={form.vencimento ?? " "}
       onChange={(event) => {
         setForm({
           ...form,
-          [id]: event.target.value,
+          vencimento: event.target.value,
         });
       }}
     />

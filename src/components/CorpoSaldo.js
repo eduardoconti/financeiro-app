@@ -80,28 +80,23 @@ async function retornaDadosParaCard() {
     });
 
     return await dadosCard;
-  } catch (error) {
-
-  }
+  } catch (error) {}
 }
 
 export default function CorpoSaldo() {
   const [cards, setCards] = useState([]);
-  const {setSpin} = useContext(SpinContext);
-  
-
+  const { setSpin } = useContext(SpinContext);
 
   useEffect(() => {
     async function set() {
       setSpin(true);
       setCards(await RetornaCards());
       setSpin(false);
-    } 
+    }
 
     if (isAuthenticated()) {
       set();
     }
-
   }, [setSpin]);
 
   return (

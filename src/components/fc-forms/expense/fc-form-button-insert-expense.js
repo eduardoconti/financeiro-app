@@ -22,23 +22,24 @@ export default function FcFormButtonInsertExpense() {
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-
-        const { form } = ctxForm
+        const { form } = ctxForm;
 
         const despesa = {
           ...form,
           valor: parseFloat(ctxForm.form.valor),
-          vencimento: dateIso8601(form.vencimento)
-        }
+          vencimento: dateIso8601(form.vencimento),
+        };
 
-        const { status, message, internalMessage, title, detail } = await insereDespesa(despesa);
+        const {
+          status,
+          message,
+          internalMessage,
+          title,
+          detail,
+        } = await insereDespesa(despesa);
 
         ctxAlert.setAlert(
-          setCreatedAlert(
-            status,
-            message ?? detail,
-            internalMessage ?? title
-          )
+          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
         if ([200, 201].includes(status)) {
           ctxTotais.setStateTotais(

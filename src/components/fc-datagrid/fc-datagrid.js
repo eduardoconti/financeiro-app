@@ -104,7 +104,6 @@ export default function FcDataGrid(props) {
           ctxDataGrid.setSelectedRows(props);
         }}
         getRowClassName={(params) => `super-app-theme--Open`}
-        
       />
     </Box>
   );

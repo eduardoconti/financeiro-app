@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%",
     textAlign: "center",
     fontWeight: "bold",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   ativo: {
     backgroundColor:
@@ -78,11 +78,7 @@ export default function BotaoAno() {
       <CardActionArea onClick={handleClickOpen} className={classes.botao}>
         {stateAnoAtual}
       </CardActionArea>
-      <Dialog
-        disableEscapeKeyDown
-        open={open}
-        onClose={handleClose}
-      >
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Selecione o Ano</DialogTitle>
         <DialogContent>
           <form className={classes.container}>

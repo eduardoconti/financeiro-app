@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { useContext, useEffect } from "react";
 import { emptyFormularioDespesa } from "../../../common/EmptyStates";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextForm } from "../../../Context/FormContext";
@@ -16,22 +15,12 @@ import FcFormButtonUpdateExpense from "./fc-form-button-update-expense";
 import FcFormButtonDeleteExpense from "./fc-form-button-delete-expense";
 import FcFormButtonInsertExpenseNextMonth from "./fc-form-button-insert-expense-next-month";
 import FcSurface from "components/fc-surface/fc-surface";
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(1),
-  },
-}));
+import FcTextFieldInstalment from "../fc-fields/fc-text-field-instalment";
+import FcTextFieldPaymentDate from "../fc-fields/fc-text-field-payment-date";
 
 export default function FcFormExpense() {
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { stateMesAtual, stateAnoAtual } = useContext(ContextAnoMes);
   const { form, setForm } = useContext(ContextForm);
-
-  const classes = useStyles();
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   useEffect(() => {
     setForm(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
@@ -49,13 +38,19 @@ export default function FcFormExpense() {
         <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldWallet />
         </Grid>
-        <Grid item xs={12} sm={3} lg={4}>
+        <Grid item xs={6} sm={3} lg={2}>
           <FcTextFieldValue />
         </Grid>
-        <Grid item xs={6} sm={3} lg={4}>
+        <Grid item xs={6} sm={3} lg={2}>
+          <FcTextFieldInstalment />
+        </Grid>
+        <Grid item xs={5} sm={3} lg={2}>
           <FcTextFieldDueDate />
         </Grid>
-        <Grid item xs={6} sm={3} lg={4}>
+        <Grid item xs={5} sm={3} lg={2}>
+          <FcTextFieldPaymentDate />
+        </Grid>
+        <Grid item xs={2} sm={3} lg={4}>
           <FcSelectFieldPayed />
         </Grid>
         <Grid item xs={12} lg={4} align="center">

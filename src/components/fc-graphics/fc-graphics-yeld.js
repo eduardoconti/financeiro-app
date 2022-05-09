@@ -80,9 +80,11 @@ export default function FcGraphicsYeld() {
         data={receitas}
         chaveX="descricao"
         chaveY="valor"
-        cor={ theme.palette.type === "dark"
-        ? theme.palette.success.light
-        : theme.palette.success.dark}
+        cor={
+          theme.palette.type === "dark"
+            ? theme.palette.success.light
+            : theme.palette.success.dark
+        }
         stroke={theme.palette.success.main}
       />
     </FcSurface>

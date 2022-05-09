@@ -15,7 +15,8 @@ export default function FcTextFieldPaymentDate(props) {
       size="small"
       type="date"
       fullWidth
-      value={form.pagamento ? form.pagamento : " "}
+      InputLabelProps={{ shrink: true }} 
+      value={form.pagamento ?? ""}
       onChange={(event) => {
         setForm({
           ...form,

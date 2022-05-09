@@ -70,7 +70,14 @@ export default function FcDataGridYeld() {
       setSpin(false);
     }
     setRowsDataGrid();
-  }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual, setSpin, setRows]);
+  }, [
+    stateCheckedReceitas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    setSpin,
+    setRows,
+  ]);
 
   return (
     <FcDataGrid

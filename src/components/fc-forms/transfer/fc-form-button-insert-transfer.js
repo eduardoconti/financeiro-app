@@ -26,7 +26,9 @@ export default function FcFormButtonInsertTransfer() {
         let response;
         ctxForm.form.user = getUserIdFromToken();
         ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.transferencia = new Date(ctxForm.form.transferencia + ':').toISOString();
+        ctxForm.form.transferencia = new Date(
+          ctxForm.form.transferencia + ":"
+        ).toISOString();
 
         response = await insereTransferencia(ctxForm.form);
 

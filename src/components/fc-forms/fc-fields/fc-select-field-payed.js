@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import Menu from "../fc-menu-tem/fc-menu-item";
 import TextField from "@material-ui/core/TextField";
 import { ContextForm } from "../../../Context/FormContext";
+import { dateIso8601, formatDateToForm } from "common";
 export default function FcSelectFieldPayed() {
   const options = [
     { id: false, descricao: "Aberto" },
     { id: true, descricao: "Pago" },
   ];
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
 
   return (
     <TextField
@@ -16,10 +17,17 @@ export default function FcSelectFieldPayed() {
       variant="outlined"
       size="small"
       fullWidth
-      value={ctxForm.form.pago ? ctxForm.form.pago : false}
+      value={form.pago ? form.pago : false}
       select
       onChange={(event) => {
-        ctxForm.setForm({ ...ctxForm.form, pago: event.target.value });
+        console.log(form);
+        setForm({
+          ...form,
+          pago: event.target.value,
+          pagamento: event.target.value
+            ? form.pagamento ?? formatDateToForm(dateIso8601())
+            : undefined,
+        });
       }}
     >
       {Menu(options)}

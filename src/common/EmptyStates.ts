@@ -1,22 +1,18 @@
-import { getDay } from "./DateHelper";
+import { formatDateToForm } from "./DateHelper";
 
 export function emptyFormularioDespesa(
   stateAnoAtual: number,
   stateMesAtual: number
 ) {
-
   return {
     descricao: "",
     categoriaId: undefined,
     carteiraId: undefined,
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual, getDay())
-      .toISOString()
-      .slice(0, 10),
-    vencimento: new Date(stateAnoAtual, stateMesAtual, getDay())
-      .toISOString()
-      .slice(0, 10),
+    pagamento: undefined,
+    vencimento: formatDateToForm(),
+    instalment: 1,
     id: 0,
   };
 }
@@ -25,16 +21,13 @@ export function emptyFormularioTransferencia(
   stateAnoAtual = 0,
   stateMesAtual = 0
 ) {
-
   return {
     id: 0,
     carteiraOrigemId: "",
     carteiraDestinoId: "",
     valor: 0,
     pago: false,
-    transferencia: new Date(stateAnoAtual, stateMesAtual, getDay())
-      .toISOString()
-      .slice(0, 10),
+    transferencia: formatDateToForm(),
   };
 }
 
@@ -42,15 +35,12 @@ export function emptyFormularioReceita(
   stateAnoAtual: number,
   stateMesAtual: number
 ) {
-
   return {
     descricao: "",
     carteiraId: "",
     valor: 0,
     pago: false,
-    pagamento: new Date(stateAnoAtual, stateMesAtual, getDay())
-      .toISOString()
-      .slice(0, 10),
+    pagamento: formatDateToForm(),
     id: 0,
   };
 }

@@ -18,7 +18,7 @@ export default function AlertComponent() {
     <Snackbar
       open={alert.isOpen}
       onClose={handleClose}
-      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
       autoHideDuration={4000}
     >
       <Alert variant="filled" severity={alert.type} onClose={handleClose}>

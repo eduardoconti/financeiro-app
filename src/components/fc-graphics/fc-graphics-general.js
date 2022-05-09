@@ -82,13 +82,21 @@ export default function FcGraphicsGeneral() {
             dataKey="expenses.total"
             name="Despesas"
             maxBarSize={30}
-            fill={ theme.palette.type === "dark" ? theme.palette.error.light :  theme.palette.error.dark }
+            fill={
+              theme.palette.type === "dark"
+                ? theme.palette.error.light
+                : theme.palette.error.dark
+            }
             stroke={theme.palette.error.main}
           />
           <Bar
             dataKey="earnings.total"
             name="Receitas"
-            fill={ theme.palette.type === "dark" ? theme.palette.success.light : theme.palette.success.dark }
+            fill={
+              theme.palette.type === "dark"
+                ? theme.palette.success.light
+                : theme.palette.success.dark
+            }
             stroke={theme.palette.success.main}
             fillOpacity={"60%"}
             maxBarSize={30}

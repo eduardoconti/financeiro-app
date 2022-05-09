@@ -208,7 +208,6 @@ export async function retornaDespesaPorId(id) {
 }
 export function formataDadosParaLinhasDataGrid(despesas) {
   return despesas.map((despesa) => {
-
     const { id, descricao, pago, valor, vencimento, pagamento } = despesa;
     return {
       id: id,
@@ -224,7 +223,15 @@ export function formataDadosParaLinhasDataGrid(despesas) {
 }
 
 export function formataDadosParaFormulario(despesa) {
-  const { id, descricao, pago, valor, vencimento, categoria, carteira } = despesa;
+  const {
+    id,
+    descricao,
+    pago,
+    valor,
+    vencimento,
+    categoria,
+    carteira,
+  } = despesa;
   return {
     id: id,
     descricao: descricao,

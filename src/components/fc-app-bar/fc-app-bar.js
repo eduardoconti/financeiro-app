@@ -204,12 +204,11 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             </IconButton>
           </Tooltip>
           <div className={classes.title} />
-          
+
           <BotaoMesSmall />
           <BotaoAno />
 
           <Tooltip title="Set light/dark mode">
-
             <IconButton
               color="inherit"
               aria-label="Light/Dark"
