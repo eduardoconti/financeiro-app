@@ -15,9 +15,9 @@ export default function AlertComponent() {
 
   const anchorOrigin = {
     vertical:
-      window.innerWidth > theme.breakpoints.values.xs ? "bottom" : "top",
+      window.innerWidth > theme.breakpoints.values.sm ? "bottom" : "top",
     horizontal:
-      window.innerWidth > theme.breakpoints.values.xs ? "left" : "center",
+      window.innerWidth > theme.breakpoints.values.sm ? "left" : "center",
   };
   return (
     <Snackbar

@@ -7,7 +7,7 @@ import { SpinContext } from "Context";
 import SpinCircular from "components/fc-spin/fc-spin";
 
 export default function FcCard(props: any) {
-  const { onClick, color, value, description, children } = props;
+  const { onClick, color, value, description, children, ref } = props;
   let { legendColor } = props;
   const theme = useTheme();
   const ctxSpin = useContext(SpinContext);
@@ -25,6 +25,7 @@ export default function FcCard(props: any) {
         backgroundColor: theme.palette.background.paper,
         border: "none",
       }}
+      ref={ref}
     >
       {ctxSpin.spin ? (
         <SpinCircular />
