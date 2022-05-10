@@ -41,7 +41,6 @@ export default function FcColumnActionsExpense(props: any) {
       };
 
       const res = await new ExpenseService().alteraFlagPago(despesa);
-      console.log(res);
       await pegaDespesas();
       return res;
     },

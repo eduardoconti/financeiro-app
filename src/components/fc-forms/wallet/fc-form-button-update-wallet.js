@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
-import { alteraCarteira } from "../../../common/CarteiraFuncoes";
+import {
+  alteraCarteira,
+  retornaCarteiras,
+} from "../../../common/CarteiraFuncoes";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
+import { ContextDataGrid } from "Context";
 export default function FcFormButtonUpdateWallet() {
   const ctxForm = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
+  const { setRows } = useContext(ContextDataGrid);
 
   return (
     <FcFormIconButtonUpdate
@@ -28,6 +33,9 @@ export default function FcFormButtonUpdateWallet() {
             internalMessage ?? detail
           )
         );
+
+        const { data } = await retornaCarteiras();
+        setRows(data);
       }}
     />
   );

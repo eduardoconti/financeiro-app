@@ -24,16 +24,13 @@ import {
 } from "common";
 
 export default function CorpoDespesas() {
-  const ctxAlert = useContext(ContextAlert);
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
+  const { setAlert } = useContext(ContextAlert);
+  const { setStateTotais } = useContext(ContextTotais);
+  const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
+    ContextChecked
+  );
+  const { stateMesAtual, stateAnoAtual } = useContext(ContextAnoMes);
 
-  const setStateTotais = ctxTotais.setStateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   return (
     <DataGridProvider>
       <Grid container spacing={1}>
@@ -76,7 +73,7 @@ export default function CorpoDespesas() {
                   categoriaId: categoria.id,
                   pago: false,
                 });
-                ctxAlert.setAlert(
+                setAlert(
                   setCreatedAlert(
                     insertRes.status,
                     insertRes.message,
@@ -89,7 +86,7 @@ export default function CorpoDespesas() {
               data.forEach(async (element) => {
                 const deleted = await deletaDespesa(element);
 
-                ctxAlert.setAlert(
+                setAlert(
                   setCreatedAlert(
                     deleted.status,
                     deleted.message,
@@ -107,7 +104,6 @@ export default function CorpoDespesas() {
               );
             }}
             onClickFlag={async (data, pago) => {
-              console.log(data, pago);
               data.forEach(async (element) => {
                 const res = await retornaDespesaPorId(element);
 
@@ -122,7 +118,7 @@ export default function CorpoDespesas() {
                   title,
                   detail,
                 } = await alteraFlagPago({ id, pago });
-                ctxAlert.setAlert(
+                setAlert(
                   setCreatedAlert(
                     status,
                     message ?? detail,

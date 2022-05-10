@@ -20,7 +20,6 @@ export default function FcSelectFieldPayed() {
       value={form.pago ? form.pago : false}
       select
       onChange={(event) => {
-        console.log(form);
         setForm({
           ...form,
           pago: event.target.value,
