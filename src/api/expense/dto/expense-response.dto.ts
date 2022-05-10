@@ -33,6 +33,7 @@ export class ExpenseResposeDTO {
     this.carteira = carteira;
     this.vencimento = vencimento;
     this.pagamento = pagamento;
+    this.instalment = instalment;
     this.pago = pago;
     this.updatedAt = updatedAt;
   }

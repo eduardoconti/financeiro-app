@@ -29,7 +29,6 @@ export default function FcFormButtonInsertExpense() {
           valor: parseFloat(ctxForm.form.valor),
           vencimento: dateIso8601(form.vencimento),
         };
-
         const {
           status,
           message,

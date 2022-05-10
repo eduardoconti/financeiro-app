@@ -7,6 +7,7 @@ export default function FcTextFieldPaymentDate(props) {
   const ctxForm = useContext(ContextForm);
   const setForm = ctxForm.setForm;
   const form = ctxForm.form;
+  const { yeld } = props;
 
   return (
     <TextField
@@ -22,7 +23,7 @@ export default function FcTextFieldPaymentDate(props) {
         setForm({
           ...form,
           pagamento: event.target.value,
-          pago: isDate(event.target.value) ? true : false,
+          pago: !yeld ? (isDate(event.target.value) ? true : false) : false,
         });
       }}
     />

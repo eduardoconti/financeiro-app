@@ -49,7 +49,7 @@ export default function FcFormYeld() {
           <FcTextFieldValue />
         </Grid>
         <Grid item xs={6} sm={3} lg={4}>
-          <FcTextFieldPaymentDate />
+          <FcTextFieldPaymentDate yeld={true} />
         </Grid>
         <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldPayed />
