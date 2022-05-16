@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import {
-  getValorDespesasPorCategoria,
-  getValorDespesasPorCarteira,
-} from "../../common/DepesaFuncoes";
+import { getValorDespesasPorCategoria } from "../../common/DepesaFuncoes";
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
@@ -15,54 +12,53 @@ import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
 
 export default function FcGraphicsExpense() {
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
+  const { stateTotais } = useContext(ContextTotais);
+  const { stateCheckedDespesas } = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const { setSpin } = useContext(SpinContext);
-
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const stateTotais = ctxTotais.stateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
 
   const [despesas, setDespesas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
   const theme = useTheme();
+
   useEffect(() => {
     async function pegaDespesas() {
       if (isAuthenticated()) {
         setSpin(true);
-        let despesas;
-
         if (stateGrafico === "1") {
-          despesas = await getValorDespesasPorCategoria(
-            stateCheckedDespesas,
-            stateAnoAtual,
-            stateMesAtual
-          );
-          setDescricao("Despesas por Categoria Geral");
-        } else if (stateGrafico === "2") {
-          despesas = await getValorDespesasPorCategoria(
-            stateCheckedDespesas,
-          );
-          setDescricao("Despesas por Categoria Mensal");
+          await general(stateCheckedDespesas);
         }
-        if (despesas.status === 200) {
-          setDespesas(despesas.data);
+        if (stateGrafico === "2") {
+          await month(stateCheckedDespesas, ctxAnoMes);
         }
         setSpin(false);
       }
     }
+    async function general(stateCheckedDespesas) {
+      setDescricao("Despesas por Categoria Geral");
+      const { data, status } = await getValorDespesasPorCategoria(
+        stateCheckedDespesas
+      );
+      if (status === 200) {
+        setDespesas(data);
+      }
+    }
+
+    async function month(stateCheckedDespesas, ctxAnoMes) {
+      setDescricao("Despesas por Categoria Mensal");
+      const { stateAnoAtual, stateMesAtual } = ctxAnoMes;
+      const { data, status } = await getValorDespesasPorCategoria(
+        stateCheckedDespesas,
+        stateAnoAtual,
+        stateMesAtual
+      );
+      if (status === 200) {
+        setDespesas(data);
+      }
+    }
     pegaDespesas();
-  }, [
-    stateCheckedDespesas,
-    stateTotais,
-    stateAnoAtual,
-    stateMesAtual,
-    stateGrafico,
-    setSpin,
-  ]);
+  }, [stateCheckedDespesas, stateTotais, ctxAnoMes, stateGrafico, setSpin]);
 
   return (
     <FcSurface>
