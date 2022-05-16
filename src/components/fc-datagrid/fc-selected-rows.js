@@ -1,12 +1,11 @@
 import {
-  Box,
   Grid,
   IconButton,
   makeStyles,
   Typography,
   useTheme,
 } from "@material-ui/core";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ContextDataGrid } from "../../Context/DataGridContext";
 import CheckTwoToneIcon from "@material-ui/icons/CheckTwoTone";
 import { SpinContext } from "../../Context/SpinContext";
@@ -15,6 +14,7 @@ import { getStorageDataGridRows } from "../../common/DataGridStorage";
 import ArrowForwardIosTwoToneIcon from "@material-ui/icons/ArrowForwardIosTwoTone";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
+import FcSurface from "components/fc-surface/fc-surface";
 
 const useStyles = makeStyles((theme) => ({
   selectedRows: {
@@ -42,7 +42,9 @@ function totalizador(selectedRows, rows) {
 }
 
 export default function FcSelectedRows(props) {
-  const { selectedRows, setRows, ...ctxDataGrid } = useContext(ContextDataGrid);
+  const { selectedRows, setRows, setSelectedRows, ...ctxDataGrid } = useContext(
+    ContextDataGrid
+  );
   const { setSpin } = useContext(SpinContext);
   const classes = useStyles();
   const theme = useTheme();
@@ -52,7 +54,7 @@ export default function FcSelectedRows(props) {
   const total = totalizador(selectedRows, ctxDataGrid.rows);
 
   return selectedRows.length > 0 ? (
-    <Box className={classes.selectedRows}>
+    <FcSurface className={classes.selectedRows}>
       <Grid container spacing={1} align="center" alignItems="center">
         <Grid item xs={1} align="left">
           <IconButton
@@ -116,6 +118,7 @@ export default function FcSelectedRows(props) {
               const data = selectedRows;
               await onClickFlag(data, true);
               setCropedRows(false);
+              setSelectedRows([]);
               setSpin(false);
             }}
           >
@@ -136,6 +139,7 @@ export default function FcSelectedRows(props) {
               await onClickFlag(data, false);
               setCropedRows(false);
               setSpin(false);
+              setSelectedRows([]);
             }}
           >
             {<FiberManualRecordTwoToneIcon fontSize="large" />}
@@ -154,6 +158,7 @@ export default function FcSelectedRows(props) {
               const data = selectedRows;
               await onDeleted(data);
               setCropedRows(false);
+              setSelectedRows([]);
               setSpin(false);
             }}
           >
@@ -171,6 +176,6 @@ export default function FcSelectedRows(props) {
           </Typography>
         </Grid>
       </Grid>
-    </Box>
+    </FcSurface>
   ) : null;
 }
