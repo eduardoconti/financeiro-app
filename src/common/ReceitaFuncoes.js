@@ -119,7 +119,7 @@ export async function alteraReceita(receita) {
 
 export async function alteraFlagPago(receita) {
   try {
-    const res = await API.patch(ENDPOINT + "/flag/" + receita.id, receita);
+    const res = await API.patch(ENDPOINT + "/" + receita.id, receita);
     return res.data;
   } catch (error) {
     return errorResponse(error);
