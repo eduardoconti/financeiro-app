@@ -12,9 +12,10 @@ import {
 } from "../../../common/TransferenciaFuncoes";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
+import { dateIso8601, Money } from "common";
 
 export default function FcFormButtonInsertTransfer() {
-  const ctxForm = useContext(ContextForm);
+  const { form, setForm } = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxDataGrid = useContext(ContextDataGrid);
@@ -24,13 +25,12 @@ export default function FcFormButtonInsertTransfer() {
       description="cadastrar"
       onClick={async () => {
         let response;
-        ctxForm.form.user = getUserIdFromToken();
-        ctxForm.form.valor = parseFloat(ctxForm.form.valor);
-        ctxForm.form.transferencia = new Date(
-          ctxForm.form.transferencia + ":"
-        ).toISOString();
+        form.transferencia = dateIso8601(form.transferencia);
 
-        response = await insereTransferencia(ctxForm.form);
+        response = await insereTransferencia({
+          ...form,
+          valor: Money.toInteger(form.valor),
+        });
 
         ctxAlert.setAlert(
           setCreatedAlert(
@@ -41,7 +41,7 @@ export default function FcFormButtonInsertTransfer() {
         );
 
         if ([200, 201].includes(response.status)) {
-          ctxForm.setForm(
+          setForm(
             emptyFormularioTransferencia(
               ctxAnoMes.stateAnoAtual,
               ctxAnoMes.stateMesAtual

@@ -18,7 +18,6 @@ import FcTextFieldInstalment from "../fc-fields/fc-text-field-instalment";
 import FcTextFieldPaymentDate from "../fc-fields/fc-text-field-payment-date";
 
 export default function FcFormExpense() {
-
   const { form, setForm } = useContext(ContextForm);
 
   useEffect(() => {

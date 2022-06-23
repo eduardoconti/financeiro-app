@@ -1,6 +1,4 @@
-
 export class CategoryRequestDTO {
-
   id?: number;
   descricao!: string;
 
@@ -9,7 +7,10 @@ export class CategoryRequestDTO {
     this.id = id;
   }
 
-  static build = ({ descricao, id }: CategoryRequestDTO): CategoryRequestDTO => {
+  static build = ({
+    descricao,
+    id,
+  }: CategoryRequestDTO): CategoryRequestDTO => {
     return new CategoryRequestDTO(descricao, id);
   };
 }

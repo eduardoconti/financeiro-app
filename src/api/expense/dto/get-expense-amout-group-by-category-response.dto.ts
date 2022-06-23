@@ -1,5 +1,4 @@
 export class GetExpenseAmountGroupByCategoryResponse {
-
   readonly valor: number;
   readonly descricao: string;
   readonly id: number;

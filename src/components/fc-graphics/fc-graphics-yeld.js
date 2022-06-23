@@ -13,6 +13,7 @@ import { useTheme } from "@material-ui/core";
 import FcSurface from "../fc-surface/fc-surface";
 import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
+import { Money } from "common";
 
 export default function FcGraphicsYeld() {
   const ctxTotais = useContext(ContextTotais);
@@ -52,7 +53,13 @@ export default function FcGraphicsYeld() {
           setDescricao("Receitas por Carteira");
         }
         if (receitas.status === 200) {
-          setReceitas(receitas.data);
+          const { data } = receitas;
+          setReceitas(
+            data.map((item) => {
+              item.valor = Money.toFloat(item.valor);
+              return item;
+            })
+          );
         }
         setSpin(false);
       }

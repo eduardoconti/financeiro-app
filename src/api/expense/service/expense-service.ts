@@ -5,6 +5,7 @@ import {
   formatDateToDataGrid,
   formatDateToForm,
   lastDayOfMonth,
+  Money,
 } from "common";
 import api from "common/Api";
 import { ExpenseDTO } from "../dto";
@@ -103,7 +104,7 @@ export class ExpenseService implements IExpenseService {
         id,
         descricao,
         pago,
-        valor: valor.toFixed(2),
+        valor: Money.format(valor),
         categoriaId: categoria.descricao,
         carteiraId: carteira.descricao,
         vencimento: formatDateToDataGrid(vencimento),
@@ -112,9 +113,7 @@ export class ExpenseService implements IExpenseService {
     });
   }
 
-  formataDadosParaFormulario(
-    despesa: ExpenseResposeDTO
-  ): ExpenseDTO {
+  formataDadosParaFormulario(despesa: ExpenseResposeDTO): ExpenseDTO {
     const {
       id,
       descricao,
@@ -129,12 +128,11 @@ export class ExpenseService implements IExpenseService {
       id,
       descricao,
       pago,
-      valor,
+      valor: Money.toFloat(valor),
       categoriaId,
       carteiraId,
       vencimento: formatDateToForm(vencimento),
-      instalment
-      
+      instalment,
     };
   }
 }
@@ -220,9 +218,14 @@ export async function deletaDespesa(id: number) {
   }
 }
 
-export async function insereDespesa(despesa: ExpenseDTO) {
+export async function insereDespesa(
+  despesa: ExpenseDTO
+): Promise<SuccessResponseData<ExpenseResposeDTO>> {
   try {
-    const res = await api.post(ENDPOINT, despesa);
+    const res = await api.post(ENDPOINT, {
+      ...despesa,
+      valor: Money.toInteger(despesa.valor),
+    });
     return res.data;
   } catch (error) {
     return errorResponse(error);

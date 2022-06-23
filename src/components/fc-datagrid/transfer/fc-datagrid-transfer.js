@@ -14,6 +14,7 @@ import {
 } from "../../../common/TransferenciaFuncoes";
 import FcColumnWalletDestiny from "./fc-column-wallet-destiny";
 import FcColumnWalletOrigin from "./fc-column-wallet-origin";
+import { FcColumnTransferenceDate } from "./fc-column-transference";
 
 export default function FcDataGridTransfer() {
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -27,7 +28,7 @@ export default function FcDataGridTransfer() {
 
   columns.push(new FcColumnWalletDestiny());
 
-  columns.push(FcColumnValue, {
+  columns.push(FcColumnValue, FcColumnTransferenceDate, {
     field: "actions",
     headerName: "Operação",
     width: 140,

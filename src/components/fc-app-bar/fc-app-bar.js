@@ -205,9 +205,9 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             </IconButton>
           </Tooltip>
           <div className={classes.title}>
-            {process.env.REACT_APP_ENVIRONMENT !== "production" ? (
-              "AMBIENTE DE TESTE"
-            ) : null}
+            {process.env.REACT_APP_ENVIRONMENT !== "production"
+              ? "AMBIENTE DE TESTE"
+              : null}
           </div>
 
           <BotaoMesSmall />

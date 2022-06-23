@@ -10,6 +10,7 @@ import {
 import FcCardWalletBalance from "../../components/fc-cards/fc-card-wallet-balance";
 import { SpinContext } from "../../Context/SpinContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
+import { Money } from "common";
 
 async function RetornaCards(ano, mes) {
   let object = await retornaDadosParaCard(ano, mes);
@@ -67,9 +68,11 @@ async function retornaDadosParaCard(ano, mes) {
         )
       );
       let valor =
-        receita + transferenciaEntrada - (despesa + transferenciaSaida);
+        parseInt(receita) +
+        parseInt(transferenciaEntrada) -
+        (parseInt(despesa) + parseInt(transferenciaSaida));
 
-      if (Math.abs(valor.toFixed(2)) > 0.05) {
+      if (valor !== 0) {
         dadosCard.push({
           descricao: carteira.descricao,
           valor: valor,

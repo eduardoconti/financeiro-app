@@ -1,6 +1,4 @@
-
 export class WalletRequestDTO {
-
   id?: number;
   descricao!: string;
 

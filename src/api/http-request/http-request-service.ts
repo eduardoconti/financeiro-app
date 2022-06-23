@@ -30,4 +30,9 @@ export class HttpRequestService {
     const { data } = await this.api.patch(url, dto);
     return data;
   }
+
+  async post<D>(url: string, dto: any): Promise<SuccessResponseData<D>> {
+    const { data } = await this.api.post(url, dto);
+    return data;
+  }
 }

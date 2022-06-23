@@ -12,7 +12,7 @@ import {
 import { emptyFormularioTransferencia } from "../../../common/EmptyStates";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import { formatDateToForm } from "common";
+import { dateIso8601, formatDateToForm, Money } from "common";
 import { HttpStatus } from "common/enum";
 
 export default function FcFormButtonUpdateTransfer() {
@@ -25,8 +25,7 @@ export default function FcFormButtonUpdateTransfer() {
     <FcFormButton
       description="alterar"
       onClick={async () => {
-        form.valor = parseFloat(form.valor);
-        form.transferencia = formatDateToForm();
+        form.transferencia = dateIso8601(form.transferencia);
 
         const {
           status,
@@ -34,7 +33,10 @@ export default function FcFormButtonUpdateTransfer() {
           internalMessage,
           detail,
           title,
-        } = await alteraTransferencia(form);
+        } = await alteraTransferencia({
+          ...form,
+          valor: Money.toInteger(form.valor),
+        });
 
         ctxAlert.setAlert(
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)
