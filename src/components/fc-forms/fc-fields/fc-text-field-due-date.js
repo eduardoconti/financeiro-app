@@ -14,7 +14,7 @@ export default function FcTextFieldDueDate(props) {
       size="small"
       type="date"
       fullWidth
-      InputLabelProps={{ shrink: true }} 
+      InputLabelProps={{ shrink: true }}
       value={form.vencimento ?? " "}
       onChange={(event) => {
         setForm({

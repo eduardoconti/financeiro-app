@@ -5,6 +5,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import { Typography, useTheme } from "@material-ui/core";
 import { SpinContext } from "Context";
 import SpinCircular from "components/fc-spin/fc-spin";
+import { Money } from "common";
 
 export default function FcCard(props: any) {
   const { onClick, color, value, description, children, ref } = props;
@@ -40,7 +41,7 @@ export default function FcCard(props: any) {
               variant="h5"
               style={{ color: color ?? theme.palette.primary.light }}
             >
-              {value.toFixed(2)}
+              {Money.format(value)}
             </Typography>
           </CardContent>
         </CardActionArea>

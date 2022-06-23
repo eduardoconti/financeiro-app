@@ -5,6 +5,7 @@ import {
   formatDateToForm,
   lastDayOfMonth,
 } from "./DateHelper";
+import { Money } from "./money";
 
 const ENDPOINT = "expense";
 
@@ -213,34 +214,13 @@ export function formataDadosParaLinhasDataGrid(despesas) {
       id: id,
       descricao: descricao,
       pago: pago,
-      valor: valor.toFixed(2),
+      valor: Money.format(valor),
       categoriaId: despesa.categoria.descricao,
       carteiraId: despesa.carteira.descricao,
       vencimento: formatDateToDataGrid(vencimento),
       pagamento: pagamento ? formatDateToDataGrid(pagamento) : undefined,
     };
   });
-}
-
-export function formataDadosParaFormulario(despesa) {
-  const {
-    id,
-    descricao,
-    pago,
-    valor,
-    vencimento,
-    categoria,
-    carteira,
-  } = despesa;
-  return {
-    id: id,
-    descricao: descricao,
-    pago: pago,
-    valor: valor,
-    categoriaId: categoria.id,
-    carteiraId: carteira.id,
-    vencimento: formatDateToForm(vencimento),
-  };
 }
 
 export async function getExpenseById(id) {

@@ -1,9 +1,11 @@
 import API from "./Api";
 import {
   firstDayOfMonth,
+  formatDateToDataGrid,
   formatDateToForm,
   lastDayOfMonth,
 } from "./DateHelper";
+import { Money } from "./money";
 
 const ENDPOINT = "transference";
 const headers = {
@@ -76,14 +78,13 @@ export async function alteraFlagPago(transferencia) {
 }
 export function formataDadosParaLinhasDataGrid(transferencia) {
   return transferencia.map((transferencia) => {
+    const { carteiraDestino, carteiraOrigem, valor } = transferencia;
     return {
       ...transferencia,
-      transferencia: new Date(transferencia.transferencia)
-        .toISOString()
-        .slice(0, 10),
-      valor: transferencia.valor.toFixed(2),
-      carteiraOrigemId: transferencia.carteiraOrigem.descricao,
-      carteiraDestinoId: transferencia.carteiraDestino.descricao,
+      transferencia: formatDateToDataGrid(transferencia.transferencia),
+      valor: Money.format(valor),
+      carteiraOrigemId: carteiraOrigem.descricao,
+      carteiraDestinoId: carteiraDestino.descricao,
     };
   });
 }
@@ -93,10 +94,12 @@ export function formataDadosParaFormulario(transferenciaDto) {
     carteiraDestino,
     carteiraOrigem,
     transferencia,
+    valor,
     ...rest
   } = transferenciaDto;
   return {
     ...rest,
+    valor: Money.toFloat(valor),
     transferencia: formatDateToForm(transferencia),
     carteiraOrigemId: carteiraOrigem.id,
     carteiraDestinoId: carteiraDestino.id,

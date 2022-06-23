@@ -4,6 +4,6 @@ export class ResponseDataDto {
   constructor(
     public readonly status: HttpStatus,
     public readonly internalMessage?: string,
-    public readonly message?: string,
+    public readonly message?: string
   ) {}
 }

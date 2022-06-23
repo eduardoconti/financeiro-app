@@ -68,10 +68,13 @@ async function retornaDadosParaCard() {
           (transferencia) => transferencia.id === carteira.id
         )
       );
-      let valor =
-        receita + transferenciaEntrada - (despesa + transferenciaSaida);
 
-      if (Math.abs(valor.toFixed(2)) > 0.05) {
+      let valor =
+        parseInt(receita) +
+        parseInt(transferenciaEntrada) -
+        (parseInt(despesa) + parseInt(transferenciaSaida));
+
+      if (valor !== 0) {
         dadosCard.push({
           descricao: carteira.descricao,
           valor: valor,

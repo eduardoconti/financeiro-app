@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress, { CircularProgressProps } from "@material-ui/core/CircularProgress";
+import CircularProgress, {
+  CircularProgressProps,
+} from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > * + *": {

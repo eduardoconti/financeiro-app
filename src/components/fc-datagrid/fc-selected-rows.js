@@ -15,6 +15,7 @@ import ArrowForwardIosTwoToneIcon from "@material-ui/icons/ArrowForwardIosTwoTon
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
 import FcSurface from "components/fc-surface/fc-surface";
+import { Money } from "common";
 
 const useStyles = makeStyles((theme) => ({
   selectedRows: {
@@ -172,7 +173,7 @@ export default function FcSelectedRows(props) {
             className={classes.legend}
             align="right"
           >
-            {total.toFixed(2)}
+            {Money.format(total)}
           </Typography>
         </Grid>
       </Grid>

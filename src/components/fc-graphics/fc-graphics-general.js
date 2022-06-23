@@ -17,6 +17,7 @@ import { SpinContext } from "../../Context/SpinContext";
 import FcSurface from "../fc-surface/fc-surface";
 import RadioButtons from "./fc-graphics-header";
 import api from "../../common/Api";
+import { Money } from "common";
 
 export default function FcGraphicsGeneral() {
   const { setSpin } = useContext(SpinContext);
@@ -34,7 +35,22 @@ export default function FcGraphicsGeneral() {
               data: { months },
             },
           } = await api.get(ENDPOINT + "general");
-          setDados(months);
+          setDados(
+            months.map((item) => {
+              const { earnings, expenses, ballance, totalBallance } = item;
+              earnings.total = Money.toFloat(earnings.total);
+              earnings.totalOpen = Money.toFloat(earnings.totalOpen);
+              earnings.totalPayed = Money.toFloat(earnings.totalPayed);
+
+              expenses.total = Money.toFloat(expenses.total);
+              expenses.totalOpen = Money.toFloat(expenses.totalOpen);
+              expenses.totalPayed = Money.toFloat(expenses.totalPayed);
+
+              item.ballance = Money.toFloat(ballance);
+              item.totalBallance = Money.toFloat(totalBallance);
+              return item;
+            })
+          );
         } catch (error) {}
       }
       setSpin(false);

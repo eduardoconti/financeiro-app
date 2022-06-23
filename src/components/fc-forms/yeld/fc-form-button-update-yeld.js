@@ -10,7 +10,7 @@ import { calculaTotais } from "../../../common/Funcoes";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import { emptyFormularioReceita } from "../../../common/EmptyStates";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
-import { dateIso8601 } from "common";
+import { dateIso8601, Money } from "common";
 export default function FcFormButtonUpdateYeld() {
   const { form, setForm } = useContext(ContextForm);
   const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
@@ -24,8 +24,6 @@ export default function FcFormButtonUpdateYeld() {
     <FcFormIconButtonUpdate
       description="alterar"
       onClick={async () => {
-        form.userId = getUserIdFromToken();
-        form.valor = parseFloat(form.valor);
         form.pagamento = dateIso8601(form.pagamento);
 
         const {
@@ -34,7 +32,10 @@ export default function FcFormButtonUpdateYeld() {
           internalMessage,
           title,
           detail,
-        } = await alteraReceita(form);
+        } = await alteraReceita({
+          ...form,
+          valor: Money.toInteger(form.valor),
+        });
 
         ctxAlert.setAlert(
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)

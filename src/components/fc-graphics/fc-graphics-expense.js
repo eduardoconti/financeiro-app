@@ -10,6 +10,7 @@ import { isAuthenticated } from "../../common/Auth";
 import FcSurface from "../fc-surface/fc-surface";
 import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
+import { Money } from "common";
 
 export default function FcGraphicsExpense() {
   const { stateTotais } = useContext(ContextTotais);
@@ -41,7 +42,12 @@ export default function FcGraphicsExpense() {
         stateCheckedDespesas
       );
       if (status === 200) {
-        setDespesas(data);
+        setDespesas(
+          data.map((item) => {
+            item.valor = Money.toFloat(item.valor);
+            return item;
+          })
+        );
       }
     }
 
@@ -54,7 +60,12 @@ export default function FcGraphicsExpense() {
         stateMesAtual
       );
       if (status === 200) {
-        setDespesas(data);
+        setDespesas(
+          data.map((item) => {
+            item.valor = Money.toFloat(item.valor);
+            return item;
+          })
+        );
       }
     }
     pegaDespesas();

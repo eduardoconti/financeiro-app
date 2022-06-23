@@ -107,7 +107,6 @@ export default function FcDataGridExpense() {
       const expenseService = new ExpenseService();
       const { row } = GridRowParams;
       const { data, status } = await expenseService.getExpenseById(row.id);
-      console.log(data);
       if (status === HttpStatus.OK) {
         ctxForm.setForm(expenseService.formataDadosParaFormulario(data));
       }

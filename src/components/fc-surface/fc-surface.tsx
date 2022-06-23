@@ -5,7 +5,7 @@ export default function FcSurface(props: any) {
   const { children, style } = props;
 
   return (
-    <Box 
+    <Box
       style={{
         backgroundColor: theme.palette.background.paper,
         borderRadius: theme.shape.borderRadius,

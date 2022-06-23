@@ -5,6 +5,7 @@ import {
   formatDateToForm,
   lastDayOfMonth,
 } from "./DateHelper";
+import { Money } from "./money";
 const ENDPOINT = "earning";
 
 export async function getReceitas(
@@ -192,7 +193,7 @@ export function formataDadosParaLinhasDataGrid(receita) {
       pago: pago,
       carteiraId: receita.carteira.descricao,
       pagamento: formatDateToDataGrid(receita.pagamento),
-      valor: valor.toFixed(2),
+      valor: Money.format(valor),
     };
   });
 }
@@ -200,7 +201,7 @@ export function formataDadosParaLinhasDataGrid(receita) {
 export function formataDadosParaFormulario(receita) {
   const { id, descricao, pago, valor } = receita;
   return {
-    valor: valor,
+    valor: Money.toFloat(valor),
     id: id,
     descricao: descricao,
     pago: pago,

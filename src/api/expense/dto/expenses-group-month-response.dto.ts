@@ -14,7 +14,7 @@ export class ExpensesGroupMonthDTO {
     total = 0,
     totalPayed = 0,
     totalOpen = 0,
-    quantity = 0,
+    quantity = 0
   ) {
     this.month = month;
     this.total = total;
@@ -38,7 +38,7 @@ export class ExpensesGroupMonthDTO {
       total,
       totalPayed,
       totalOpen,
-      quantity,
+      quantity
     );
   };
 }

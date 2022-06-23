@@ -17,7 +17,15 @@ export default function FcCardBalance() {
     history.push(path);
   };
 
-  return <FcCard onClick={routeChange} value={saldo}  color={ theme.palette.type === "dark"
-  ? theme.palette.warning.light
-  : theme.palette.warning.dark} />;
+  return (
+    <FcCard
+      onClick={routeChange}
+      value={saldo}
+      color={
+        theme.palette.type === "dark"
+          ? theme.palette.warning.light
+          : theme.palette.warning.dark
+      }
+    />
+  );
 }

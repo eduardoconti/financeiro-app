@@ -45,7 +45,7 @@ export class ExpenseDTO {
     pagamento,
     pago,
     updatedAt,
-    instalment
+    instalment,
   }: ExpenseDTO): ExpenseDTO => {
     return new ExpenseDTO(
       descricao,
