@@ -3,6 +3,10 @@ export class Money {
     return (value / 100).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
   }
 
+  static formatToNumber(value: string){
+    return parseFloat(value.replace(/[^0-9]+/g, ''))*100;
+  }
+
   static toFloat(value: number): number {
     return value / 100;
   }

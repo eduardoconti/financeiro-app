@@ -36,7 +36,7 @@ function totalizador(selectedRows, rows) {
       return element.id === parseInt(idSelected);
     });
 
-    total += data ? parseFloat(data.valor) : 0;
+    total += data ? Money.formatToNumber(data.valor) : 0;
   });
 
   return total;
