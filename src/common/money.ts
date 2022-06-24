@@ -4,7 +4,7 @@ export class Money {
   }
 
   static formatToNumber(value: string){
-    return parseFloat(value.replace(/[^0-9]+/g, ''))*100;
+    return parseFloat(value.replace(/[^0-9]+/g, ''));
   }
 
   static toFloat(value: number): number {
