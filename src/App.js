@@ -37,15 +37,6 @@ function App() {
   const theme = createTheme({
     palette: {
       type: darkTheme ? "dark" : "light",
-      // primary: {
-      //   main: darkTheme ? "#BB86FC" : "#3700B3",
-      // },
-      // success: {
-      //   main: darkTheme ? "#03DAC5" : "#018786",
-      // },
-      // error: {
-      //   main: darkTheme ? "#CF6679" : "#B00020",
-      // },
       background: {
         default: darkTheme ? "#121212" : "#FFF",
         paper: darkTheme ? "#212121" : "#fafafa",

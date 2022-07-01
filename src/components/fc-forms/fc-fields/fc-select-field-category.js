@@ -12,7 +12,8 @@ export default function FcSelectFieldCategory() {
 
   useEffect(() => {
     async function fetchData() {
-      setCategories(await retornaCategorias());
+      const {data} = await retornaCategorias();
+      setCategories(data);
     }
     if (isAuthenticated()) {
       setSpin(true);

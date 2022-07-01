@@ -12,6 +12,6 @@ export class Money {
   }
 
   static toInteger(value: number): number {
-    return value * 100;
+    return Math.round(value * 100);
   }
 }

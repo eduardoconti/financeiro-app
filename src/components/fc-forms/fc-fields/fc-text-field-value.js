@@ -20,7 +20,6 @@ export default function FcTextFieldValue(props) {
         if (valor) {
           valor = parseFloat(valor);
         }
-
         setForm({
           ...form,
           valor: event.target.value,
