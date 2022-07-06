@@ -72,6 +72,7 @@ export default function BotaoAno() {
     { id: 2020, descricao: "2020" },
     { id: 2021, descricao: "2021" },
     { id: 2022, descricao: "2022" },
+    { id: 2023, descricao: "2023" },
   ]);
   return (
     <Box>
