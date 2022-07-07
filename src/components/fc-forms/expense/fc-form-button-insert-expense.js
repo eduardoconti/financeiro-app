@@ -27,6 +27,7 @@ export default function FcFormButtonInsertExpense() {
         const despesa = {
           ...form,
           vencimento: dateIso8601(form.vencimento),
+          pagamento: form.pagamento ? dateIso8601(form.pagamento): undefined,
         };
         const {
           status,
