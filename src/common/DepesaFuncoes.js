@@ -154,11 +154,14 @@ export async function alteraDespesa(despesa) {
 export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
   try {
     const query =
-      stateAnoAtual && stateMesAtual
+      (
+        typeof stateAnoAtual !== "undefined" &&
+        typeof stateMesAtual !== "undefined"
+      )
         ? "?start=" +
-          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-          "&end=" +
-          lastDayOfMonth(stateAnoAtual, stateMesAtual)
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await API.get(endpoint);
