@@ -24,7 +24,7 @@ export default function FcFormButtonUpdateExpense() {
     ContextChecked
   );
   const ctxAlert = useContext(ContextAlert);
-  const { vencimento, valor, ...expense } = form;
+  const { vencimento, valor, pagamento, ...expense } = form;
   return (
     <FcFormIconButtonUpdate
       description="alterar"
@@ -37,6 +37,7 @@ export default function FcFormButtonUpdateExpense() {
           detail,
         } = await alteraDespesa({
           vencimento: dateIso8601(vencimento),
+          pagamento: pagamento ? dateIso8601(pagamento) : undefined,
           valor: Money.toInteger(valor),
           ...expense,
         });
