@@ -6,8 +6,8 @@ import { emptyTotais } from "./EmptyStates";
 async function calculaTotais(
   stateCheckedDespesas = false,
   stateCheckedReceitas = false,
-  stateAnoAtual = 0,
-  stateMesAtual = 0
+  stateAnoAtual,
+  stateMesAtual
 ) {
   try {
     const { data: totalDespesas } = await retornaTotalDespesas(
