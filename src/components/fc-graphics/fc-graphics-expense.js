@@ -11,6 +11,7 @@ import FcSurface from "../fc-surface/fc-surface";
 import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
 import { Money } from "common";
+import FcGraphicUnplannedExpenses from "./fc-graphics-unplanned-expenses";
 
 export default function FcGraphicsExpense() {
   const { stateTotais } = useContext(ContextTotais);
@@ -32,6 +33,9 @@ export default function FcGraphicsExpense() {
         }
         if (stateGrafico === "2") {
           await month(stateCheckedDespesas, ctxAnoMes);
+        }
+        if (stateGrafico === "3") {
+          setDescricao("Despesas não planejadas");
         }
         setSpin(false);
       }
@@ -80,17 +84,21 @@ export default function FcGraphicsExpense() {
         cor={theme.palette.error.light}
         descricao={descricao}
       />
-      <FcGraphic
-        data={despesas}
-        chaveX="descricao"
-        chaveY="valor"
-        cor={
-          theme.palette.type === "dark"
-            ? theme.palette.error.light
-            : theme.palette.error.dark
-        }
-        stroke={theme.palette.error.main}
-      />
+      {stateGrafico !== "3" ? (
+        <FcGraphic
+          data={despesas}
+          chaveX="descricao"
+          chaveY="valor"
+          cor={
+            theme.palette.type === "dark"
+              ? theme.palette.error.light
+              : theme.palette.error.dark
+          }
+          stroke={theme.palette.error.main}
+        />
+      ) : (
+        <FcGraphicUnplannedExpenses />
+      )}
     </FcSurface>
   );
 }

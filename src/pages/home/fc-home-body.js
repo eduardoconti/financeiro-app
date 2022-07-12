@@ -1,5 +1,4 @@
 import { Grid } from "@material-ui/core";
-import { React } from "react";
 import FcGraphicsExpense from "../../components/fc-graphics/fc-graphics-expense";
 import FcGraphicsGeneral from "../../components/fc-graphics/fc-graphics-general";
 import FcGraphicsYeld from "../../components/fc-graphics/fc-graphics-yeld";

@@ -34,6 +34,17 @@ export default function RadioButtons({ setStateGrafico, cor, descricao }) {
           size="small"
         />
       </Grid>
+      <Grid item xs={1}>
+        <Radio
+          checked={selectedValue === "3"}
+          onChange={handleChange}
+          value="3"
+          name="radio_3"
+          inputProps={{ "aria-label": "3" }}
+          style={{ color: cor }}
+          size="small"
+        />
+      </Grid>
       <Grid
         item
         xs={8}
