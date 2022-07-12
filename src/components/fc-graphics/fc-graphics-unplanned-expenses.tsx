@@ -36,7 +36,7 @@ export default function FcGraphicUnplannedExpenses() {
 
   return (
     //<FcSurface>
-      <ResponsiveContainer height={220}>
+      <ResponsiveContainer height={180}>
         <ComposedChart data={unplannedExpenses}>
           <XAxis
             dataKey="month"
