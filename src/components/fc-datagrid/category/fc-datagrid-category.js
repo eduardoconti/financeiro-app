@@ -30,8 +30,8 @@ export default function FcDataGridCategory() {
     async function setRowsDataGrid() {
       setSpin(true);
       if (isAuthenticated()) {
-        let categories = await retornaCategorias();
-        setRows(categories);
+        let {data} = await retornaCategorias();
+        setRows(data);
       }
       setSpin(false);
     }
