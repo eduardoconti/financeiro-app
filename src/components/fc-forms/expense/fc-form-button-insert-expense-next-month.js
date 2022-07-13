@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
@@ -57,6 +57,7 @@ export default function FcFormButtonInsertExpenseNextMonth() {
             descricao,
             carteiraId,
             categoriaId,
+            pagamento: undefined,
             ...despesa,
           });
 
