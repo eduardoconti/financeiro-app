@@ -57,8 +57,8 @@ export default function FcFormButtonInsertExpenseNextMonth() {
             descricao,
             carteiraId,
             categoriaId,
-            pagamento: undefined,
             ...despesa,
+            pagamento: undefined,
           });
 
           ctxAlert.setAlert(
