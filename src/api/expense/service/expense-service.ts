@@ -8,6 +8,7 @@ import {
   Money,
 } from "common";
 import api from "common/Api";
+import { ExpenseFilter } from "Context";
 import { ExpenseDTO } from "../dto";
 import { ExpenseResposeDTO } from "../dto/expense-response.dto";
 import { IExpenseService } from "./expense-service.interface";
@@ -28,7 +29,8 @@ export class ExpenseService implements IExpenseService {
   async getDespesas(
     stateCheckedDespesas: emptyChecked,
     stateAnoAtual: number,
-    stateMesAtual: number
+    stateMesAtual: number,
+    filter: ExpenseFilter,
   ): Promise<SuccessResponseData<ExpenseResposeDTO[]>> {
     try {
       if (
@@ -50,6 +52,15 @@ export class ExpenseService implements IExpenseService {
       }
       if (!stateCheckedDespesas.checkedAberto) {
         this.url.searchParams.append("pago", "true");
+      }
+      const { dateField, categoryId} = filter;
+
+      if(dateField){
+        this.url.searchParams.append("dateField", dateField);
+      }
+
+      if(categoryId){
+        this.url.searchParams.append("categoryId", categoryId.toString());
       }
 
       const data = await this.httpRequestService.get<ExpenseResposeDTO[]>(

@@ -43,7 +43,6 @@ export default function FcFormButtonInsertExpenseNextMonth() {
           }
 
           despesa.vencimento = nextDate;
-          despesa.dataPagamento = nextDate;
           despesa.pago = false;
 
           const {

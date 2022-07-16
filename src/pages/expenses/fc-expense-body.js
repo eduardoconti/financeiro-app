@@ -22,6 +22,8 @@ import {
   retornaDespesaPorId,
   setCreatedAlert,
 } from "common";
+import ExpenseFilterProvider from "Context/expense-filter-context";
+import FcDataGridFilters from "components/fc-datagrid/expense/fc-data-grid-filters";
 
 export default function CorpoDespesas() {
   const { setAlert } = useContext(ContextAlert);
@@ -33,114 +35,119 @@ export default function CorpoDespesas() {
 
   return (
     <DataGridProvider>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <FcDataGridExpense />
-        </Grid>
-        <Grid item xs={12}>
-          <FcSelectedRows
-            onClick={async (data) => {
-              data.forEach(async (element) => {
-                const res = await retornaDespesaPorId(element);
+      <ExpenseFilterProvider>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <FcDataGridFilters />
+          </Grid>
+          <Grid item xs={12}>
+            <FcDataGridExpense />
+          </Grid>
+          <Grid item xs={12}>
+            <FcSelectedRows
+              onClick={async (data) => {
+                data.forEach(async (element) => {
+                  const res = await retornaDespesaPorId(element);
 
-                let {
-                  data: {
-                    id,
+                  let {
+                    data: {
+                      id,
+                      descricao,
+                      categoria,
+                      carteira,
+                      instalmentId,
+                      ...expense
+                    },
+                  } = res;
+
+                  if (instalmentId) {
+                    return;
+                  }
+
+                  const split = descricao.split("/");
+                  if (split.length === 2) {
+                    descricao = parseInt(split[0]) + 1 + "/" + split[1];
+                  }
+
+                  const insertRes = await insereDespesa({
+                    ...expense,
+                    id: null,
                     descricao,
-                    categoria,
-                    carteira,
-                    instalmentId,
-                    ...expense
-                  },
-                } = res;
-
-                if (instalmentId) {
-                  return;
-                }
-
-                const split = descricao.split("/");
-                if (split.length === 2) {
-                  descricao = parseInt(split[0]) + 1 + "/" + split[1];
-                }
-
-                const insertRes = await insereDespesa({
-                  ...expense,
-                  id: null,
-                  descricao,
-                  userId: getUserIdFromToken(),
-                  vencimento: addMonth(expense.vencimento),
-                  carteiraId: carteira.id,
-                  categoriaId: categoria.id,
-                  pago: false,
+                    userId: getUserIdFromToken(),
+                    vencimento: addMonth(expense.vencimento),
+                    carteiraId: carteira.id,
+                    categoriaId: categoria.id,
+                    pago: false,
+                  });
+                  setAlert(
+                    setCreatedAlert(
+                      insertRes.status,
+                      insertRes.message,
+                      insertRes.internalMessage
+                    )
+                  );
                 });
-                setAlert(
-                  setCreatedAlert(
-                    insertRes.status,
-                    insertRes.message,
-                    insertRes.internalMessage
+              }}
+              onDeleted={async (data) => {
+                data.forEach(async (element) => {
+                  const deleted = await deletaDespesa(element);
+
+                  setAlert(
+                    setCreatedAlert(
+                      deleted.status,
+                      deleted.message,
+                      deleted.internalMessage
+                    )
+                  );
+                });
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
                   )
                 );
-              });
-            }}
-            onDeleted={async (data) => {
-              data.forEach(async (element) => {
-                const deleted = await deletaDespesa(element);
+              }}
+              onClickFlag={async (data, pago) => {
+                data.forEach(async (element) => {
+                  const res = await retornaDespesaPorId(element);
 
-                setAlert(
-                  setCreatedAlert(
-                    deleted.status,
-                    deleted.message,
-                    deleted.internalMessage
-                  )
-                );
-              });
-              setStateTotais(
-                await calculaTotais(
-                  stateCheckedDespesas,
-                  stateCheckedReceitas,
-                  stateAnoAtual,
-                  stateMesAtual
-                )
-              );
-            }}
-            onClickFlag={async (data, pago) => {
-              data.forEach(async (element) => {
-                const res = await retornaDespesaPorId(element);
+                  const {
+                    data: { id },
+                  } = res;
 
-                const {
-                  data: { id },
-                } = res;
-
-                const {
-                  status,
-                  message,
-                  internalMessage,
-                  title,
-                  detail,
-                } = await alteraFlagPago({ id, pago });
-                setAlert(
-                  setCreatedAlert(
+                  const {
                     status,
-                    message ?? detail,
-                    internalMessage ?? title
+                    message,
+                    internalMessage,
+                    title,
+                    detail,
+                  } = await alteraFlagPago({ id, pago });
+                  setAlert(
+                    setCreatedAlert(
+                      status,
+                      message ?? detail,
+                      internalMessage ?? title
+                    )
+                  );
+                });
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
                   )
                 );
-              });
-              setStateTotais(
-                await calculaTotais(
-                  stateCheckedDespesas,
-                  stateCheckedReceitas,
-                  stateAnoAtual,
-                  stateMesAtual
-                )
-              );
-            }}
-          />
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FcFormExpense />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <FcFormExpense />
-        </Grid>
-      </Grid>
+      </ExpenseFilterProvider>
     </DataGridProvider>
   );
 }

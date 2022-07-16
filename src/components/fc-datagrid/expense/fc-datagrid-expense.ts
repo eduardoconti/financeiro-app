@@ -7,8 +7,10 @@ import {
   ContextAnoMes,
   ContextChecked,
   ContextDataGrid,
+  ContextExpenseFilter,
   ContextForm,
   ContextTotais,
+  ExpenseFilterContextType,
   SpinContext,
 } from "Context";
 import {
@@ -35,6 +37,7 @@ export default function FcDataGridExpense() {
   const { setSpin } = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
   const { setAlert } = useContext(ContextAlert);
+  const { filter} = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
 
   let columns: GridColumns = [FcColumnDescription()];
 
@@ -71,7 +74,8 @@ export default function FcDataGridExpense() {
         } = await new ExpenseService().getDespesas(
           stateCheckedDespesas,
           stateAnoAtual,
-          stateMesAtual
+          stateMesAtual,
+          filter,
         );
 
         if (status === HttpStatus.OK) {
@@ -97,6 +101,7 @@ export default function FcDataGridExpense() {
     setRows,
     setAlert,
     selectedRows,
+    filter,
   ]);
 
   return FcDataGrid({
