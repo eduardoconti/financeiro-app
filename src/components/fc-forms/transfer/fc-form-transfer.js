@@ -28,7 +28,7 @@ export default function FcFormTransfer() {
 
   return (
     <FcSurface>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         <Grid item xs={6} sm={4} lg={3}>
           <FcSelectFieldWallet id="carteiraOrigemId" label="Origem" />
         </Grid>
