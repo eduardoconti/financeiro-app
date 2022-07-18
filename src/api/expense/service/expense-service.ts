@@ -53,7 +53,7 @@ export class ExpenseService implements IExpenseService {
       if (!stateCheckedDespesas.checkedAberto) {
         this.url.searchParams.append("pago", "true");
       }
-      const { dateField, categoryId} = filter;
+      const { dateField, categoryId, walletId} = filter;
 
       if(dateField){
         this.url.searchParams.append("dateField", dateField);
@@ -61,6 +61,10 @@ export class ExpenseService implements IExpenseService {
 
       if(categoryId){
         this.url.searchParams.append("categoryId", categoryId.toString());
+      }
+
+      if(walletId){
+        this.url.searchParams.append("walletId", walletId.toString());
       }
 
       const data = await this.httpRequestService.get<ExpenseResposeDTO[]>(

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../../common/DepesaFuncoes";
@@ -10,7 +10,7 @@ import {
 import FcCardWalletBalance from "../../components/fc-cards/fc-card-wallet-balance";
 import { SpinContext } from "../../Context/SpinContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
-import { Money } from "common";
+import { isAuthenticated } from "common";
 
 async function RetornaCards(ano, mes) {
   let object = await retornaDadosParaCard(ano, mes);
@@ -81,7 +81,7 @@ async function retornaDadosParaCard(ano, mes) {
     });
 
     return dadosCard;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 export default function CorpoBalanco() {
@@ -90,7 +90,9 @@ export default function CorpoBalanco() {
   const ctxAnoMes = useContext(ContextAnoMes);
 
   useEffect(() => {
-    set();
+    if (isAuthenticated()) {
+      set();
+    }
 
     async function set() {
       setSpin(true);

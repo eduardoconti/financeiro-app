@@ -3,7 +3,7 @@ import { getToken } from "common";
 import { SuccessResponseData } from "./dto";
 
 export class HttpRequestService {
-  private api: AxiosInstance;
+  protected api: AxiosInstance;
 
   constructor() {
     this.api = axios.create({
