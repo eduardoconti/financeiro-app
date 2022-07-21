@@ -20,12 +20,12 @@ export default function FcColumnActionsCategory(props) {
   async function setDataGridRows() {
     if (isAuthenticated()) {
       ctxSpin.setSpin(true);
-      let res = await retornaCategorias();
+      let {data} = await retornaCategorias();
 
       /*if (res.status == 200) {
         ctxDataGrid.setRows(res.data);
       }*/
-      ctxDataGrid.setRows(res);
+      ctxDataGrid.setRows(data);
       ctxSpin.setSpin(false);
     }
   }

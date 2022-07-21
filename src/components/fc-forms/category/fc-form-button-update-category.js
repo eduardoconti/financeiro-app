@@ -30,7 +30,9 @@ export default function FcFormButtonUpdateCategory() {
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
         setForm(emptyFormularioCategoria);
-        setRows(await retornaCategorias());
+        const {data} = await retornaCategorias();
+        console.log(data);
+        setRows(data);
       }}
     />
   );

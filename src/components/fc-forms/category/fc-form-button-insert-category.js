@@ -9,6 +9,7 @@ import {
 import { emptyFormularioCategoria } from "../../../common/EmptyStates";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
 import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
+import { HttpStatus } from "common/enum";
 
 export default function FcFormButtonInsertCategory() {
   const ctxForm = useContext(ContextForm);
@@ -30,9 +31,10 @@ export default function FcFormButtonInsertCategory() {
         ctxAlert.setAlert(
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
-        if (status === 201) {
+        if (status === HttpStatus.CREATED) {
+          const { data } = await retornaCategorias();
           ctxForm.setForm(emptyFormularioCategoria);
-          ctxDataGrid.setRows(await retornaCategorias());
+          ctxDataGrid.setRows(data);
         }
       }}
     />
