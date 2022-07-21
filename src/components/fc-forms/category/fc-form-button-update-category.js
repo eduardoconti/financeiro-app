@@ -31,7 +31,6 @@ export default function FcFormButtonUpdateCategory() {
         );
         setForm(emptyFormularioCategoria);
         const {data} = await retornaCategorias();
-        console.log(data);
         setRows(data);
       }}
     />
