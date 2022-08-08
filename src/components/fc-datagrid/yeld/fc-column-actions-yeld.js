@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Grid } from "@material-ui/core";
 import ActionFlagButon from "../fc-column-actions-flag-button";
 import {
@@ -10,13 +10,11 @@ import {
 import { ContextChecked } from "../../../Context/CheckedContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import { SpinContext } from "../../../Context/SpinContext";
 
 import { isAuthenticated } from "../../../common/Auth";
 export default function FcColumnActionsYeld(props) {
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
   const ctxDataGrid = useContext(ContextDataGrid);
 
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
@@ -25,7 +23,6 @@ export default function FcColumnActionsYeld(props) {
 
   async function setStateReceitas() {
     if (isAuthenticated()) {
-      ctxSpin.setSpin(true);
       let receitas = await getReceitas(
         stateCheckedReceitas,
         stateAnoAtual,
@@ -35,7 +32,6 @@ export default function FcColumnActionsYeld(props) {
       if (receitas.status === 200) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(receitas.data));
       }
-      ctxSpin.setSpin(false);
     }
   }
 

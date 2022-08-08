@@ -6,15 +6,16 @@ export default function FcTextFieldDescription(props) {
   const ctxForm = useContext(ContextForm);
   const setForm = ctxForm.setForm;
   const form = ctxForm.form;
+  const { label, value } = props;
 
   return (
     <TextField
       id="descricao"
-      label="Descricao"
+      label={label ?? "Descricao"}
       variant="outlined"
       size="small"
       fullWidth
-      value={form.descricao ? form.descricao : " "}
+      value={value ?? ""}
       onChange={(event) => {
         setForm({
           ...form,

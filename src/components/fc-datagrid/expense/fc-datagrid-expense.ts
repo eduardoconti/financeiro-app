@@ -35,8 +35,8 @@ export default function FcDataGridExpense() {
   const { stateMesAtual, stateAnoAtual } = useContext(ContextAnoMes);
   const { rows, setRows, selectedRows } = useContext(ContextDataGrid);
   const { setSpin } = useContext(SpinContext);
-  const ctxForm = useContext(ContextForm);
   const { setAlert } = useContext(ContextAlert);
+  const ctxForm = useContext(ContextForm);
   const { filter} = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
 
   let columns: GridColumns = [FcColumnDescription()];
@@ -61,7 +61,8 @@ export default function FcDataGridExpense() {
   });
 
   useEffect(() => {
-    async function setRowsDataGrid() {
+    async function SetRowsDataGrid() {
+
       setSpin(true);
       if (isAuthenticated() && selectedRows.length === 0) {
         const {
@@ -88,21 +89,13 @@ export default function FcDataGridExpense() {
             setCreatedAlert(status, message ?? title, internalMessage ?? detail)
           );
         }
+      }else{
+        setRows([]);
       }
       setSpin(false);
     }
-    setRowsDataGrid();
-  }, [
-    stateCheckedDespesas,
-    stateTotais,
-    stateAnoAtual,
-    stateMesAtual,
-    setSpin,
-    setRows,
-    setAlert,
-    selectedRows,
-    filter,
-  ]);
+    SetRowsDataGrid();
+  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual, setRows, selectedRows, filter, setSpin, setAlert]);
 
   return FcDataGrid({
     rows,

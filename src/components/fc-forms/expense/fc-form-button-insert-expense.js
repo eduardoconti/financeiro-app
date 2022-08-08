@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
@@ -23,11 +23,10 @@ export default function FcFormButtonInsertExpense() {
       description="cadastrar"
       onClick={async () => {
         const { form } = ctxForm;
-
         const despesa = {
           ...form,
           vencimento: dateIso8601(form.vencimento),
-          pagamento: form.pagamento ? dateIso8601(form.pagamento): undefined,
+          pagamento: form.pagamento ? dateIso8601(form.pagamento) : undefined,
         };
         const {
           status,

@@ -13,14 +13,16 @@ export default function FcSelectFieldWallet(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const { data } = await retornaCarteiras();
-      setWallets(data);
+      if (isAuthenticated()) {
+        setSpin(true);
+        const { data } = await retornaCarteiras();
+        setWallets(data);
+        setSpin(false);
+      } else {
+        setWallets([]);
+      }
     }
-    if (isAuthenticated()) {
-      setSpin(true);
-      fetchData();
-      setSpin(false);
-    }
+    fetchData();
   }, []);
 
   return (

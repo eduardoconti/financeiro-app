@@ -31,6 +31,8 @@ export default function FcDataGridWallet() {
       if (isAuthenticated()) {
         let { data } = await retornaCarteiras();
         setRows(data);
+      } else {
+        setRows([]);
       }
       setSpin(false);
     }

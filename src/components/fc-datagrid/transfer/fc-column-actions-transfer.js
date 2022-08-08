@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Grid } from "@material-ui/core";
 import ActionFlagButon from "../fc-column-actions-flag-button";
 import ActionUpdateButon from "../fc-column-actions-update-button";
@@ -6,7 +6,6 @@ import ActionDeleteButon from "../fc-column-actions-delete-button";
 
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextDataGrid } from "../../../Context/DataGridContext";
-import { SpinContext } from "../../../Context/SpinContext";
 import { ContextForm } from "../../../Context/FormContext";
 
 import { isAuthenticated } from "../../../common/Auth";
@@ -20,7 +19,6 @@ import {
 } from "../../../common/TransferenciaFuncoes";
 export default function FcColumnActionsTransfer(props) {
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
   const ctxDataGrid = useContext(ContextDataGrid);
 
@@ -29,7 +27,7 @@ export default function FcColumnActionsTransfer(props) {
 
   async function setDataGridRows() {
     if (isAuthenticated()) {
-      ctxSpin.setSpin(true);
+
       let transferencias = await getTransferencias(
         stateAnoAtual,
         stateMesAtual
@@ -40,7 +38,6 @@ export default function FcColumnActionsTransfer(props) {
           formataDadosParaLinhasDataGrid(transferencias.data)
         );
       }
-      ctxSpin.setSpin(false);
     }
   }
 

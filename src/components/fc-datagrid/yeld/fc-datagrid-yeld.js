@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 
 import { ContextTotais } from "../../../Context/TotaisContext";
 import { ContextChecked } from "../../../Context/CheckedContext";

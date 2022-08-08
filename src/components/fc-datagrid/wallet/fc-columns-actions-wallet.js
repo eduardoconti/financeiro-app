@@ -13,20 +13,13 @@ import {
 
 import { isAuthenticated } from "../../../common/Auth";
 export default function FcColumnActionsWallet(props) {
-  const ctxSpin = useContext(SpinContext);
   const ctxForm = useContext(ContextForm);
   const ctxDataGrid = useContext(ContextDataGrid);
 
   async function setDataGridRows() {
     if (isAuthenticated()) {
-      ctxSpin.setSpin(true);
       let { data } = await retornaCarteiras();
-
-      /*if (res.status == 200) {
-        ctxDataGrid.setRows(res.data);
-      }*/
       ctxDataGrid.setRows(data);
-      ctxSpin.setSpin(false);
     }
   }
 

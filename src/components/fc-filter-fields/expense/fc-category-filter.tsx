@@ -12,15 +12,17 @@ export default function FcCategoryFilter() {
 
   useEffect(() => {
     async function fetchData() {
-      const {data} = await retornaCategorias();
-      data.unshift({id: 0, descricao: "Todas"})
-      setCategories(data);
+      if (isAuthenticated()) {
+        setSpin(true);
+        const { data } = await retornaCategorias();
+        data.unshift({ id: 0, descricao: "Todas" })
+        setCategories(data);
+        setSpin(false);
+      } else {
+        setCategories([]);
+      }
     }
-    if (isAuthenticated()) {
-      setSpin(true);
-      fetchData();
-      setSpin(false);
-    }
+    fetchData();
   }, []);
   return (
     <TextField

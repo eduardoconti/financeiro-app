@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid } from "@material-ui/core";
 
 import Dash from "./components/Dash";
@@ -24,36 +24,46 @@ import FcBalance from "./pages/balance/fc-balance";
 import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
 import FcCategory from "./pages/category/fc-category";
-import { getModeType, isDefinedMode, setMode } from "./common/Config";
 import FcHome from "./pages/home/fc-home";
 
+export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+
 function App() {
-  if (!isDefinedMode()) {
-    setMode(false);
-  }
 
-  const [darkTheme, setDarkTheme] = useState(getModeType());
+  const [mode, setMode] = React.useState('dark');
 
-  const theme = createTheme({
-    palette: {
-      type: darkTheme ? "dark" : "light",
-      background: {
-        default: darkTheme ? "#121212" : "#FFF",
-        paper: darkTheme ? "#212121" : "#fafafa",
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
-    },
-    mixins: {
-      toolbar: {
-        minHeight: 48,
-        "@media (min-width:0px) and (orientation: landscape)": {
-          minHeight: 42,
+    }),
+    [setMode],
+  );
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          type: mode,
+          background: {
+            default: mode === 'dark' ? "#121212" : "#FFF",
+            paper: mode === 'dark' ? "#212121" : "#fafafa",
+          },
         },
-        "@media(min-width:600px)": {
-          minHeight: 48,
+        mixins: {
+          toolbar: {
+            minHeight: 48,
+            "@media (min-width:0px) and (orientation: landscape)": {
+              minHeight: 42,
+            },
+            "@media(min-width:600px)": {
+              minHeight: 48,
+            },
+          },
         },
-      },
-    },
-  });
+      }),
+    [mode],
+  );
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -75,82 +85,81 @@ function App() {
   const classes = useStyles();
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <SpinProvider>
-        <AlertProvider>
-          <CheckedProvider>
-            <TotaisProvider>
-              <AnoMesProvider>
-                <div
-                  style={{
-                    backgroundColor: theme.palette.background.default,
-                    display: "flex",
-                  }}
-                >
-                  <CssBaseline>
-                    <Router>
-                      <ButtonAppBar
-                        setDarkTheme={(darkTheme) => setDarkTheme(darkTheme)}
-                        darkTheme={darkTheme}
-                      />
-
-                      <AlertComponent />
-                      <Grid container spacing={1} className={classes.content}>
-                        {<div className={classes.toolbar} />}
-                        {window.innerWidth > theme.breakpoints.values.sm ? (
+    <ColorModeContext.Provider value={colorMode}>
+      <MuiThemeProvider theme={theme}>
+        <SpinProvider>
+          <AlertProvider>
+            <CheckedProvider>
+              <TotaisProvider>
+                <AnoMesProvider>
+                  <Grid
+                    style={{
+                      backgroundColor: theme.palette.background.default,
+                      display: "flex",
+                    }}
+                  >
+                    <CssBaseline>
+                      <Router>
+                        <ButtonAppBar
+                        />
+                        <AlertComponent />
+                        <Grid container spacing={1} className={classes.content}>
+                          {<Grid className={classes.toolbar} />}
+                          {window.innerWidth > theme.breakpoints.values.sm ? (
+                            <Grid item xs={12}>
+                              <BotaoMes />
+                            </Grid>
+                          ) : null}
                           <Grid item xs={12}>
-                            <BotaoMes />
+                            <Dash />
                           </Grid>
-                        ) : null}
-                        <Grid item xs={12}>
-                          <Dash />
+                          <Grid item xs={12}>
+                            <Switch>
+                              <Route exact path="/" component={FcHome} />
+                              <Route
+                                exact
+                                path="/despesas"
+                                component={FcExpense}
+                              />
+                              <Route exact path="/receitas" component={FcYield} />
+                              <Route
+                                exact
+                                path="/transferencias"
+                                component={FcTransfer}
+                              />
+                              <Route
+                                exact
+                                path="/balanco"
+                                component={FcBalance}
+                              />
+                              <Route
+                                exact
+                                path="/saldo"
+                                component={FcBalanceMonth}
+                              />
+                              <Route
+                                exact
+                                path="/carteiras"
+                                component={FcWallet}
+                              />
+                              <Route
+                                exact
+                                path="/categorias"
+                                component={FcCategory}
+                              />
+                            </Switch>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                          <Switch>
-                            <Route exact path="/" component={FcHome} />
-                            <Route
-                              exact
-                              path="/despesas"
-                              component={FcExpense}
-                            />
-                            <Route exact path="/receitas" component={FcYield} />
-                            <Route
-                              exact
-                              path="/transferencias"
-                              component={FcTransfer}
-                            />
-                            <Route
-                              exact
-                              path="/balanco"
-                              component={FcBalance}
-                            />
-                            <Route
-                              exact
-                              path="/saldo"
-                              component={FcBalanceMonth}
-                            />
-                            <Route
-                              exact
-                              path="/carteiras"
-                              component={FcWallet}
-                            />
-                            <Route
-                              exact
-                              path="/categorias"
-                              component={FcCategory}
-                            />
-                          </Switch>
-                        </Grid>
-                      </Grid>
-                    </Router>
-                  </CssBaseline>
-                </div>
-              </AnoMesProvider>
-            </TotaisProvider>
-          </CheckedProvider>
-        </AlertProvider>
-      </SpinProvider>
-    </MuiThemeProvider>
+                      </Router>
+                    </CssBaseline>
+                  </Grid>
+                </AnoMesProvider>
+              </TotaisProvider>
+            </CheckedProvider>
+          </AlertProvider>
+        </SpinProvider>
+      </MuiThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 

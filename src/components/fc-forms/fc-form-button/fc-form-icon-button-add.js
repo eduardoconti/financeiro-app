@@ -1,10 +1,9 @@
 import { useTheme } from "@material-ui/core";
-import React from "react";
 import FcIconButton from "../../fc-button/fc-icon-button";
 import AddIcon from "@material-ui/icons/Add";
 export default function FcFormIconButtonAdd(props) {
   const theme = useTheme();
-  const { onClick, disabled = false } = props;
+  const { onClick, disabled } = props;
 
   return (
     <FcIconButton

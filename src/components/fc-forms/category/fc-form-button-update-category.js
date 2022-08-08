@@ -4,15 +4,15 @@ import { ContextAlert } from "../../../Context/AlertContext";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import {
   alteraCategoria,
-  retornaCategorias,
 } from "../../../common/CategoriaFuncoes";
 import FcFormIconButtonUpdate from "../fc-form-button/fc-form-icon-button-update";
 import { emptyFormularioCategoria } from "common";
-import { ContextDataGrid } from "Context";
+import { ContextCategory } from "pages/category/context/category-context";
+
 export default function FcFormButtonUpdateCategory() {
   const { form, setForm } = useContext(ContextForm);
   const ctxAlert = useContext(ContextAlert);
-  const { setRows } = useContext(ContextDataGrid);
+  const { fetchCategories } = useContext(ContextCategory);
 
   return (
     <FcFormIconButtonUpdate
@@ -30,9 +30,7 @@ export default function FcFormButtonUpdateCategory() {
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
         setForm(emptyFormularioCategoria);
-        const {data} = await retornaCategorias();
-        console.log(data);
-        setRows(data);
+        fetchCategories();
       }}
     />
   );

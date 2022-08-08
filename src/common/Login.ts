@@ -3,8 +3,8 @@ const ENDPOINT = "auth/login";
 
 export async function ObtemToken(body: any) {
   try {
-    const res = await API.post(ENDPOINT, body);
-    return res.data;
+    const { data } = await API.post(ENDPOINT, body);
+    return data;
   } catch (error) {
     return errorResponse(error);
   }

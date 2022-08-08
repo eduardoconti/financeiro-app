@@ -1,20 +1,20 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAlert } from "../../../Context/AlertContext";
 import { setCreatedAlert } from "../../../common/AlertFuncoes";
 import {
   insereCategoria,
-  retornaCategorias,
 } from "../../../common/CategoriaFuncoes";
 import { emptyFormularioCategoria } from "../../../common/EmptyStates";
-import { ContextDataGrid } from "../../../Context/DataGridContext";
+
 import FcFormIconButtonAdd from "../fc-form-button/fc-form-icon-button-add";
 import { HttpStatus } from "common/enum";
+import { ContextCategory } from "pages/category/context/category-context";
 
 export default function FcFormButtonInsertCategory() {
-  const ctxForm = useContext(ContextForm);
-  const ctxAlert = useContext(ContextAlert);
-  const ctxDataGrid = useContext(ContextDataGrid);
+  const { form, setForm } = useContext(ContextForm);
+  const { setAlert } = useContext(ContextAlert);
+  const { fetchCategories } = useContext(ContextCategory);
 
   return (
     <FcFormIconButtonAdd
@@ -26,15 +26,14 @@ export default function FcFormButtonInsertCategory() {
           internalMessage,
           title,
           detail,
-        } = await insereCategoria(ctxForm.form);
+        } = await insereCategoria(form);
 
-        ctxAlert.setAlert(
+        setAlert(
           setCreatedAlert(status, message ?? detail, internalMessage ?? title)
         );
         if (status === HttpStatus.CREATED) {
-          const { data } = await retornaCategorias();
-          ctxForm.setForm(emptyFormularioCategoria);
-          ctxDataGrid.setRows(data);
+          setForm(emptyFormularioCategoria);
+          fetchCategories();
         }
       }}
     />

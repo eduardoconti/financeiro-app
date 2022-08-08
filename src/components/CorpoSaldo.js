@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes";
@@ -83,24 +83,24 @@ async function retornaDadosParaCard() {
     });
 
     return await dadosCard;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 export default function CorpoSaldo() {
   const [cards, setCards] = useState([]);
-  const { setSpin } = useContext(SpinContext);
 
   useEffect(() => {
-    async function set() {
+    async function Set() {
+      const { setSpin } = useContext(SpinContext);
       setSpin(true);
       setCards(await RetornaCards());
       setSpin(false);
     }
 
     if (isAuthenticated()) {
-      set();
+      Set();
     }
-  }, [setSpin]);
+  }, []);
 
   return (
     <Grid container direction="row" spacing={1}>

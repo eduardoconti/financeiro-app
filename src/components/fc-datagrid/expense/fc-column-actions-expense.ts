@@ -8,13 +8,11 @@ import {
   ContextDataGrid,
   ContextExpenseFilter,
   ExpenseFilterContextType,
-  SpinContext,
 } from "Context";
 import { formataDadosParaLinhasDataGrid, isAuthenticated } from "common";
 export default function FcColumnActionsExpense(props: any) {
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
   const ctxDataGrid = useContext(ContextDataGrid);
   const { filter} = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
@@ -22,7 +20,7 @@ export default function FcColumnActionsExpense(props: any) {
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   async function pegaDespesas() {
-    ctxSpin.setSpin(true);
+
     if (isAuthenticated()) {
       let despesas = await new ExpenseService().getDespesas(
         stateCheckedDespesas,
@@ -35,7 +33,7 @@ export default function FcColumnActionsExpense(props: any) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
     }
-    ctxSpin.setSpin(false);
+
   }
 
   const { field } = props;

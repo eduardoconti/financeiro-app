@@ -1,18 +1,18 @@
-import React from "react";
-import IconButton from "@material-ui/core/IconButton";
 import { useTheme } from "@material-ui/core";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
+import FcIconButton from "components/fc-button/fc-icon-button";
 
 export default function ActionUpdateButon(props) {
   const theme = useTheme();
   const { onClick } = props;
   return (
-    <IconButton
+    <FcIconButton
       aria-label="alterar"
-      style={{ color: theme.palette.primary.main, padding: 2 }}
+      style={{ padding: 2 }}
+      color={theme.palette.primary.main}
       onClick={onClick}
     >
       <CreateTwoToneIcon />
-    </IconButton>
+    </FcIconButton>
   );
 }

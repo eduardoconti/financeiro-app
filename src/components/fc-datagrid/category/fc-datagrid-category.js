@@ -1,22 +1,14 @@
-import React, { useEffect, useContext } from "react";
-
-import { SpinContext } from "../../../Context/SpinContext";
-import { ContextDataGrid } from "../../../Context/DataGridContext";
-
+import { useEffect, useContext } from "react";
 import FcDataGrid from "../fc-datagrid";
-
-import { isAuthenticated } from "../../../common/Auth";
-import { retornaCategorias } from "../../../common/CategoriaFuncoes";
 import FcColumnActionsCategory from "./fc-columns-actions-category";
 import FcColumnDescription from "../fc-column-description";
+import { ContextCategory } from "pages/category/context/category-context";
 
 export default function FcDataGridCategory() {
-  const { rows, setRows } = useContext(ContextDataGrid);
-  const { setSpin } = useContext(SpinContext);
 
-  let columns = [new FcColumnDescription()];
+  const { categories } = useContext(ContextCategory);
 
-  columns.push({
+  let columns = [new FcColumnDescription(), {
     field: "actions",
     headerName: "Operação",
     width: 140,
@@ -24,19 +16,9 @@ export default function FcDataGridCategory() {
     renderCell: function operacoes(field) {
       return <FcColumnActionsCategory field={field} />;
     },
-  });
+  }];
 
-  useEffect(() => {
-    async function setRowsDataGrid() {
-      setSpin(true);
-      if (isAuthenticated()) {
-        let {data} = await retornaCategorias();
-        setRows(data);
-      }
-      setSpin(false);
-    }
-    setRowsDataGrid();
-  }, [setRows, setSpin]);
+  useEffect(() => { }, [categories]);
 
-  return <FcDataGrid rows={rows} columns={columns} />;
+  return <FcDataGrid rows={categories} columns={columns} />;
 }

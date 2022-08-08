@@ -114,6 +114,7 @@ export class ExpenseService implements IExpenseService {
         pagamento,
         categoria,
         carteira,
+        subCategory,
       } = despesa;
       return {
         id,
@@ -122,6 +123,7 @@ export class ExpenseService implements IExpenseService {
         valor: Money.format(valor),
         categoriaId: categoria.descricao,
         carteiraId: carteira.descricao,
+        subCategoryId: subCategory.description,
         vencimento: formatDateToDataGrid(vencimento),
         pagamento: pagamento ? formatDateToDataGrid(pagamento) : undefined,
       };
@@ -137,6 +139,7 @@ export class ExpenseService implements IExpenseService {
       vencimento,
       categoria: { id: categoriaId },
       carteira: { id: carteiraId },
+      subCategory: { id: subCategoryId },
       instalment,
       pagamento,
     } = despesa;
@@ -146,6 +149,7 @@ export class ExpenseService implements IExpenseService {
       pago,
       valor: Money.toFloat(valor),
       categoriaId,
+      subCategoryId,
       carteiraId,
       vencimento: formatDateToForm(vencimento),
       pagamento: pagamento ? formatDateToForm(pagamento): undefined,

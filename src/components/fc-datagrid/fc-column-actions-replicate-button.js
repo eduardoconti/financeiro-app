@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
-import { SpinContext } from "../../Context/SpinContext";
 import { ContextAlert } from "../../Context/AlertContext";
 import { setCreatedAlert } from "../../common/AlertFuncoes";
 import { ContextTotais } from "../../Context/TotaisContext";
@@ -12,7 +11,7 @@ import { useTheme } from "@material-ui/core";
 
 export default function ActionReplicateButon(props) {
   const { onClick } = props;
-  const ctxSpin = useContext(SpinContext);
+
   const ctxAlert = useContext(ContextAlert);
   const ctxTotais = useContext(ContextTotais);
   const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
@@ -26,9 +25,9 @@ export default function ActionReplicateButon(props) {
   return (
     <IconButton
       aria-label="transfere"
-      style={{ color: theme.palette.success.dark, padding: 2 }}
+      style={{ padding: 2 }}
+      color={theme.palette.success.dark}
       onClick={async () => {
-        ctxSpin.setSpin(true);
         const {
           status,
           message,
@@ -48,7 +47,6 @@ export default function ActionReplicateButon(props) {
           )
         );
 
-        ctxSpin.setSpin(false);
       }}
     >
       <ImportExportTwoToneIcon />

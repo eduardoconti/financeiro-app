@@ -16,6 +16,7 @@ import FcFormButtonInsertExpenseNextMonth from "./fc-form-button-insert-expense-
 import FcSurface from "components/fc-surface/fc-surface";
 import FcTextFieldInstalment from "../fc-fields/fc-text-field-instalment";
 import FcTextFieldPaymentDate from "../fc-fields/fc-text-field-payment-date";
+import FcSelectFieldSubCategory from "../fc-fields/fc-select-field-sub-category";
 
 export default function FcFormExpense() {
   const { form, setForm } = useContext(ContextForm);
@@ -27,28 +28,31 @@ export default function FcFormExpense() {
   return (
     <FcSurface>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={3} lg={4}>
-          <FcTextFieldDescription />
+        <Grid item xs={12} sm={3}>
+          <FcTextFieldDescription value={form.descricao}/>
         </Grid>
-        <Grid item xs={6} sm={3} lg={4}>
+        <Grid item xs={4} sm={3}>
           <FcSelectFieldCategory />
         </Grid>
-        <Grid item xs={6} sm={3} lg={4}>
+        <Grid item xs={4} sm={3}>
+          <FcSelectFieldSubCategory />
+        </Grid>
+        <Grid item xs={4} sm={3}>
           <FcSelectFieldWallet />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={4} sm={3} lg={2}>
           <FcTextFieldValue />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={4} sm={3} lg={2}>
           <FcTextFieldInstalment />
         </Grid>
-        <Grid item xs={5} sm={3} lg={2}>
+        <Grid item xs={4} sm={3} lg={2}>
           <FcTextFieldDueDate />
         </Grid>
-        <Grid item xs={5} sm={3} lg={2}>
+        <Grid item xs={6} sm={3} lg={2}>
           <FcTextFieldPaymentDate />
         </Grid>
-        <Grid item xs={2} sm={3} lg={4}>
+        <Grid item xs={6} sm={3} lg={4}>
           <FcSelectFieldPayed />
         </Grid>
         <Grid item xs={12} lg={4} align="center">

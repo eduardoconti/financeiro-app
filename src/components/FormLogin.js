@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, TextField, Button } from "@material-ui/core";
 
@@ -12,11 +12,13 @@ import { ContextAnoMes } from "../Context/AnoMesContext";
 import { emptyTotais } from "../common/EmptyStates";
 import { setCreatedAlert } from "../common/AlertFuncoes";
 import { ObtemToken } from "common";
+import FcButton from "./fc-button/fc-button";
+import { HttpStatus } from "common/enum";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.grey[900],
     borderRadius: theme.shape.borderRadius,
     width: 250,
   },
@@ -43,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormLogin({ setOpen }) {
+
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
-  const ctxSpin = useContext(SpinContext);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
@@ -61,6 +63,7 @@ export default function FormLogin({ setOpen }) {
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <TextField
+            error={formulario.username.length <= 4}
             id="username"
             label="username"
             variant="outlined"
@@ -75,6 +78,7 @@ export default function FormLogin({ setOpen }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            error={formulario.password.length <= 4}
             id="password"
             label="password"
             variant="outlined"
@@ -91,24 +95,32 @@ export default function FormLogin({ setOpen }) {
         <Grid item xs={12}>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Button
-                variant="contained"
-                size="small"
+              <FcButton
+
+                description="Login"
                 className={classes.botao}
                 onClick={async () => {
-                  ctxSpin.setSpin(true);
-
-                  const res = await ObtemToken(formulario);
+                  if(formulario.username.length <= 4 || formulario.password.length <= 4){
+                    ctxAlert.setAlert(
+                      setCreatedAlert(
+                        HttpStatus.BAD_REQUEST,
+                        'Preencha os campos corretamente',
+                        'Campo(s) inválido(s)'
+                      )
+                    );
+                    return;
+                  }
+                  const { status, message, internalMessage, title, detail, data } = await ObtemToken(formulario);
 
                   ctxAlert.setAlert(
                     setCreatedAlert(
-                      res.status,
-                      res.message,
-                      res.internalMessage
+                      status,
+                      message ?? detail,
+                      internalMessage ?? title
                     )
                   );
-                  if (res.status === 201) {
-                    login(res.data.accessToken);
+                  if (status === 201) {
+                    login(data.accessToken);
                     setStateTotais(
                       await calculaTotais(
                         stateCheckedDespesas,
@@ -118,28 +130,21 @@ export default function FormLogin({ setOpen }) {
                       )
                     );
                     setFormulario({ username: "", password: "" });
+                    setOpen(false);
                   }
-
-                  ctxSpin.setSpin(false);
-                  setOpen(false);
                 }}
-              >
-                LOGIN
-              </Button>
+              />
             </Grid>
             <Grid item xs={6}>
-              <Button
-                variant="contained"
-                size="small"
+              <FcButton
+                description="Logout"
                 className={classes.botao}
                 onClick={async () => {
                   logout();
                   setOpen(false);
                   setStateTotais(emptyTotais);
                 }}
-              >
-                logout
-              </Button>
+              />
             </Grid>
           </Grid>
         </Grid>

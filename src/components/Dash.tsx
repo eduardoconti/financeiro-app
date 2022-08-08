@@ -14,15 +14,18 @@ import {
 import { calculaTotais, isAuthenticated } from "common";
 
 export default function Dash() {
-  const { setStateTotais } = useContext(ContextTotais);
+
   const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
     ContextChecked
   );
-  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
   const { setSpin } = useContext(SpinContext);
+  const { setStateTotais } = useContext(ContextTotais);
+
+  const { stateAnoAtual, stateMesAtual } = useContext(ContextAnoMes);
 
   useEffect(() => {
-    async function setTotais() {
+    async function SetTotais() {
+
       setSpin(true);
       if (isAuthenticated()) {
         setStateTotais(
@@ -36,15 +39,8 @@ export default function Dash() {
       }
       setSpin(false);
     }
-    setTotais();
-  }, [
-    stateCheckedDespesas,
-    stateCheckedReceitas,
-    stateAnoAtual,
-    stateMesAtual,
-    setSpin,
-    setStateTotais,
-  ]);
+    SetTotais();
+  }, [stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual, stateMesAtual, setSpin, setStateTotais]);
 
   const cards = [
     <FcCardExpense />,
@@ -56,7 +52,7 @@ export default function Dash() {
     <Grid container spacing={1}>
       {cards.map((component, i) => {
         return (
-          <Grid item xs={6} sm={6} md={6} lg={3} xl={3} key={i}>
+          <Grid item xs={6} md={3} key={i}>
             {component}
           </Grid>
         );

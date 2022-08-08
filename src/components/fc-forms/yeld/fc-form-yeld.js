@@ -39,7 +39,7 @@ export default function FcFormYeld() {
     <Box className={classes.container}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4} lg={4}>
-          <FcTextFieldDescription />
+          <FcTextFieldDescription value={form.descricao}/>
         </Grid>
 
         <Grid item xs={6} sm={4} lg={4}>

@@ -1,18 +1,17 @@
-import React, { useContext } from "react";
-import IconButton from "@material-ui/core/IconButton";
+import { useContext } from "react";
 import { useTheme } from "@material-ui/core";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
-import { SpinContext } from "../../Context/SpinContext";
 import { ContextAlert } from "../../Context/AlertContext";
 import { setExclusionAlert } from "../../common/AlertFuncoes";
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { calculaTotais } from "../../common/Funcoes";
+import FcIconButton from "components/fc-button/fc-icon-button";
 export default function ActionDeleteButon(props) {
   const theme = useTheme();
   let { onClick, refreshTotal = true } = props;
-  const ctxSpin = useContext(SpinContext);
+
   const ctxAlert = useContext(ContextAlert);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
@@ -25,11 +24,11 @@ export default function ActionDeleteButon(props) {
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   return (
-    <IconButton
+    <FcIconButton
       aria-label="excluir"
-      style={{ color: theme.palette.error.light, padding: 2 }}
+      style={{ padding: 2 }}
+      color={theme.palette.error.light}
       onClick={async () => {
-        ctxSpin.setSpin(true);
         const {
           status,
           message,
@@ -50,11 +49,9 @@ export default function ActionDeleteButon(props) {
             )
           );
         }
-
-        ctxSpin.setSpin(false);
       }}
     >
       <DeleteForeverTwoToneIcon />
-    </IconButton>
+    </FcIconButton>
   );
 }

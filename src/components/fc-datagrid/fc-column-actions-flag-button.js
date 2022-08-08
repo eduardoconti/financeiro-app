@@ -1,32 +1,27 @@
-import React, { useContext } from "react";
-import IconButton from "@material-ui/core/IconButton";
+import { useContext } from "react";
+
 import { useTheme } from "@material-ui/core";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
-import { SpinContext } from "../../Context/SpinContext";
 import { ContextAlert } from "../../Context/AlertContext";
 import { setCreatedAlert } from "../../common/AlertFuncoes";
 import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { calculaTotais } from "../../common/Funcoes";
+import FcIconButton from "components/fc-button/fc-icon-button";
 
 export default function ActionFlagButon(props) {
   const theme = useTheme();
   const { onClick, payed } = props;
-  const ctxSpin = useContext(SpinContext);
   const ctxAlert = useContext(ContextAlert);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   return (
-    <IconButton
+    <FcIconButton
       aria-label="pago"
-      style={{
-        color: payed ? theme.palette.success.dark : theme.palette.error.light,
-        padding: 2,
-      }}
+      color={payed ? theme.palette.success.dark : theme.palette.error.light}
       onClick={async () => {
-        ctxSpin.setSpin(true);
         const {
           status,
           message,
@@ -50,10 +45,9 @@ export default function ActionFlagButon(props) {
           );
         }
 
-        ctxSpin.setSpin(false);
       }}
     >
       <FiberManualRecordTwoToneIcon />
-    </IconButton>
+    </FcIconButton>
   );
 }

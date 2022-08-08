@@ -15,12 +15,13 @@ import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
 import { SpinContext } from "../../Context/SpinContext";
 import FcSurface from "../fc-surface/fc-surface";
-import RadioButtons from "./fc-graphics-header";
 import api from "../../common/Api";
 import { Money } from "common";
+import { ContextTotais } from "Context";
 
 export default function FcGraphicsGeneral() {
   const { setSpin } = useContext(SpinContext);
+  const { stateTotais } = useContext(ContextTotais);
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   const ENDPOINT = "graphic/";
@@ -51,27 +52,18 @@ export default function FcGraphicsGeneral() {
               return item;
             })
           );
-        } catch (error) {}
+        } catch (error) { }
+      } else {
+        setDados([])
       }
       setSpin(false);
     }
 
     retornaDadosGrafico();
-  }, [setSpin]);
+  }, [setSpin, stateTotais]);
 
   return (
     <FcSurface>
-      <RadioButtons
-        setStateGrafico={(stateGrafico) => {
-          //setStateGrafico(stateGrafico);
-        }}
-        cor={
-          theme.palette.type === "dark"
-            ? theme.palette.primary.dark
-            : theme.palette.primary.light
-        }
-        descricao="Grafico Geral"
-      />
       <ResponsiveContainer height={220}>
         <ComposedChart data={dados}>
           <XAxis

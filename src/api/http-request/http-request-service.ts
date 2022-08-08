@@ -1,7 +1,11 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { getToken } from "common";
 import { SuccessResponseData } from "./dto";
 
+export type HttpRequestOptions = {
+  url: string;
+  body?: any;
+}
 export class HttpRequestService {
   protected api: AxiosInstance;
 
@@ -22,17 +26,22 @@ export class HttpRequestService {
   }
 
   async get<D>(url: string): Promise<SuccessResponseData<D>> {
-    const { data } = await this.api.get(url);
+    const { data } = await this.api.get<SuccessResponseData<D>>(url);
     return data;
   }
 
   async patch<D>(url: string, dto: any): Promise<SuccessResponseData<D>> {
-    const { data } = await this.api.patch(url, dto);
+    const { data } = await this.api.patch<SuccessResponseData<D>>(url, dto);
     return data;
   }
 
   async post<D>(url: string, dto: any): Promise<SuccessResponseData<D>> {
-    const { data } = await this.api.post(url, dto);
+    const { data } = await this.api.post<SuccessResponseData<D>>(url, dto);
+    return data;
+  }
+
+  async delete<D>(httpOptions: Pick<HttpRequestOptions, 'url'>): Promise<SuccessResponseData<D>> {
+    const { data } = await this.api.delete<SuccessResponseData<D>>(httpOptions.url);
     return data;
   }
 }

@@ -38,6 +38,8 @@ export default function FcGraphicsExpense() {
           setDescricao("Despesas não planejadas");
         }
         setSpin(false);
+      } else {
+        setDespesas([]);
       }
     }
     async function general(stateCheckedDespesas) {
@@ -52,9 +54,10 @@ export default function FcGraphicsExpense() {
             return item;
           })
         );
+      } else {
+        setDespesas([]);
       }
     }
-
     async function month(stateCheckedDespesas, ctxAnoMes) {
       setDescricao("Despesas por Categoria Mensal");
       const { stateAnoAtual, stateMesAtual } = ctxAnoMes;
@@ -70,6 +73,8 @@ export default function FcGraphicsExpense() {
             return item;
           })
         );
+      } else {
+        setDespesas([]);
       }
     }
     pegaDespesas();
