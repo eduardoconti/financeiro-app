@@ -12,6 +12,4 @@ export * from "./EmptyStates";
 export * from "./fc-constants";
 export * from "./Funcoes";
 export * from "./Login";
-export * from "./ReceitaFuncoes";
-export * from "./TransferenciaFuncoes";
 export * from "./money";
