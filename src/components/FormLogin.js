@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, TextField, Button } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 
 import { login, logout } from "../common/Auth";
-import { SpinContext } from "../Context/SpinContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAlert } from "../Context/AlertContext";
@@ -45,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormLogin({ setOpen }) {
-
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
   const ctxTotais = useContext(ContextTotais);
@@ -96,21 +94,30 @@ export default function FormLogin({ setOpen }) {
           <Grid container spacing={1}>
             <Grid item xs={6}>
               <FcButton
-
                 description="Login"
                 className={classes.botao}
                 onClick={async () => {
-                  if(formulario.username.length <= 4 || formulario.password.length <= 4){
+                  if (
+                    formulario.username.length <= 4 ||
+                    formulario.password.length <= 4
+                  ) {
                     ctxAlert.setAlert(
                       setCreatedAlert(
                         HttpStatus.BAD_REQUEST,
-                        'Preencha os campos corretamente',
-                        'Campo(s) inválido(s)'
+                        "Preencha os campos corretamente",
+                        "Campo(s) inválido(s)"
                       )
                     );
                     return;
                   }
-                  const { status, message, internalMessage, title, detail, data } = await ObtemToken(formulario);
+                  const {
+                    status,
+                    message,
+                    internalMessage,
+                    title,
+                    detail,
+                    data,
+                  } = await ObtemToken(formulario);
 
                   ctxAlert.setAlert(
                     setCreatedAlert(

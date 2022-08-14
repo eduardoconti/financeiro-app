@@ -6,14 +6,16 @@ import { ContextExpenseFilter, ExpenseFilterContextType } from "Context";
 import { useContext, useEffect, useState } from "react";
 
 export default function FcWalletFilter() {
-  const { filter, setFilter } = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
+  const { filter, setFilter } = useContext(
+    ContextExpenseFilter
+  ) as ExpenseFilterContextType;
   const [wallets, setWallets] = useState([]);
   const [spin, setSpin] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       const { data } = await retornaCarteiras();
-      data.unshift({id: 0, descricao: "Todas"})
+      data.unshift({ id: 0, descricao: "Todas" });
       setWallets(data);
     }
     if (isAuthenticated()) {
@@ -25,8 +27,8 @@ export default function FcWalletFilter() {
 
   return (
     <TextField
-      id={'fc-wallet-filter'}
-      label={'Carteira'}
+      id={"fc-wallet-filter"}
+      label={"Carteira"}
       variant="outlined"
       size="small"
       fullWidth
@@ -39,5 +41,4 @@ export default function FcWalletFilter() {
       {spin ? <SpinCircular size={20} /> : Menu(wallets)}
     </TextField>
   );
-
 }

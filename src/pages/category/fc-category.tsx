@@ -1,13 +1,16 @@
 import CorpoCategorias from "./fc-category-body";
-import { FormProvider } from "../../Context/FormContext";
 import CategoryProvider from "./context/category-context";
+import FormCategoryProvider from "./context/form-category-context";
+import FormSubCategoryProvider from "./context/form-sub-category-context";
 
 export default function FcCategory() {
   return (
-    <CategoryProvider>
-      <FormProvider>
-        <CorpoCategorias />
-      </FormProvider>
-    </CategoryProvider>
+    <FormCategoryProvider>
+      <FormSubCategoryProvider>
+        <CategoryProvider>
+          <CorpoCategorias />
+        </CategoryProvider>
+      </FormSubCategoryProvider>
+    </FormCategoryProvider>
   );
 }

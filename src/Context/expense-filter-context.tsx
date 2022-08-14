@@ -1,6 +1,8 @@
-import * as React from 'react';
+import * as React from "react";
 
-export const ContextExpenseFilter = React.createContext<ExpenseFilterContextType|null>(null);
+export const ContextExpenseFilter = React.createContext<ExpenseFilterContextType | null>(
+  null
+);
 export type ExpenseFilter = {
   start?: string;
   end?: string;
@@ -8,7 +10,7 @@ export type ExpenseFilter = {
   categoryId?: number;
   walletId?: number;
   dateField?: string;
-}
+};
 
 export type ExpenseFilterContextType = {
   filter: ExpenseFilter;
@@ -18,7 +20,7 @@ export type ExpenseFilterContextType = {
 type Props = {
   children: React.ReactNode; // 👈️ added type for children
 };
-const ExpenseFilterProvider:  React.FC<Props> = ({ children }) => {
+const ExpenseFilterProvider: React.FC<Props> = ({ children }) => {
   const [filter, setFilter] = React.useState<ExpenseFilter>({});
 
   return (
@@ -31,6 +33,6 @@ const ExpenseFilterProvider:  React.FC<Props> = ({ children }) => {
       {children}
     </ContextExpenseFilter.Provider>
   );
-}
+};
 
 export default ExpenseFilterProvider;

@@ -22,7 +22,6 @@ import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
 import { Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { setMode } from "../../common/Config";
 import BotaoAno from "../BotaoAno";
 import BotaoMesSmall from "components/BotaoMesSmall";
 import { ColorModeContext } from "App";
@@ -220,12 +219,14 @@ export default function ButtonAppBar() {
             <IconButton
               color="inherit"
               aria-label="Light/Dark"
-              onClick={
-                colorMode.toggleColorMode
-              }
+              onClick={colorMode.toggleColorMode}
               className={classes.headerIcon}
             >
-              { theme.palette.type === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              {theme.palette.type === "dark" ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
             </IconButton>
           </Tooltip>
           <Tooltip title="Login">

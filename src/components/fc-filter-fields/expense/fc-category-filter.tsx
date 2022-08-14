@@ -6,7 +6,9 @@ import { ContextExpenseFilter, ExpenseFilterContextType } from "Context";
 import { useContext, useEffect, useState } from "react";
 
 export default function FcCategoryFilter() {
-  const { filter, setFilter } = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
+  const { filter, setFilter } = useContext(
+    ContextExpenseFilter
+  ) as ExpenseFilterContextType;
   const [categories, setCategories] = useState([]);
   const [spin, setSpin] = useState(false);
 
@@ -15,7 +17,7 @@ export default function FcCategoryFilter() {
       if (isAuthenticated()) {
         setSpin(true);
         const { data } = await retornaCategorias();
-        data.unshift({ id: 0, descricao: "Todas" })
+        data.unshift({ id: 0, descricao: "Todas" });
         setCategories(data);
         setSpin(false);
       } else {
@@ -26,8 +28,8 @@ export default function FcCategoryFilter() {
   }, []);
   return (
     <TextField
-      id={'fc-category-filter'}
-      label={'Categoria'}
+      id={"fc-category-filter"}
+      label={"Categoria"}
       variant="outlined"
       size="small"
       fullWidth
@@ -40,5 +42,4 @@ export default function FcCategoryFilter() {
       {spin ? <SpinCircular size={20} /> : Menu(categories)}
     </TextField>
   );
-
 }

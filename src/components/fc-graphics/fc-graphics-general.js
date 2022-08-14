@@ -52,9 +52,9 @@ export default function FcGraphicsGeneral() {
               return item;
             })
           );
-        } catch (error) { }
+        } catch (error) {}
       } else {
-        setDados([])
+        setDados([]);
       }
       setSpin(false);
     }

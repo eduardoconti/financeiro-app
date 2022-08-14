@@ -5,4 +5,4 @@ export type CategoryResponseDTO = {
   descricao: string;
   subCategories: SubCategoryResponseDTO[];
   userId?: string;
-}
+};

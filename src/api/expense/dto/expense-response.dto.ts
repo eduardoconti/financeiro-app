@@ -27,7 +27,7 @@ export class ExpenseResposeDTO {
     vencimento?: Date | string,
     pagamento?: Date | string,
     pago?: boolean,
-    updatedAt?: Date | string,
+    updatedAt?: Date | string
   ) {
     this.userId = userId;
     this.descricao = descricao;
@@ -66,7 +66,7 @@ export class ExpenseResposeDTO {
       vencimento,
       pagamento,
       pago,
-      updatedAt,
+      updatedAt
     );
   };
 }

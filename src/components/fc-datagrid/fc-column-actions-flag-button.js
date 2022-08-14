@@ -44,7 +44,6 @@ export default function ActionFlagButon(props) {
             )
           );
         }
-
       }}
     >
       <FiberManualRecordTwoToneIcon />

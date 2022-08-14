@@ -64,7 +64,7 @@ export default function FcGraphicsYeld() {
         setSpin(false);
       }
       pegaReceitas();
-    }else{
+    } else {
       setReceitas([]);
     }
   }, [

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ContextForm } from "../../../Context/FormContext";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextChecked } from "../../../Context/CheckedContext";
@@ -22,34 +22,35 @@ export default function FcFormButtonInsertExpense() {
     <FcFormIconButtonAdd
       description="cadastrar"
       onClick={async () => {
-        const { form } = ctxForm;
-        const despesa = {
-          ...form,
-          vencimento: dateIso8601(form.vencimento),
-          pagamento: form.pagamento ? dateIso8601(form.pagamento) : undefined,
-        };
-        const {
-          status,
-          message,
-          internalMessage,
-          title,
-          detail,
-        } = await insereDespesa(despesa);
-
-        ctxAlert.setAlert(
-          setCreatedAlert(status, message ?? detail, internalMessage ?? title)
-        );
-        if ([200, 201].includes(status)) {
-          ctxTotais.setStateTotais(
-            await calculaTotais(
-              ctxChecked.stateCheckedDespesas,
-              ctxChecked.stateCheckedReceitas,
-              ctxAnoMes.stateAnoAtual,
-              ctxAnoMes.stateMesAtual
-            )
+        try {
+          const { form } = ctxForm;
+          const despesa = {
+            ...form,
+            vencimento: dateIso8601(form.vencimento),
+            pagamento: form.pagamento ? dateIso8601(form.pagamento) : undefined,
+          };
+          const {
+            status,
+            message,
+            internalMessage,
+            title,
+            detail,
+          } = await insereDespesa(despesa);
+          ctxAlert.setAlert(
+            setCreatedAlert(status, message ?? detail, internalMessage ?? title)
           );
-          ctxForm.setForm(emptyFormularioDespesa());
-        }
+          if ([200, 201].includes(status)) {
+            ctxTotais.setStateTotais(
+              await calculaTotais(
+                ctxChecked.stateCheckedDespesas,
+                ctxChecked.stateCheckedReceitas,
+                ctxAnoMes.stateAnoAtual,
+                ctxAnoMes.stateMesAtual
+              )
+            );
+            ctxForm.setForm(emptyFormularioDespesa());
+          }
+        } catch (error) { }
       }}
     />
   );

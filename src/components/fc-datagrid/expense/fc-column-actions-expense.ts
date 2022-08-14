@@ -14,13 +14,14 @@ export default function FcColumnActionsExpense(props: any) {
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const ctxDataGrid = useContext(ContextDataGrid);
-  const { filter} = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
+  const { filter } = useContext(
+    ContextExpenseFilter
+  ) as ExpenseFilterContextType;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   async function pegaDespesas() {
-
     if (isAuthenticated()) {
       let despesas = await new ExpenseService().getDespesas(
         stateCheckedDespesas,
@@ -33,7 +34,6 @@ export default function FcColumnActionsExpense(props: any) {
         ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
       }
     }
-
   }
 
   const { field } = props;

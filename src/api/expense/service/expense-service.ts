@@ -30,7 +30,7 @@ export class ExpenseService implements IExpenseService {
     stateCheckedDespesas: emptyChecked,
     stateAnoAtual: number,
     stateMesAtual: number,
-    filter: ExpenseFilter,
+    filter: ExpenseFilter
   ): Promise<SuccessResponseData<ExpenseResposeDTO[]>> {
     try {
       if (
@@ -53,17 +53,17 @@ export class ExpenseService implements IExpenseService {
       if (!stateCheckedDespesas.checkedAberto) {
         this.url.searchParams.append("pago", "true");
       }
-      const { dateField, categoryId, walletId} = filter;
+      const { dateField, categoryId, walletId } = filter;
 
-      if(dateField){
+      if (dateField) {
         this.url.searchParams.append("dateField", dateField);
       }
 
-      if(categoryId){
+      if (categoryId) {
         this.url.searchParams.append("categoryId", categoryId.toString());
       }
 
-      if(walletId){
+      if (walletId) {
         this.url.searchParams.append("walletId", walletId.toString());
       }
 
@@ -152,7 +152,7 @@ export class ExpenseService implements IExpenseService {
       subCategoryId,
       carteiraId,
       vencimento: formatDateToForm(vencimento),
-      pagamento: pagamento ? formatDateToForm(pagamento): undefined,
+      pagamento: pagamento ? formatDateToForm(pagamento) : undefined,
       instalment,
     };
   }
@@ -249,7 +249,8 @@ export async function insereDespesa(
     });
     return res.data;
   } catch (error) {
-    return errorResponse(error);
+    throw error;
+    //return errorResponse(error);
   }
 }
 

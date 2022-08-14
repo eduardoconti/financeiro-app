@@ -8,14 +8,19 @@ import FcGraphicsGeneral from "../../components/fc-graphics/fc-graphics-general"
 import FcGraphicsYeld from "../../components/fc-graphics/fc-graphics-yeld";
 
 export default function FcHomeBody() {
-
   const { setAlert } = useContext(ContextAlert);
 
   useEffect(() => {
     if (!isAuthenticated()) {
-      setAlert(setCreatedAlert(HttpStatus.UNAUTHORIZED, "Faça o login para continuar", "Unauthorized"));
+      setAlert(
+        setCreatedAlert(
+          HttpStatus.UNAUTHORIZED,
+          "Faça o login para continuar",
+          "Unauthorized"
+        )
+      );
     }
-  }, [setAlert])
+  }, [setAlert]);
 
   return (
     <Grid container spacing={1}>

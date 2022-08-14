@@ -46,7 +46,6 @@ export default function ActionReplicateButon(props) {
             stateMesAtual
           )
         );
-
       }}
     >
       <ImportExportTwoToneIcon />

@@ -26,19 +26,20 @@ import FcWallet from "./pages/wallet/fc-wallet";
 import FcCategory from "./pages/category/fc-category";
 import FcHome from "./pages/home/fc-home";
 
-export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+export const ColorModeContext = React.createContext({
+  toggleColorMode: () => {},
+});
 
 function App() {
-
-  const [mode, setMode] = React.useState('dark');
+  const [mode, setMode] = React.useState("dark");
 
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
       },
     }),
-    [setMode],
+    [setMode]
   );
   const theme = React.useMemo(
     () =>
@@ -46,8 +47,8 @@ function App() {
         palette: {
           type: mode,
           background: {
-            default: mode === 'dark' ? "#121212" : "#FFF",
-            paper: mode === 'dark' ? "#212121" : "#fafafa",
+            default: mode === "dark" ? "#121212" : "#FFF",
+            paper: mode === "dark" ? "#212121" : "#fafafa",
           },
         },
         mixins: {
@@ -62,7 +63,7 @@ function App() {
           },
         },
       }),
-    [mode],
+    [mode]
   );
 
   const useStyles = makeStyles((theme) => ({
@@ -100,8 +101,7 @@ function App() {
                   >
                     <CssBaseline>
                       <Router>
-                        <ButtonAppBar
-                        />
+                        <ButtonAppBar />
                         <AlertComponent />
                         <Grid container spacing={1} className={classes.content}>
                           {<Grid className={classes.toolbar} />}
@@ -121,7 +121,11 @@ function App() {
                                 path="/despesas"
                                 component={FcExpense}
                               />
-                              <Route exact path="/receitas" component={FcYield} />
+                              <Route
+                                exact
+                                path="/receitas"
+                                component={FcYield}
+                              />
                               <Route
                                 exact
                                 path="/transferencias"

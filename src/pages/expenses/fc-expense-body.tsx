@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 
 import FcDataGridExpense from "../../components/fc-datagrid/expense/fc-datagrid-expense";
@@ -24,6 +24,10 @@ import {
 } from "common";
 import ExpenseFilterProvider from "Context/expense-filter-context";
 import FcDataGridFilters from "components/fc-datagrid/expense/fc-data-grid-filters";
+import {
+  CategoryContextType,
+  ContextCategory,
+} from "pages/category/context/category-context";
 
 export default function CorpoDespesas() {
   const { setAlert } = useContext(ContextAlert);
@@ -32,6 +36,14 @@ export default function CorpoDespesas() {
     ContextChecked
   );
   const { stateMesAtual, stateAnoAtual } = useContext(ContextAnoMes);
+  const { fetchCategories } = useContext(
+    ContextCategory
+  ) as CategoryContextType;
+
+  useEffect(() => {
+    fetchCategories();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <DataGridProvider>
@@ -45,8 +57,8 @@ export default function CorpoDespesas() {
           </Grid>
           <Grid item xs={12}>
             <FcSelectedRows
-              onClick={async (data) => {
-                data.forEach(async (element) => {
+              onClick={async (data: any) => {
+                data.forEach(async (element: number) => {
                   const res = await retornaDespesaPorId(element);
 
                   let {
@@ -88,8 +100,8 @@ export default function CorpoDespesas() {
                   );
                 });
               }}
-              onDeleted={async (data) => {
-                data.forEach(async (element) => {
+              onDeleted={async (data: any) => {
+                data.forEach(async (element: number) => {
                   const deleted = await deletaDespesa(element);
 
                   setAlert(
@@ -109,8 +121,8 @@ export default function CorpoDespesas() {
                   )
                 );
               }}
-              onClickFlag={async (data, pago) => {
-                data.forEach(async (element) => {
+              onClickFlag={async (data: any, pago: boolean) => {
+                data.forEach(async (element: any) => {
                   const res = await retornaDespesaPorId(element);
 
                   const {

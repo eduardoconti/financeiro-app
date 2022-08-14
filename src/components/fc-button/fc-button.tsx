@@ -5,8 +5,7 @@ import SpinCircular from "components/fc-spin/fc-spin";
 export default function FcButton(props: any) {
   const { description, onClick, className } = props;
   const [spin, setSpin] = useState(false);
-  useEffect(() => {
-  }, [spin]);
+  useEffect(() => {}, [spin]);
   return (
     <Button
       variant="contained"

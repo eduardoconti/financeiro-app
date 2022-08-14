@@ -81,7 +81,7 @@ async function retornaDadosParaCard(ano, mes) {
     });
 
     return dadosCard;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export default function CorpoBalanco() {

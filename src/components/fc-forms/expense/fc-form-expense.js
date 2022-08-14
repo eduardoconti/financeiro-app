@@ -20,22 +20,32 @@ import FcSelectFieldSubCategory from "../fc-fields/fc-select-field-sub-category"
 
 export default function FcFormExpense() {
   const { form, setForm } = useContext(ContextForm);
-
   useEffect(() => {
     setForm(emptyFormularioDespesa());
   }, [setForm]);
 
+  const onChange = (event) => {
+    setForm({ ...form, categoriaId: event.target.value });
+  };
+
+  const onChangeSubCategory = (event) => {
+    setForm({ ...form, subCategoryId: event.target.value });
+  };
   return (
     <FcSurface>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={3}>
-          <FcTextFieldDescription value={form.descricao}/>
+          <FcTextFieldDescription value={form.descricao} />
         </Grid>
         <Grid item xs={4} sm={3}>
-          <FcSelectFieldCategory />
+          <FcSelectFieldCategory onChange={onChange} value={form.categoriaId} />
         </Grid>
         <Grid item xs={4} sm={3}>
-          <FcSelectFieldSubCategory />
+          <FcSelectFieldSubCategory
+            onChange={onChangeSubCategory}
+            value={form.subCategoryId}
+            categoryId={form.categoriaId}
+          />
         </Grid>
         <Grid item xs={4} sm={3}>
           <FcSelectFieldWallet />

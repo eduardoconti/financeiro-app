@@ -14,7 +14,6 @@ import {
 import { calculaTotais, isAuthenticated } from "common";
 
 export default function Dash() {
-
   const { stateCheckedDespesas, stateCheckedReceitas } = useContext(
     ContextChecked
   );
@@ -25,7 +24,6 @@ export default function Dash() {
 
   useEffect(() => {
     async function SetTotais() {
-
       setSpin(true);
       if (isAuthenticated()) {
         setStateTotais(
@@ -40,7 +38,14 @@ export default function Dash() {
       setSpin(false);
     }
     SetTotais();
-  }, [stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual, stateMesAtual, setSpin, setStateTotais]);
+  }, [
+    stateCheckedDespesas,
+    stateCheckedReceitas,
+    stateAnoAtual,
+    stateMesAtual,
+    setSpin,
+    setStateTotais,
+  ]);
 
   const cards = [
     <FcCardExpense />,

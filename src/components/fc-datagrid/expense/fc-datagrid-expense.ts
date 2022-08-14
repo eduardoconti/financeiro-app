@@ -37,7 +37,9 @@ export default function FcDataGridExpense() {
   const { setSpin } = useContext(SpinContext);
   const { setAlert } = useContext(ContextAlert);
   const ctxForm = useContext(ContextForm);
-  const { filter} = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
+  const { filter } = useContext(
+    ContextExpenseFilter
+  ) as ExpenseFilterContextType;
 
   let columns: GridColumns = [FcColumnDescription()];
 
@@ -62,7 +64,6 @@ export default function FcDataGridExpense() {
 
   useEffect(() => {
     async function SetRowsDataGrid() {
-
       setSpin(true);
       if (isAuthenticated() && selectedRows.length === 0) {
         const {
@@ -76,7 +77,7 @@ export default function FcDataGridExpense() {
           stateCheckedDespesas,
           stateAnoAtual,
           stateMesAtual,
-          filter,
+          filter
         );
 
         if (status === HttpStatus.OK) {
@@ -89,13 +90,23 @@ export default function FcDataGridExpense() {
             setCreatedAlert(status, message ?? title, internalMessage ?? detail)
           );
         }
-      }else{
+      } else {
         setRows([]);
       }
       setSpin(false);
     }
     SetRowsDataGrid();
-  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual, setRows, selectedRows, filter, setSpin, setAlert]);
+  }, [
+    stateCheckedDespesas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    setRows,
+    selectedRows,
+    filter,
+    setSpin,
+    setAlert,
+  ]);
 
   return FcDataGrid({
     rows,
@@ -106,7 +117,8 @@ export default function FcDataGridExpense() {
       const { row } = GridRowParams;
       const { data, status } = await expenseService.getExpenseById(row.id);
       if (status === HttpStatus.OK) {
-        ctxForm.setForm(expenseService.formataDadosParaFormulario(data));
+        const expenseDTO = expenseService.formataDadosParaFormulario(data);
+        ctxForm.setForm(expenseDTO);
       }
     },
   });

@@ -7,7 +7,9 @@ export class SubCategoryRequestDTO {
     Object.assign(this, subCategoryRequestDTO);
   }
 
-  static build = (subCategoryRequestDTO: SubCategoryRequestDTO): SubCategoryRequestDTO => {
+  static build = (
+    subCategoryRequestDTO: SubCategoryRequestDTO
+  ): SubCategoryRequestDTO => {
     return new SubCategoryRequestDTO(subCategoryRequestDTO);
   };
 }

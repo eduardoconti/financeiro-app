@@ -1,9 +1,4 @@
-import {
-  Grid,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { useContext, useState } from "react";
 import { ContextDataGrid } from "../../Context/DataGridContext";
 import CheckTwoToneIcon from "@material-ui/icons/CheckTwoTone";
@@ -62,12 +57,14 @@ export default function FcSelectedRows(props) {
             style={{
               padding: 2,
             }}
-            color={cropedRows
-              ? theme.palette.error.light
-              : theme.palette.success.main}
+            color={
+              cropedRows
+                ? theme.palette.error.light
+                : theme.palette.success.main
+            }
             onClick={() => {
-
               if (!cropedRows) {
+                // eslint-disable-next-line array-callback-return
                 const selectedData = storageData.filter((row) => {
                   if (selectedRows.includes(row.id)) {
                     return row;
@@ -92,11 +89,9 @@ export default function FcSelectedRows(props) {
             }}
             color={theme.palette.success.dark}
             onClick={async () => {
-
               const data = selectedRows;
               await onClick(data);
               setCropedRows(false);
-
             }}
           >
             {<ArrowForwardIosTwoToneIcon fontSize="large" />}
@@ -114,7 +109,6 @@ export default function FcSelectedRows(props) {
               await onClickFlag(data, true);
               setCropedRows(false);
               setSelectedRows([]);
-
             }}
           >
             {<FiberManualRecordTwoToneIcon fontSize="large" />}
@@ -128,7 +122,6 @@ export default function FcSelectedRows(props) {
             }}
             color={theme.palette.error.light}
             onClick={async () => {
-
               const data = selectedRows;
               await onClickFlag(data, false);
               setCropedRows(false);
@@ -150,7 +143,6 @@ export default function FcSelectedRows(props) {
               await onDeleted(data);
               setCropedRows(false);
               setSelectedRows([]);
-
             }}
           >
             {<DeleteForeverTwoToneIcon fontSize="large" />}

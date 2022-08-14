@@ -27,7 +27,6 @@ export default function FcColumnActionsTransfer(props) {
 
   async function setDataGridRows() {
     if (isAuthenticated()) {
-
       let transferencias = await getTransferencias(
         stateAnoAtual,
         stateMesAtual

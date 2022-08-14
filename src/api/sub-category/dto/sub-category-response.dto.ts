@@ -10,7 +10,9 @@ export class SubCategoryResponseDTO {
     Object.assign(this, subCategoryResponseDTO);
   }
 
-  static build = (subCategoryResponseDTO: SubCategoryResponseDTO): SubCategoryResponseDTO => {
+  static build = (
+    subCategoryResponseDTO: SubCategoryResponseDTO
+  ): SubCategoryResponseDTO => {
     return new SubCategoryResponseDTO(subCategoryResponseDTO);
-  }
+  };
 }
