@@ -66,15 +66,7 @@ function Row(props: RowProps) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.descricao}{" "}
-          {!existsSubCategories ? (
-            <b style={{ color: defaultTheme.palette.warning.light }}>
-              {" "}
-              | sem sub-categoria
-            </b>
-          ) : (
-            ""
-          )}
+          {row.descricao}
         </TableCell>
         <TableCell align="right">
           <FcColumnActionsCategory field={row} />
@@ -111,6 +103,7 @@ function Row(props: RowProps) {
 export default function FcTableCategory(): JSX.Element {
   const { categories } = useContext(ContextCategory) as CategoryContextType;
   return useMemo(() => {
+    console.log('memo cate')
     return (
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">

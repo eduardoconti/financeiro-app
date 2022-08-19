@@ -1,9 +1,10 @@
 {
-  "include": ["src/**/*"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es2016",
     "module": "esnext",
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,5 +21,6 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true
-  }
+  },
+  "extends": "./tsconfig.paths.json"
 }

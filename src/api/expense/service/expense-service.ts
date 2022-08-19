@@ -20,10 +20,9 @@ export type emptyChecked = {
   checkedAberto: true;
 };
 export class ExpenseService implements IExpenseService {
-  private url: URL;
+  private url!: URL;
   private httpRequestService: HttpRequestService;
   constructor() {
-    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
     this.httpRequestService = new HttpRequestService();
   }
   async getDespesas(
@@ -33,6 +32,7 @@ export class ExpenseService implements IExpenseService {
     filter: ExpenseFilter
   ): Promise<SuccessResponseData<ExpenseResposeDTO[]>> {
     try {
+      this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
       if (
         typeof stateAnoAtual !== "undefined" &&
         typeof stateMesAtual !== "undefined"
@@ -80,6 +80,7 @@ export class ExpenseService implements IExpenseService {
     despesa: Partial<ExpenseDTO>
   ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
     try {
+      this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
       const data = await this.httpRequestService.patch<ExpenseResposeDTO>(
         this.url.toString() + "/flag/" + despesa.id,
         despesa
@@ -103,59 +104,18 @@ export class ExpenseService implements IExpenseService {
     }
   }
 
-  formataDadosParaLinhasDataGrid(despesas: ExpenseResposeDTO[]) {
-    return despesas.map((despesa) => {
-      const {
-        id,
-        descricao,
-        pago,
-        valor,
-        vencimento,
-        pagamento,
-        categoria,
-        carteira,
-        subCategory,
-      } = despesa;
-      return {
-        id,
-        descricao,
-        pago,
-        valor: Money.format(valor),
-        categoriaId: categoria.descricao,
-        carteiraId: carteira.descricao,
-        subCategoryId: subCategory.description,
-        vencimento: formatDateToDataGrid(vencimento),
-        pagamento: pagamento ? formatDateToDataGrid(pagamento) : undefined,
-      };
-    });
+  async insert(expense: ExpenseDTO): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
+    const data = await this.httpRequestService.post<ExpenseResposeDTO>(this.url.toString(), expense);
+    return data;
   }
 
-  formataDadosParaFormulario(despesa: ExpenseResposeDTO): ExpenseDTO {
-    const {
-      id,
-      descricao,
-      pago,
-      valor,
-      vencimento,
-      categoria: { id: categoriaId },
-      carteira: { id: carteiraId },
-      subCategory: { id: subCategoryId },
-      instalment,
-      pagamento,
-    } = despesa;
-    return {
-      id,
-      descricao,
-      pago,
-      valor: Money.toFloat(valor),
-      categoriaId,
-      subCategoryId,
-      carteiraId,
-      vencimento: formatDateToForm(vencimento),
-      pagamento: pagamento ? formatDateToForm(pagamento) : undefined,
-      instalment,
-    };
+  async update(id: number, expense: Partial<ExpenseDTO>): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT + '/' + id) as string);
+    const data = await this.httpRequestService.put<ExpenseResposeDTO>({ url: this.url.toString(), body: expense });
+    return data;
   }
+
 }
 
 export async function getValorDespesasPorCategoria(
@@ -239,21 +199,6 @@ export async function deletaDespesa(id: number) {
   }
 }
 
-export async function insereDespesa(
-  despesa: ExpenseDTO
-): Promise<SuccessResponseData<ExpenseResposeDTO>> {
-  try {
-    const res = await api.post(ENDPOINT, {
-      ...despesa,
-      valor: Money.toInteger(despesa.valor),
-    });
-    return res.data;
-  } catch (error) {
-    throw error;
-    //return errorResponse(error);
-  }
-}
-
 export async function alteraFlagPago(despesa: ExpenseDTO) {
   try {
     const res = await api.patch(ENDPOINT + "/flag/" + despesa.id, despesa);
@@ -280,9 +225,9 @@ export async function retornaTotalDespesas(
     const query =
       stateAnoAtual && stateMesAtual
         ? "?start=" +
-          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-          "&end=" +
-          lastDayOfMonth(stateAnoAtual, stateMesAtual)
+        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+        "&end=" +
+        lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await api.get(endpoint);
@@ -333,5 +278,6 @@ export async function retornaDespesaPorId(id: number) {
 }
 
 function errorResponse(error: any) {
+  console.log(error);
   return error.response.data;
 }

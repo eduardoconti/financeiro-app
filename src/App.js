@@ -25,6 +25,9 @@ import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
 import FcCategory from "./pages/category/fc-category";
 import FcHome from "./pages/home/fc-home";
+import CategoryProvider from "pages/category/context/category-context";
+import ExpenseProvider from "pages/expenses/context/expense-context";
+import ExpenseFilterProvider from "Context/expense-filter-context";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -100,61 +103,72 @@ function App() {
                     }}
                   >
                     <CssBaseline>
-                      <Router>
-                        <ButtonAppBar />
-                        <AlertComponent />
-                        <Grid container spacing={1} className={classes.content}>
-                          {<Grid className={classes.toolbar} />}
-                          {window.innerWidth > theme.breakpoints.values.sm ? (
-                            <Grid item xs={12}>
-                              <BotaoMes />
-                            </Grid>
-                          ) : null}
-                          <Grid item xs={12}>
-                            <Dash />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <Switch>
-                              <Route exact path="/" component={FcHome} />
-                              <Route
-                                exact
-                                path="/despesas"
-                                component={FcExpense}
-                              />
-                              <Route
-                                exact
-                                path="/receitas"
-                                component={FcYield}
-                              />
-                              <Route
-                                exact
-                                path="/transferencias"
-                                component={FcTransfer}
-                              />
-                              <Route
-                                exact
-                                path="/balanco"
-                                component={FcBalance}
-                              />
-                              <Route
-                                exact
-                                path="/saldo"
-                                component={FcBalanceMonth}
-                              />
-                              <Route
-                                exact
-                                path="/carteiras"
-                                component={FcWallet}
-                              />
-                              <Route
-                                exact
-                                path="/categorias"
-                                component={FcCategory}
-                              />
-                            </Switch>
-                          </Grid>
-                        </Grid>
-                      </Router>
+                      <ExpenseFilterProvider>
+                        <CategoryProvider>
+                          <ExpenseProvider>
+                            <Router>
+                              <ButtonAppBar />
+                              <AlertComponent />
+                              <Grid
+                                container
+                                spacing={1}
+                                className={classes.content}
+                              >
+                                {<Grid className={classes.toolbar} />}
+                                {window.innerWidth >
+                                theme.breakpoints.values.sm ? (
+                                  <Grid item xs={12}>
+                                    <BotaoMes />
+                                  </Grid>
+                                ) : null}
+                                <Grid item xs={12}>
+                                  <Dash />
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <Switch>
+                                    <Route exact path="/" component={FcHome} />
+                                    <Route
+                                      exact
+                                      path="/despesas"
+                                      component={FcExpense}
+                                    />
+                                    <Route
+                                      exact
+                                      path="/receitas"
+                                      component={FcYield}
+                                    />
+                                    <Route
+                                      exact
+                                      path="/transferencias"
+                                      component={FcTransfer}
+                                    />
+                                    <Route
+                                      exact
+                                      path="/balanco"
+                                      component={FcBalance}
+                                    />
+                                    <Route
+                                      exact
+                                      path="/saldo"
+                                      component={FcBalanceMonth}
+                                    />
+                                    <Route
+                                      exact
+                                      path="/carteiras"
+                                      component={FcWallet}
+                                    />
+                                    <Route
+                                      exact
+                                      path="/categorias"
+                                      component={FcCategory}
+                                    />
+                                  </Switch>
+                                </Grid>
+                              </Grid>
+                            </Router>
+                          </ExpenseProvider>
+                        </CategoryProvider>
+                      </ExpenseFilterProvider>
                     </CssBaseline>
                   </Grid>
                 </AnoMesProvider>

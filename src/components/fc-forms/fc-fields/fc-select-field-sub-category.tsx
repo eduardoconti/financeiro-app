@@ -1,20 +1,18 @@
-import { useContext } from "react";
-
 import { SubCategoryResponseDTO } from "api/sub-category/dto";
 import { MenuItem } from "@material-ui/core";
-import {
-  CategoryContextType,
-  ContextCategory,
-} from "pages/category/context/category-context";
 
-import { FcTextField } from "./fc-text-field";
+import { FcTextField, FcTextFieldProps } from "./fc-text-field";
+import { useCategory } from "@pages/category/hook";
 
-export default function FcSelectFieldSubCategory(props: any) {
-  const { categories } = useContext(ContextCategory) as CategoryContextType;
-  const { value, onChange, categoryId } = props;
+export default function FcSelectFieldSubCategory(
+  props: Partial<FcTextFieldProps> & { categoryId: number }
+) {
+  const { categories } = useCategory();
+  const { categoryId, ...rest } = props;
 
   const Menu = () => {
-    const categoria = categories.find((c) => c.id === categoryId);
+    const categoria = categories.find((c) => c.id === categoryId)
+
     return categoria?.subCategories.map(
       (obj: SubCategoryResponseDTO, i: number) => {
         return (
@@ -26,15 +24,7 @@ export default function FcSelectFieldSubCategory(props: any) {
     );
   };
   return (
-    <FcTextField
-      id="subCategoryId"
-      label="Sub Categoria"
-      value={value ?? " "}
-      select
-      onChange={(event) => {
-        onChange(event);
-      }}
-    >
+    <FcTextField id="subCategoryId" label="Sub Categoria" select {...rest}>
       {Menu()}
     </FcTextField>
   );

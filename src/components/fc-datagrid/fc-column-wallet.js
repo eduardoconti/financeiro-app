@@ -1,5 +1,5 @@
 export const FcColumnWallet = {
-  field: "carteiraId",
+  field: "walletId",
   headerName: "Carteira",
   width: 150,
 };

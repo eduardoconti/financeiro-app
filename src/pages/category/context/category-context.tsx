@@ -40,6 +40,15 @@ const CategoryProvider: React.FC<Props> = ({ children }) => {
   const { setAlert } = React.useContext(ContextAlert);
   const categoryService: ICategoryService = new CategoryService();
   const subCategoryService: ISubCategoryService = new SubCategoryService();
+
+  React.useEffect(() => {
+    console.log('effec caategory')
+    async function Init() {
+      await fetchCategories();
+    }
+    Init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const fetchCategories = async (params?: GetCategoryParams) => {
     try {
       const { data } = await categoryService.getAll();

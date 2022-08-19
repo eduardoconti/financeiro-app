@@ -1,6 +1,6 @@
+import { FcFormIconButtonAdd } from "@components/fc-forms/fc-form-button";
 import { SubCategoryRequestDTO } from "api/sub-category/dto";
 
-import FcFormIconButtonAdd from "components/fc-forms/fc-form-button/fc-form-icon-button-add";
 import { useCategory, useFormSubCategory } from "pages/category/hook";
 
 export default function FcFormButtonInsertSubCategory(props: any) {

@@ -4,16 +4,16 @@ import { emptyFormularioTransferencia } from "../../../common/EmptyStates";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextForm } from "../../../Context/FormContext";
 
-import FcSelectFieldWallet from "../fc-fields/fc-select-field-wallet";
+
 
 import FcTextFieldValue from "../fc-fields/fc-text-field-value";
-import FcSelectFieldPayed from "../fc-fields/fc-select-field-payed";
 import FcFormButtonInsertTransfer from "./fc-form-button-insert-transfer";
 import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";
 import { Grid } from "@material-ui/core";
 import FcFormButtonUpdateTransfer from "./fc-form-button-update-transfer";
 import FcSurface from "../../fc-surface/fc-surface";
 import FcTextFieldTransferenceDate from "../fc-fields/fc-text-field-transference-date";
+import { FcSelectFieldPayed, FcSelectFieldWallet } from "../fc-fields";
 
 export default function FcFormTransfer() {
   const ctxAnoMes = useContext(ContextAnoMes);

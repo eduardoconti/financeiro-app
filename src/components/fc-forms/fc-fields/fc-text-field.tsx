@@ -4,8 +4,9 @@ import { ValidationErrorDTO } from "api/http-request/dto";
 export type FcTextFieldProps = {
   id: string;
   label: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string | number;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string | number | boolean;
+  defaultValue?: string | number | boolean;
   required?: boolean;
   variant?: string;
   size?: string;
@@ -13,6 +14,9 @@ export type FcTextFieldProps = {
   invalidFields?: ValidationErrorDTO[];
   children?: React.ReactNode;
   select?: boolean;
+  type?: string;
+  InputLabelProps?: any;
+  SelectProps?: any;
 };
 export function FcTextField(props: FcTextFieldProps) {
   const {
@@ -21,13 +25,14 @@ export function FcTextField(props: FcTextFieldProps) {
     fullWidth = true,
     invalidFields,
     children,
+    value = "",
     ...rest
   } = props;
 
   const helperText = () => {
     return invalidFields?.map((field, i) => {
       return (
-        <Typography component={"span"} variant={"body2"} key={i}>
+        <Typography component={"li"} variant={"body2"} key={i}>
           {field.reason}
         </Typography>
       );
@@ -40,6 +45,7 @@ export function FcTextField(props: FcTextFieldProps) {
       size="small"
       fullWidth={fullWidth}
       helperText={helperText()}
+      value={value}
       {...rest}
     >
       {children}

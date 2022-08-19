@@ -1,5 +1,5 @@
-import FcFormIconButtonAdd from "../../../../../components/fc-forms/fc-form-button/fc-form-icon-button-add";
 
+import { FcFormIconButtonAdd } from "@components/fc-forms/fc-form-button";
 import { CategoryRequestDTO } from "api/category/dto";
 
 import { useCategory } from "pages/category/hook";

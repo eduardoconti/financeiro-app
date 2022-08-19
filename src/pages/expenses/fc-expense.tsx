@@ -1,14 +1,14 @@
-import { FormProvider } from "Context";
-import CategoryProvider from "pages/category/context/category-context";
+import { DataGridExpenseProvider } from "./context/data-grid-expense-context";
+import FormExpenseProvider from "./context/form-expense-context";
 
 import CorpoDespesas from "./fc-expense-body";
 
 export default function FcExpense() {
   return (
-    <FormProvider>
-      <CategoryProvider>
+    <DataGridExpenseProvider>
+      <FormExpenseProvider>
         <CorpoDespesas />
-      </CategoryProvider>
-    </FormProvider>
+      </FormExpenseProvider>
+    </DataGridExpenseProvider>
   );
 }

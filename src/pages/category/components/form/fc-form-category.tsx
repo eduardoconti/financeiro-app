@@ -12,32 +12,31 @@ import FcTextFieldCategoryDescription from "./fc-text-field-category-description
 export default function FcFormCategory() {
   const { state, clearAllFields } = useFormCategory();
 
-  const onClickClearButton = () => {
-    clearAllFields();
-  };
-
-  return (
-    <FcSurface>
-      <Grid container item spacing={1}>
-        <Typography variant="subtitle1" style={{ padding: 4 }}>
-          Cadastrar Categoria
-        </Typography>
-        <Grid item xs={12}>
-          <FcTextFieldCategoryDescription />
-        </Grid>
-        <Grid container item xs={12} lg={8}>
-          <Grid item xs={6}>
-            {state.categoryId === 0 ? (
-              <FcFormButtonInsertCategory />
-            ) : (
-              <FcFormButtonUpdateCategory />
-            )}
+    const onClickClearButton = () => {
+      clearAllFields();
+    };
+    return (
+      <FcSurface>
+        <Grid container item spacing={1}>
+          <Typography variant="subtitle1" style={{ padding: 4 }}>
+            Cadastrar Categoria
+          </Typography>
+          <Grid item xs={12}>
+            <FcTextFieldCategoryDescription />
           </Grid>
-          <Grid item xs={6}>
-            <FcFormClearButton onClick={onClickClearButton} />
+          <Grid container item xs={12} lg={8}>
+            <Grid item xs={6}>
+              {state.categoryId === 0 ? (
+                <FcFormButtonInsertCategory />
+              ) : (
+                <FcFormButtonUpdateCategory />
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              <FcFormClearButton onClick={onClickClearButton} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </FcSurface>
-  );
+      </FcSurface>
+    )
 }

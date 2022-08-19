@@ -1,6 +1,6 @@
 import { SuccessResponseData } from "api/http-request/dto";
 import { ExpenseFilter } from "Context";
-import { ExpenseResposeDTO } from "../dto";
+import { ExpenseDTO, ExpenseResposeDTO } from "../dto";
 import { emptyChecked } from "./expense-service";
 
 export interface IExpenseService {
@@ -11,5 +11,6 @@ export interface IExpenseService {
     filter: ExpenseFilter
   ): Promise<SuccessResponseData<ExpenseResposeDTO[]>>;
 
-  //insereDespesa(despesa: ExpenseDTO): Promise<ExpenseResposeDTO>;
+  insert(expense: ExpenseDTO): Promise<SuccessResponseData<ExpenseResposeDTO>>
+  update(id: number, expense: Partial<ExpenseDTO>): Promise<SuccessResponseData<ExpenseResposeDTO>>
 }

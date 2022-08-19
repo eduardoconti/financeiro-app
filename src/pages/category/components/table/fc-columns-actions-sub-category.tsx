@@ -4,10 +4,7 @@ import ActionUpdateButon from "components/fc-datagrid/fc-column-actions-update-b
 import ActionDeleteButon from "components/fc-datagrid/fc-column-actions-delete-button";
 import { SubCategoryResponseDTO } from "api/sub-category/dto";
 
-import {
-  useCategory,
-  useFormSubCategory,
-} from "pages/category/hook";
+import { useCategory, useFormSubCategory } from "pages/category/hook";
 
 export default function FcColumnActionsSubCategory(props: {
   field: SubCategoryResponseDTO;
@@ -15,7 +12,7 @@ export default function FcColumnActionsSubCategory(props: {
   const { deleteSubCategory } = useCategory();
   const { setFormSubCategory } = useFormSubCategory();
   const { field } = props;
-
+  console.log('action');
   return (
     <Grid>
       <ActionUpdateButon

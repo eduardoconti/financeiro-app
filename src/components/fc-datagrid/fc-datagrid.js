@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import {
   makeStyles,
@@ -7,7 +6,6 @@ import {
   lighten,
 } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
-import { ContextDataGrid } from "../../Context/DataGridContext";
 
 function getThemePaletteMode(palette) {
   return palette.type || palette.mode;
@@ -48,26 +46,9 @@ const useStyles = makeStyles(
           borderBottom: 0,
         },
         "& .super-app-theme--Open": {
-          //backgroundColor: getBackgroundColor(theme.palette.background.paper),
           "&:hover": {
             backgroundColor: getHoverBackgroundColor(
               theme.palette.primary.main
-            ),
-          },
-        },
-        "& .super-app-theme--Filled": {
-          backgroundColor: getBackgroundColor(theme.palette.success.main),
-          "&:hover": {
-            backgroundColor: getHoverBackgroundColor(
-              theme.palette.success.main
-            ),
-          },
-        },
-        "& .super-app-theme--PartiallyFilled": {
-          backgroundColor: getBackgroundColor(theme.palette.warning.main),
-          "&:hover": {
-            backgroundColor: getHoverBackgroundColor(
-              theme.palette.warning.main
             ),
           },
         },
@@ -85,7 +66,6 @@ const useStyles = makeStyles(
 
 export default function FcDataGrid(props) {
   const classes = useStyles();
-  const ctxDataGrid = useContext(ContextDataGrid);
 
   return (
     <Box style={{ height: 320, width: "100%" }} className={classes.container}>
@@ -100,10 +80,15 @@ export default function FcDataGrid(props) {
         hideFooter
         hideFooterPagination
         className={classes.root}
-        onSelectionModelChange={(props) => {
-          ctxDataGrid.setSelectedRows(props);
-        }}
-        getRowClassName={(params) => `super-app-theme--Open`}
+        onSelectionModelChange={props?.onSelectionModelChange}
+        // getRowClassName={(params) => {
+        //   const { row } = params;
+        //   console.log(row);
+        //   if(row.subCategoryId === '0'){
+        //     return 'super-app-theme--Rejected';
+        //   }
+        //   //return row.subCategoryId !== '0' ? `super-app-theme--Open` : `super-app-theme--Rejected`;
+        // }}
       />
     </Box>
   );

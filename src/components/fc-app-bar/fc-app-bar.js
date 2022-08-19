@@ -118,11 +118,6 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     zIndex: theme.zIndex.drawer + 4,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-  },
-  paper: {},
   headerIcon: {
     padding: theme.spacing(1),
   },
