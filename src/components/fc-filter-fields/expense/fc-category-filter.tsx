@@ -1,8 +1,7 @@
+import { CategoryResponseDTO } from "@api/category/dto";
 import { FcTextField } from "@components/fc-forms/fc-fields";
+import Menu from "@components/fc-forms/fc-menu-tem/fc-menu-item";
 import { useCategory } from "@pages/category/hook";
-import { isAuthenticated, retornaCategorias } from "common";
-import Menu from "components/fc-forms/fc-menu-tem/fc-menu-item";
-import SpinCircular from "components/fc-spin/fc-spin";
 import { ContextExpenseFilter, ExpenseFilterContextType } from "Context";
 import { useContext, useEffect, useState } from "react";
 
@@ -10,13 +9,14 @@ export default function FcCategoryFilter() {
   const { filter, setFilter } = useContext(
     ContextExpenseFilter
   ) as ExpenseFilterContextType;
-  const [cat, setCategories] = useState([]);
+  const [cat, setCategories] = useState<CategoryResponseDTO[]>([]);
   const { categories } = useCategory();
 
   useEffect(() => {
     async function fetchData() {
-      categories.unshift({ id: 0, descricao: "Todas", subCategories: [] });
-      setCategories(categories as []);
+      const newCategories = [...categories];
+      newCategories.unshift({ id: 0, descricao: "Todas", subCategories: [] });
+      setCategories(newCategories);
     }
     fetchData();
   }, [categories]);

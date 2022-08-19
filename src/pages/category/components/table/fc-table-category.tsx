@@ -103,7 +103,6 @@ function Row(props: RowProps) {
 export default function FcTableCategory(): JSX.Element {
   const { categories } = useContext(ContextCategory) as CategoryContextType;
   return useMemo(() => {
-    console.log('memo cate')
     return (
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">

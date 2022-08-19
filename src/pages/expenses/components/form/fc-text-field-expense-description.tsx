@@ -7,7 +7,7 @@ export function FcTextFieldExpenseDescription() {
     formExpense: { description, invalidFields },
     dispatch,
   } = useFormExpense();
-  console.log('decription', description)
+
   return useMemo(() => {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch({

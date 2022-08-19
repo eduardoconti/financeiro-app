@@ -42,7 +42,6 @@ const CategoryProvider: React.FC<Props> = ({ children }) => {
   const subCategoryService: ISubCategoryService = new SubCategoryService();
 
   React.useEffect(() => {
-    console.log('effec caategory')
     async function Init() {
       await fetchCategories();
     }

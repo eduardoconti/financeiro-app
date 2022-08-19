@@ -1,43 +1,16 @@
-import React, { useContext } from "react";
+
 import { Grid } from "@material-ui/core";
-import { DataGridProvider } from "../../Context/DataGridContext";
-import FcDataGridYeld from "../../components/fc-datagrid/yeld/fc-datagrid-yeld";
-import FcFormYeld from "../../components/fc-forms/yeld/fc-form-yeld";
-import FcSelectedRows from "../../components/fc-datagrid/fc-selected-rows";
-import {
-  deletaReceita,
-  insereReceita,
-  retornaReceitaPorId,
-} from "../../common/ReceitaFuncoes";
-import { addMonth } from "../../common/DateHelper";
-import { setCreatedAlert } from "../../common/AlertFuncoes";
-import { getUserIdFromToken } from "../../common/Auth";
-import { calculaTotais } from "../../common/Funcoes";
-import {
-  ContextAlert,
-  ContextAnoMes,
-  ContextChecked,
-  ContextTotais,
-} from "Context";
+import { FcDataGridEarning } from "./components/datagrid";
+import { FcFormEarning } from "./components/form";
 
-export default function CorpoReceitas() {
-  const ctxAlert = useContext(ContextAlert);
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
+export function EarningBody() {
 
-  const setStateTotais = ctxTotais.setStateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   return (
-    <DataGridProvider>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <FcDataGridYeld />
-        </Grid>
-        <Grid item xs={12}>
+    <Grid container spacing={1}>
+      <Grid item xs={12}>
+        <FcDataGridEarning />
+      </Grid>
+      {/* <Grid item xs={12}>
           <FcSelectedRows
             onClick={async (data) => {
               data.forEach(async (element) => {
@@ -84,11 +57,10 @@ export default function CorpoReceitas() {
               );
             }}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <FcFormYeld />
-        </Grid>
+        </Grid> */}
+      <Grid item xs={12}>
+        <FcFormEarning />
       </Grid>
-    </DataGridProvider>
+    </Grid>
   );
 }

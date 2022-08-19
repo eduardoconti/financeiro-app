@@ -20,7 +20,6 @@ export default function FcWalletFilter() {
     setWallet(newWallets)
   }, [wallets]);
 
-  console.log(filter);
   return (
     <FcTextField
       id={"fc-wallet-filter"}

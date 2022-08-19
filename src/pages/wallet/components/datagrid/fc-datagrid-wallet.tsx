@@ -32,6 +32,5 @@ export function FcDataGridWallet() {
     }
     setRowsDataGrid();
   }, [setRows, wallets]);
-  console.log('render')
   return <FcDataGrid rows={rows} columns={columns} />;
 }

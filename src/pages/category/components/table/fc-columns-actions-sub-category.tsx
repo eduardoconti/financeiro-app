@@ -12,7 +12,7 @@ export default function FcColumnActionsSubCategory(props: {
   const { deleteSubCategory } = useCategory();
   const { setFormSubCategory } = useFormSubCategory();
   const { field } = props;
-  console.log('action');
+
   return (
     <Grid>
       <ActionUpdateButon

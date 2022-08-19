@@ -2,10 +2,7 @@ import { HttpRequestService } from "api/http-request";
 import { SuccessResponseData } from "api/http-request/dto";
 import {
   firstDayOfMonth,
-  formatDateToDataGrid,
-  formatDateToForm,
   lastDayOfMonth,
-  Money,
 } from "common";
 import api from "common/Api";
 import { ExpenseFilter } from "Context";
@@ -278,6 +275,5 @@ export async function retornaDespesaPorId(id: number) {
 }
 
 function errorResponse(error: any) {
-  console.log(error);
   return error.response.data;
 }

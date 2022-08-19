@@ -18,7 +18,6 @@ import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
 import BotaoMes from "./components/BotaoMes";
 import FcExpense from "./pages/expenses/fc-expense";
 import AlertComponent from "./components/Alert";
-import FcYield from "./pages/yield/fc-yield";
 import FcTransfer from "./pages/transfer/fc-transfer";
 import FcBalance from "./pages/balance/fc-balance";
 import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
@@ -28,6 +27,7 @@ import FcHome from "./pages/home/fc-home";
 import CategoryProvider from "pages/category/context/category-context";
 import ExpenseProvider from "pages/expenses/context/expense-context";
 import ExpenseFilterProvider from "Context/expense-filter-context";
+import { FcEarningPage } from "@pages/earning/fc-earning";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -135,7 +135,7 @@ function App() {
                                     <Route
                                       exact
                                       path="/receitas"
-                                      component={FcYield}
+                                      component={FcEarningPage}
                                     />
                                     <Route
                                       exact

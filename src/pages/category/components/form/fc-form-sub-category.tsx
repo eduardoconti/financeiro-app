@@ -16,8 +16,6 @@ export default function FcFormSubCategory() {
     setFormSubCategory,
   } = useFormSubCategory();
 
-
-  console.log("formSubCategory");
   const selectCategory = useMemo(() => {
     const onChangeSelectField = (event: any) => {
       setFormSubCategory({
@@ -32,6 +30,7 @@ export default function FcFormSubCategory() {
         value={formSubCategory.categoryId}
       />
     </Grid>)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return useMemo(() => {
     const onClickClearButton = () => {
@@ -62,5 +61,6 @@ export default function FcFormSubCategory() {
         </Grid>
       </FcSurface>
     )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formSubCategory.subCategoryId]);
 }
