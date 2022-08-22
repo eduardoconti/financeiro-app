@@ -4,8 +4,6 @@ import { emptyFormularioTransferencia } from "../../../common/EmptyStates";
 import { ContextAnoMes } from "../../../Context/AnoMesContext";
 import { ContextForm } from "../../../Context/FormContext";
 
-
-
 import FcTextFieldValue from "../fc-fields/fc-text-field-value";
 import FcFormButtonInsertTransfer from "./fc-form-button-insert-transfer";
 import FcFormButtonClear from "../fc-form-button/fc-form-button-clear";

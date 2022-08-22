@@ -1,1 +1,1 @@
-export * from './fc-form-earning'
+export * from "./fc-form-earning";

@@ -3,10 +3,13 @@ import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
 import { useMemo } from "react";
 export function FcSelectFieldExpenseCategory() {
   const {
-    formExpense: { categoryId },
+    formExpense: { categoryId, invalidFields },
     dispatch,
   } = useFormExpense();
 
+  const invalidFieldMessage = invalidFields?.filter((field) => {
+    return field.name === "categoriaId";
+  });
   return useMemo(() => {
     const onChange = (event: any) => {
       dispatch({
@@ -20,8 +23,10 @@ export function FcSelectFieldExpenseCategory() {
         label="Categoria"
         value={categoryId}
         onChange={onChange}
+        invalidFields={invalidFieldMessage}
+        required
       />
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId, invalidFieldMessage]);
 }

@@ -34,6 +34,10 @@ export function getMonth(datestring?: string | Date): number {
   return moment(datestring).month();
 }
 
+export function getYear(datestring?: string | Date): number {
+  return moment(datestring).year();
+}
+
 export function getDay(datestring?: string | Date): number {
   return parseInt(moment(datestring).format("D"));
 }

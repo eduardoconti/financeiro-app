@@ -4,7 +4,6 @@ import { Money } from "@common/money";
 import { ExpenseFormType } from "../context";
 
 export function formToRequest(expenseForm: ExpenseFormType): ExpenseDTO {
-
   return ExpenseDTO.build({
     id: expenseForm.id,
     descricao: expenseForm.description,
@@ -14,8 +13,9 @@ export function formToRequest(expenseForm: ExpenseFormType): ExpenseDTO {
     valor: Money.toInteger(parseFloat(expenseForm.value)),
     instalment: expenseForm.installments,
     vencimento: dateIso8601(expenseForm.dueDate),
-    pagamento: expenseForm.paymentDate ? dateIso8601(expenseForm.paymentDate) : undefined,
+    pagamento: expenseForm.paymentDate
+      ? dateIso8601(expenseForm.paymentDate)
+      : undefined,
     pago: expenseForm.payed,
-
-  })
+  });
 }

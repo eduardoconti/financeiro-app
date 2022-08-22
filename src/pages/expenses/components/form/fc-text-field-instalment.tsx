@@ -8,20 +8,22 @@ export function FcTextFieldInstalment() {
     dispatch,
   } = useFormExpense();
 
-  
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "instalment";
   });
-  
-  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) {
-      return;
-    }
-    dispatch({
-      type: "setFormExpense",
-      payload: { installments: parseInt(event.target.value ?? "1") },
-    });
-  }, [dispatch]);
+
+  const onChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (!event.target.value) {
+        return;
+      }
+      dispatch({
+        type: "setFormExpense",
+        payload: { installments: parseInt(event.target.value ?? "1") },
+      });
+    },
+    [dispatch]
+  );
 
   return useMemo(() => {
     return (
@@ -31,8 +33,8 @@ export function FcTextFieldInstalment() {
         value={installments}
         onChange={onChange}
         invalidFields={invalidFieldMessage}
+        required
       />
-    )
+    );
   }, [installments, invalidFieldMessage, onChange]);
-
 }

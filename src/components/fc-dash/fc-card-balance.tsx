@@ -1,15 +1,10 @@
+import { FcCard } from "@components/fc-cards";
 import { useTheme } from "@material-ui/core";
-import { ContextTotais } from "Context";
-import { useContext } from "react";
+import { useDashValues } from "hooks";
 import { useHistory } from "react-router-dom";
 
-import FcCard from "./fc-card";
-
-export default function FcCardBalance() {
+export function FcCardBalance() {
   const theme = useTheme();
-  const {
-    stateTotais: { saldo },
-  } = useContext(ContextTotais);
   const history = useHistory();
 
   const routeChange = () => {
@@ -17,10 +12,12 @@ export default function FcCardBalance() {
     history.push(path);
   };
 
+  const valor = useDashValues((state) => state.amount);
+
   return (
     <FcCard
       onClick={routeChange}
-      value={saldo}
+      value={valor}
       color={
         theme.palette.type === "dark"
           ? theme.palette.warning.light

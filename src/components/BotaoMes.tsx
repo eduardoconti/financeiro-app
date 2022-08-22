@@ -6,6 +6,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Typography } from "@material-ui/core";
 import { monthNames } from "../common/fc-constants";
+import { useCurrentTime } from "@hooks/use-current-time";
+import shallow from "zustand/shallow";
 export default function BotaoMes() {
   const ctxAnoMes = useContext(ContextAnoMes);
   const stateMesAtual = ctxAnoMes.stateMesAtual;
@@ -31,17 +33,22 @@ export default function BotaoMes() {
 
   function MonthButtons(): JSX.Element[] {
     const classes = useStyles();
+    const { month, setMonth } = useCurrentTime(
+      (state) => ({ month: state.month, setMonth: state.setMonth }),
+      shallow
+    );
 
-    return monthNames.map((month, i) => {
+    return monthNames.map((monthNmae, i) => {
       return (
         <Grid item xs={2} sm={1} key={i}>
           <CardActionArea
-            className={stateMesAtual === i ? classes.ativo : classes.botao}
-            onClick={() =>
-              setStateMesAtual(stateMesAtual === i ? undefined : i)
-            }
+            className={month === i ? classes.ativo : classes.botao}
+            onClick={() => {
+              setStateMesAtual(month === i ? undefined : i);
+              setMonth(i);
+            }}
           >
-            <Typography variant="button">{month}</Typography>
+            <Typography variant="button">{monthNmae}</Typography>
           </CardActionArea>
         </Grid>
       );

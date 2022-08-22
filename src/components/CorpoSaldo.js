@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes";
@@ -7,9 +7,10 @@ import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
 } from "../common/TransferenciaFuncoes";
-import FcCardWalletBalance from "./fc-cards/fc-card-wallet-balance";
-import { SpinContext } from "../Context/SpinContext";
+
 import { isAuthenticated } from "common";
+import { FcCardWalletBalance } from "./fc-dash";
+import { useSpin } from "@hooks/use-spin";
 
 async function RetornaCards() {
   let object = await retornaDadosParaCard();
@@ -82,13 +83,13 @@ async function retornaDadosParaCard() {
       }
     });
 
-    return await dadosCard;
+    return dadosCard;
   } catch (error) {}
 }
 
 export default function CorpoSaldo() {
   const [cards, setCards] = useState([]);
-  const { setSpin } = useContext(SpinContext);
+  const { setSpin } = useSpin();
 
   useEffect(() => {
     async function Set() {

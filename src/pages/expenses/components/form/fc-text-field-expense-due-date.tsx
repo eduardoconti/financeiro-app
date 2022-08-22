@@ -23,6 +23,7 @@ export function FcTextFieldExpenseDueDate() {
       value={dueDate}
       onChange={onChange}
       invalidFields={invalidFieldMessage}
+      required
     />
   );
 }

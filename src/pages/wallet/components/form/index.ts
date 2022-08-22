@@ -1,1 +1,1 @@
-export * from './fc-form-wallet';
+export * from "./fc-form-wallet";

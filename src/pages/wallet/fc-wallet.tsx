@@ -7,11 +7,9 @@ export default function FcWallet() {
   useEffect(() => {
     const start = async () => {
       await init();
-    }
+    };
     start();
   }, [init]);
 
-  return (
-      <CorpoCarteiras />
-  );
+  return <CorpoCarteiras />;
 }

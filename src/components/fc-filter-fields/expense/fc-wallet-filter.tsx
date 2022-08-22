@@ -16,8 +16,8 @@ export default function FcWalletFilter() {
 
   useEffect(() => {
     const newWallets = [...wallets];
-    newWallets.unshift({ id: 0, descricao: "Todas" })
-    setWallet(newWallets)
+    newWallets.unshift({ id: 0, descricao: "Todas" });
+    setWallet(newWallets);
   }, [wallets]);
 
   return (

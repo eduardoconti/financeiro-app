@@ -34,7 +34,7 @@ function expenseToDataGrid(expenses: ExpenseResposeDTO[]): IDataGridRow[] {
       pagamento,
       categoria,
       carteira,
-      subCategory
+      subCategory,
     } = expense;
     return {
       id: id,
@@ -84,27 +84,19 @@ export function FcDataGridExpense() {
   let columns: GridColumns = [FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
-    columns.push(
-      FcColumnCategory,
-      FcColumnSubCategory,
-      FcColumnWallet,
-
-    );
+    columns.push(FcColumnCategory, FcColumnSubCategory, FcColumnWallet);
   }
-  
-  columns.push(
-    FcColumnValue,
-    {
-      field: "payed",
-      headerName: "Pago",
-      type: "boolean",
-      width: 100,
-      sortable: false,
-      renderCell: function operacoes(field) {
-        return FcColumnActionsExpense({ field });
-      },
-    });
 
+  columns.push(FcColumnValue, {
+    field: "payed",
+    headerName: "Pago",
+    type: "boolean",
+    width: 100,
+    sortable: false,
+    renderCell: function operacoes(field) {
+      return FcColumnActionsExpense({ field });
+    },
+  });
 
   useEffect(() => {
     setRows(expenseToDataGrid(expenses));

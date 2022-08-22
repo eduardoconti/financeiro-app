@@ -31,7 +31,7 @@ export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }) {
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: theme.palette.grey[800],
             borderRadius: theme.shape.borderRadius,
             border: "none",
           }}

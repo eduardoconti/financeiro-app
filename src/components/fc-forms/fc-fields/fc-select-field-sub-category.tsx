@@ -11,7 +11,7 @@ export default function FcSelectFieldSubCategory(
   const { categoryId, ...rest } = props;
 
   const Menu = () => {
-    const categoria = categories.find((c) => c.id === categoryId)
+    const categoria = categories.find((c) => c.id === categoryId);
 
     return categoria?.subCategories.map(
       (obj: SubCategoryResponseDTO, i: number) => {

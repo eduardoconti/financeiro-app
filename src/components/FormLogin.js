@@ -1,18 +1,15 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { login, logout } from "../common/Auth";
-import { ContextTotais } from "../Context/TotaisContext";
-import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAlert } from "../Context/AlertContext";
-import { calculaTotais } from "../common/Funcoes";
-import { ContextAnoMes } from "../Context/AnoMesContext";
-import { emptyTotais } from "../common/EmptyStates";
 import { setCreatedAlert } from "../common/AlertFuncoes";
 import { ObtemToken } from "common";
 import FcButton from "./fc-button/fc-button";
 import { HttpStatus } from "common/enum";
+import { useHistory } from "react-router-dom";
+import { FcTextFieldDescription } from "./fc-forms/fc-fields";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,48 +43,35 @@ const useStyles = makeStyles((theme) => ({
 export default function FormLogin({ setOpen }) {
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
-  const ctxTotais = useContext(ContextTotais);
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
   const ctxAlert = useContext(ContextAlert);
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const setStateTotais = ctxTotais.setStateTotais;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
+  const history = useHistory();
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
-          <TextField
+          <FcTextFieldDescription
             error={formulario.username.length <= 4}
             id="username"
             label="username"
-            variant="outlined"
-            size="small"
             required={true}
             value={formulario.username}
             onChange={(event) =>
               setFormulario({ ...formulario, username: event.target.value })
             }
-            fullWidth
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
+          <FcTextFieldDescription
             error={formulario.password.length <= 4}
             id="password"
             label="password"
-            variant="outlined"
-            size="small"
             type="password"
             required={true}
             value={formulario.password}
             onChange={(event) =>
               setFormulario({ ...formulario, password: event.target.value })
             }
-            fullWidth
           />
         </Grid>
         <Grid item xs={12}>
@@ -128,17 +112,11 @@ export default function FormLogin({ setOpen }) {
                   );
                   if (status === 201) {
                     login(data.accessToken);
-                    setStateTotais(
-                      await calculaTotais(
-                        stateCheckedDespesas,
-                        stateCheckedReceitas,
-                        stateAnoAtual,
-                        stateMesAtual
-                      )
-                    );
                     setFormulario({ username: "", password: "" });
                     setOpen(false);
                   }
+                  history.push("");
+                  window.location.reload();
                 }}
               />
             </Grid>
@@ -149,7 +127,8 @@ export default function FormLogin({ setOpen }) {
                 onClick={async () => {
                   logout();
                   setOpen(false);
-                  setStateTotais(emptyTotais);
+                  history.push("");
+                  window.location.reload();
                 }}
               />
             </Grid>

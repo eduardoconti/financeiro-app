@@ -1,20 +1,22 @@
 import FcSurface from "@components/fc-surface/fc-surface";
 import { Grid } from "@material-ui/core";
 import { useFormEarning } from "@pages/earning/hooks";
-import { FcFormButtonDeleteEarning } from "./button";
+import {
+  FcFormButtonDeleteEarning,
+  FcFormButtonInsertEarningNextMonth,
+  FcFormButtonInsertEarning,
+  FcFormButtonUpdateEarning,
+} from "./button";
 import FcFormButtonClearEarning from "./button/fc-form-button-clear";
-import { FcFormButtonInsertEarning } from "./button/fc-form-button-insert-earning";
-import { FcFormButtonUpdateEarning } from "./button/fc-form-button-update-earning";
 import {
   FcSelectFieldEarningPayed,
   FcSelectFieldEarningWallet,
   FcTextFiealEarningDescription,
   FcTextFieldEarningPaymentDate,
-  FcTextFieldEarningValue
+  FcTextFieldEarningValue,
 } from "./fields";
 
 export function FcFormEarning() {
-
   const id = useFormEarning((state) => state.id);
   return (
     <FcSurface>
@@ -47,9 +49,9 @@ export function FcFormEarning() {
             <Grid item xs={3}>
               <FcFormButtonDeleteEarning />
             </Grid>
-            {/* <Grid item xs={3}>
-              <FcFormButtonInsertYieldNextMonth />
-            </Grid> */}
+            <Grid item xs={3}>
+              <FcFormButtonInsertEarningNextMonth />
+            </Grid>
             <Grid item xs={3}>
               <FcFormButtonClearEarning />
             </Grid>

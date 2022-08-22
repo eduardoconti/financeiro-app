@@ -10,7 +10,7 @@ export class EarningRequestDTO {
     valor: number,
     carteiraId: number,
     pagamento?: Date | string,
-    pago?: boolean,
+    pago?: boolean
   ) {
     this.descricao = descricao;
     this.valor = valor;
@@ -26,12 +26,6 @@ export class EarningRequestDTO {
     pagamento,
     pago,
   }: EarningRequestDTO): EarningRequestDTO => {
-    return new EarningRequestDTO(
-      descricao,
-      valor,
-      carteiraId,
-      pagamento,
-      pago,
-    );
+    return new EarningRequestDTO(descricao, valor, carteiraId, pagamento, pago);
   };
 }

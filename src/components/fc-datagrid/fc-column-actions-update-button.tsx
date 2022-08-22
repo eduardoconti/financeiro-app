@@ -3,8 +3,8 @@ import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
 import FcIconButton from "components/fc-button/fc-icon-button";
 
 export default function ActionUpdateButon(props: {
-  onClick: () => void
-  style?: React.CSSProperties
+  onClick: () => void;
+  style?: React.CSSProperties;
 }) {
   const theme = useTheme();
   const { onClick, style } = props;

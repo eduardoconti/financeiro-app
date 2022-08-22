@@ -7,31 +7,32 @@ import { IWalletRow, useWallet } from "@pages/wallet/hooks";
 import { useFormWallet } from "@pages/wallet/hooks/use-form-wallet";
 import { ContextAlert, SpinContext } from "Context";
 import { useContext } from "react";
-import shallow from 'zustand/shallow'
-export function FcColumnActionsWallet(props: {
-  field: GridCellParams
-}) {
-
-  const { setForm } = useFormWallet((state) => ({ setForm: state.setForm }), shallow);
+import shallow from "zustand/shallow";
+export function FcColumnActionsWallet(props: { field: GridCellParams }) {
+  const { setForm } = useFormWallet(
+    (state) => ({ setForm: state.setForm }),
+    shallow
+  );
   const deleteWallet = useWallet((state) => state.deleteWallet);
   const { setAlert } = useContext(ContextAlert);
   const { setSpin } = useContext(SpinContext);
   const { field } = props;
   const onClickUpdate = () => {
-    setForm(field.row as IWalletRow)
-  }
+    setForm(field.row as IWalletRow);
+  };
 
   const onClickDelete = async () => {
     try {
-      setSpin(true);
-      const { status, message, internalMessage } = await deleteWallet(field.row.id);
+      const { status, message, internalMessage } = await deleteWallet(
+        field.row.id
+      );
       setAlert(setCreatedAlert(status, message, internalMessage));
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
-  }
+  };
 
   return (
     <Grid>

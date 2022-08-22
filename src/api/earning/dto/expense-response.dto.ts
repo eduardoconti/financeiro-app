@@ -9,4 +9,4 @@ export type EarningResponseDTO = {
   pagamento: Date;
   updatedAt: Date;
   createdAt: Date;
-}
+};

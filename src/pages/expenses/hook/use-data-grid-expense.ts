@@ -1,6 +1,8 @@
 import { useContext } from "react";
-import { ContextDataGridExpense, DataGridExpenseContextType } from "@pages/expenses/context";
-
+import {
+  ContextDataGridExpense,
+  DataGridExpenseContextType,
+} from "@pages/expenses/context";
 
 export function useDataGridExpense(): DataGridExpenseContextType {
   const context = useContext(

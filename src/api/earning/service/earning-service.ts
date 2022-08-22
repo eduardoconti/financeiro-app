@@ -1,8 +1,13 @@
 import { HttpRequestService } from "@api/http-request";
 import { SuccessResponseData } from "@api/http-request/dto";
 import { firstDayOfMonth, lastDayOfMonth } from "@common/DateHelper";
-import { EarningDeleteResponseDTO, EarningRequestDTO, EarningResponseDTO } from "../dto";
-import { EmptyChecked, IEarningService } from "./earning-service.interface";
+import { CheckedValues } from "@hooks/use-dash-values";
+import {
+  EarningDeleteResponseDTO,
+  EarningRequestDTO,
+  EarningResponseDTO,
+} from "../dto";
+import { IEarningService } from "./earning-service.interface";
 
 const ENDPOINT = "earning";
 
@@ -13,11 +18,10 @@ export class EarningService implements IEarningService {
     this.httpRequestService = new HttpRequestService();
   }
   async getEarning(
-    stateCheckedEarning?: EmptyChecked,
+    stateCheckedEarning?: CheckedValues,
     stateAnoAtual?: number,
-    stateMesAtual?: number,
+    stateMesAtual?: number
   ): Promise<SuccessResponseData<EarningResponseDTO[]>> {
-
     this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
     if (
       typeof stateAnoAtual !== "undefined" &&
@@ -34,10 +38,10 @@ export class EarningService implements IEarningService {
     }
 
     if (stateCheckedEarning) {
-      if (!stateCheckedEarning.checkedPago) {
+      if (!stateCheckedEarning.payed) {
         this.url.searchParams.append("pago", "false");
       }
-      if (!stateCheckedEarning.checkedAberto) {
+      if (!stateCheckedEarning.open) {
         this.url.searchParams.append("pago", "true");
       }
     }
@@ -48,28 +52,54 @@ export class EarningService implements IEarningService {
     return data;
   }
 
-  async insert(Earning: EarningRequestDTO): Promise<SuccessResponseData<EarningResponseDTO>> {
+  async insert(
+    Earning: EarningRequestDTO
+  ): Promise<SuccessResponseData<EarningResponseDTO>> {
     this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
-    const data = await this.httpRequestService.post<EarningResponseDTO>(this.url.toString(), Earning);
+    const data = await this.httpRequestService.post<EarningResponseDTO>(
+      this.url.toString(),
+      Earning
+    );
     return data;
   }
 
-  async update(id: number, Earning: Partial<EarningRequestDTO>): Promise<SuccessResponseData<EarningResponseDTO>> {
-    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT + '/' + id) as string);
-    const data = await this.httpRequestService.put<EarningResponseDTO>({ url: this.url.toString(), body: Earning });
+  async update(
+    id: number,
+    Earning: Partial<EarningRequestDTO>
+  ): Promise<SuccessResponseData<EarningResponseDTO>> {
+    this.url = new URL(
+      (process.env.REACT_APP_API_HOST + ENDPOINT + "/" + id) as string
+    );
+    const data = await this.httpRequestService.put<EarningResponseDTO>({
+      url: this.url.toString(),
+      body: Earning,
+    });
     return data;
   }
 
-  async delete(id: number): Promise<SuccessResponseData<EarningDeleteResponseDTO>> {
-    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT + '/' + id) as string);
-    const data = await this.httpRequestService.delete<EarningDeleteResponseDTO>({ url: this.url.toString() });
+  async delete(
+    id: number
+  ): Promise<SuccessResponseData<EarningDeleteResponseDTO>> {
+    this.url = new URL(
+      (process.env.REACT_APP_API_HOST + ENDPOINT + "/" + id) as string
+    );
+    const data = await this.httpRequestService.delete<EarningDeleteResponseDTO>(
+      { url: this.url.toString() }
+    );
     return data;
   }
 
-  async updateFlagPayed(id: number, patchFlag: Pick<EarningRequestDTO, 'pago'>): Promise<SuccessResponseData<EarningResponseDTO>> {
-    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT + '/' + id) as string);
-    const data = await this.httpRequestService.patch<EarningResponseDTO>(this.url.toString(), patchFlag);
+  async updateFlagPayed(
+    id: number,
+    patchFlag: Pick<EarningRequestDTO, "pago">
+  ): Promise<SuccessResponseData<EarningResponseDTO>> {
+    this.url = new URL(
+      (process.env.REACT_APP_API_HOST + ENDPOINT + "/" + id) as string
+    );
+    const data = await this.httpRequestService.patch<EarningResponseDTO>(
+      this.url.toString(),
+      patchFlag
+    );
     return data;
   }
-
 }

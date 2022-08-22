@@ -13,6 +13,8 @@ import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Box } from "@material-ui/core";
+import { useCurrentTime } from "@hooks/use-current-time";
+import shallow from "zustand/shallow";
 const useStyles = makeStyles((theme) => ({
   container: {
     // display: "flex",
@@ -43,14 +45,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BotaoAno() {
+  const { year, setYear } = useCurrentTime(
+    (state) => ({ year: state.year, setYear: state.setYear }),
+    shallow
+  );
   const ctxAnoMes = useContext(ContextAnoMes);
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const setStateAnoAtual = ctxAnoMes.setStateAnoAtual;
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [ano, setAno] = React.useState(stateAnoAtual);
-
+  const [ano, setAno] = React.useState(year);
   const handleChange = (event) => {
     setAno(Number(event.target.value) || "");
   };
@@ -66,10 +71,10 @@ export default function BotaoAno() {
   const confirm = () => {
     setOpen(false);
     setStateAnoAtual(ano);
+    setYear(ano);
   };
 
   const Anos = Menu([
-    { id: 2020, descricao: "2020" },
     { id: 2021, descricao: "2021" },
     { id: 2022, descricao: "2022" },
     { id: 2023, descricao: "2023" },

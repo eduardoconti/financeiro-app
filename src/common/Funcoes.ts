@@ -2,13 +2,19 @@ import { retornaTotalDespesas } from "./DepesaFuncoes";
 import { retornaTotalReceitas } from "./ReceitaFuncoes";
 
 import { emptyTotais } from "./EmptyStates";
+import { CheckedValues } from "@hooks/use-dash-values";
 
 async function calculaTotais(
-  stateCheckedDespesas = false,
-  stateCheckedReceitas = false,
-  stateAnoAtual,
-  stateMesAtual
-) {
+  stateCheckedDespesas: CheckedValues,
+  stateCheckedReceitas: CheckedValues,
+  stateAnoAtual: number,
+  stateMesAtual: number
+): Promise<{
+  totalDespesas: number;
+  totalReceitas: number;
+  saldo: number;
+  balanco: number;
+}> {
   try {
     const { data: totalDespesas } = await retornaTotalDespesas(
       stateAnoAtual,
@@ -25,27 +31,21 @@ async function calculaTotais(
     const { data: totalGeralReceitas } = await retornaTotalReceitas();
 
     let expenseValues = 0;
-    if (
-      stateCheckedDespesas.checkedPago &&
-      stateCheckedDespesas.checkedAberto
-    ) {
-      expenseValues = totalDespesas.total;
-    } else if (stateCheckedDespesas.checkedPago) {
-      expenseValues = totalDespesas.totalPayed;
+    if (stateCheckedDespesas.payed && stateCheckedDespesas.open) {
+      expenseValues = parseInt(totalDespesas.total ?? 0);
+    } else if (stateCheckedDespesas.payed) {
+      expenseValues = parseInt(totalDespesas.totalPayed ?? 0);
     } else {
-      expenseValues = totalDespesas.totalOpen;
+      expenseValues = parseInt(totalDespesas.totalOpen ?? 0);
     }
 
     let earningValues = 0;
-    if (
-      stateCheckedReceitas.checkedPago &&
-      stateCheckedReceitas.checkedAberto
-    ) {
-      earningValues = totalReceitas.total;
-    } else if (stateCheckedReceitas.checkedPago) {
-      earningValues = totalReceitas.totalPayed;
+    if (stateCheckedReceitas.payed && stateCheckedReceitas.open) {
+      earningValues = parseInt(totalReceitas.total ?? 0);
+    } else if (stateCheckedReceitas.payed) {
+      earningValues = parseInt(totalReceitas.totalPayed ?? 0);
     } else {
-      earningValues = totalReceitas.totalOpen;
+      earningValues = parseInt(totalReceitas.totalOpen ?? 0);
     }
 
     return {

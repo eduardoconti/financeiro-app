@@ -20,9 +20,15 @@ import { FcFormButtonInsertExpense } from "./button/fc-form-button-insert-expens
 import FcFormButtonUpdateExpense from "./button/fc-form-button-update-expense";
 import { useMemo } from "react";
 import { FcSelectFieldExpenseWallet } from "./fc-select-field-expense-wallet";
+import {
+  FcFormButtonDeleteExpense,
+  FcFormButtonInsertExpenseNextMonth,
+} from "./button";
 
 export function FcFormExpense() {
-  const { formExpense: { id } } = useFormExpense();
+  const {
+    formExpense: { id },
+  } = useFormExpense();
 
   const buttons = useMemo(() => {
     return (
@@ -35,16 +41,16 @@ export function FcFormExpense() {
           )}
         </Grid>
         <Grid item xs={3}>
-          {/* <FcFormButtonDeleteExpense /> */}
+          <FcFormButtonDeleteExpense />
         </Grid>
         <Grid item xs={3}>
-          {/* <FcFormButtonInsertExpenseNextMonth /> */}
+          <FcFormButtonInsertExpenseNextMonth />
         </Grid>
         <Grid item xs={3}>
           <FcFormButtonClearExpense />
         </Grid>
       </Grid>
-    )
+    );
   }, [id]);
 
   return (
@@ -62,19 +68,19 @@ export function FcFormExpense() {
         <Grid item xs={4} sm={3}>
           <FcSelectFieldExpenseWallet />
         </Grid>
-        <Grid item xs={4} sm={3} lg={2}>
+        <Grid item xs={4} sm={3}>
           <FcTextFieldExpenseValue />
         </Grid>
-        <Grid item xs={4} sm={3} lg={2}>
+        <Grid item xs={4} sm={3}>
           <FcTextFieldInstalment />
         </Grid>
-        <Grid item xs={4} sm={3} lg={2}>
+        <Grid item xs={4} sm={2}>
           <FcTextFieldExpenseDueDate />
         </Grid>
-        <Grid item xs={6} sm={3} lg={2}>
+        <Grid item xs={6} sm={2}>
           <FcTextFieldExpensePaymentDate />
         </Grid>
-        <Grid item xs={6} sm={3} lg={4}>
+        <Grid item xs={6} sm={2}>
           <FcSelectFieldExpesePayed />
         </Grid>
         <Grid item xs={12} lg={4}>

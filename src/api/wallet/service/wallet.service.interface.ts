@@ -1,7 +1,5 @@
-
 import { SuccessResponseData } from "@api/http-request/dto";
 import { WalletRequestDTO, WalletResponseDTO } from "../dto";
-
 
 export interface IWalletService {
   getAll(): Promise<SuccessResponseData<WalletResponseDTO[]>>;

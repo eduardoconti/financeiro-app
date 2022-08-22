@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ComposedChart,
   Bar,
@@ -13,24 +13,22 @@ import {
 
 import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
-import { SpinContext } from "../../Context/SpinContext";
 import FcSurface from "../fc-surface/fc-surface";
 import api from "../../common/Api";
 import { Money } from "common";
-import { ContextTotais } from "Context";
+import { useSpin } from "@hooks/use-spin";
 
 export default function FcGraphicsGeneral() {
-  const { setSpin } = useContext(SpinContext);
-  const { stateTotais } = useContext(ContextTotais);
+  const { setSpin } = useSpin();
   const [dados, setDados] = useState([]);
   const theme = useTheme();
   const ENDPOINT = "graphic/";
 
   useEffect(() => {
     async function retornaDadosGrafico() {
-      setSpin(true);
       if (isAuthenticated()) {
         try {
+          setSpin(true);
           let {
             data: {
               data: { months },
@@ -52,15 +50,17 @@ export default function FcGraphicsGeneral() {
               return item;
             })
           );
-        } catch (error) {}
+        } catch (error) {
+        } finally {
+          setSpin(false);
+        }
       } else {
         setDados([]);
       }
-      setSpin(false);
     }
 
     retornaDadosGrafico();
-  }, [setSpin, stateTotais]);
+  }, [setSpin]);
 
   return (
     <FcSurface>
@@ -78,7 +78,7 @@ export default function FcGraphicsGeneral() {
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: theme.palette.grey[800],
               borderRadius: theme.shape.borderRadius,
               border: "none",
             }}

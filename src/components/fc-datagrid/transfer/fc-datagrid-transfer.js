@@ -40,7 +40,6 @@ export default function FcDataGridTransfer() {
 
   useEffect(() => {
     async function setRowsDataGrid() {
-      setSpin(true);
       if (isAuthenticated()) {
         let transferencias = await getTransferencias(
           stateAnoAtual,

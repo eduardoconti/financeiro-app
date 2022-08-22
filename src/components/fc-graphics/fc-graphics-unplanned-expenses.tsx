@@ -25,7 +25,6 @@ export default function FcGraphicUnplannedExpenses() {
     if (isAuthenticated()) {
       const service = new GraphicService();
       async function pegaReceitas() {
-        setSpin(true);
         const { data, status } = await service.unplannedExpenses();
         if (status === 200) {
           setUnplannedExpenses(

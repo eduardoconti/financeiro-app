@@ -1,11 +1,18 @@
+import { useSpin } from "@hooks/use-spin";
 import { useTheme } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import { SpinContext } from "Context";
-import { useContext } from "react";
 
 export default function FcIconButton(props: any) {
-  const { color, onClick, children, description, disabled = false, style, ...rest } = props;
-  const { spin} = useContext(SpinContext);
+  const {
+    color,
+    onClick,
+    children,
+    description,
+    disabled = false,
+    style,
+    ...rest
+  } = props;
+  const spin = useSpin((s) => s.spin);
   const theme = useTheme();
   return (
     <IconButton

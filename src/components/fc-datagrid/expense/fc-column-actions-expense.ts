@@ -1,23 +1,43 @@
 import ActionFlagButon from "../fc-column-actions-flag-button";
 
-import { ExpenseService } from "api/expense/service";
 import { useExpense } from "pages/expenses/hook/use-expense";
+import { useDashValues } from "@hooks/use-dash-values";
+import { useContext } from "react";
+import { ContextAlert } from "Context";
+import { useSpin } from "@hooks/use-spin";
+import { setCreatedAlert } from "@common/AlertFuncoes";
+import { Money } from "@common/money";
 
 export default function FcColumnActionsExpense(props: any) {
-  const { fetchExpenses } = useExpense();
-
-  const { field } = props;
+  const { updateFlagPayed } = useExpense();
+  const { amount, setAmount } = useDashValues();
+  const { setAlert } = useContext(ContextAlert);
+  const { setSpin } = useSpin();
+  const {
+    field: { row },
+  } = props;
   return ActionFlagButon({
-    payed: field.row.payed,
+    payed: row.payed,
     onClick: async () => {
-      const { id, payed } = field.row;
-      const despesa = {
-        id: id,
-        pago: !payed,
-      };
-
-      await new ExpenseService().alteraFlagPago(despesa);
-      await fetchExpenses();
+      try {
+        setSpin(true);
+        const { id, payed, value } = row;
+        const req = { pago: !payed };
+        const { status, message, internalMessage } = await updateFlagPayed(
+          id,
+          req
+        );
+        setAmount(
+          req.pago
+            ? amount - Money.formatToNumber(value)
+            : amount + Money.formatToNumber(value)
+        );
+        setAlert(setCreatedAlert(status, message, internalMessage));
+      } catch (error: any) {
+        setAlert(setCreatedAlert(error.status, error.detail, error.title));
+      } finally {
+        setSpin(false);
+      }
     },
   });
 }

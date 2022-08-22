@@ -23,6 +23,7 @@ export function FcTextFieldExpenseDescription() {
         onChange={onChange}
         value={description}
         invalidFields={invalidFieldMessage}
+        required
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

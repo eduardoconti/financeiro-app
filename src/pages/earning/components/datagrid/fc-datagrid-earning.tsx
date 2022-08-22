@@ -8,27 +8,39 @@ import { FcColumnWallet } from "@components/fc-datagrid/fc-column-wallet";
 import FcDataGrid from "@components/fc-datagrid/fc-datagrid";
 import { GridColumns, GridRowParams } from "@material-ui/data-grid";
 import { useEarning, useFormEarning } from "@pages/earning/hooks";
-import { IEarningRow, useDataGridEarning } from "@pages/earning/hooks/use-datagrid-earning";
+import {
+  IEarningRow,
+  useDataGridEarning,
+} from "@pages/earning/hooks/use-datagrid-earning";
 import { useEffect } from "react";
 import shallow from "zustand/shallow";
 import { FcColumnActionsEarning } from "./fc-column-actions-earning";
 
 export function FcDataGridEarning() {
-
-  const { rows, setRows } = useDataGridEarning((state) => ({ rows: state.rows, setRows: state.setRows }), shallow);
+  const { rows, setRows } = useDataGridEarning(
+    (state) => ({ rows: state.rows, setRows: state.setRows }),
+    shallow
+  );
   const earnings = useEarning((state) => state.earnings);
-  const { setId, setDescription, setValue, setPaymentDate, setPayed, setWalletId } = useFormEarning((state) => ({
+  const {
+    setId,
+    setDescription,
+    setValue,
+    setPaymentDate,
+    setPayed,
+    setWalletId,
+  } = useFormEarning((state) => ({
     setId: state.setId,
     setDescription: state.setDescription,
     setValue: state.setValue,
     setPaymentDate: state.setPaymentDate,
     setPayed: state.setPayed,
     setWalletId: state.setWalletId,
-  }))
+  }));
 
   useEffect(() => {
     setRows(earningToDataGrid(earnings));
-  }, [earnings, setRows])
+  }, [earnings, setRows]);
   let columns: GridColumns = [FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
@@ -67,14 +79,7 @@ export function FcDataGridEarning() {
 
 function earningToDataGrid(earnings: EarningResponseDTO[]): IEarningRow[] {
   return earnings.map((earning) => {
-    const {
-      id,
-      descricao,
-      pago,
-      valor,
-      pagamento,
-      carteira,
-    } = earning;
+    const { id, descricao, pago, valor, pagamento, carteira } = earning;
     return {
       id: id,
       description: descricao,

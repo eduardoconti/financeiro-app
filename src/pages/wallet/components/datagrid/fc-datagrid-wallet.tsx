@@ -7,8 +7,11 @@ import shallow from "zustand/shallow";
 import { FcColumnActionsWallet } from "./fc-columns-actions-wallet";
 
 export function FcDataGridWallet() {
-  const { rows, setRows } = useDataGridWallet((state) => ({ rows: state.rows, setRows: state.setRows }), shallow);
-  const wallets = useWallet((state) => state.wallets)
+  const { rows, setRows } = useDataGridWallet(
+    (state) => ({ rows: state.rows, setRows: state.setRows }),
+    shallow
+  );
+  const wallets = useWallet((state) => state.wallets);
   let columns: GridColumns = [FcColumnDescription()];
 
   columns.push({
@@ -23,12 +26,14 @@ export function FcDataGridWallet() {
 
   useEffect(() => {
     async function setRowsDataGrid() {
-      setRows(wallets.map((wallet) => {
-        return {
-          id: wallet.id,
-          description: wallet.descricao,
-        }
-      }))
+      setRows(
+        wallets.map((wallet) => {
+          return {
+            id: wallet.id,
+            description: wallet.descricao,
+          };
+        })
+      );
     }
     setRowsDataGrid();
   }, [setRows, wallets]);

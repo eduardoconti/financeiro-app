@@ -9,7 +9,6 @@ export type HttpRequestOptions = {
 };
 export class HttpRequestService {
   protected api: AxiosInstance;
-
   constructor() {
     this.api = axios.create({
       headers: { "Content-Type": "application/json" },

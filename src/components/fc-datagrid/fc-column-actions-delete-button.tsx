@@ -4,7 +4,7 @@ import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 
 export default function ActionDeleteButon(props: any) {
   const theme = useTheme();
-  let { onClick, ...rest} = props;
+  let { onClick, ...rest } = props;
 
   return (
     <FcIconButton

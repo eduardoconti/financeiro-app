@@ -2,12 +2,12 @@ import { setCreatedAlert } from "@common/AlertFuncoes";
 import { dateIso8601 } from "@common/DateHelper";
 import { Money } from "@common/money";
 import { FcFormIconButtonAdd } from "@components/fc-forms/fc-form-button";
+import { useSpin } from "@hooks/use-spin";
 import { useEarning, useFormEarning } from "@pages/earning/hooks";
-import { ContextAlert, SpinContext } from "Context";
+import { ContextAlert } from "Context";
 import { useContext } from "react";
 
 export function FcFormButtonInsertEarning() {
-
   const { insertEarning } = useEarning();
   const {
     description,
@@ -28,7 +28,7 @@ export function FcFormButtonInsertEarning() {
   }));
 
   const { setAlert } = useContext(ContextAlert);
-  const { setSpin } = useContext(SpinContext);
+  const setSpin = useSpin((s) => s.setSpin);
 
   const onClick = async () => {
     try {
@@ -43,16 +43,11 @@ export function FcFormButtonInsertEarning() {
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();
     } catch (error: any) {
-      setInvalidFields(error.invalidFields)
+      setInvalidFields(error.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
-  }
-  return (
-    <FcFormIconButtonAdd
-      description="cadastrar"
-      onClick={onClick}
-    />
-  );
+  };
+  return <FcFormIconButtonAdd description="cadastrar" onClick={onClick} />;
 }

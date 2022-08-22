@@ -4,7 +4,6 @@ import {
   getReceitas,
   retornaReceitasAgrupadasPorCarteiraChecked,
 } from "../../common/ReceitaFuncoes";
-import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { isAuthenticated } from "../../common/Auth";
@@ -16,14 +15,13 @@ import FcGraphic from "./fc-graphics";
 import { Money } from "common";
 
 export default function FcGraphicsYeld() {
-  const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const { setSpin } = useContext(SpinContext);
 
   const stateMesAtual = ctxAnoMes.stateMesAtual;
   const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-  const stateTotais = ctxTotais.stateTotais;
+
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
   const [receitas, setReceitas] = useState([]);
@@ -34,7 +32,6 @@ export default function FcGraphicsYeld() {
   useEffect(() => {
     if (isAuthenticated()) {
       async function pegaReceitas() {
-        setSpin(true);
         let receitas;
 
         if (stateGrafico === "1") {
@@ -61,7 +58,6 @@ export default function FcGraphicsYeld() {
             })
           );
         }
-        setSpin(false);
       }
       pegaReceitas();
     } else {
@@ -69,7 +65,6 @@ export default function FcGraphicsYeld() {
     }
   }, [
     stateCheckedReceitas,
-    stateTotais,
     stateAnoAtual,
     stateMesAtual,
     stateGrafico,

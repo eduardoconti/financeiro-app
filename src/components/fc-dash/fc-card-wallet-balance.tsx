@@ -1,8 +1,7 @@
+import { FcCard } from "@components/fc-cards";
 import { useTheme } from "@material-ui/core";
 
-import FcCard from "./fc-card";
-
-export default function FcCardWalletBalance(props: {
+export function FcCardWalletBalance(props: {
   value: number;
   description: string;
 }) {

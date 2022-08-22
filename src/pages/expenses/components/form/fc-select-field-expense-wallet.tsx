@@ -1,9 +1,8 @@
-
 import { FcSelectFieldWallet } from "@components/fc-forms/fc-fields";
 import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
 export function FcSelectFieldExpenseWallet() {
   const {
-    formExpense: { walletId },
+    formExpense: { walletId, invalidFields },
     dispatch,
   } = useFormExpense();
   const onChange = (event: any) => {
@@ -12,11 +11,16 @@ export function FcSelectFieldExpenseWallet() {
       payload: { walletId: event.target.value },
     });
   };
+  const invalidFieldMessage = invalidFields?.filter((field) => {
+    return field.name === "carteiraId";
+  });
 
-    return (
-      <FcSelectFieldWallet
-        value={walletId}
-        onChange={onChange}
-      />
-    );
+  return (
+    <FcSelectFieldWallet
+      value={walletId}
+      onChange={onChange}
+      required
+      invalidFields={invalidFieldMessage}
+    />
+  );
 }

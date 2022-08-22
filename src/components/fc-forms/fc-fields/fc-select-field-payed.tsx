@@ -7,12 +7,7 @@ export function FcSelectFieldPayed(props: Partial<FcTextFieldProps>) {
   ];
 
   return (
-    <FcTextField
-      id="pago"
-      label="Pago"
-      select
-      {...props}
-    >
+    <FcTextField id="pago" label="Pago" select {...props}>
       {Menu(options)}
     </FcTextField>
   );

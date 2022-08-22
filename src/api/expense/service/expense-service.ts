@@ -1,21 +1,15 @@
+import { CheckedValues } from "@hooks/use-dash-values";
 import { HttpRequestService } from "api/http-request";
 import { SuccessResponseData } from "api/http-request/dto";
-import {
-  firstDayOfMonth,
-  lastDayOfMonth,
-} from "common";
+import { firstDayOfMonth, lastDayOfMonth } from "common";
 import api from "common/Api";
 import { ExpenseFilter } from "Context";
-import { ExpenseDTO } from "../dto";
+import { ExpenseDeleteResponseDTO, ExpenseDTO } from "../dto";
 import { ExpenseResposeDTO } from "../dto/expense-response.dto";
 import { IExpenseService } from "./expense-service.interface";
 
 const ENDPOINT = "expense";
 
-export type emptyChecked = {
-  checkedPago: true;
-  checkedAberto: true;
-};
 export class ExpenseService implements IExpenseService {
   private url!: URL;
   private httpRequestService: HttpRequestService;
@@ -23,10 +17,10 @@ export class ExpenseService implements IExpenseService {
     this.httpRequestService = new HttpRequestService();
   }
   async getDespesas(
-    stateCheckedDespesas: emptyChecked,
+    stateCheckedDespesas: CheckedValues,
     stateAnoAtual: number,
     stateMesAtual: number,
-    filter: ExpenseFilter
+    filter?: ExpenseFilter
   ): Promise<SuccessResponseData<ExpenseResposeDTO[]>> {
     try {
       this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
@@ -44,24 +38,27 @@ export class ExpenseService implements IExpenseService {
         );
       }
 
-      if (!stateCheckedDespesas.checkedPago) {
+      if (!stateCheckedDespesas.payed) {
         this.url.searchParams.append("pago", "false");
       }
-      if (!stateCheckedDespesas.checkedAberto) {
+      if (!stateCheckedDespesas.open) {
         this.url.searchParams.append("pago", "true");
       }
-      const { dateField, categoryId, walletId } = filter;
 
-      if (dateField) {
-        this.url.searchParams.append("dateField", dateField);
-      }
+      if (filter) {
+        const { dateField, categoryId, walletId } = filter;
 
-      if (categoryId) {
-        this.url.searchParams.append("categoryId", categoryId.toString());
-      }
+        if (dateField) {
+          this.url.searchParams.append("dateField", dateField);
+        }
 
-      if (walletId) {
-        this.url.searchParams.append("walletId", walletId.toString());
+        if (categoryId) {
+          this.url.searchParams.append("categoryId", categoryId.toString());
+        }
+
+        if (walletId) {
+          this.url.searchParams.append("walletId", walletId.toString());
+        }
       }
 
       const data = await this.httpRequestService.get<ExpenseResposeDTO[]>(
@@ -69,18 +66,20 @@ export class ExpenseService implements IExpenseService {
       );
       return data;
     } catch (error: any) {
+      console.log(error);
       return errorResponse(error);
     }
   }
 
-  async alteraFlagPago(
-    despesa: Partial<ExpenseDTO>
+  async updateFlagPayed(
+    id: number,
+    patchFlag: Pick<ExpenseDTO, "pago">
   ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
     try {
       this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
       const data = await this.httpRequestService.patch<ExpenseResposeDTO>(
-        this.url.toString() + "/flag/" + despesa.id,
-        despesa
+        this.url.toString() + "/flag/" + id,
+        patchFlag
       );
       return data;
     } catch (error: any) {
@@ -101,22 +100,46 @@ export class ExpenseService implements IExpenseService {
     }
   }
 
-  async insert(expense: ExpenseDTO): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+  async insert(
+    expense: ExpenseDTO
+  ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
     this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
-    const data = await this.httpRequestService.post<ExpenseResposeDTO>(this.url.toString(), expense);
+    const data = await this.httpRequestService.post<ExpenseResposeDTO>(
+      this.url.toString(),
+      expense
+    );
     return data;
   }
 
-  async update(id: number, expense: Partial<ExpenseDTO>): Promise<SuccessResponseData<ExpenseResposeDTO>> {
-    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT + '/' + id) as string);
-    const data = await this.httpRequestService.put<ExpenseResposeDTO>({ url: this.url.toString(), body: expense });
+  async update(
+    id: number,
+    expense: Partial<ExpenseDTO>
+  ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+    this.url = new URL(
+      (process.env.REACT_APP_API_HOST + ENDPOINT + "/" + id) as string
+    );
+    const data = await this.httpRequestService.put<ExpenseResposeDTO>({
+      url: this.url.toString(),
+      body: expense,
+    });
     return data;
   }
 
+  async delete(
+    id: number
+  ): Promise<SuccessResponseData<ExpenseDeleteResponseDTO>> {
+    this.url = new URL(
+      (process.env.REACT_APP_API_HOST + ENDPOINT + "/" + id) as string
+    );
+    const data = await this.httpRequestService.delete<ExpenseDeleteResponseDTO>(
+      { url: this.url.toString() }
+    );
+    return data;
+  }
 }
 
 export async function getValorDespesasPorCategoria(
-  stateCheckedDespesas: emptyChecked,
+  stateCheckedDespesas: CheckedValues,
   stateAnoAtual: number,
   stateMesAtual: number
 ) {
@@ -137,10 +160,10 @@ export async function getValorDespesasPorCategoria(
       char = "&";
     }
 
-    if (!stateCheckedDespesas.checkedPago) {
+    if (!stateCheckedDespesas.payed) {
       endpoint += char + "pago=false";
     }
-    if (!stateCheckedDespesas.checkedAberto) {
+    if (!stateCheckedDespesas.open) {
       endpoint += char + "pago=true";
     }
     const { data } = await api.get(endpoint);
@@ -151,7 +174,7 @@ export async function getValorDespesasPorCategoria(
 }
 
 export async function getValorDespesasPorCarteira(
-  stateCheckedDespesas: emptyChecked,
+  stateCheckedDespesas: CheckedValues,
   stateAnoAtual: number,
   stateMesAtual: number
 ) {
@@ -171,13 +194,10 @@ export async function getValorDespesasPorCarteira(
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
       char = "&";
     }
-    if (
-      stateCheckedDespesas.checkedPago &&
-      stateCheckedDespesas.checkedAberto
-    ) {
-    } else if (stateCheckedDespesas.checkedPago) {
+    if (stateCheckedDespesas.payed && stateCheckedDespesas.open) {
+    } else if (stateCheckedDespesas.payed) {
       endpoint += char + "pago=true";
-    } else if (stateCheckedDespesas.checkedAberto) {
+    } else if (stateCheckedDespesas.open) {
       endpoint += char + "pago=false";
     }
     const { data } = await api.get(endpoint);
@@ -222,9 +242,9 @@ export async function retornaTotalDespesas(
     const query =
       stateAnoAtual && stateMesAtual
         ? "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual)
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await api.get(endpoint);
@@ -275,5 +295,6 @@ export async function retornaDespesaPorId(id: number) {
 }
 
 function errorResponse(error: any) {
+  console.log(error);
   return error.response.data;
 }

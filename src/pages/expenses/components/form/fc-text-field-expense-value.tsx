@@ -27,8 +27,9 @@ export function FcTextFieldExpenseValue() {
         value={value}
         onChange={onChange}
         invalidFields={invalidFieldMessage}
+        required
       />
-    )
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, invalidFieldMessage]);
 }

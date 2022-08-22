@@ -1,18 +1,16 @@
 import { Grid } from "@material-ui/core";
-
 import { useCategory, useFormCategory } from "pages/category/hook";
 import { CategoryResponseDTO } from "api/category/dto";
 import ActionUpdateButon from "components/fc-datagrid/fc-column-actions-update-button";
 import ActionDeleteButon from "components/fc-datagrid/fc-column-actions-delete-button";
-import { useMemo } from "react";
+
 export default function FcColumnActionsCategory(props: {
   field: CategoryResponseDTO;
 }) {
   const { deleteCategory } = useCategory();
-  const { dispatch, setInvalidFields} = useFormCategory();
+  const { dispatch, setInvalidFields } = useFormCategory();
   const { field } = props;
-  return useMemo( () =>{
-    return (
+  return (
     <Grid>
       <ActionUpdateButon
         onClick={async () => {
@@ -34,6 +32,5 @@ export default function FcColumnActionsCategory(props: {
         refreshTotal={false}
       />
     </Grid>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  )}, []);
+  );
 }

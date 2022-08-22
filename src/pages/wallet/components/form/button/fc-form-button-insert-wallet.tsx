@@ -9,32 +9,34 @@ import shallow from "zustand/shallow";
 export function FcFormButtonInsertWallet() {
   const { setAlert } = useContext(ContextAlert);
   const { setSpin } = useContext(SpinContext);
-  const { form: { id, description }, setInvalidFields, clear } = useFormWallet((state) => (
-    {
+  const {
+    form: { id, description },
+    setInvalidFields,
+    clear,
+  } = useFormWallet(
+    (state) => ({
       form: state.form,
       setInvalidFields: state.setInvalidFields,
-      clear: state.clearAllFields
-    }
-  ), shallow);
+      clear: state.clearAllFields,
+    }),
+    shallow
+  );
   const insert = useWallet((state) => state.insertWallet);
   const onClick = async () => {
     try {
-      setSpin(true);
-      const { status, message, internalMessage } = await insert({ id, descricao: description });
+      const { status, message, internalMessage } = await insert({
+        id,
+        descricao: description,
+      });
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();
     } catch (error: any) {
-      setInvalidFields(error.invalidFields)
+      setInvalidFields(error.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
-  }
+  };
 
-  return (
-    <FcFormIconButtonAdd
-      description="cadastrar"
-      onClick={onClick}
-    />
-  );
+  return <FcFormIconButtonAdd description="cadastrar" onClick={onClick} />;
 }

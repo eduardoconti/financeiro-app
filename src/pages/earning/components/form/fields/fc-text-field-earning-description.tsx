@@ -3,22 +3,28 @@ import { useFormEarning } from "@pages/earning/hooks";
 import shallow from "zustand/shallow";
 
 export function FcTextFiealEarningDescription() {
-  const { description, setForm, invalidFields } = useFormEarning((state) => (
-    {
+  const { description, setForm, invalidFields } = useFormEarning(
+    (state) => ({
       description: state.description,
       setForm: state.setDescription,
-      invalidFields: state.invalidFields
-    }), shallow);
+      invalidFields: state.invalidFields,
+    }),
+    shallow
+  );
 
   const onChange = (e: any) => {
     setForm(e.target.value);
-  }
+  };
 
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "descricao";
   });
 
   return (
-    <FcTextFieldDescription value={description} onChange={onChange} invalidFields={invalidFieldMessage} />
-  )
+    <FcTextFieldDescription
+      value={description}
+      onChange={onChange}
+      invalidFields={invalidFieldMessage}
+    />
+  );
 }

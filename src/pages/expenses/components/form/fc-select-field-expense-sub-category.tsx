@@ -5,9 +5,12 @@ import { useMemo } from "react";
 export function FcSelectFieldExpenseSubCategory() {
   const {
     dispatch,
-    formExpense: { categoryId, subCategoryId },
+    formExpense: { categoryId, subCategoryId, invalidFields },
   } = useFormExpense();
 
+  const invalidFieldMessage = invalidFields?.filter((field) => {
+    return field.name === "subCategoryId";
+  });
   return useMemo(() => {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch({
@@ -22,8 +25,10 @@ export function FcSelectFieldExpenseSubCategory() {
         categoryId={categoryId}
         onChange={onChange}
         value={subCategoryId}
+        invalidFields={invalidFieldMessage}
+        required
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, subCategoryId]);
+  }, [categoryId, subCategoryId, invalidFields]);
 }

@@ -6,30 +6,21 @@ import { useContext } from "react";
 
 export function FcFormButtonDeleteEarning() {
   const { deleteEarning } = useEarning();
-  const {
-    id,
-    setInvalidFields,
-    clear,
-  } = useFormEarning((state) => ({
-    id: state.id,
-    setInvalidFields: state.setInvalidFields,
-    clear: state.clearAllFields,
-  }));
+  const { id, setInvalidFields, clearAllFields: clear } = useFormEarning();
   const { setAlert } = useContext(ContextAlert);
   const { setSpin } = useContext(SpinContext);
   const onClick = async () => {
     try {
-      setSpin(true);
       const { status, message, internalMessage } = await deleteEarning(id);
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();
     } catch (error: any) {
-      setInvalidFields(error.invalidFields)
+      setInvalidFields(error.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
-  }
+  };
   return (
     <FcFormIconButtonDelete
       description="delete"
