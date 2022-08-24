@@ -47,7 +47,7 @@ export const useEarning = create<IUseEarning>((set) => ({
     const data = await service.insert(earningRequest);
     set((state) => ({
       earnings: [...state.earnings, data.data].sort((a, b) =>
-        a.descricao > b.descricao ? 1 : b.descricao > a.descricao ? -1 : 0
+        a.valor > b.valor ? -1 : b.valor > a.valor ? 1 : 0
       ),
     }));
     return data;

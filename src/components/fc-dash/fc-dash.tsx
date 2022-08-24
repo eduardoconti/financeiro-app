@@ -1,4 +1,8 @@
+import { useGetCurrentTime } from "@hooks/use-current-time";
+import { useDashValues } from "@hooks/use-dash-values";
+import { useSpin } from "@hooks/use-spin";
 import { Grid } from "@material-ui/core";
+import { useEffect } from "react";
 import {
   FcCardBalance,
   FcCardBalanceMonth,
@@ -6,7 +10,37 @@ import {
   FcCardExpense,
 } from "./";
 
+
 export default function FcDashBoard() {
+  const setSpin = useSpin((state) => state.setSpin);
+  const { year, month } = useGetCurrentTime();
+
+  const { calculate } = useDashValues(
+    (state) => ({
+      calculate: state.calculate,
+    })
+  );
+
+  useEffect(() => {
+    async function start() {
+      try {
+        setSpin(true);
+        await calculate(year, month)
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setSpin(false);
+      }
+    }
+    start();
+  }, [
+    calculate,
+    month,
+    setSpin,
+    year,
+  ]);
+
   const cards = [
     <FcCardExpense />,
     <FcCardEarning />,

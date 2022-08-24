@@ -2,6 +2,7 @@ import FcFormIconButtonUpdate from "@components/fc-forms/fc-form-button/fc-form-
 import { useGetCurrentTime } from "@hooks/use-current-time";
 import { useDashValues } from "@hooks/use-dash-values";
 import { useSpin } from "@hooks/use-spin";
+import { formToRequest } from "@pages/earning/common";
 import { useEarning, useFormEarning } from "@pages/earning/hooks";
 import { dateIso8601, Money, setCreatedAlert } from "common";
 import { ContextAlert } from "Context";
@@ -30,21 +31,23 @@ export function FcFormButtonUpdateEarning() {
 
   const { setAlert } = useContext(ContextAlert);
   const { setSpin } = useSpin();
-  const { calculate } = useDashValues();
+  const calculate = useDashValues((s) => s.calculate);
   const { year, month } = useGetCurrentTime();
 
   const onClick = async () => {
     try {
       setSpin(true);
       const earning = earnings.find((e) => e.id === id);
-      const { status, message, internalMessage } = await updateEarning(id, {
+      const earningRequest = formToRequest({
         ...earning,
-        descricao: description,
-        valor: Money.toInteger(parseFloat(value)),
-        carteiraId: walletId,
-        pago: payed,
-        pagamento: dateIso8601(paymentDate),
-      });
+        id,
+        description,
+        value,
+        walletId,
+        payed,
+        paymentDate
+      })
+      const { status, message, internalMessage } = await updateEarning(id, earningRequest);
       await calculate(year, month);
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();

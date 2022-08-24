@@ -1,3 +1,4 @@
+import { DashBoardService } from "@api/dashboard/service";
 import { calculaTotais } from "@common/Funcoes";
 import create from "zustand";
 
@@ -11,12 +12,16 @@ export type CheckedValues = {
   payed: boolean;
 };
 export type IUseDashValues = {
-  expenses: number;
-  setExpenses: (expenses: number) => void;
-  earnings: number;
-  setEarnings: (earnings: number) => void;
-  balance: number;
-  setBalance: (balance: number) => void;
+  expensesOpen: number;
+  setExpensesOpen: (expensesOpen: number) => void;
+  expensesPayed: number;
+  setExpensesPayed: (expensesPayed: number) => void;
+  earningsOpen: number;
+  setEarningsOpen: (earningsOpen: number) => void;
+  earningsPayed: number;
+  setEarningsPayed: (earningsPayed: number) => void;
+  ballance: number;
+  setBallance: (ballance: number) => void;
   amount: number;
   setAmount: (amount: number) => void;
   checkExpenses: CheckedValues;
@@ -27,14 +32,18 @@ export type IUseDashValues = {
 };
 
 export const useDashValues = create<IUseDashValues>((set, get) => ({
-  expenses: 0,
-  setExpenses: (expenses: number) => set({ expenses: expenses }),
-  earnings: 0,
-  setEarnings: (earnings: number) => set({ earnings: earnings }),
-  balance: 0,
-  setBalance: (balance: number) => set({ balance: balance }),
+  expensesOpen: 0,
+  setExpensesOpen: (expensesOpen: number) => set((s) => ({ ...s, expensesOpen: expensesOpen })),
+  expensesPayed: 0,
+  setExpensesPayed: (expensesPayed: number) => set((s) => ({ ...s, expensesPayed: expensesPayed })),
+  earningsOpen: 0,
+  setEarningsOpen: (earningsOpen: number) => set((s) => ({ ...s, earningsOpen: earningsOpen })),
+  earningsPayed: 0,
+  setEarningsPayed: (earningsPayed: number) => set((s) => ({ ...s, earningsPayed: earningsPayed })),
+  ballance: 0,
+  setBallance: (ballance: number) => set((s) => ({ ...s, ballance: ballance })),
   amount: 0,
-  setAmount: (amount: number) => set({ amount: amount }),
+  setAmount: (amount: number) => set((s) => ({ ...s, amount: amount })),
   checkExpenses: {
     open: true,
     payed: true,
@@ -48,19 +57,21 @@ export const useDashValues = create<IUseDashValues>((set, get) => ({
   setCheckEarnings: (checkEarnings: CheckedValues) =>
     set({ checkEarnings: checkEarnings }),
   calculate: async (year: number, month: number) => {
-    const { checkExpenses, checkEarnings } = get();
-    const {
-      totalDespesas,
-      totalReceitas,
-      saldo,
-      balanco,
-    } = await calculaTotais(checkExpenses, checkEarnings, year, month);
-
-    set({
-      expenses: totalDespesas,
-      earnings: totalReceitas,
-      balance: balanco,
-      amount: saldo,
-    });
+    const service = new DashBoardService();
+    const { data: { expensesOpen,
+      earningsOpen,
+      expensesPayed,
+      earningsPayed,
+      ballance,
+      amount } } = await service.getValues({ year, month })
+    set((s) => ({
+      ...s,
+      expensesOpen,
+      earningsOpen,
+      expensesPayed,
+      earningsPayed,
+      ballance,
+      amount,
+    }));
   },
 }));

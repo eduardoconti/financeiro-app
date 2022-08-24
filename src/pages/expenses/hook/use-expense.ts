@@ -40,19 +40,26 @@ export const useExpense = create<IUseExpense>((set) => ({
   expenses: [],
   fetchExpenses: async (params: FetchParams) => {
     const expenseService: IExpenseService = new ExpenseService();
-    const { checked, year, month, filter } = params;
+    const { checked = {
+      payed: true,
+      open: true,
+    }, year, month, filter } = params;
     const { data } = await expenseService.getDespesas(
       checked,
       year,
       month,
       filter
     );
-    set({ expenses: data });
+    set((state) => ({
+      ...state,
+      expenses: data
+    }));
   },
   insertExpense: async (expense: ExpenseDTO) => {
     const expenseService: IExpenseService = new ExpenseService();
     const data = await expenseService.insert(expense);
     set((state) => ({
+      ...state,
       expenses: [...state.expenses, data.data].sort((a, b) =>
         a.descricao > b.descricao ? 1 : b.descricao > a.descricao ? -1 : 0
       ),
@@ -72,7 +79,7 @@ export const useExpense = create<IUseExpense>((set) => ({
       const index = state.expenses.findIndex((expense) => expense.id === id);
       const newExpenses = [...state.expenses];
       newExpenses[index] = data.data;
-      return { expenses: newExpenses };
+      return { ...state, expenses: newExpenses };
     });
     return data;
   },
@@ -80,6 +87,7 @@ export const useExpense = create<IUseExpense>((set) => ({
     const expenseService: IExpenseService = new ExpenseService();
     const data = await expenseService.delete(id);
     set((state) => ({
+      ...state,
       expenses: state.expenses.filter((expense) => expense.id !== id),
     }));
     return data;
@@ -91,7 +99,10 @@ export const useExpense = create<IUseExpense>((set) => ({
       const index = state.expenses.findIndex((expense) => expense.id === id);
       const newExpenses = [...state.expenses];
       newExpenses[index].pago = data.data.pago;
-      return { expenses: newExpenses };
+      return {
+        ...state,
+        expenses: newExpenses
+      };
     });
     return data;
   },

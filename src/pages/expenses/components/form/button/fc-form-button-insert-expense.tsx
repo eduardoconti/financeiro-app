@@ -13,11 +13,22 @@ export function FcFormButtonInsertExpense() {
   const {
     amount,
     setAmount,
-    expenses,
-    setExpenses,
-    balance,
-    setBalance,
-  } = useDashValues();
+    expensesOpen,
+    setExpensesOpen,
+    expensesPayed,
+    setExpensesPayed,
+    ballance,
+    setBallance,
+  } = useDashValues((s) => ({
+    amount: s.amount,
+    setAmount: s.setAmount,
+    expensesOpen: s.expensesOpen,
+    setExpensesOpen: s.setExpensesOpen,
+    expensesPayed: s.expensesPayed,
+    setExpensesPayed: s.setExpensesPayed,
+    ballance: s.ballance,
+    setBallance: s.setBallance,
+  }));
   const { setAlert } = useContext(ContextAlert);
   const { setSpin } = useSpin();
   const onClick = async () => {
@@ -25,8 +36,12 @@ export function FcFormButtonInsertExpense() {
       setSpin(true);
       const req = formToRequest(formExpense);
       const { status, message, internalMessage } = await insertExpense(req);
-      setExpenses(expenses + req.valor);
-      setBalance(balance - req.valor);
+      if (req.pago) {
+        setExpensesPayed(expensesPayed + req.valor);
+      } else {
+        setExpensesOpen(expensesOpen + req.valor);
+      }
+      setBallance(ballance - req.valor);
       setAmount(req.pago ? amount - req.valor : amount + req.valor);
       clearAllFields();
       setAlert(setCreatedAlert(status, message, internalMessage));

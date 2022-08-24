@@ -10,6 +10,7 @@ import FcButton from "./fc-button/fc-button";
 import { HttpStatus } from "common/enum";
 import { useHistory } from "react-router-dom";
 import { FcTextFieldDescription } from "./fc-forms/fc-fields";
+import { useSpin } from "@hooks/use-spin";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,7 @@ export default function FormLogin({ setOpen }) {
   const classes = useStyles();
   const ctxAlert = useContext(ContextAlert);
   const history = useHistory();
+  const setSpin  = useSpin(s => s.setSpin);
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -81,6 +83,7 @@ export default function FormLogin({ setOpen }) {
                 description="Login"
                 className={classes.botao}
                 onClick={async () => {
+                  setSpin(true);
                   if (
                     formulario.username.length <= 4 ||
                     formulario.password.length <= 4
@@ -115,6 +118,7 @@ export default function FormLogin({ setOpen }) {
                     setFormulario({ username: "", password: "" });
                     setOpen(false);
                   }
+                  setSpin(false);
                   history.push("");
                   window.location.reload();
                 }}

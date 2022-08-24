@@ -66,9 +66,8 @@ const useStyles = makeStyles(
 
 export default function FcDataGrid(props) {
   const classes = useStyles();
-
   return (
-    <Box style={{ height: 320, width: "100%" }} className={classes.container}>
+    <Box style={{ height: 280, width: "100%" }} className={classes.container}>
       <DataGrid
         rows={props.rows}
         columns={props.columns}

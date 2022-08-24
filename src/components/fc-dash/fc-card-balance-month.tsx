@@ -14,7 +14,7 @@ export function FcCardBalanceMonth() {
     history.push(path);
   };
 
-  const valor = useDashValues((state) => state.balance);
+  const valor = useDashValues((state) => state.ballance);
   return (
     <FcCard
       onClick={routeChange}

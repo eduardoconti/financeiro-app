@@ -10,12 +10,15 @@ export interface IUseCurrentTime {
 
 export const useCurrentTime = create<IUseCurrentTime>((set, get) => ({
   year: getYear(),
-  setYear: (year: number) => set({ year: year }),
+  setYear: (year: number) => set((s) => ({ ...s, year: year })),
   month: getMonth(),
-  setMonth: (month: number) => set({ month: month }),
+  setMonth: (month: number) => set((s) => ({ ...s, month: month })),
 }));
 
 export const useGetCurrentTime = () => {
-  const { year, month } = useCurrentTime();
+  const { year, month } = useCurrentTime((state) => ({
+    year: state.year,
+    month: state.month
+  }));
   return { year, month };
 };

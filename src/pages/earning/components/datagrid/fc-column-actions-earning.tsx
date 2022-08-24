@@ -13,9 +13,13 @@ export function FcColumnActionsEarning(props: { field: GridCellParams }) {
   const { field } = props;
   const update = useEarning((state) => state.updateFlagPayed);
 
-  const { amount, setAmount } = useDashValues((s) => ({
+  const { amount, setAmount, setEarningsOpen, setEarningsPayed, earningsOpen, earningsPayed } = useDashValues((s) => ({
     amount: s.amount,
     setAmount: s.setAmount,
+    setEarningsOpen: s.setEarningsOpen,
+    setEarningsPayed: s.setEarningsPayed,
+    earningsOpen: s.earningsOpen,
+    earningsPayed: s.earningsPayed,
   }));
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
@@ -29,10 +33,15 @@ export function FcColumnActionsEarning(props: { field: GridCellParams }) {
 
       const { status, message, internalMessage } = await update(id, receita);
       setAlert(setCreatedAlert(status, message, internalMessage));
+      const valueFormated = Money.formatToNumber(value);
       if (receita.pago) {
-        setAmount(amount + Money.formatToNumber(value));
+        setAmount(amount + valueFormated);
+        setEarningsOpen(earningsOpen - valueFormated)
+        setEarningsPayed(earningsPayed + valueFormated)
       } else {
-        setAmount(amount - Money.formatToNumber(value));
+        setAmount(amount - valueFormated);
+        setEarningsOpen(earningsOpen + valueFormated)
+        setEarningsPayed(earningsPayed - valueFormated)
       }
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));

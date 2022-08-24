@@ -3,13 +3,31 @@ import { useTheme } from "@material-ui/core";
 import { useDashValues } from "hooks";
 import { CheckboxLabelsEarning } from "@components/fc-dash/fc-check-box-earning";
 import { FcCard } from "@components/fc-cards";
+import shallow from "zustand/shallow";
+import { useMemo } from "react";
 
 export function FcCardEarning() {
   const {
     palette: { type, success },
   } = useTheme();
   const { push } = useHistory();
-  const value = useDashValues((state) => state.earnings);
+  const { earningsOpen, earningsPayed, checked } = useDashValues((state) => ({
+    earningsOpen: state.earningsOpen,
+    earningsPayed: state.earningsPayed,
+    checked: state.checkEarnings
+  }), shallow);
+
+  const value = useMemo(() => {
+    console.log('memo')
+    let value = 0;
+    if (checked.open) {
+      value += earningsOpen;
+    }
+    if (checked.payed) {
+      value += earningsPayed
+    }
+    return value
+  }, [checked.open, checked.payed, earningsOpen, earningsPayed])
 
   const routeChange = () => {
     push(`receitas`);

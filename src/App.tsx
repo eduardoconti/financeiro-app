@@ -26,14 +26,11 @@ import FcHome from "./pages/home/fc-home";
 import CategoryProvider from "pages/category/context/category-context";
 import ExpenseFilterProvider from "Context/expense-filter-context";
 import { FcEarningPage } from "@pages/earning/fc-earning";
-import { useEarning } from "@pages/earning/hooks";
 import { useWallet } from "@pages/wallet/hooks";
-
-import { useDashValues, useGetCurrentTime, useSpin } from "./hooks";
-import { useExpense } from "@pages/expenses/hook";
+import {  useSpin } from "./hooks";
 
 export const ColorModeContext = React.createContext({
-  toggleColorMode: () => {},
+  toggleColorMode: () => { },
 });
 
 function App() {
@@ -90,48 +87,9 @@ function App() {
   }));
 
   const classes = useStyles();
-  const initEarnings = useEarning((state) => state.fetchEarnings);
-  const initExpenses = useExpense((state) => state.fetchExpenses);
+
   const initWallet = useWallet((state) => state.fetchWallets);
   const setSpin = useSpin((state) => state.setSpin);
-  const { year, month } = useGetCurrentTime();
-
-  const { chekedExpenses, checkEarnings, calculate } = useDashValues(
-    (state) => ({
-      chekedExpenses: state.checkExpenses,
-      checkEarnings: state.checkEarnings,
-      calculate: state.calculate,
-    })
-  );
-
-  useEffect(() => {
-    async function start() {
-      try {
-        setSpin(true);
-        Promise.all([
-          calculate(year, month),
-          initEarnings({ checked: checkEarnings, month: month, year: year }),
-          initExpenses({ checked: chekedExpenses, month: month, year: year }),
-        ]);
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setSpin(false);
-      }
-    }
-    start();
-  }, [
-    calculate,
-    checkEarnings,
-    chekedExpenses,
-    initEarnings,
-    initExpenses,
-    initWallet,
-    month,
-    setSpin,
-    year,
-  ]);
 
   useEffect(() => {
     async function start() {
