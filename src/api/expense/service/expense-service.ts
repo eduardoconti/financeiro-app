@@ -86,14 +86,10 @@ export class ExpenseService implements IExpenseService {
   async getExpenseById(
     id: number
   ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
-    try {
-      const data = await this.httpRequestService.get<ExpenseResposeDTO>(
-        this.url.toString() + "/" + id
-      );
-      return data;
-    } catch (error) {
-      return errorResponse(error);
-    }
+    const data = await this.httpRequestService.get<ExpenseResposeDTO>(
+      this.url.toString() + "/" + id
+    );
+    return data;
   }
 
   async insert(

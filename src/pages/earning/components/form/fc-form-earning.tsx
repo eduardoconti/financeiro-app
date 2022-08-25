@@ -37,7 +37,7 @@ export function FcFormEarning() {
         <Grid item xs={6} sm={4}>
           <FcSelectFieldEarningPayed />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               {id === 0 ? (

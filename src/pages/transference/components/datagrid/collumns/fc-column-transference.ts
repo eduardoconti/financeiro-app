@@ -1,5 +1,5 @@
 export const FcColumnTransferenceDate = {
-  field: "transferencia",
+  field: "transferenceDate",
   headerName: "Transferencia",
   width: 180,
 };

@@ -71,7 +71,7 @@ export default function FcFormButtonUpdateExpense() {
       clearAllFields();
       setAlert(setCreatedAlert(status, message, internalMessage));
     } catch (error: any) {
-      setInvalidFields(error);
+      setInvalidFields(error?.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);

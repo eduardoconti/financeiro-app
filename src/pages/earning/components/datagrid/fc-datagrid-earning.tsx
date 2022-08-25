@@ -36,10 +36,9 @@ export function FcDataGridEarning() {
     setPayed: state.setPayed,
     setWalletId: state.setWalletId,
   }));
-  const { checkEarnings, calculate } = useDashValues(
+  const { checkEarnings } = useDashValues(
     (state) => ({
       checkEarnings: state.checkEarnings,
-      calculate: state.calculate,
     }),
     shallow
   );
@@ -53,22 +52,7 @@ export function FcDataGridEarning() {
     async function start() {
       try {
         setSpin(true);
-        await calculate(year, month);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setSpin(false);
-      }
-    }
-    start();
-  }, [calculate, month, setSpin, year]);
-
-  useEffect(() => {
-    async function start() {
-      try {
-        setSpin(true);
         initEarnings({ month: month, year: year });
-        await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.log(error);
       } finally {
@@ -86,6 +70,7 @@ export function FcDataGridEarning() {
   columns.push(FcColumnValue, {
     field: "payed",
     headerName: "Pago",
+    type: "boolean",
     width: 120,
     sortable: false,
     renderCell: function operacoes(field) {

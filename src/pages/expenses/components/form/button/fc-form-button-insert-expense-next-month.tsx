@@ -65,7 +65,7 @@ export function FcFormButtonInsertExpenseNextMonth() {
       setAlert(setCreatedAlert(status, message, internalMessage));
       clearAllFields();
     } catch (error: any) {
-      setInvalidFields(error);
+      setInvalidFields(error?.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);

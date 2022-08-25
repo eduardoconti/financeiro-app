@@ -15,6 +15,7 @@ export function FcTextFieldExpenseDescription() {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
   };
+  console.log(invalidFields);
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "descricao";
   });

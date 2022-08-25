@@ -17,7 +17,6 @@ import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
 import BotaoMes from "./components/BotaoMes";
 import FcExpense from "./pages/expenses/fc-expense";
 import AlertComponent from "./components/Alert";
-import FcTransfer from "./pages/transfer/fc-transfer";
 import FcBalance from "./pages/balance/fc-balance";
 import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
@@ -28,6 +27,7 @@ import ExpenseFilterProvider from "Context/expense-filter-context";
 import { FcEarningPage } from "@pages/earning/fc-earning";
 import { useWallet } from "@pages/wallet/hooks";
 import { useSpin } from "./hooks";
+import { FcTransference } from "@pages/transference";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -154,7 +154,7 @@ function App() {
                                 <Route
                                   exact
                                   path="/transferencias"
-                                  component={FcTransfer}
+                                  component={FcTransference}
                                 />
                                 <Route
                                   exact

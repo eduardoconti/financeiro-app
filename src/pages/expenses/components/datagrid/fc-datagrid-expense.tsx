@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 
-import { formatDateToDataGrid, formatDateToForm, Money } from "common";
+import { formatDateToForm, Money } from "common";
 import { GridColumns, GridSelectionModel } from "@material-ui/data-grid";
 
 import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
 import { FcColumnSubCategory } from "@components/fc-datagrid/fc-column-sub-category";
 import { useSpin } from "@hooks/use-spin";
-import { CheckedValues, useDashValues } from "@hooks/use-dash-values";
+import { useDashValues } from "@hooks/use-dash-values";
 import { useGetCurrentTime } from "@hooks/use-current-time";
 import shallow from "zustand/shallow";
-import { ExpenseResposeDTO } from "@api/expense/dto";
 import { IDataGridRow } from "@pages/expenses/context";
 import { useDataGridExpense } from "@pages/expenses/hook/use-data-grid-expense";
 import { useExpense } from "@pages/expenses/hook";
@@ -20,48 +19,8 @@ import FcColumnActionsExpense from "@components/fc-datagrid/expense/fc-column-ac
 import { FcColumnValue } from "@components/fc-datagrid/fc-column-value";
 import FcDataGrid from "@components/fc-datagrid/fc-datagrid";
 import { FcSelectedRowsExpense } from "./fc-selected-rows-expense";
+import { expenseToDataGrid } from "@pages/expenses/common";
 
-function expenseToDataGrid(
-  expenses: ExpenseResposeDTO[],
-  checked?: CheckedValues
-): IDataGridRow[] {
-  const dataGridRows: IDataGridRow[] = [];
-  expenses.forEach((expense) => {
-    const {
-      id,
-      descricao,
-      pago,
-      valor,
-      vencimento,
-      pagamento,
-      categoria,
-      carteira,
-      subCategory,
-    } = expense;
-
-    if (checked) {
-      if (!checked.open && !pago) {
-        return;
-      }
-
-      if (!checked.payed && pago) {
-        return;
-      }
-    }
-    dataGridRows.push({
-      id: id,
-      description: descricao,
-      subCategoryId: subCategory.description,
-      categoryId: categoria.descricao,
-      payed: pago,
-      walletId: carteira.descricao,
-      dueDate: formatDateToDataGrid(vencimento),
-      value: Money.format(valor),
-      paymentDate: pagamento ? formatDateToDataGrid(pagamento) : undefined,
-    });
-  });
-  return dataGridRows;
-}
 export function FcDataGridExpense() {
   const { setSelectedRows } = useDataGridExpense();
   const { initExpenses, expenses } = useExpense(
@@ -72,10 +31,9 @@ export function FcDataGridExpense() {
     shallow
   );
   const setSpin = useSpin((state) => state.setSpin);
-  const { checkExpenses, calculate } = useDashValues(
+  const { checkExpenses } = useDashValues(
     (state) => ({
       checkExpenses: state.checkExpenses,
-      calculate: state.calculate,
     }),
     shallow
   );
@@ -141,20 +99,6 @@ export function FcDataGridExpense() {
     }
     start();
   }, [initExpenses, month, setSpin, year]);
-
-  useEffect(() => {
-    async function start() {
-      try {
-        setSpin(true);
-        await calculate(year, month);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setSpin(false);
-      }
-    }
-    start();
-  }, [calculate, month, setSpin, year]);
 
   return (
     <React.Fragment>
