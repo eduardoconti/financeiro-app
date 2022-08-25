@@ -1,5 +1,5 @@
 export const FcColumnCategory = {
-  field: "categoriaId",
+  field: "categoryId",
   headerName: "Categoria",
   width: 150,
 };

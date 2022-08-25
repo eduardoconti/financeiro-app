@@ -1,10 +1,14 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance } from "axios";
 import { getToken } from "common";
 import { SuccessResponseData } from "./dto";
+import { HttpRequestErrorHandler } from "./error-handler/http-request-error-handler";
 
+export type HttpRequestOptions = {
+  url: string;
+  body?: any;
+};
 export class HttpRequestService {
   protected api: AxiosInstance;
-
   constructor() {
     this.api = axios.create({
       headers: { "Content-Type": "application/json" },
@@ -22,17 +26,56 @@ export class HttpRequestService {
   }
 
   async get<D>(url: string): Promise<SuccessResponseData<D>> {
-    const { data } = await this.api.get(url);
-    return data;
+    try {
+      const { data } = await this.api.get<SuccessResponseData<D>>(url);
+      return data;
+    } catch (error) {
+      throw HttpRequestErrorHandler.handle(error);
+    }
   }
 
   async patch<D>(url: string, dto: any): Promise<SuccessResponseData<D>> {
-    const { data } = await this.api.patch(url, dto);
-    return data;
+    try {
+      const { data } = await this.api.patch<SuccessResponseData<D>>(url, dto);
+      return data;
+    } catch (error) {
+      throw HttpRequestErrorHandler.handle(error);
+    }
   }
 
   async post<D>(url: string, dto: any): Promise<SuccessResponseData<D>> {
-    const { data } = await this.api.post(url, dto);
-    return data;
+    try {
+      const { data } = await this.api.post<SuccessResponseData<D>>(url, dto);
+      return data;
+    } catch (error) {
+      throw HttpRequestErrorHandler.handle(error);
+    }
+  }
+
+  async delete<D>(
+    httpOptions: Pick<HttpRequestOptions, "url">
+  ): Promise<SuccessResponseData<D>> {
+    try {
+      const { data } = await this.api.delete<SuccessResponseData<D>>(
+        httpOptions.url
+      );
+      return data;
+    } catch (error) {
+      throw HttpRequestErrorHandler.handle(error);
+    }
+  }
+
+  async put<D>(
+    httpOptions: HttpRequestOptions
+  ): Promise<SuccessResponseData<D>> {
+    try {
+      const { data } = await this.api.put<SuccessResponseData<D>>(
+        httpOptions.url,
+        httpOptions.body
+      );
+      return data;
+    } catch (error) {
+      throw HttpRequestErrorHandler.handle(error);
+    }
   }
 }

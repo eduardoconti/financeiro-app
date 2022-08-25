@@ -2,7 +2,6 @@ import API from "./Api";
 import {
   firstDayOfMonth,
   formatDateToDataGrid,
-  formatDateToForm,
   lastDayOfMonth,
 } from "./DateHelper";
 import { Money } from "./money";
@@ -154,14 +153,12 @@ export async function alteraDespesa(despesa) {
 export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
   try {
     const query =
-      (
-        typeof stateAnoAtual !== "undefined" &&
-        typeof stateMesAtual !== "undefined"
-      )
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
         ? "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual)
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await API.get(endpoint);

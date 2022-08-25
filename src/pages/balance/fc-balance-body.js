@@ -7,10 +7,11 @@ import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
 } from "../../common/TransferenciaFuncoes";
-import FcCardWalletBalance from "../../components/fc-cards/fc-card-wallet-balance";
+
 import { SpinContext } from "../../Context/SpinContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { isAuthenticated } from "common";
+import { FcCardWalletBalance } from "@components/fc-dash";
 
 async function RetornaCards(ano, mes) {
   let object = await retornaDadosParaCard(ano, mes);
@@ -81,7 +82,7 @@ async function retornaDadosParaCard(ano, mes) {
     });
 
     return dadosCard;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export default function CorpoBalanco() {
@@ -95,7 +96,6 @@ export default function CorpoBalanco() {
     }
 
     async function set() {
-      setSpin(true);
       setCards(
         await RetornaCards(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual)
       );

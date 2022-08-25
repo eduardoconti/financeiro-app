@@ -1,5 +1,4 @@
 import { useTheme } from "@material-ui/core";
-import React from "react";
 import ArrowForwardIosTwoToneIcon from "@material-ui/icons/ArrowForwardIosTwoTone";
 
 import FcIconButton from "../../fc-button/fc-icon-button";
@@ -9,7 +8,7 @@ export default function FcFormIconButtonAddNextMonth(props) {
 
   return (
     <FcIconButton
-      color={disabled ? theme.palette.grey[600] : theme.palette.success.main}
+      color={theme.palette.success.main}
       onClick={onClick}
       disabled={disabled}
     >

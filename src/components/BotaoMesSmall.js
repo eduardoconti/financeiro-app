@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -10,9 +10,9 @@ import Menu from "./fc-forms/fc-menu-tem/fc-menu-item";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Box } from "@material-ui/core";
 import { monthNames } from "common";
+import { useCurrentTime } from "@hooks/use-current-time";
 const useStyles = makeStyles((theme) => ({
   container: {
     // display: "flex",
@@ -43,14 +43,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BotaoMesSmall() {
-  const { stateMesAtual, setStateMesAtual } = useContext(ContextAnoMes);
+  const { month, setMonth } = useCurrentTime();
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [ano, setAno] = React.useState(stateMesAtual);
+  const [stateMonth, setStateMonth] = React.useState(month);
 
   const handleChange = (event) => {
-    setAno(event.target.value || "");
+    setStateMonth(event.target.value || "");
   };
 
   const handleClickOpen = () => {
@@ -63,7 +63,7 @@ export default function BotaoMesSmall() {
 
   const confirm = () => {
     setOpen(false);
-    setStateMesAtual(ano);
+    setMonth(stateMonth);
   };
 
   const months = Menu(
@@ -78,7 +78,7 @@ export default function BotaoMesSmall() {
   return (
     <Box>
       <CardActionArea onClick={handleClickOpen} className={classes.botao}>
-        {monthNames[stateMesAtual]}
+        {monthNames[month]}
       </CardActionArea>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogContent>
@@ -88,7 +88,7 @@ export default function BotaoMesSmall() {
               <Select
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
-                value={ano}
+                value={stateMonth}
                 onChange={handleChange}
                 input={<Input />}
               >

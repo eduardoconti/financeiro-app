@@ -6,17 +6,15 @@ export function dateNow(): Date {
   return moment().toDate();
 }
 
-export function dateIso8601(dateString: string | Date | undefined): string {
+export function dateIso8601(dateString?: string | Date): string {
   return moment(dateString).format("YYYY-MM-DD[T]hh:mm:ss");
 }
 
-export function formatDateToDataGrid(dateString: string | Date | undefined) {
-  return moment(moment(dateString).toDate().toISOString()).format("DD dddd");
+export function formatDateToDataGrid(dateString?: string | Date) {
+  return moment(moment(dateString).toDate().toISOString()).format("DD ddd");
 }
 
-export function formatDateToForm(
-  dateString?: string | Date | undefined
-): string {
+export function formatDateToForm(dateString?: string | Date): string {
   return moment(dateString).format("YYYY-MM-DD");
 }
 
@@ -28,18 +26,30 @@ export function firstDayOfMonth(year: number, month: number): string {
   return moment({ year, month, day: 1 }).toDate().toISOString();
 }
 
-export function addMonth(dateString: string | Date | undefined): string {
+export function addMonth(dateString?: string | Date): string {
   return moment(dateString).add(1, "month").format("YYYY-MM-DD[T]hh:mm:ss");
 }
 
-export function getMonth(datestring?: string | Date | undefined): number {
+export function getMonth(datestring?: string | Date): number {
   return moment(datestring).month();
 }
 
-export function getDay(datestring?: string | Date | undefined): number {
+export function getYear(datestring?: string | Date): number {
+  return moment(datestring).year();
+}
+
+export function getDay(datestring?: string | Date): number {
   return parseInt(moment(datestring).format("D"));
 }
 
-export function isDate(datestring?: string | Date | undefined): boolean {
+export function isDate(datestring?: string | Date): boolean {
   return moment(datestring).isValid();
+}
+
+export function getDueDate(year: number, month: number, day?: number): string {
+  return moment({
+    year,
+    month,
+    day: day ?? 10,
+  }).format("YYYY-MM-DD[T]hh:mm:ss");
 }

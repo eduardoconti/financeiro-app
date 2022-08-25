@@ -1,30 +1,33 @@
 import { CategoryResponseDTO } from "api/category/dto";
+import { SubCategoryResponseDTO } from "api/sub-category/dto";
 import { WalletResponseDTO } from "api/wallet/dto";
 
 export class ExpenseResposeDTO {
-  id?: number;
-  userId?: string;
+  id!: number;
   descricao!: string;
   categoria!: CategoryResponseDTO;
+  subCategory!: SubCategoryResponseDTO;
   carteira!: WalletResponseDTO;
   valor!: number;
   instalment!: number;
-  vencimento?: Date | string;
-  pagamento?: Date | string;
-  updatedAt?: Date | string;
-  pago?: boolean;
+  vencimento!: Date;
+  pago!: boolean;
+  pagamento?: Date;
+  updatedAt?: Date;
+  userId?: string;
 
   constructor(
     descricao: string,
     valor: number,
     categoria: CategoryResponseDTO,
+    subCategory: SubCategoryResponseDTO,
     carteira: WalletResponseDTO,
     instalment: number,
-    userId?: string,
-    vencimento?: Date | string,
-    pagamento?: Date | string,
-    pago?: boolean,
-    updatedAt?: Date | string
+    vencimento: Date,
+    pago: boolean,
+    pagamento?: Date,
+    updatedAt?: Date,
+    userId?: string
   ) {
     this.userId = userId;
     this.descricao = descricao;
@@ -36,6 +39,7 @@ export class ExpenseResposeDTO {
     this.instalment = instalment;
     this.pago = pago;
     this.updatedAt = updatedAt;
+    this.subCategory = subCategory;
   }
 
   static build = ({
@@ -43,6 +47,7 @@ export class ExpenseResposeDTO {
     descricao,
     valor,
     categoria,
+    subCategory,
     carteira,
     vencimento,
     pagamento,
@@ -54,13 +59,14 @@ export class ExpenseResposeDTO {
       descricao,
       valor,
       categoria,
+      subCategory,
       carteira,
       instalment,
-      userId,
       vencimento,
-      pagamento,
       pago,
-      updatedAt
+      pagamento,
+      updatedAt,
+      userId
     );
   };
 }

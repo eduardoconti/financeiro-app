@@ -1,56 +1,78 @@
-import { useContext } from "react";
 import ActionFlagButon from "../fc-column-actions-flag-button";
 
-import { ExpenseService } from "api/expense/service";
-import {
-  ContextAnoMes,
-  ContextChecked,
-  ContextDataGrid,
-  ContextExpenseFilter,
-  ExpenseFilterContextType,
-  SpinContext,
-} from "Context";
-import { formataDadosParaLinhasDataGrid, isAuthenticated } from "common";
+import { useExpense } from "pages/expenses/hook/use-expense";
+import { useDashValues } from "@hooks/use-dash-values";
+import { useContext } from "react";
+import { ContextAlert } from "Context";
+import { useSpin } from "@hooks/use-spin";
+import { setCreatedAlert } from "@common/AlertFuncoes";
+import shallow from "zustand/shallow";
+
 export default function FcColumnActionsExpense(props: any) {
-  const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const ctxSpin = useContext(SpinContext);
-  const ctxDataGrid = useContext(ContextDataGrid);
-  const { filter} = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
-  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
-
-  async function pegaDespesas() {
-    ctxSpin.setSpin(true);
-    if (isAuthenticated()) {
-      let despesas = await new ExpenseService().getDespesas(
-        stateCheckedDespesas,
-        stateAnoAtual,
-        stateMesAtual,
-        filter
-      );
-
-      if (despesas.status === 200) {
-        ctxDataGrid.setRows(formataDadosParaLinhasDataGrid(despesas.data));
-      }
-    }
-    ctxSpin.setSpin(false);
-  }
-
-  const { field } = props;
+  const { updateFlagPayed, expenses } = useExpense(
+    (s) => ({ updateFlagPayed: s.updateFlagPayed, expenses: s.expenses }),
+    shallow
+  );
+  const {
+    addAmount,
+    subAmount,
+    addExpensesOpen,
+    subExpensesPayed,
+    addExpensesPayed,
+    subExpensesOpen,
+  } = useDashValues(
+    (s) => ({
+      addAmount: s.addAmount,
+      subAmount: s.subAmount,
+      addExpensesOpen: s.addExpensesOpen,
+      addExpensesPayed: s.addExpensesPayed,
+      subExpensesOpen: s.subExpensesOpen,
+      subExpensesPayed: s.subExpensesPayed,
+    }),
+    shallow
+  );
+  const { setAlert } = useContext(ContextAlert);
+  const setSpin = useSpin((s) => s.setSpin);
+  const {
+    field: { row },
+  } = props;
   return ActionFlagButon({
-    payed: field.row.pago,
+    payed: row.payed,
     onClick: async () => {
-      const { id, pago } = field.row;
-      const despesa = {
-        id: id,
-        pago: !pago,
-      };
+      try {
+        setSpin(true);
+        const { id } = row;
 
-      const res = await new ExpenseService().alteraFlagPago(despesa);
-      await pegaDespesas();
-      return res;
+        const expense = expenses.find((expense) => {
+          return expense.id === id;
+        });
+
+        if (!expense) {
+          return;
+        }
+        const { pago, valor } = expense;
+
+        const req = { pago: !pago };
+        const { status, message, internalMessage } = await updateFlagPayed(
+          id,
+          req
+        );
+        if (req.pago) {
+          addExpensesPayed(valor);
+          subExpensesOpen(valor);
+          subAmount(valor);
+        } else {
+          addExpensesOpen(valor);
+          subExpensesPayed(valor);
+          addAmount(valor);
+        }
+
+        setAlert(setCreatedAlert(status, message, internalMessage));
+      } catch (error: any) {
+        setAlert(setCreatedAlert(error.status, error.detail, error.title));
+      } finally {
+        setSpin(false);
+      }
     },
   });
 }

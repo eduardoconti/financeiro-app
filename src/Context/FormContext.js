@@ -2,8 +2,8 @@ import React, { createContext, useState } from "react";
 
 const ContextForm = createContext();
 
-function FormProvider({ children }, former) {
-  const [form, setForm] = useState(former);
+function FormProvider({ children }) {
+  const [form, setForm] = useState({});
 
   return (
     <ContextForm.Provider

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { getValorDespesasPorCategoria } from "../../common/DepesaFuncoes";
-import { ContextTotais } from "../../Context/TotaisContext";
 import { ContextChecked } from "../../Context/CheckedContext";
 import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { SpinContext } from "../../Context/SpinContext";
@@ -14,7 +13,6 @@ import { Money } from "common";
 import FcGraphicUnplannedExpenses from "./fc-graphics-unplanned-expenses";
 
 export default function FcGraphicsExpense() {
-  const { stateTotais } = useContext(ContextTotais);
   const { stateCheckedDespesas } = useContext(ContextChecked);
   const ctxAnoMes = useContext(ContextAnoMes);
   const { setSpin } = useContext(SpinContext);
@@ -27,7 +25,6 @@ export default function FcGraphicsExpense() {
   useEffect(() => {
     async function pegaDespesas() {
       if (isAuthenticated()) {
-        setSpin(true);
         if (stateGrafico === "1") {
           await general(stateCheckedDespesas);
         }
@@ -38,6 +35,8 @@ export default function FcGraphicsExpense() {
           setDescricao("Despesas não planejadas");
         }
         setSpin(false);
+      } else {
+        setDespesas([]);
       }
     }
     async function general(stateCheckedDespesas) {
@@ -52,9 +51,10 @@ export default function FcGraphicsExpense() {
             return item;
           })
         );
+      } else {
+        setDespesas([]);
       }
     }
-
     async function month(stateCheckedDespesas, ctxAnoMes) {
       setDescricao("Despesas por Categoria Mensal");
       const { stateAnoAtual, stateMesAtual } = ctxAnoMes;
@@ -70,10 +70,12 @@ export default function FcGraphicsExpense() {
             return item;
           })
         );
+      } else {
+        setDespesas([]);
       }
     }
     pegaDespesas();
-  }, [stateCheckedDespesas, stateTotais, ctxAnoMes, stateGrafico, setSpin]);
+  }, [stateCheckedDespesas, ctxAnoMes, stateGrafico, setSpin]);
 
   return (
     <FcSurface>

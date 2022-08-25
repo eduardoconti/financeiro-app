@@ -1,14 +1,7 @@
-import {
-  Grid,
-  IconButton,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { useContext, useState } from "react";
 import { ContextDataGrid } from "../../Context/DataGridContext";
 import CheckTwoToneIcon from "@material-ui/icons/CheckTwoTone";
-import { SpinContext } from "../../Context/SpinContext";
 import CloseTwoToneIcon from "@material-ui/icons/CloseTwoTone";
 import { getStorageDataGridRows } from "../../common/DataGridStorage";
 import ArrowForwardIosTwoToneIcon from "@material-ui/icons/ArrowForwardIosTwoTone";
@@ -16,6 +9,7 @@ import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
 import FcSurface from "components/fc-surface/fc-surface";
 import { Money } from "common";
+import FcIconButton from "components/fc-button/fc-icon-button";
 
 const useStyles = makeStyles((theme) => ({
   selectedRows: {
@@ -46,7 +40,7 @@ export default function FcSelectedRows(props) {
   const { selectedRows, setRows, setSelectedRows, ...ctxDataGrid } = useContext(
     ContextDataGrid
   );
-  const { setSpin } = useContext(SpinContext);
+
   const classes = useStyles();
   const theme = useTheme();
   const [cropedRows, setCropedRows] = useState(false);
@@ -58,18 +52,19 @@ export default function FcSelectedRows(props) {
     <FcSurface className={classes.selectedRows}>
       <Grid container spacing={1} align="center" alignItems="center">
         <Grid item xs={1} align="left">
-          <IconButton
+          <FcIconButton
             aria-label="cropedRows"
             style={{
-              color: cropedRows
-                ? theme.palette.error.light
-                : theme.palette.success.main,
               padding: 2,
             }}
+            color={
+              cropedRows
+                ? theme.palette.error.light
+                : theme.palette.success.main
+            }
             onClick={() => {
-              setSpin(true);
-
               if (!cropedRows) {
+                // eslint-disable-next-line array-callback-return
                 const selectedData = storageData.filter((row) => {
                   if (selectedRows.includes(row.id)) {
                     return row;
@@ -80,91 +75,78 @@ export default function FcSelectedRows(props) {
                 setRows(storageData);
               }
               setCropedRows(!cropedRows);
-              setSpin(false);
             }}
           >
             {cropedRows ? <CloseTwoToneIcon /> : <CheckTwoToneIcon />}
-          </IconButton>
+          </FcIconButton>
         </Grid>
 
         <Grid item xs={2} sm={1}>
-          <IconButton
+          <FcIconButton
             aria-label="next-month"
             style={{
-              color: theme.palette.success.dark,
               padding: 2,
             }}
+            color={theme.palette.success.dark}
             onClick={async () => {
-              setSpin(true);
-
               const data = selectedRows;
               await onClick(data);
               setCropedRows(false);
-              setSpin(false);
             }}
           >
             {<ArrowForwardIosTwoToneIcon fontSize="large" />}
-          </IconButton>
+          </FcIconButton>
         </Grid>
         <Grid item xs={2} sm={1}>
-          <IconButton
+          <FcIconButton
             aria-label="flagPayed"
             style={{
-              color: theme.palette.success.light,
               padding: 2,
             }}
+            color={theme.palette.success.light}
             onClick={async () => {
-              setSpin(true);
-
               const data = selectedRows;
               await onClickFlag(data, true);
               setCropedRows(false);
               setSelectedRows([]);
-              setSpin(false);
             }}
           >
             {<FiberManualRecordTwoToneIcon fontSize="large" />}
-          </IconButton>
+          </FcIconButton>
         </Grid>
         <Grid item xs={2} sm={1}>
-          <IconButton
+          <FcIconButton
             aria-label="flag"
             style={{
-              color: theme.palette.error.light,
               padding: 2,
             }}
+            color={theme.palette.error.light}
             onClick={async () => {
-              setSpin(true);
-
               const data = selectedRows;
               await onClickFlag(data, false);
               setCropedRows(false);
-              setSpin(false);
               setSelectedRows([]);
             }}
           >
             {<FiberManualRecordTwoToneIcon fontSize="large" />}
-          </IconButton>
+          </FcIconButton>
         </Grid>
         <Grid item xs={2} sm={1}>
-          <IconButton
+          <FcIconButton
             aria-label="delete"
             style={{
-              color: theme.palette.error.dark,
               padding: 2,
             }}
+            color={theme.palette.error.dark}
             onClick={async () => {
-              setSpin(true);
-
               const data = selectedRows;
               await onDeleted(data);
               setCropedRows(false);
               setSelectedRows([]);
-              setSpin(false);
             }}
           >
             {<DeleteForeverTwoToneIcon fontSize="large" />}
-          </IconButton>
+          </FcIconButton>
         </Grid>
 
         <Grid item xs={3} lg={7}>

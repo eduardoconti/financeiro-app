@@ -1,5 +1,5 @@
 export const FcColumnDueDate = {
-  field: "vencimento",
+  field: "dueDate",
   headerName: "Vencimento",
   width: 160,
 };

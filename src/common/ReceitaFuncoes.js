@@ -23,28 +23,28 @@ export async function getReceitas(
     ) {
       res = await API.get(
         ENDPOINT +
-        "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual)
+          "?start=" +
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual)
       );
     } else if (stateCheckedReceitas.checkedPago) {
       res = await API.get(
         ENDPOINT +
-        "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&pago=true"
+          "?start=" +
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&pago=true"
       );
     } else if (stateCheckedReceitas.checkedAberto) {
       res = await API.get(
         ENDPOINT +
-        "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&pago=false"
+          "?start=" +
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&pago=false"
       );
     }
 
@@ -130,14 +130,12 @@ export async function alteraFlagPago(receita) {
 export async function retornaTotalReceitas(stateAnoAtual, stateMesAtual) {
   try {
     const query =
-      (
-        typeof stateAnoAtual !== "undefined" &&
-        typeof stateMesAtual !== "undefined"
-      )
+      typeof stateAnoAtual !== "undefined" &&
+      typeof stateMesAtual !== "undefined"
         ? "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual)
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await API.get(endpoint);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import PersonIcon from "@material-ui/icons/Person";
@@ -22,9 +22,9 @@ import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
 import { Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { setMode } from "../../common/Config";
 import BotaoAno from "../BotaoAno";
 import BotaoMesSmall from "components/BotaoMesSmall";
+import { ColorModeContext } from "App";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -118,21 +118,17 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     zIndex: theme.zIndex.drawer + 4,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(1),
-  },
-  paper: {},
   headerIcon: {
     padding: theme.spacing(1),
   },
 }));
 
-export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
+export default function ButtonAppBar() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
+  const colorMode = React.useContext(ColorModeContext);
 
   const history = useHistory();
 
@@ -218,13 +214,14 @@ export default function ButtonAppBar({ setDarkTheme, darkTheme }) {
             <IconButton
               color="inherit"
               aria-label="Light/Dark"
-              onClick={() => {
-                setDarkTheme(!darkTheme);
-                setMode(!darkTheme);
-              }}
+              onClick={colorMode.toggleColorMode}
               className={classes.headerIcon}
             >
-              {darkTheme ? <Brightness7Icon /> : <Brightness4Icon />}
+              {theme.palette.type === "dark" ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
             </IconButton>
           </Tooltip>
           <Tooltip title="Login">

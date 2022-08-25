@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SpinCircular(props: CircularProgressProps) {
   const classes = useStyles();
-  const { size = 55, color = "primary" } = props;
+  const { size = 42.5, color = "primary" } = props;
 
   return (
     <div className={classes.root}>

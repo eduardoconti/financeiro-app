@@ -3,8 +3,9 @@ import { formatDateToForm } from "./DateHelper";
 export function emptyFormularioDespesa() {
   return {
     descricao: "",
-    categoriaId: undefined,
-    carteiraId: undefined,
+    categoriaId: "",
+    carteiraId: "",
+    subCategoryId: 0,
     valor: 0,
     pago: false,
     pagamento: undefined,
@@ -45,6 +46,8 @@ export function emptyFormularioReceita(
 export const emptyFormularioCategoria = {
   descricao: "",
   id: 0,
+  subCategoryId: 0,
+  subCategoryDescription: "",
 };
 
 export const emptyFormularioCarteira = {

@@ -1,21 +1,25 @@
-import React, { useContext } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { Typography, useTheme } from "@material-ui/core";
-import { SpinContext } from "Context";
 import SpinCircular from "components/fc-spin/fc-spin";
 import { Money } from "common";
+import { useSpin } from "@hooks/use-spin";
 
-export default function FcCard(props: any) {
-  const { onClick, color, value, description, children, ref } = props;
-  let { legendColor } = props;
+export function FcCard(props: any) {
+  const {
+    onClick,
+    color,
+    value,
+    description,
+    children,
+    ref,
+    legendColor,
+  } = props;
+
   const theme = useTheme();
-  const ctxSpin = useContext(SpinContext);
+  const spin = useSpin((state) => state.spin);
 
-  if (!legendColor) {
-    legendColor = theme.palette.text.primary;
-  }
   return (
     <Card
       variant="outlined"
@@ -28,12 +32,15 @@ export default function FcCard(props: any) {
       }}
       ref={ref}
     >
-      {ctxSpin.spin ? (
+      {spin ? (
         <SpinCircular />
       ) : (
         <CardActionArea onClick={onClick}>
           <CardContent style={{ margin: 0, padding: theme.spacing(1) }}>
-            <Typography variant="h6" style={{ color: legendColor }}>
+            <Typography
+              variant="h6"
+              style={{ color: legendColor ?? theme.palette.text.primary }}
+            >
               {description}
             </Typography>
 

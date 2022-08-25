@@ -1,9 +1,9 @@
 export class ExpenseDTO {
   id?: number;
-  userId?: string;
   descricao!: string;
   categoriaId!: number;
   carteiraId!: number;
+  subCategoryId!: number;
   valor!: number;
   instalment!: number;
   vencimento?: Date | string;
@@ -15,18 +15,18 @@ export class ExpenseDTO {
     descricao: string,
     valor: number,
     categoriaId: number,
+    subCategoryId: number,
     carteiraId: number,
     instalment: number,
-    userId?: string,
     vencimento?: Date | string,
     pagamento?: Date | string,
     pago?: boolean,
     updatedAt?: Date | string
   ) {
-    this.userId = userId;
     this.descricao = descricao;
     this.valor = valor;
     this.categoriaId = categoriaId;
+    this.subCategoryId = subCategoryId;
     this.carteiraId = carteiraId;
     this.instalment = instalment;
     this.vencimento = vencimento;
@@ -36,10 +36,10 @@ export class ExpenseDTO {
   }
 
   static build = ({
-    userId,
     descricao,
     valor,
     categoriaId,
+    subCategoryId,
     carteiraId,
     vencimento,
     pagamento,
@@ -51,9 +51,9 @@ export class ExpenseDTO {
       descricao,
       valor,
       categoriaId,
+      subCategoryId,
       carteiraId,
       instalment,
-      userId,
       vencimento,
       pagamento,
       pago,

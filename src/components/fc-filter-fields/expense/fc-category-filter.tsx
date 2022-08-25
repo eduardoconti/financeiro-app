@@ -1,42 +1,37 @@
-import { TextField } from "@material-ui/core";
-import { isAuthenticated, retornaCategorias } from "common";
-import Menu from "components/fc-forms/fc-menu-tem/fc-menu-item";
-import SpinCircular from "components/fc-spin/fc-spin";
+import { CategoryResponseDTO } from "@api/category/dto";
+import { FcTextField } from "@components/fc-forms/fc-fields";
+import Menu from "@components/fc-forms/fc-menu-tem/fc-menu-item";
+import { useCategory } from "@pages/category/hook";
 import { ContextExpenseFilter, ExpenseFilterContextType } from "Context";
 import { useContext, useEffect, useState } from "react";
 
 export default function FcCategoryFilter() {
-  const { filter, setFilter } = useContext(ContextExpenseFilter) as ExpenseFilterContextType;
-  const [categories, setCategories] = useState([]);
-  const [spin, setSpin] = useState(false);
+  const { filter, setFilter } = useContext(
+    ContextExpenseFilter
+  ) as ExpenseFilterContextType;
+  const [cat, setCategories] = useState<CategoryResponseDTO[]>([]);
+  const { categories } = useCategory();
 
   useEffect(() => {
     async function fetchData() {
-      const {data} = await retornaCategorias();
-      data.unshift({id: 0, descricao: "Todas"})
-      setCategories(data);
+      const newCategories = [...categories];
+      newCategories.unshift({ id: 0, descricao: "Todas", subCategories: [] });
+      setCategories(newCategories);
     }
-    if (isAuthenticated()) {
-      setSpin(true);
-      fetchData();
-      setSpin(false);
-    }
-  }, []);
+    fetchData();
+  }, [categories]);
+
   return (
-    <TextField
-      id={'fc-category-filter'}
-      label={'Categoria'}
-      variant="outlined"
-      size="small"
-      fullWidth
+    <FcTextField
+      id={"fc-category-filter"}
+      label={"Categoria"}
       value={filter?.categoryId ?? 0}
       select
       onChange={(event) => {
         setFilter({ ...filter, categoryId: parseInt(event.target.value) });
       }}
     >
-      {spin ? <SpinCircular size={20} /> : Menu(categories)}
-    </TextField>
+      {Menu(cat)}
+    </FcTextField>
   );
-
 }

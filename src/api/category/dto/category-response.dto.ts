@@ -1,19 +1,8 @@
-export class CategoryResponseDTO {
-  id!: number;
-  descricao!: string;
+import { SubCategoryResponseDTO } from "api/sub-category/dto";
+
+export type CategoryResponseDTO = {
+  id: number;
+  descricao: string;
+  subCategories: SubCategoryResponseDTO[];
   userId?: string;
-
-  private constructor(descricao: string, id: number, userId?: string) {
-    this.descricao = descricao;
-    this.userId = userId;
-    this.id = id;
-  }
-
-  static build = ({
-    descricao,
-    userId,
-    id,
-  }: CategoryResponseDTO): CategoryResponseDTO => {
-    return new CategoryResponseDTO(descricao, id, userId);
-  };
-}
+};
