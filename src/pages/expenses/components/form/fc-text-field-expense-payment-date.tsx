@@ -1,22 +1,29 @@
 import { FcTextFieldPaymentDate } from "components/fc-forms/fc-fields/fc-text-field-payment-date";
 import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
+import shallow from "zustand/shallow";
 
 export function FcTextFieldExpensePaymentDate() {
   const {
-    formExpense: { paymentDate, invalidFields },
-    dispatch,
-  } = useFormExpense();
+    invalidFields,
+    paymentDate,
+    setPaymentDate,
+    setPayed,
+  } = useFormExpense(
+    (s) => ({
+      invalidFields: s.invalidFields,
+      paymentDate: s.paymentDate,
+      setPaymentDate: s.setPaymentDate,
+      setPayed: s.setPayed,
+    }),
+    shallow
+  );
+
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "pagamento";
   });
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) {
-      return;
-    }
-    dispatch({
-      type: "setFormExpense",
-      payload: { paymentDate: event.target.value },
-    });
+    setPaymentDate(event.target.value);
+    setPayed(event.target.value ? true : false);
   };
   return (
     <FcTextFieldPaymentDate

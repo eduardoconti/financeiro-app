@@ -1,5 +1,6 @@
 import { getMonth, getYear } from "@common/DateHelper";
 import create from "zustand";
+import shallow from "zustand/shallow";
 
 export interface IUseCurrentTime {
   year: number;
@@ -16,9 +17,12 @@ export const useCurrentTime = create<IUseCurrentTime>((set, get) => ({
 }));
 
 export const useGetCurrentTime = () => {
-  const { year, month } = useCurrentTime((state) => ({
-    year: state.year,
-    month: state.month
-  }));
+  const { year, month } = useCurrentTime(
+    (state) => ({
+      year: state.year,
+      month: state.month,
+    }),
+    shallow
+  );
   return { year, month };
 };

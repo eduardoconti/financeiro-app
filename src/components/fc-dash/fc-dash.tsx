@@ -10,23 +10,19 @@ import {
   FcCardExpense,
 } from "./";
 
-
 export default function FcDashBoard() {
   const setSpin = useSpin((state) => state.setSpin);
   const { year, month } = useGetCurrentTime();
 
-  const { calculate } = useDashValues(
-    (state) => ({
-      calculate: state.calculate,
-    })
-  );
+  const { calculate } = useDashValues((state) => ({
+    calculate: state.calculate,
+  }));
 
   useEffect(() => {
     async function start() {
       try {
         setSpin(true);
-        await calculate(year, month)
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        await calculate(year, month);
       } catch (error) {
         console.log(error);
       } finally {
@@ -34,12 +30,7 @@ export default function FcDashBoard() {
       }
     }
     start();
-  }, [
-    calculate,
-    month,
-    setSpin,
-    year,
-  ]);
+  }, [calculate, month, setSpin, year]);
 
   const cards = [
     <FcCardExpense />,

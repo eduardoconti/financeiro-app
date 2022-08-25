@@ -27,10 +27,10 @@ import CategoryProvider from "pages/category/context/category-context";
 import ExpenseFilterProvider from "Context/expense-filter-context";
 import { FcEarningPage } from "@pages/earning/fc-earning";
 import { useWallet } from "@pages/wallet/hooks";
-import {  useSpin } from "./hooks";
+import { useSpin } from "./hooks";
 
 export const ColorModeContext = React.createContext({
-  toggleColorMode: () => { },
+  toggleColorMode: () => {},
 });
 
 function App() {

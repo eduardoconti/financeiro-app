@@ -5,18 +5,34 @@ import { useSpin } from "@hooks/use-spin";
 import { useExpense, useFormExpense } from "@pages/expenses/hook";
 import { ContextAlert } from "Context";
 import { useContext } from "react";
+import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertExpenseNextMonth() {
-  const { setInvalidFields, formExpense, clearAllFields } = useFormExpense();
-  const { insertExpenseNextMonth } = useExpense();
+  const { id, setInvalidFields, clearAllFields } = useFormExpense(
+    (s) => ({
+      id: s.id,
+      invalidFields: s.invalidFields,
+      setInvalidFields: s.setInvalidFields,
+      clearAllFields: s.clearAllFields,
+    }),
+    shallow
+  );
+
+  const { insertExpenseNextMonth, expenses } = useExpense(
+    (s) => ({
+      insertExpenseNextMonth: s.insertExpenseNextMonth,
+      expenses: s.expenses,
+    }),
+    shallow
+  );
+
   const { setAlert } = useContext(ContextAlert);
-  const { setSpin } = useSpin();
-  const { expenses } = useExpense();
+  const setSpin = useSpin((s) => s.setSpin);
 
   const onClick = async () => {
     try {
       setSpin(true);
-      const expense = expenses.find((e) => e.id === formExpense.id);
+      const expense = expenses.find((e) => e.id === id);
       if (!expense) return;
 
       const {
@@ -58,7 +74,7 @@ export function FcFormButtonInsertExpenseNextMonth() {
   return (
     <FcFormIconButtonAddNextMonth
       description="next-month-expense"
-      disabled={formExpense.id === 0}
+      disabled={id === 0}
       onClick={onClick}
     />
   );

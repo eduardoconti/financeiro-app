@@ -1,1 +1,1 @@
-export * from './earnings-helper'
+export * from "./earnings-helper";

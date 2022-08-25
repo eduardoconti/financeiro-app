@@ -18,19 +18,26 @@ import {
 } from "./";
 import { FcFormButtonInsertExpense } from "./button/fc-form-button-insert-expense";
 import FcFormButtonUpdateExpense from "./button/fc-form-button-update-expense";
-import { useMemo } from "react";
 import { FcSelectFieldExpenseWallet } from "./fc-select-field-expense-wallet";
 import {
   FcFormButtonDeleteExpense,
   FcFormButtonInsertExpenseNextMonth,
 } from "./button";
+import shallow from "zustand/shallow";
+import { useEffect } from "react";
+import { useCurrentTime } from "@hooks/use-current-time";
+import { formatDateToForm, getDueDate } from "@common/DateHelper";
 
 export function FcFormExpense() {
-  const {
-    formExpense: { id },
-  } = useFormExpense();
-
-  const buttons = useMemo(() => {
+  const { id, setDueDate } = useFormExpense(
+    (s) => ({ id: s.id, setDueDate: s.setDueDate }),
+    shallow
+  );
+  const { year, month } = useCurrentTime();
+  useEffect(() => {
+    setDueDate(formatDateToForm(getDueDate(year, month)));
+  }, [year, month, setDueDate]);
+  function Buttons() {
     return (
       <Grid container spacing={2}>
         <Grid item xs={3} lg>
@@ -51,7 +58,7 @@ export function FcFormExpense() {
         </Grid>
       </Grid>
     );
-  }, [id]);
+  }
 
   return (
     <FcSurface>
@@ -84,7 +91,7 @@ export function FcFormExpense() {
           <FcSelectFieldExpesePayed />
         </Grid>
         <Grid item xs={12} lg={4}>
-          {buttons}
+          <Buttons />
         </Grid>
       </Grid>
     </FcSurface>

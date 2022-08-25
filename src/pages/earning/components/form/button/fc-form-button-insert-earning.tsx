@@ -59,7 +59,7 @@ export function FcFormButtonInsertEarning() {
         carteiraId: walletId,
         pago: payed,
         pagamento: dateIso8601(paymentDate),
-      }
+      };
       const { status, message, internalMessage } = await insertEarning(req);
       if (payed) {
         setEarningsPayed(earningsPayed + req.valor);

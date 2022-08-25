@@ -75,16 +75,12 @@ export class ExpenseService implements IExpenseService {
     id: number,
     patchFlag: Pick<ExpenseDTO, "pago">
   ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
-    try {
-      this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
-      const data = await this.httpRequestService.patch<ExpenseResposeDTO>(
-        this.url.toString() + "/flag/" + id,
-        patchFlag
-      );
-      return data;
-    } catch (error: any) {
-      return errorResponse(error);
-    }
+    this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
+    const data = await this.httpRequestService.patch<ExpenseResposeDTO>(
+      this.url.toString() + "/flag/" + id,
+      patchFlag
+    );
+    return data;
   }
 
   async getExpenseById(

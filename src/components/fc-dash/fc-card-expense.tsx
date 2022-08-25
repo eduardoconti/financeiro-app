@@ -11,22 +11,25 @@ export function FcCardExpense() {
     palette: { type, error },
   } = useTheme();
 
-  const { expensesOpen, expensesPayed, checked } = useDashValues((state) => ({
-    expensesOpen: state.expensesOpen,
-    expensesPayed: state.expensesPayed,
-    checked: state.checkExpenses
-  }), shallow);
+  const { expensesOpen, expensesPayed, checked } = useDashValues(
+    (state) => ({
+      expensesOpen: state.expensesOpen,
+      expensesPayed: state.expensesPayed,
+      checked: state.checkExpenses,
+    }),
+    shallow
+  );
 
-  const value = useMemo(()=>{
+  const value = useMemo(() => {
     let value = 0;
-    if(checked.open){
+    if (checked.open) {
       value += expensesOpen;
     }
-    if(checked.payed){
-      value += expensesPayed
+    if (checked.payed) {
+      value += expensesPayed;
     }
-    return value
-  },[checked.open, checked.payed, expensesOpen, expensesPayed])
+    return value;
+  }, [checked.open, checked.payed, expensesOpen, expensesPayed]);
 
   const history = useHistory();
 

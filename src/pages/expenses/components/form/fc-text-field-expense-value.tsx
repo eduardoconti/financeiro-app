@@ -1,35 +1,39 @@
 import FcTextFieldValue from "components/fc-forms/fc-fields/fc-text-field-value";
 import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
-import { useMemo } from "react";
+import shallow from "zustand/shallow";
+
+const NUMERIC_REGEXP = /^[0-9]*$/g;
 
 export function FcTextFieldExpenseValue() {
-  const {
-    formExpense: { value, invalidFields },
-    dispatch,
-  } = useFormExpense();
+  const { invalidFields, value, setValue } = useFormExpense(
+    (s) => ({
+      invalidFields: s.invalidFields,
+      value: s.value,
+      setValue: s.setValue,
+    }),
+    shallow
+  );
 
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "valor";
   });
 
-  return useMemo(() => {
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!event.target.value) {
-        return;
-      }
-      dispatch({
-        type: "setFormExpense",
-        payload: { value: event.target.value },
-      });
-    };
-    return (
-      <FcTextFieldValue
-        value={value}
-        onChange={onChange}
-        invalidFields={invalidFieldMessage}
-        required
-      />
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, invalidFieldMessage]);
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+
+    if (value && !value.match(NUMERIC_REGEXP)) {
+      return;
+    }
+    setValue(value ?? "");
+  };
+  return (
+    <FcTextFieldValue
+      value={value}
+      onChange={onChange}
+      invalidFields={invalidFieldMessage}
+      required
+    />
+  );
 }

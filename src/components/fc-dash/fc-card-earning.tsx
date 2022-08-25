@@ -11,23 +11,25 @@ export function FcCardEarning() {
     palette: { type, success },
   } = useTheme();
   const { push } = useHistory();
-  const { earningsOpen, earningsPayed, checked } = useDashValues((state) => ({
-    earningsOpen: state.earningsOpen,
-    earningsPayed: state.earningsPayed,
-    checked: state.checkEarnings
-  }), shallow);
+  const { earningsOpen, earningsPayed, checked } = useDashValues(
+    (state) => ({
+      earningsOpen: state.earningsOpen,
+      earningsPayed: state.earningsPayed,
+      checked: state.checkEarnings,
+    }),
+    shallow
+  );
 
   const value = useMemo(() => {
-    console.log('memo')
     let value = 0;
     if (checked.open) {
       value += earningsOpen;
     }
     if (checked.payed) {
-      value += earningsPayed
+      value += earningsPayed;
     }
-    return value
-  }, [checked.open, checked.payed, earningsOpen, earningsPayed])
+    return value;
+  }, [checked.open, checked.payed, earningsOpen, earningsPayed]);
 
   const routeChange = () => {
     push(`receitas`);

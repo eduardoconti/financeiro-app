@@ -3,7 +3,9 @@ import { dateIso8601 } from "@common/DateHelper";
 import { Money } from "@common/money";
 import { ExpenseFormType } from "../context";
 
-export function formToRequest(expenseForm: ExpenseFormType): ExpenseDTO {
+export function formToRequest(
+  expenseForm: Omit<ExpenseFormType, "invalidFields">
+): ExpenseDTO {
   return ExpenseDTO.build({
     id: expenseForm.id,
     descricao: expenseForm.description,

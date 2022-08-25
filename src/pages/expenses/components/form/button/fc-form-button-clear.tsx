@@ -2,7 +2,7 @@ import FcFormButtonClear from "components/fc-forms/fc-form-button/fc-form-button
 import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
 
 export default function FcFormButtonClearExpense() {
-  const { clearAllFields } = useFormExpense();
+  const clearAllFields = useFormExpense((s) => s.clearAllFields);
   const onClick = () => {
     clearAllFields();
   };

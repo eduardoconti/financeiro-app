@@ -45,3 +45,11 @@ export function getDay(datestring?: string | Date): number {
 export function isDate(datestring?: string | Date): boolean {
   return moment(datestring).isValid();
 }
+
+export function getDueDate(year: number, month: number, day?: number): string {
+  return moment({
+    year,
+    month,
+    day: day ?? 10,
+  }).format("YYYY-MM-DD[T]hh:mm:ss");
+}

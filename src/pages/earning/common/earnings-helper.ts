@@ -12,9 +12,5 @@ export function formToRequest(form: IEarningForm): EarningRequestDTO {
     carteiraId: walletId,
     pago: payed,
     pagamento: dateIso8601(paymentDate),
-  })
-
-
-
-
+  });
 }

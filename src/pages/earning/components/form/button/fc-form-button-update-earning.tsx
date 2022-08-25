@@ -45,9 +45,12 @@ export function FcFormButtonUpdateEarning() {
         value,
         walletId,
         payed,
-        paymentDate
-      })
-      const { status, message, internalMessage } = await updateEarning(id, earningRequest);
+        paymentDate,
+      });
+      const { status, message, internalMessage } = await updateEarning(
+        id,
+        earningRequest
+      );
       await calculate(year, month);
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();

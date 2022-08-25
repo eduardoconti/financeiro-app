@@ -11,15 +11,16 @@ import { CheckedValues, useDashValues } from "@hooks/use-dash-values";
 import { useSpin } from "@hooks/use-spin";
 import { GridColumns, GridRowParams } from "@material-ui/data-grid";
 import { useEarning, useFormEarning } from "@pages/earning/hooks";
-import {
-  IEarningRow,
-} from "@pages/earning/hooks/use-datagrid-earning";
+import { IEarningRow } from "@pages/earning/hooks/use-datagrid-earning";
 import React, { useEffect } from "react";
 import shallow from "zustand/shallow";
 import { FcColumnActionsEarning } from "./fc-column-actions-earning";
 
 export function FcDataGridEarning() {
-  const { earnings, initEarnings } = useEarning((state) => ({ earnings: state.earnings, initEarnings: state.fetchEarnings }));
+  const { earnings, initEarnings } = useEarning((state) => ({
+    earnings: state.earnings,
+    initEarnings: state.fetchEarnings,
+  }));
   const {
     setId,
     setDescription,
@@ -35,18 +36,24 @@ export function FcDataGridEarning() {
     setPayed: state.setPayed,
     setWalletId: state.setWalletId,
   }));
-  const { checkEarnings, calculate } = useDashValues((state) => ({ checkEarnings: state.checkEarnings, calculate: state.calculate }), shallow);
+  const { checkEarnings, calculate } = useDashValues(
+    (state) => ({
+      checkEarnings: state.checkEarnings,
+      calculate: state.calculate,
+    }),
+    shallow
+  );
   const { year, month } = useCurrentTime();
-  const setSpin = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
   const rows = React.useMemo(() => {
-    return earningToDataGrid(earnings, checkEarnings)
-  }, [earnings, checkEarnings])
+    return earningToDataGrid(earnings, checkEarnings);
+  }, [earnings, checkEarnings]);
 
   useEffect(() => {
     async function start() {
       try {
         setSpin(true);
-        await calculate(year, month)
+        await calculate(year, month);
       } catch (error) {
         console.log(error);
       } finally {
@@ -54,13 +61,13 @@ export function FcDataGridEarning() {
       }
     }
     start();
-  }, [calculate, month, setSpin, year])
+  }, [calculate, month, setSpin, year]);
 
   useEffect(() => {
     async function start() {
       try {
         setSpin(true);
-        initEarnings({ month: month, year: year })
+        initEarnings({ month: month, year: year });
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.log(error);
@@ -69,12 +76,7 @@ export function FcDataGridEarning() {
       }
     }
     start();
-  }, [
-    initEarnings,
-    month,
-    setSpin,
-    year,
-  ]);
+  }, [initEarnings, month, setSpin, year]);
   let columns: GridColumns = [FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
@@ -111,8 +113,10 @@ export function FcDataGridEarning() {
   );
 }
 
-function earningToDataGrid(earnings: EarningResponseDTO[], checked?: CheckedValues): IEarningRow[] {
-
+function earningToDataGrid(
+  earnings: EarningResponseDTO[],
+  checked?: CheckedValues
+): IEarningRow[] {
   const earningRows: IEarningRow[] = [];
 
   earnings.forEach((earning) => {
@@ -120,11 +124,11 @@ function earningToDataGrid(earnings: EarningResponseDTO[], checked?: CheckedValu
 
     if (checked) {
       if (!checked.open && !pago) {
-        return
+        return;
       }
 
       if (!checked.payed && pago) {
-        return
+        return;
       }
     }
     earningRows.push({

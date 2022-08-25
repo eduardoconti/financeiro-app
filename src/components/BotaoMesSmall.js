@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BotaoMesSmall() {
-  const { month, setMonth} = useCurrentTime();
+  const { month, setMonth } = useCurrentTime();
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);

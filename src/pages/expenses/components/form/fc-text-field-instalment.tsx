@@ -1,40 +1,36 @@
 import { FcTextField } from "@components/fc-forms/fc-fields";
 import { useFormExpense } from "@pages/expenses/hook";
-import { useCallback, useMemo } from "react";
+import shallow from "zustand/shallow";
 
 export function FcTextFieldInstalment() {
-  const {
-    formExpense: { installments, invalidFields },
-    dispatch,
-  } = useFormExpense();
+  const { invalidFields, installments, setInstallments } = useFormExpense(
+    (s) => ({
+      invalidFields: s.invalidFields,
+      installments: s.installments,
+      setInstallments: s.setInstallments,
+    }),
+    shallow
+  );
 
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "instalment";
   });
 
-  const onChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!event.target.value) {
-        return;
-      }
-      dispatch({
-        type: "setFormExpense",
-        payload: { installments: parseInt(event.target.value ?? "1") },
-      });
-    },
-    [dispatch]
-  );
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.value) {
+      return;
+    }
+    setInstallments(parseInt(event.target.value ?? "1"));
+  };
 
-  return useMemo(() => {
-    return (
-      <FcTextField
-        id="instalment"
-        label="Parcela"
-        value={installments}
-        onChange={onChange}
-        invalidFields={invalidFieldMessage}
-        required
-      />
-    );
-  }, [installments, invalidFieldMessage, onChange]);
+  return (
+    <FcTextField
+      id="instalment"
+      label="Parcela"
+      value={installments}
+      onChange={onChange}
+      invalidFields={invalidFieldMessage}
+      required
+    />
+  );
 }

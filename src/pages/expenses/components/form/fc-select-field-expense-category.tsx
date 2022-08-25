@@ -1,32 +1,31 @@
 import FcSelectFieldCategory from "components/fc-forms/fc-fields/fc-select-field-category";
 import { useFormExpense } from "@pages/expenses/hook/use-form-expense";
-import { useMemo } from "react";
+import shallow from "zustand/shallow";
 export function FcSelectFieldExpenseCategory() {
-  const {
-    formExpense: { categoryId, invalidFields },
-    dispatch,
-  } = useFormExpense();
+  const { categoryId, invalidFields, setCategoryId } = useFormExpense(
+    (s) => ({
+      categoryId: s.categoryId,
+      invalidFields: s.invalidFields,
+      setCategoryId: s.setCategoryId,
+    }),
+    shallow
+  );
 
   const invalidFieldMessage = invalidFields?.filter((field) => {
     return field.name === "categoriaId";
   });
-  return useMemo(() => {
-    const onChange = (event: any) => {
-      dispatch({
-        type: "setFormExpense",
-        payload: { categoryId: event.target.value },
-      });
-    };
-    return (
-      <FcSelectFieldCategory
-        id="select-field-category"
-        label="Categoria"
-        value={categoryId}
-        onChange={onChange}
-        invalidFields={invalidFieldMessage}
-        required
-      />
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, invalidFieldMessage]);
+
+  const onChange = (event: any) => {
+    setCategoryId(parseInt(event.target.value));
+  };
+  return (
+    <FcSelectFieldCategory
+      id="select-field-category"
+      label="Categoria"
+      value={categoryId}
+      onChange={onChange}
+      invalidFields={invalidFieldMessage}
+      required
+    />
+  );
 }

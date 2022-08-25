@@ -46,7 +46,7 @@ export default function FormLogin({ setOpen }) {
   const classes = useStyles();
   const ctxAlert = useContext(ContextAlert);
   const history = useHistory();
-  const setSpin  = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
 
   return (
     <form className={classes.root} noValidate autoComplete="off">

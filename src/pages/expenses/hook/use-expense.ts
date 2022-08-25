@@ -40,10 +40,15 @@ export const useExpense = create<IUseExpense>((set) => ({
   expenses: [],
   fetchExpenses: async (params: FetchParams) => {
     const expenseService: IExpenseService = new ExpenseService();
-    const { checked = {
-      payed: true,
-      open: true,
-    }, year, month, filter } = params;
+    const {
+      checked = {
+        payed: true,
+        open: true,
+      },
+      year,
+      month,
+      filter,
+    } = params;
     const { data } = await expenseService.getDespesas(
       checked,
       year,
@@ -52,7 +57,7 @@ export const useExpense = create<IUseExpense>((set) => ({
     );
     set((state) => ({
       ...state,
-      expenses: data
+      expenses: data,
     }));
   },
   insertExpense: async (expense: ExpenseDTO) => {
@@ -101,7 +106,7 @@ export const useExpense = create<IUseExpense>((set) => ({
       newExpenses[index].pago = data.data.pago;
       return {
         ...state,
-        expenses: newExpenses
+        expenses: newExpenses,
       };
     });
     return data;

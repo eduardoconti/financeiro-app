@@ -6,47 +6,85 @@ import { useContext } from "react";
 import { ContextAlert } from "Context";
 import { setCreatedAlert } from "@common/AlertFuncoes";
 import { useSpin } from "@hooks/use-spin";
+import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertExpense() {
-  const { setInvalidFields, formExpense, clearAllFields } = useFormExpense();
+  const {
+    id,
+    description,
+    categoryId,
+    subCategoryId,
+    dueDate,
+    paymentDate,
+    payed,
+    value,
+    walletId,
+    installments,
+    setInvalidFields,
+    clearAllFields,
+  } = useFormExpense(
+    (s) => ({
+      id: s.id,
+      description: s.description,
+      categoryId: s.categoryId,
+      subCategoryId: s.subCategoryId,
+      dueDate: s.dueDate,
+      paymentDate: s.paymentDate,
+      payed: s.payed,
+      invalidFields: s.invalidFields,
+      value: s.value,
+      walletId: s.walletId,
+      installments: s.installments,
+      setInvalidFields: s.setInvalidFields,
+      clearAllFields: s.clearAllFields,
+    }),
+    shallow
+  );
+
   const { insertExpense } = useExpense();
   const {
-    amount,
-    setAmount,
-    expensesOpen,
-    setExpensesOpen,
-    expensesPayed,
-    setExpensesPayed,
-    ballance,
-    setBallance,
-  } = useDashValues((s) => ({
-    amount: s.amount,
-    setAmount: s.setAmount,
-    expensesOpen: s.expensesOpen,
-    setExpensesOpen: s.setExpensesOpen,
-    expensesPayed: s.expensesPayed,
-    setExpensesPayed: s.setExpensesPayed,
-    ballance: s.ballance,
-    setBallance: s.setBallance,
-  }));
+    subAmount,
+    addExpensesOpen,
+    addExpensesPayed,
+    addBallance,
+  } = useDashValues(
+    (s) => ({
+      subAmount: s.subAmount,
+      addExpensesOpen: s.addExpensesOpen,
+      addExpensesPayed: s.addExpensesPayed,
+      addBallance: s.addBallance,
+    }),
+    shallow
+  );
   const { setAlert } = useContext(ContextAlert);
-  const { setSpin } = useSpin();
+  const setSpin = useSpin((s) => s.setSpin);
   const onClick = async () => {
     try {
       setSpin(true);
-      const req = formToRequest(formExpense);
+      const req = formToRequest({
+        id,
+        description,
+        categoryId,
+        subCategoryId,
+        dueDate,
+        paymentDate,
+        payed,
+        value,
+        walletId,
+        installments,
+      });
       const { status, message, internalMessage } = await insertExpense(req);
       if (req.pago) {
-        setExpensesPayed(expensesPayed + req.valor);
+        addExpensesPayed(req.valor);
+        subAmount(req.valor);
       } else {
-        setExpensesOpen(expensesOpen + req.valor);
+        addExpensesOpen(req.valor);
       }
-      setBallance(ballance - req.valor);
-      setAmount(req.pago ? amount - req.valor : amount + req.valor);
+      addBallance(req.valor);
       clearAllFields();
       setAlert(setCreatedAlert(status, message, internalMessage));
     } catch (error: any) {
-      setInvalidFields(error);
+      setInvalidFields(error.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
