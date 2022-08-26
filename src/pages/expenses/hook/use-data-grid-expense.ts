@@ -1,17 +1,27 @@
-import { useContext } from "react";
-import {
-  ContextDataGridExpense,
-  DataGridExpenseContextType,
-} from "@pages/expenses/context";
+import create from "zustand";
 
-export function useDataGridExpense(): DataGridExpenseContextType {
-  const context = useContext(
-    ContextDataGridExpense
-  ) as DataGridExpenseContextType;
-
-  if (!context) {
-    throw new Error("useDataGridExpense must be used within a ExpenseProvider");
-  }
-
-  return context;
+export interface IDataGridExpenseRow {
+  id: number;
+  description: string;
+  categoryId: string;
+  subCategoryId: string;
+  walletId: string;
+  dueDate: string;
+  payed: boolean;
+  value: string;
+  paymentDate?: string;
 }
+export interface IUseDatagridWallet {
+  rows: IDataGridExpenseRow[];
+  setRows: (rows: IDataGridExpenseRow[]) => void;
+  selectedRows: number[];
+  setSelectedRows: (rows: number[]) => void;
+  addSelectedRows: (rowId: number) => void;
+}
+export const useDataGridExpense= create<IUseDatagridWallet>((set) => ({
+  rows: [],
+  setRows: (rows: IDataGridExpenseRow[]) => set((s) => ({ ...s, rows: rows })),
+  selectedRows: [],
+  setSelectedRows: (rows: number[]) => set({selectedRows: rows }),
+  addSelectedRows: (rowId: number) => set((s) => ({ ...s, selectedRows: [rowId, ...s.selectedRows] }))
+}));

@@ -3,7 +3,7 @@ import FcDataGridFilters from "components/fc-datagrid/expense/fc-data-grid-filte
 import { FcDataGridExpense } from "./components/datagrid";
 import { FcFormExpense } from "./components/form";
 
-export default function CorpoDespesas() {
+export  function FcExpenseBody() {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>

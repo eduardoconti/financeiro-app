@@ -1,4 +1,4 @@
-import { ExpenseDTO, ExpenseResposeDTO } from "@api/expense/dto";
+import { ExpenseDTO, ExpenseResponseDTO } from "@api/expense/dto";
 import { dateIso8601, formatDateToDataGrid } from "@common/DateHelper";
 import { Money } from "@common/money";
 import { CheckedValues } from "@hooks/use-dash-values";
@@ -24,7 +24,7 @@ export function formToRequest(
 }
 
 export function expenseToDataGrid(
-  expenses: ExpenseResposeDTO[],
+  expenses: ExpenseResponseDTO[],
   checked?: CheckedValues
 ): IDataGridRow[] {
   const dataGridRows: IDataGridRow[] = [];

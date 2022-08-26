@@ -5,7 +5,7 @@ import { firstDayOfMonth, lastDayOfMonth } from "common";
 import api from "common/Api";
 import { ExpenseFilter } from "Context";
 import { ExpenseDeleteResponseDTO, ExpenseDTO } from "../dto";
-import { ExpenseResposeDTO } from "../dto/expense-response.dto";
+import { ExpenseResponseDTO } from "../dto/expense-response.dto";
 import { IExpenseService } from "./expense-service.interface";
 
 const ENDPOINT = "expense";
@@ -21,7 +21,7 @@ export class ExpenseService implements IExpenseService {
     stateAnoAtual: number,
     stateMesAtual: number,
     filter?: ExpenseFilter
-  ): Promise<SuccessResponseData<ExpenseResposeDTO[]>> {
+  ): Promise<SuccessResponseData<ExpenseResponseDTO[]>> {
     try {
       this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
       if (
@@ -61,7 +61,7 @@ export class ExpenseService implements IExpenseService {
         }
       }
 
-      const data = await this.httpRequestService.get<ExpenseResposeDTO[]>(
+      const data = await this.httpRequestService.get<ExpenseResponseDTO[]>(
         this.url.toString()
       );
       return data;
@@ -74,9 +74,9 @@ export class ExpenseService implements IExpenseService {
   async updateFlagPayed(
     id: number,
     patchFlag: Pick<ExpenseDTO, "pago">
-  ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+  ): Promise<SuccessResponseData<ExpenseResponseDTO>> {
     this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
-    const data = await this.httpRequestService.patch<ExpenseResposeDTO>(
+    const data = await this.httpRequestService.patch<ExpenseResponseDTO>(
       this.url.toString() + "/flag/" + id,
       patchFlag
     );
@@ -85,8 +85,8 @@ export class ExpenseService implements IExpenseService {
 
   async getExpenseById(
     id: number
-  ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
-    const data = await this.httpRequestService.get<ExpenseResposeDTO>(
+  ): Promise<SuccessResponseData<ExpenseResponseDTO>> {
+    const data = await this.httpRequestService.get<ExpenseResponseDTO>(
       this.url.toString() + "/" + id
     );
     return data;
@@ -94,9 +94,9 @@ export class ExpenseService implements IExpenseService {
 
   async insert(
     expense: ExpenseDTO
-  ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+  ): Promise<SuccessResponseData<ExpenseResponseDTO>> {
     this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
-    const { data: responseData, ...rest } = await this.httpRequestService.post<ExpenseResposeDTO | ExpenseResposeDTO[]>(
+    const { data: responseData, ...rest } = await this.httpRequestService.post<ExpenseResponseDTO | ExpenseResponseDTO[]>(
       this.url.toString(),
       expense
     );
@@ -109,11 +109,11 @@ export class ExpenseService implements IExpenseService {
   async update(
     id: number,
     expense: Partial<ExpenseDTO>
-  ): Promise<SuccessResponseData<ExpenseResposeDTO>> {
+  ): Promise<SuccessResponseData<ExpenseResponseDTO>> {
     this.url = new URL(
       (process.env.REACT_APP_API_HOST + ENDPOINT + "/" + id) as string
     );
-    const data = await this.httpRequestService.put<ExpenseResposeDTO>({
+    const data = await this.httpRequestService.put<ExpenseResponseDTO>({
       url: this.url.toString(),
       body: expense,
     });

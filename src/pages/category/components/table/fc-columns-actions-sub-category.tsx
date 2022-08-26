@@ -5,14 +5,20 @@ import ActionDeleteButon from "components/fc-datagrid/fc-column-actions-delete-b
 import { SubCategoryResponseDTO } from "api/sub-category/dto";
 
 import { useCategory, useFormSubCategory } from "pages/category/hook";
+import { useSpin } from "@hooks/use-spin";
+import { useContext } from "react";
+import { ContextAlert } from "Context";
+import { setCreatedAlert } from "@common/AlertFuncoes";
 
 export default function FcColumnActionsSubCategory(props: {
   field: SubCategoryResponseDTO;
 }) {
-  const { deleteSubCategory } = useCategory();
+  const deleteSubCategory = useCategory(s => s.deleteSubCategory);
   const { setFormSubCategory } = useFormSubCategory();
   const { field } = props;
 
+  const setSpin = useSpin(s => s.setSpin);
+  const { setAlert } = useContext(ContextAlert);
   return (
     <Grid>
       <ActionUpdateButon
@@ -26,7 +32,15 @@ export default function FcColumnActionsSubCategory(props: {
       />
       <ActionDeleteButon
         onClick={async () => {
-          await deleteSubCategory(field.id);
+          try {
+            setSpin(true)
+            const { status, message, internalMessage } = await deleteSubCategory(field.id);
+            setAlert(setCreatedAlert(status, message, internalMessage));
+          } catch (error: any) {
+            setAlert(setCreatedAlert(error.status, error.detail, error.title));
+          } finally {
+            setSpin(false)
+          }
         }}
         refreshTotal={false}
       />

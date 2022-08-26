@@ -1,5 +1,5 @@
 import { setCreatedAlert } from "@common/AlertFuncoes";
-import ActionFlagButon from "@components/fc-datagrid/fc-column-actions-flag-button";
+import { FcIconButtonFlagPayed } from "@components/fc-button";
 import { useDashValues } from "@hooks/use-dash-values";
 import { useSpin } from "@hooks/use-spin";
 import { Grid } from "@material-ui/core";
@@ -74,7 +74,7 @@ export function FcColumnActionsEarning(props: { field: GridCellParams }) {
   };
   return (
     <Grid>
-      <ActionFlagButon payed={field.row.payed} onClick={onClick} />
+      <FcIconButtonFlagPayed payed={field.row.payed} onClick={onClick} />
     </Grid>
   );
 }

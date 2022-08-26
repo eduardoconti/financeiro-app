@@ -2,7 +2,7 @@ import { CategoryResponseDTO } from "api/category/dto";
 import { SubCategoryResponseDTO } from "api/sub-category/dto";
 import { WalletResponseDTO } from "api/wallet/dto";
 
-export class ExpenseResposeDTO {
+export class ExpenseResponseDTO {
   id!: number;
   descricao!: string;
   categoria!: CategoryResponseDTO;
@@ -54,8 +54,8 @@ export class ExpenseResposeDTO {
     pago,
     updatedAt,
     instalment,
-  }: ExpenseResposeDTO): ExpenseResposeDTO => {
-    return new ExpenseResposeDTO(
+  }: ExpenseResponseDTO): ExpenseResponseDTO => {
+    return new ExpenseResponseDTO(
       descricao,
       valor,
       categoria,

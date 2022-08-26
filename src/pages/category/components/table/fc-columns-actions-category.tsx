@@ -3,13 +3,19 @@ import { useCategory, useFormCategory } from "pages/category/hook";
 import { CategoryResponseDTO } from "api/category/dto";
 import ActionUpdateButon from "components/fc-datagrid/fc-column-actions-update-button";
 import ActionDeleteButon from "components/fc-datagrid/fc-column-actions-delete-button";
+import { setCreatedAlert } from "@common/AlertFuncoes";
+import { useSpin } from "@hooks/use-spin";
+import { useContext } from "react";
+import { ContextAlert } from "Context";
 
 export default function FcColumnActionsCategory(props: {
   field: CategoryResponseDTO;
 }) {
-  const { deleteCategory } = useCategory();
-  const { dispatch, setInvalidFields } = useFormCategory();
+  const deleteCategory = useCategory(s => s.deleteCategory);
+  const { dispatch } = useFormCategory();
   const { field } = props;
+  const setSpin = useSpin(s => s.setSpin);
+  const { setAlert } = useContext(ContextAlert);
   return (
     <Grid>
       <ActionUpdateButon
@@ -22,12 +28,19 @@ export default function FcColumnActionsCategory(props: {
             type: "setCategoryDescription",
             categoryDescription: field.descricao,
           });
-          setInvalidFields();
         }}
       />
       <ActionDeleteButon
         onClick={async () => {
-          await deleteCategory(field.id);
+          try {
+            setSpin(true)
+            const { status, message, internalMessage } = await deleteCategory(field.id);
+            setAlert(setCreatedAlert(status, message, internalMessage));
+          } catch (error: any) {
+            setAlert(setCreatedAlert(error.status, error.detail, error.title));
+          } finally {
+            setSpin(false)
+          }
         }}
         refreshTotal={false}
       />

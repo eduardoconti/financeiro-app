@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { createTheme, makeStyles } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,14 +11,11 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import {
-  CategoryContextType,
-  ContextCategory,
-} from "pages/category/context/category-context";
 import { CategoryResponseDTO } from "api/category/dto";
 import FcColumnActionsCategory from "pages/category/components/table/fc-columns-actions-category";
 import FcColumnActionsSubCategory from "./fc-columns-actions-sub-category";
 import { useMemo } from "react";
+import { useCategory } from "@pages/category/hook";
 const defaultTheme = createTheme();
 const useRowStyles = makeStyles(
   (theme) => {
@@ -101,25 +98,24 @@ function Row(props: RowProps) {
 }
 
 export default function FcTableCategory(): JSX.Element {
-  const { categories } = useContext(ContextCategory) as CategoryContextType;
-  return useMemo(() => {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell align="left">Descricao</TableCell>
-              <TableCell align="right">Operação</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {categories.map((category) => {
-              return <Row key={category.id} row={category} />;
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  }, [categories]);
+  const categories = useCategory(s => s.categories)
+
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table">
+        <TableHead>
+          <TableRow>
+            <TableCell />
+            <TableCell align="left">Descricao</TableCell>
+            <TableCell align="right">Operação</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {categories.map((category) => {
+            return <Row key={category.id} row={category} />;
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }

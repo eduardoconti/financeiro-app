@@ -1,32 +1,32 @@
 import {
   ExpenseDeleteResponseDTO,
   ExpenseDTO,
-  ExpenseResposeDTO,
+  ExpenseResponseDTO,
 } from "@api/expense/dto";
 import { ExpenseService, IExpenseService } from "@api/expense/service";
 import { SuccessResponseData } from "@api/http-request/dto";
 import { CheckedValues } from "@hooks/use-dash-values";
 import create from "zustand";
 export interface IUseExpense {
-  expenses: ExpenseResposeDTO[];
+  expenses: ExpenseResponseDTO[];
   fetchExpenses: (params?: any) => Promise<void>;
   insertExpense: (
     expense: ExpenseDTO
-  ) => Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  ) => Promise<SuccessResponseData<ExpenseResponseDTO>>;
   insertExpenseNextMonth: (
     expense: ExpenseDTO
-  ) => Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  ) => Promise<SuccessResponseData<ExpenseResponseDTO>>;
   updateExpense: (
     id: number,
     expense: Partial<ExpenseDTO>
-  ) => Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  ) => Promise<SuccessResponseData<ExpenseResponseDTO>>;
   deleteExpense: (
     id: number
   ) => Promise<SuccessResponseData<ExpenseDeleteResponseDTO>>;
   updateFlagPayed: (
     id: number,
     patchFlag: Pick<ExpenseDTO, "pago">
-  ) => Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  ) => Promise<SuccessResponseData<ExpenseResponseDTO>>;
 }
 
 export type FetchParams = {

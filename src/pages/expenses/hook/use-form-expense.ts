@@ -74,7 +74,7 @@ export const useFormExpense = create<IUseFormExpense>((set) => ({
       categoryId: 0,
       subCategoryId: 0,
       walletId: 0,
-      dueDate: "",
+      //dueDate: "",
       payed: false,
       value: "0",
       paymentDate: "",

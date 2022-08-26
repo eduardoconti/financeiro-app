@@ -20,9 +20,10 @@ import { FcColumnValue } from "@components/fc-datagrid/fc-column-value";
 import FcDataGrid from "@components/fc-datagrid/fc-datagrid";
 import { FcSelectedRowsExpense } from "./fc-selected-rows-expense";
 import { expenseToDataGrid } from "@pages/expenses/common";
+import { Grid } from "@material-ui/core";
 
 export function FcDataGridExpense() {
-  const { setSelectedRows } = useDataGridExpense();
+  const { setSelectedRows, selectedRows } = useDataGridExpense((s) => ({ selectedRows: s.selectedRows, setSelectedRows: s.setSelectedRows }), shallow);
   const { initExpenses, expenses } = useExpense(
     (state) => ({
       initExpenses: state.fetchExpenses,
@@ -53,6 +54,7 @@ export function FcDataGridExpense() {
     setPaymentDate,
     setPayed,
     setId,
+    clear,
   } = useFormExpense(
     (s) => ({
       setDescription: s.setDescription,
@@ -65,6 +67,7 @@ export function FcDataGridExpense() {
       setPaymentDate: s.setPaymentDate,
       setPayed: s.setPayed,
       setId: s.setId,
+      clear: s.clearAllFields,
     }),
     shallow
   );
@@ -101,39 +104,44 @@ export function FcDataGridExpense() {
   }, [initExpenses, month, setSpin, year]);
 
   return (
-    <React.Fragment>
-      <FcDataGrid
-        rows={rows}
-        columns={columns}
-        checkboxSelection={true}
-        rowClick={async (GridRowParams: { row: IDataGridRow }) => {
-          const { row } = GridRowParams;
-          const expense = expenses.find((element) => {
-            return element.id === row.id;
-          });
-          if (!expense) {
-            return;
-          }
-          setDescription(row.description);
-          setCategoryId(expense.categoria.id);
-          setSubCategoryId(expense.subCategory.id);
-          setWalletId(expense.carteira.id);
-          setValue(Money.toFloat(expense.valor).toString());
-          setInstallments(expense.instalment);
-          setDueDate(formatDateToForm(expense.vencimento));
-          setPaymentDate(
-            expense.pagamento ? formatDateToForm(expense.pagamento) : undefined
-          );
-          setPayed(expense.pago);
-          setId(expense.id);
-        }}
-        onSelectionModelChange={async (
-          gridSelectionModel: GridSelectionModel
-        ) => {
-          setSelectedRows(gridSelectionModel as number[]);
-        }}
-      />
-      <FcSelectedRowsExpense />
-    </React.Fragment>
+    <Grid container spacing={1}>
+      <Grid item xs={12}>
+        <FcDataGrid
+          rows={rows}
+          columns={columns}
+          checkboxSelection={true}
+          onSelectionModelChange={(
+            gridSelectionModel: GridSelectionModel
+          ) => {
+            const id = gridSelectionModel[0]
+            const expense = expenses.find((element) => {
+              return element.id === id;
+            });
+            if (expense) {
+              setDescription(expense.descricao);
+              setCategoryId(expense.categoria.id);
+              setSubCategoryId(expense.subCategory.id);
+              setWalletId(expense.carteira.id);
+              setValue(Money.toFloat(expense.valor).toString());
+              setInstallments(expense.instalment);
+              setDueDate(formatDateToForm(expense.vencimento));
+              setPaymentDate(
+                expense.pagamento ? formatDateToForm(expense.pagamento) : undefined
+              );
+              setPayed(expense.pago);
+              setId(expense.id);
+            } else {
+              clear()
+            }
+            setSelectedRows(gridSelectionModel as number[]);
+          }}
+        />
+      </Grid>
+      {(selectedRows && selectedRows.length > 0) ?
+        (<Grid item xs={12}>
+          <FcSelectedRowsExpense />
+        </Grid>) : null
+      }
+    </Grid>
   );
 }

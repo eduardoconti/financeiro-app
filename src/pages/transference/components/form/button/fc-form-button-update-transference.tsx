@@ -49,7 +49,6 @@ export function FcFormButtonUpdateTransference() {
         pago: payed,
       });
 
-      console.log(transferenceRequest);
       const { status, message, internalMessage } = await updateTransference(
         id,
         transferenceRequest

@@ -28,6 +28,7 @@ import { FcEarningPage } from "@pages/earning/fc-earning";
 import { useWallet } from "@pages/wallet/hooks";
 import { useSpin } from "./hooks";
 import { FcTransference } from "@pages/transference";
+import { useCategory } from "@pages/category/hook";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -90,12 +91,13 @@ function App() {
 
   const initWallet = useWallet((state) => state.fetchWallets);
   const setSpin = useSpin((state) => state.setSpin);
+  const initCategories = useCategory(s=>s.fetchCategories)
 
   useEffect(() => {
     async function start() {
       try {
         setSpin(true);
-        Promise.all([initWallet()]);
+        Promise.all([initWallet(), initCategories()]);
       } catch (error) {
         console.log(error);
       } finally {

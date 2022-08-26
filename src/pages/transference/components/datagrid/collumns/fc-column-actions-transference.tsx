@@ -1,5 +1,5 @@
 import { setCreatedAlert } from "@common/AlertFuncoes";
-import ActionFlagButon from "@components/fc-datagrid/fc-column-actions-flag-button";
+import { FcIconButtonFlagPayed } from "@components/fc-button";
 import { useSpin } from "@hooks/use-spin";
 import { Grid } from "@material-ui/core";
 import { ITransferenceRow, useTransference } from "@pages/transference/hooks";
@@ -47,7 +47,7 @@ export function FcColumnActionsTransfer(props: {
   const { field } = props;
   return (
     <Grid>
-      <ActionFlagButon payed={field.row.payed} onClick={onClick} />
+      <FcIconButtonFlagPayed payed={field.row.payed} onClick={onClick} />
     </Grid>
   );
 }

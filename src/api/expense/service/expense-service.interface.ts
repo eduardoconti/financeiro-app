@@ -4,7 +4,7 @@ import { ExpenseFilter } from "Context";
 import {
   ExpenseDeleteResponseDTO,
   ExpenseDTO,
-  ExpenseResposeDTO,
+  ExpenseResponseDTO,
 } from "../dto";
 export interface IExpenseService {
   getDespesas(
@@ -12,16 +12,16 @@ export interface IExpenseService {
     stateAnoAtual: number,
     stateMesAtual: number,
     filter?: ExpenseFilter
-  ): Promise<SuccessResponseData<ExpenseResposeDTO[]>>;
+  ): Promise<SuccessResponseData<ExpenseResponseDTO[]>>;
 
-  insert(expense: ExpenseDTO): Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  insert(expense: ExpenseDTO): Promise<SuccessResponseData<ExpenseResponseDTO>>;
   update(
     id: number,
     expense: Partial<ExpenseDTO>
-  ): Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  ): Promise<SuccessResponseData<ExpenseResponseDTO>>;
   delete(id: number): Promise<SuccessResponseData<ExpenseDeleteResponseDTO>>;
   updateFlagPayed(
     id: number,
     patchFlag: Pick<ExpenseDTO, "pago">
-  ): Promise<SuccessResponseData<ExpenseResposeDTO>>;
+  ): Promise<SuccessResponseData<ExpenseResponseDTO>>;
 }
