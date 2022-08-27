@@ -2,9 +2,9 @@ import { useTheme } from "@material-ui/core";
 import React from "react";
 import FcIconButton from "../../fc-button/fc-icon-button";
 import ClearIcon from "@material-ui/icons/Clear";
-export default function FcFormIconButtonClear(props) {
+export default function FcFormIconButtonClear(props: any) {
   const theme = useTheme();
-  const { onClick, description, disabled = false } = props;
+  const { onClick, description, disabled, ...rest } = props;
 
   return (
     <FcIconButton
@@ -12,6 +12,7 @@ export default function FcFormIconButtonClear(props) {
       onClick={onClick}
       description={description}
       disabled={disabled}
+      {...rest}
     >
       <ClearIcon fontSize="large" />
     </FcIconButton>

@@ -8,7 +8,7 @@ export default function FcSelectFieldCategory(
 
   return (
     <FcTextField id="select-field-category" label="Categoria" select {...props}>
-      {Menu(categories) as JSX.Element}
+      {Menu(categories)}
     </FcTextField>
   );
 }

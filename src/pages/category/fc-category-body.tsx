@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Grid } from "@material-ui/core";
 
 import FcTableCategory from "./components/table/fc-table-category";

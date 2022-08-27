@@ -19,6 +19,7 @@ export default function FcCategoryFilter() {
     <FcSelectMultiple
       options={categories}
       placeHolder="Categoria"
+      label={"Categoria"}
       getOptionLabel={(option: any) => option.descricao}
       onChange={onChange}
     />

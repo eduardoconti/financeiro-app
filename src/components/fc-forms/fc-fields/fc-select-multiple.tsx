@@ -15,6 +15,7 @@ export function FcSelectMultiple(props: any) {
     <Autocomplete
       multiple
       id="FcSelectMultiple"
+      size="small"
       options={options}
       getOptionLabel={getOptionLabel}
       filterSelectedOptions

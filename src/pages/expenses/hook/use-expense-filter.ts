@@ -6,6 +6,7 @@ export type ExpenseFilter = {
   payed?: boolean;
   dateField?: string;
   categoryId?: number[];
+  subCategoryId?: number[];
   walletId?: number[];
 }
 export interface IUseExpenseFilter {
@@ -21,6 +22,8 @@ export interface IUseExpenseFilter {
   setCategoryId: (categoryId: number[]) => void;
   walletId?: number[];
   setWalletId: (walletId: number[]) => void;
+  subCategoryId?: number[];
+  setSubCategoryId: (subCategoryId: number[]) => void;
 }
 
 export const useExpenseFilter = create<IUseExpenseFilter>((set) => ({
@@ -36,4 +39,6 @@ export const useExpenseFilter = create<IUseExpenseFilter>((set) => ({
   setCategoryId: (categoryId: number[]) => set((s) => ({ ...s, categoryId })),
   walletId: [],
   setWalletId: (walletId: number[]) => set((s) => ({ ...s, walletId })),
+  subCategoryId: [],
+  setSubCategoryId: (subCategoryId: number[]) => set((s) => ({ ...s, subCategoryId })),
 }));

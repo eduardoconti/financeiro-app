@@ -42,7 +42,8 @@ export function FcDataGridExpense() {
   const filter = useExpenseFilter(s => ({
     categoryId: s.categoryId,
     walletId: s.walletId,
-    dateField: s.dateField
+    dateField: s.dateField,
+    subCategoryId: s.subCategoryId
   }), shallow)
 
   const rows = React.useMemo(() => {

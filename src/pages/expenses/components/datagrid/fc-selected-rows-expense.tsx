@@ -15,12 +15,15 @@ import { useDashValues } from "@hooks/use-dash-values";
 import { useCurrentTime } from "@hooks/use-current-time";
 import shallow from "zustand/shallow";
 import { expenseToRequest } from "@pages/expenses/common";
+import { ExpenseService, IExpenseService } from "@api/expense/service";
+import { HttpStatus } from "@common/enum";
 
 export function FcSelectedRowsExpense() {
   const theme = useTheme();
   const selectedRows = useDataGridExpense((s) => s.selectedRows)
-  const expenses = useExpense(s => s.expenses)
+  const expenses = useExpense((s) => s.expenses)
   const value = calculateSelectedRows(selectedRows, expenses);
+
   return (
     <FcSurface>
       <Grid container spacing={1} alignItems="center" >
@@ -66,21 +69,34 @@ function FlagPayedButton(props: {
 }) {
   const { payed } = props
   const selectedRows = useDataGridExpense((s) => s.selectedRows)
-  const update = useExpense(s => s.updateFlagPayed)
   const setSpin = useSpin(s => s.setSpin)
   const { setAlert } = useContext(ContextAlert)
-  const onClick = (() => {
-    selectedRows.forEach(async (id) => {
-      try {
-        setSpin(true)
-        const { status, message, internalMessage } = await update(id, { pago: payed })
-        setAlert(setCreatedAlert(status, message, internalMessage));
-      } catch (error: any) {
+  const { year, month } = useCurrentTime();
+  const { calculate, checkExpenses } = useDashValues((s) => (
+    {
+      calculate: s.calculate,
+      checkExpenses: s.checkExpenses
+    }
+  ), shallow);
+  const fetch = useExpense((s) => s.fetchExpenses)
+  const onClick = (async () => {
+    try {
+      setSpin(true)
+      const expenseService: IExpenseService = new ExpenseService();
+      selectedRows.forEach(async (id) => {
+        await expenseService.updateFlagPayed(id, { pago: payed })
+      })
 
-      } finally {
-        setSpin(false)
-      }
-    })
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await fetch({ year, month, checked: checkExpenses })
+      await calculate(year, month)
+    } catch (error: any) {
+      setAlert(setCreatedAlert(error.status, error.detail, error.title));
+    } finally {
+      setSpin(false)
+    }
+    setAlert(setCreatedAlert(HttpStatus.OK, 'Success', 'Despesas alteradas com sucesso'));
+
   })
   return (<FcIconButtonFlagPayed size="large" payed={payed} onClick={onClick} />)
 
@@ -89,7 +105,7 @@ function FlagPayedButton(props: {
 function DeleteExpenseButton(props: any) {
 
   const selectedRows = useDataGridExpense((s) => s.selectedRows)
-  const deleteExpense = useExpense((s) => s.deleteExpense)
+  const fetch = useExpense((s) => s.fetchExpenses)
   const clearAllFields = useFormExpense((s) => s.clearAllFields)
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
@@ -97,22 +113,26 @@ function DeleteExpenseButton(props: any) {
   const calculate = useDashValues(
     (s) => s.calculate
   );
+  const checkExpenses = useDashValues(s => (s.checkExpenses))
 
   const onClick = async () => {
     try {
       setSpin(true);
+      const expenseService: IExpenseService = new ExpenseService();
       selectedRows.forEach(async (id) => {
-        const { status, message, internalMessage } = await deleteExpense(id);
-        setAlert(setCreatedAlert(status, message, internalMessage));
-
+        await expenseService.delete(id);
+        await new Promise((resolve) => setTimeout(resolve, 200));
       })
-      await calculate(year, month)
       clearAllFields();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await fetch({ year, month, checked: checkExpenses })
+      await calculate(year, month)
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
+    setAlert(setCreatedAlert(HttpStatus.OK, 'Success', 'Despesas excluidas com sucesso'));
   };
 
   return (
@@ -138,16 +158,16 @@ function AddNextMonthButton() {
   const onClick = async () => {
     try {
       setSpin(true);
-      selectedRows.forEach(async (id)=>{
+      selectedRows.forEach(async (id) => {
 
         const expense = expenses.find((e) => e.id === id);
         if (!expense) return;
-  
-       const requestDto = expenseToRequest(expense)
 
-        const { status, message, internalMessage } = await insertExpenseNextMonth(requestDto);
-        setAlert(setCreatedAlert(status, message, internalMessage));
+        const requestDto = expenseToRequest(expense)
+
+        await insertExpenseNextMonth(requestDto);
       })
+      setAlert(setCreatedAlert(HttpStatus.OK, 'Success', 'Despesas inseridas com sucesso'));
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {

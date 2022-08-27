@@ -19,6 +19,7 @@ export default function FcWalletFilter() {
     <FcSelectMultiple
       options={wallets}
       placeHolder="Carteira"
+      label="Carteira"
       getOptionLabel={(option: any) => option.descricao}
       onChange={onChange}
     />

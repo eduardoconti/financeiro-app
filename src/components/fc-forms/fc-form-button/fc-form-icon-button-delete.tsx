@@ -1,16 +1,17 @@
+import FcIconButton from "@components/fc-button/fc-icon-button";
 import { useTheme } from "@material-ui/core";
-import React from "react";
-import FcIconButton from "../../fc-button/fc-icon-button";
+
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
-export default function FcFormIconButtonDelete(props) {
+export default function FcFormIconButtonDelete(props: any) {
   const theme = useTheme();
-  const { onClick, disabled = false } = props;
+  const { onClick, disabled, ...rest } = props;
 
   return (
     <FcIconButton
-      color={disabled ? theme.palette.grey[600] : theme.palette.error.light}
+      color={theme.palette.error.light}
       onClick={onClick}
       disabled={disabled}
+      {...rest}
     >
       <DeleteForeverTwoToneIcon fontSize="large" />
     </FcIconButton>

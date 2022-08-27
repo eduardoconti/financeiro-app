@@ -1,6 +1,6 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core";
-import FcButton from "../../fc-button/fc-button";
+import FcButton from "@components/fc-button/fc-button";
+
 const useStyles = makeStyles((theme) => ({
   botao: {
     background:
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FcFormButton(props) {
+export default function FcFormButton(props: any) {
   const classes = useStyles();
-  const { description = "", onClick = () => {}, ...rest } = props;
+  const { description = "", onClick = () => { }, ...rest } = props;
   return (
     <FcButton
       className={classes.botao}

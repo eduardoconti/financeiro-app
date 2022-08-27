@@ -54,8 +54,10 @@ export function expenseToDataGrid(
     }
 
     if (filter) {
-      if (filter.categoryId && filter.categoryId.length > 0 && !filter.categoryId.includes(categoria.id)) return;
-      if (filter.walletId && filter.walletId.length > 0 && !filter.walletId.includes(carteira.id)) return;
+      const { categoryId, walletId, subCategoryId } = filter
+      if (categoryId && categoryId.length > 0 && !categoryId.includes(categoria.id)) return;
+      if (walletId && walletId.length > 0 && !walletId.includes(carteira.id)) return;
+      if (subCategoryId && subCategoryId.length > 0 && !subCategoryId.includes(subCategory.id)) return;
     }
     dataGridRows.push({
       id: id,
