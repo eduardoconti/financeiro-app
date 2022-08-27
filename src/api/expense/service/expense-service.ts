@@ -1,9 +1,9 @@
 import { CheckedValues } from "@hooks/use-dash-values";
+import { ExpenseFilter } from "@pages/expenses/hook";
 import { HttpRequestService } from "api/http-request";
 import { SuccessResponseData } from "api/http-request/dto";
 import { firstDayOfMonth, lastDayOfMonth } from "common";
 import api from "common/Api";
-import { ExpenseFilter } from "Context";
 import { ExpenseDeleteResponseDTO, ExpenseDTO } from "../dto";
 import { ExpenseResponseDTO } from "../dto/expense-response.dto";
 import { IExpenseService } from "./expense-service.interface";

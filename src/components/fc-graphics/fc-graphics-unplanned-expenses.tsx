@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTheme } from "@material-ui/core";
 import { isAuthenticated, Money } from "common";
-import { SpinContext } from "Context";
 import { GraphicService } from "api/graphic/service";
 import {
   Bar,
@@ -14,15 +13,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useSpin } from "@hooks/use-spin";
 
 export default function FcGraphicUnplannedExpenses() {
-  const { setSpin } = useContext(SpinContext);
+  const setSpin = useSpin(s=>s.setSpin)
   const [unplannedExpenses, setUnplannedExpenses] = useState([]);
 
   const theme = useTheme();
 
   useEffect(() => {
     if (isAuthenticated()) {
+      setSpin(true);
       const service = new GraphicService();
       async function pegaReceitas() {
         const { data, status } = await service.unplannedExpenses();

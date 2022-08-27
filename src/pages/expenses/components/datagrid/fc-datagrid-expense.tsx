@@ -9,9 +9,8 @@ import { useSpin } from "@hooks/use-spin";
 import { useDashValues } from "@hooks/use-dash-values";
 import { useGetCurrentTime } from "@hooks/use-current-time";
 import shallow from "zustand/shallow";
-import { IDataGridRow } from "@pages/expenses/context";
 import { useDataGridExpense } from "@pages/expenses/hook/use-data-grid-expense";
-import { useExpense } from "@pages/expenses/hook";
+import { useExpense, useExpenseFilter } from "@pages/expenses/hook";
 import FcColumnDescription from "@components/fc-datagrid/fc-column-description";
 import { FcColumnWallet } from "@components/fc-datagrid/fc-column-wallet";
 import { FcColumnCategory } from "@components/fc-datagrid/fc-column-category";
@@ -40,9 +39,16 @@ export function FcDataGridExpense() {
   );
   const { year, month } = useGetCurrentTime();
 
+  const filter = useExpenseFilter(s => ({
+    categoryId: s.categoryId,
+    walletId: s.walletId,
+    dateField: s.dateField
+  }), shallow)
+
   const rows = React.useMemo(() => {
-    return expenseToDataGrid(expenses, checkExpenses);
-  }, [expenses, checkExpenses]);
+    return expenseToDataGrid(expenses, checkExpenses, filter);
+  }, [expenses, checkExpenses, filter]);
+
   const {
     setDescription,
     setCategoryId,
@@ -72,6 +78,7 @@ export function FcDataGridExpense() {
     shallow
   );
 
+
   let columns: GridColumns = [FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
@@ -93,7 +100,11 @@ export function FcDataGridExpense() {
     async function start() {
       try {
         setSpin(true);
-        initExpenses({ month: month, year: year });
+        initExpenses({
+          month: month, year: year, filter: {
+            dateField: filter.dateField
+          }
+        });
       } catch (error) {
         console.log(error);
       } finally {
@@ -101,7 +112,7 @@ export function FcDataGridExpense() {
       }
     }
     start();
-  }, [initExpenses, month, setSpin, year]);
+  }, [filter.dateField, initExpenses, month, setSpin, year]);
 
   return (
     <Grid container spacing={1}>

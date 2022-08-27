@@ -1,11 +1,12 @@
 import { ExpenseDTO, ExpenseResponseDTO } from "@api/expense/dto";
-import { dateIso8601, formatDateToDataGrid } from "@common/DateHelper";
+import { addMonth, dateIso8601, formatDateToDataGrid } from "@common/DateHelper";
 import { Money } from "@common/money";
 import { CheckedValues } from "@hooks/use-dash-values";
-import { ExpenseFormType, IDataGridRow } from "../context";
+import { ExpenseFilter, IExpenseForm } from "../hook";
+import { IDataGridExpenseRow } from "../hook/use-data-grid-expense";
 
 export function formToRequest(
-  expenseForm: Omit<ExpenseFormType, "invalidFields">
+  expenseForm: Omit<IExpenseForm, "invalidFields">
 ): ExpenseDTO {
   return ExpenseDTO.build({
     id: expenseForm.id,
@@ -25,9 +26,10 @@ export function formToRequest(
 
 export function expenseToDataGrid(
   expenses: ExpenseResponseDTO[],
-  checked?: CheckedValues
-): IDataGridRow[] {
-  const dataGridRows: IDataGridRow[] = [];
+  checked?: CheckedValues,
+  filter?: ExpenseFilter,
+): IDataGridExpenseRow[] {
+  const dataGridRows: IDataGridExpenseRow[] = [];
   expenses.forEach((expense) => {
     const {
       id,
@@ -50,6 +52,11 @@ export function expenseToDataGrid(
         return;
       }
     }
+
+    if (filter) {
+      if (filter.categoryId && filter.categoryId !== categoria.id) return;
+      if (filter.walletId && filter.walletId !== carteira.id) return;
+    }
     dataGridRows.push({
       id: id,
       description: descricao,
@@ -63,4 +70,32 @@ export function expenseToDataGrid(
     });
   });
   return dataGridRows;
+}
+
+export function expenseToRequest(expense: ExpenseResponseDTO): ExpenseDTO {
+  const {
+    carteira,
+    categoria,
+    subCategory,
+    vencimento,
+    descricao,
+    ...rest
+  } = expense;
+  const nextDate = addMonth(vencimento);
+  const split = descricao.split("/");
+  let newDescription = descricao;
+  if (split.length === 2) {
+    newDescription = parseInt(split[0]) + 1 + "/" + split[1];
+  }
+  return {
+    ...rest,
+    id: undefined,
+    carteiraId: carteira.id,
+    categoriaId: categoria.id,
+    subCategoryId: subCategory.id,
+    vencimento: nextDate,
+    descricao: newDescription,
+    pago: false,
+    pagamento: undefined,
+  }
 }

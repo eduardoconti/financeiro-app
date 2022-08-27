@@ -1,8 +1,8 @@
 import { formatDateToForm, getDay } from "@common/DateHelper";
 import { FcTextFieldPaymentDate } from "@components/fc-forms/fc-fields/fc-text-field-payment-date";
+import { useCurrentTime } from "@hooks/use-current-time";
 import { useFormEarning } from "@pages/earning/hooks";
-import { ContextAnoMes } from "Context";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import shallow from "zustand/shallow";
 
 export function FcTextFieldEarningPaymentDate() {
@@ -23,9 +23,7 @@ export function FcTextFieldEarningPaymentDate() {
     return field.name === "pagamento";
   });
 
-  const { stateMesAtual: month, stateAnoAtual: year } = useContext(
-    ContextAnoMes
-  );
+  const { year, month } = useCurrentTime()
   useEffect(() => {
     setForm(formatDateToForm(new Date(year, month, getDay())));
   }, [month, setForm, year]);

@@ -11,14 +11,14 @@ export interface IDataGridExpenseRow {
   value: string;
   paymentDate?: string;
 }
-export interface IUseDatagridWallet {
+export interface IUseDatagridExpense {
   rows: IDataGridExpenseRow[];
   setRows: (rows: IDataGridExpenseRow[]) => void;
   selectedRows: number[];
   setSelectedRows: (rows: number[]) => void;
   addSelectedRows: (rowId: number) => void;
 }
-export const useDataGridExpense= create<IUseDatagridWallet>((set) => ({
+export const useDataGridExpense= create<IUseDatagridExpense>((set) => ({
   rows: [],
   setRows: (rows: IDataGridExpenseRow[]) => set((s) => ({ ...s, rows: rows })),
   selectedRows: [],

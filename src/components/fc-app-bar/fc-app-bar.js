@@ -20,11 +20,10 @@ import LoginModal from "../../components/LoginModal";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
-import { Tooltip } from "@material-ui/core";
+import { Grid, Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import BotaoAno from "../BotaoAno";
-import BotaoMesSmall from "components/BotaoMesSmall";
 import { ColorModeContext } from "App";
+import { FcSelectMonthButton, FcSelectYearButton } from "@components/fc-button";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -161,7 +160,7 @@ export default function ButtonAppBar() {
   };
 
   return (
-    <div className={classes.root}>
+    <Grid className={classes.root}>
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -205,11 +204,12 @@ export default function ButtonAppBar() {
               ? "AMBIENTE DE TESTE"
               : null}
           </div>
-
-          <BotaoMesSmall />
-
-          <BotaoAno />
-
+          <div style={{ marginLeft: 10, marginRight: 10, width: 100 }}>
+            <FcSelectMonthButton />
+          </div>
+          <div style={{ marginRight: 10, width: 100 }}>
+            <FcSelectYearButton />
+          </div>
           <Tooltip title="Set light/dark mode">
             <IconButton
               color="inherit"
@@ -277,6 +277,6 @@ export default function ButtonAppBar() {
         </div>
         <div className={classes.background} />
       </Drawer>
-    </div>
+    </Grid>
   );
 }

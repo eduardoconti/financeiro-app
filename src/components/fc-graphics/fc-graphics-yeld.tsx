@@ -5,22 +5,19 @@ import {
   retornaReceitasAgrupadasPorCarteiraChecked,
 } from "../../common/ReceitaFuncoes";
 import { ContextChecked } from "../../Context/CheckedContext";
-import { ContextAnoMes } from "../../Context/AnoMesContext";
 import { isAuthenticated } from "../../common/Auth";
-import { SpinContext } from "../../Context/SpinContext";
+import { useSpin } from "@hooks/use-spin";
 import { useTheme } from "@material-ui/core";
 import FcSurface from "../fc-surface/fc-surface";
 import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
 import { Money } from "common";
+import { useCurrentTime } from "@hooks/use-current-time";
 
 export default function FcGraphicsYeld() {
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const { setSpin } = useContext(SpinContext);
-
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const { year, month } = useCurrentTime();
+  const setSpin = useSpin(s=>s.setSpin)
 
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
@@ -37,36 +34,38 @@ export default function FcGraphicsYeld() {
         if (stateGrafico === "1") {
           receitas = await getReceitas(
             stateCheckedReceitas,
-            stateAnoAtual,
-            stateMesAtual
+            year,
+            month
           );
           setDescricao("Receitas");
         } else if (stateGrafico === "2") {
           receitas = await retornaReceitasAgrupadasPorCarteiraChecked(
             stateCheckedReceitas,
-            stateAnoAtual,
-            stateMesAtual
+            year,
+            month
           );
           setDescricao("Receitas por Carteira");
         }
         if (receitas.status === 200) {
           const { data } = receitas;
           setReceitas(
-            data.map((item) => {
+            data.map((item: any) => {
               item.valor = Money.toFloat(item.valor);
               return item;
             })
           );
         }
       }
+      setSpin(true)
       pegaReceitas();
+      setSpin(false)
     } else {
       setReceitas([]);
     }
   }, [
     stateCheckedReceitas,
-    stateAnoAtual,
-    stateMesAtual,
+    year,
+    month,
     stateGrafico,
     setSpin,
   ]);
@@ -74,7 +73,7 @@ export default function FcGraphicsYeld() {
   return (
     <FcSurface>
       <RadioButtons
-        setStateGrafico={(stateGrafico) => {
+        setStateGrafico={(stateGrafico: string) => {
           setStateGrafico(stateGrafico);
         }}
         cor={theme.palette.success.main}

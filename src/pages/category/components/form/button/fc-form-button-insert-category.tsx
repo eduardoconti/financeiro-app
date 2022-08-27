@@ -23,6 +23,7 @@ export default function FcFormButtonInsertCategory() {
       description="cadastrar"
       onClick={async () => {
         try {
+          setSpin(true)
           const { status, message, internalMessage } = await insertCategory(categoryRequest);
           setAlert(setCreatedAlert(status, message, internalMessage));
           clearAllFields();

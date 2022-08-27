@@ -3,7 +3,7 @@ import { ValidationErrorDTO } from "api/http-request/dto";
 
 export type FcTextFieldProps = {
   id: string;
-  label: string;
+  label?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number | boolean;
   defaultValue?: string | number | boolean;

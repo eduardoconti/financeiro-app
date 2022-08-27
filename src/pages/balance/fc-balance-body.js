@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../../common/DepesaFuncoes";
@@ -8,10 +8,10 @@ import {
   retornaValoresTransferenciasDestino,
 } from "../../common/TransferenciaFuncoes";
 
-import { SpinContext } from "../../Context/SpinContext";
-import { ContextAnoMes } from "../../Context/AnoMesContext";
+import { useSpin } from "@hooks/use-spin";
 import { isAuthenticated } from "common";
 import { FcCardWalletBalance } from "@components/fc-dash";
+import { useCurrentTime } from "@hooks/use-current-time";
 
 async function RetornaCards(ano, mes) {
   let object = await retornaDadosParaCard(ano, mes);
@@ -82,26 +82,26 @@ async function retornaDadosParaCard(ano, mes) {
     });
 
     return dadosCard;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 export default function CorpoBalanco() {
   const [cards, setCards] = useState([]);
-  const { setSpin } = useContext(SpinContext);
-  const ctxAnoMes = useContext(ContextAnoMes);
-
+  const setSpin = useSpin(s => s.setSpin);
+  const { year, month } = useCurrentTime();
   useEffect(() => {
     if (isAuthenticated()) {
       set();
     }
 
     async function set() {
+      setSpin(true);
       setCards(
-        await RetornaCards(ctxAnoMes.stateAnoAtual, ctxAnoMes.stateMesAtual)
+        await RetornaCards(year, month)
       );
       setSpin(false);
     }
-  }, [ctxAnoMes, setSpin]);
+  }, [month, setSpin, year]);
 
   return (
     <Grid container direction="row" spacing={1}>

@@ -1,8 +1,9 @@
 import { formatDateToForm, getDay } from "@common/DateHelper";
 import { FcTextFieldPaymentDate } from "@components/fc-forms/fc-fields/fc-text-field-payment-date";
+import { useCurrentTime } from "@hooks/use-current-time";
 import { useFormTransference } from "@pages/transference/hooks";
-import { ContextAnoMes } from "Context";
-import { useContext, useEffect } from "react";
+
+import { useEffect } from "react";
 import shallow from "zustand/shallow";
 
 export function FcTextFieldTransferenceDate() {
@@ -27,9 +28,8 @@ export function FcTextFieldTransferenceDate() {
     return field.name === "transferencia";
   });
 
-  const { stateMesAtual: month, stateAnoAtual: year } = useContext(
-    ContextAnoMes
-  );
+  const { year, month } = useCurrentTime()
+
   useEffect(() => {
     setTransferenceDate(formatDateToForm(new Date(year, month, getDay())));
   }, [month, setTransferenceDate, year]);

@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import { Grid, PaletteType } from "@material-ui/core";
 
 import Dash from "./components/fc-dash/fc-dash";
-import { SpinProvider } from "./Context/SpinContext";
 import { CheckedProvider } from "./Context/CheckedContext";
-import { AnoMesProvider } from "./Context/AnoMesContext";
 import { AlertProvider } from "./Context/AlertContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
@@ -14,7 +12,6 @@ import {
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
-import BotaoMes from "./components/BotaoMes";
 import FcExpense from "./pages/expenses/fc-expense";
 import AlertComponent from "./components/Alert";
 import FcBalance from "./pages/balance/fc-balance";
@@ -22,16 +19,15 @@ import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
 import FcCategory from "./pages/category/fc-category";
 import FcHome from "./pages/home/fc-home";
-import CategoryProvider from "pages/category/context/category-context";
-import ExpenseFilterProvider from "Context/expense-filter-context";
 import { FcEarningPage } from "@pages/earning/fc-earning";
 import { useWallet } from "@pages/wallet/hooks";
 import { useSpin } from "./hooks";
 import { FcTransference } from "@pages/transference";
 import { useCategory } from "@pages/category/hook";
+import BotaoMes from "@components/BotaoMes";
 
 export const ColorModeContext = React.createContext({
-  toggleColorMode: () => {},
+  toggleColorMode: () => { },
 });
 
 function App() {
@@ -91,7 +87,7 @@ function App() {
 
   const initWallet = useWallet((state) => state.fetchWallets);
   const setSpin = useSpin((state) => state.setSpin);
-  const initCategories = useCategory(s=>s.fetchCategories)
+  const initCategories = useCategory(s => s.fetchCategories)
 
   useEffect(() => {
     async function start() {
@@ -105,91 +101,83 @@ function App() {
       }
     }
     start();
-  }, [initWallet, setSpin]);
+  }, [initCategories, initWallet, setSpin]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <MuiThemeProvider theme={theme}>
-        <SpinProvider>
-          <AlertProvider>
-            <CheckedProvider>
-              <AnoMesProvider>
-                <Grid
-                  style={{
-                    backgroundColor: theme.palette.background.default,
-                    display: "flex",
-                  }}
-                >
-                  <CssBaseline>
-                    <ExpenseFilterProvider>
-                      <CategoryProvider>
-                        <Router>
-                          <ButtonAppBar />
-                          <AlertComponent />
-                          <Grid
-                            container
-                            spacing={1}
-                            className={classes.content}
-                          >
-                            {<Grid className={classes.toolbar} />}
-                            {window.innerWidth > theme.breakpoints.values.sm ? (
-                              <Grid item xs={12}>
-                                <BotaoMes />
-                              </Grid>
-                            ) : null}
-                            <Grid item xs={12}>
-                              <Dash />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <Switch>
-                                <Route exact path="/" component={FcHome} />
-                                <Route
-                                  exact
-                                  path="/despesas"
-                                  component={FcExpense}
-                                />
-                                <Route
-                                  exact
-                                  path="/receitas"
-                                  component={FcEarningPage}
-                                />
-                                <Route
-                                  exact
-                                  path="/transferencias"
-                                  component={FcTransference}
-                                />
-                                <Route
-                                  exact
-                                  path="/balanco"
-                                  component={FcBalance}
-                                />
-                                <Route
-                                  exact
-                                  path="/saldo"
-                                  component={FcBalanceMonth}
-                                />
-                                <Route
-                                  exact
-                                  path="/carteiras"
-                                  component={FcWallet}
-                                />
-                                <Route
-                                  exact
-                                  path="/categorias"
-                                  component={FcCategory}
-                                />
-                              </Switch>
-                            </Grid>
-                          </Grid>
-                        </Router>
-                      </CategoryProvider>
-                    </ExpenseFilterProvider>
-                  </CssBaseline>
-                </Grid>
-              </AnoMesProvider>
-            </CheckedProvider>
-          </AlertProvider>
-        </SpinProvider>
+        <AlertProvider>
+          <CheckedProvider>
+            <Grid
+              style={{
+                backgroundColor: theme.palette.background.default,
+                display: "flex",
+              }}
+            >
+              <CssBaseline>
+                <Router>
+                  <ButtonAppBar />
+                  <AlertComponent />
+                  <Grid
+                    container
+                    spacing={1}
+                    className={classes.content}
+                  >
+                    {<Grid className={classes.toolbar} />}
+                    {window.innerWidth > theme.breakpoints.values.sm ? (
+                      <Grid item xs={12}>
+                        <BotaoMes />
+                      </Grid>
+                    ) : null}
+                    <Grid item xs={12}>
+                      <Dash />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Switch>
+                        <Route exact path="/" component={FcHome} />
+                        <Route
+                          exact
+                          path="/despesas"
+                          component={FcExpense}
+                        />
+                        <Route
+                          exact
+                          path="/receitas"
+                          component={FcEarningPage}
+                        />
+                        <Route
+                          exact
+                          path="/transferencias"
+                          component={FcTransference}
+                        />
+                        <Route
+                          exact
+                          path="/balanco"
+                          component={FcBalance}
+                        />
+                        <Route
+                          exact
+                          path="/saldo"
+                          component={FcBalanceMonth}
+                        />
+                        <Route
+                          exact
+                          path="/carteiras"
+                          component={FcWallet}
+                        />
+                        <Route
+                          exact
+                          path="/categorias"
+                          component={FcCategory}
+                        />
+                      </Switch>
+                    </Grid>
+                  </Grid>
+                </Router>
+              </CssBaseline>
+            </Grid>
+          </CheckedProvider>
+        </AlertProvider>
       </MuiThemeProvider>
     </ColorModeContext.Provider>
   );

@@ -1,11 +1,12 @@
 import { setCreatedAlert } from "@common/AlertFuncoes";
 import ActionDeleteButon from "@components/fc-datagrid/fc-column-actions-delete-button";
 import ActionUpdateButon from "@components/fc-datagrid/fc-column-actions-update-button";
+import { useSpin } from "@hooks/use-spin";
 import { Grid } from "@material-ui/core";
 import { GridCellParams } from "@material-ui/data-grid";
 import { IWalletRow, useWallet } from "@pages/wallet/hooks";
 import { useFormWallet } from "@pages/wallet/hooks/use-form-wallet";
-import { ContextAlert, SpinContext } from "Context";
+import { ContextAlert } from "Context";
 import { useContext } from "react";
 import shallow from "zustand/shallow";
 export function FcColumnActionsWallet(props: { field: GridCellParams }) {
@@ -15,7 +16,7 @@ export function FcColumnActionsWallet(props: { field: GridCellParams }) {
   );
   const deleteWallet = useWallet((state) => state.deleteWallet);
   const { setAlert } = useContext(ContextAlert);
-  const { setSpin } = useContext(SpinContext);
+  const setSpin = useSpin(s=>s.setSpin)
   const { field } = props;
   const onClickUpdate = () => {
     setForm(field.row as IWalletRow);
@@ -23,6 +24,7 @@ export function FcColumnActionsWallet(props: { field: GridCellParams }) {
 
   const onClickDelete = async () => {
     try {
+      setSpin(true)
       const { status, message, internalMessage } = await deleteWallet(
         field.row.id
       );

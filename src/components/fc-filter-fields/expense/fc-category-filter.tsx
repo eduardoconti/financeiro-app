@@ -1,37 +1,32 @@
-import { CategoryResponseDTO } from "@api/category/dto";
 import { FcTextField } from "@components/fc-forms/fc-fields";
 import Menu from "@components/fc-forms/fc-menu-tem/fc-menu-item";
 import { useCategory } from "@pages/category/hook";
-import { ContextExpenseFilter, ExpenseFilterContextType } from "Context";
-import { useContext, useEffect, useState } from "react";
+import { useExpenseFilter } from "@pages/expenses/hook";
+import { useMemo } from "react";
+import shallow from "zustand/shallow";
 
 export default function FcCategoryFilter() {
-  const { filter, setFilter } = useContext(
-    ContextExpenseFilter
-  ) as ExpenseFilterContextType;
-  const [cat, setCategories] = useState<CategoryResponseDTO[]>([]);
+
   const { categories } = useCategory();
+  const { categoryId, setCategoryId } = useExpenseFilter(s => ({
+    categoryId: s.categoryId,
+    setCategoryId: s.setCategoryId
+  }), shallow)
 
-  useEffect(() => {
-    async function fetchData() {
-      const newCategories = [...categories];
-      newCategories.unshift({ id: 0, descricao: "Todas", subCategories: [] });
-      setCategories(newCategories);
-    }
-    fetchData();
-  }, [categories]);
-
+  const categoriesFilter = useMemo(() => {
+    return [{ id: 0, descricao: "Todas", subCategories: [] }, ...categories]
+  }, [categories])
   return (
     <FcTextField
       id={"fc-category-filter"}
       label={"Categoria"}
-      value={filter?.categoryId ?? 0}
+      value={categoryId ?? 0}
       select
       onChange={(event) => {
-        setFilter({ ...filter, categoryId: parseInt(event.target.value) });
+        setCategoryId(parseInt(event.target.value));
       }}
     >
-      {Menu(cat)}
+      {Menu(categoriesFilter)}
     </FcTextField>
   );
 }

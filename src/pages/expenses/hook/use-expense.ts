@@ -7,9 +7,10 @@ import { ExpenseService, IExpenseService } from "@api/expense/service";
 import { SuccessResponseData } from "@api/http-request/dto";
 import { CheckedValues } from "@hooks/use-dash-values";
 import create from "zustand";
+import { ExpenseFilter } from "./use-expense-filter";
 export interface IUseExpense {
   expenses: ExpenseResponseDTO[];
-  fetchExpenses: (params?: any) => Promise<void>;
+  fetchExpenses: (params: FetchParams) => Promise<void>;
   insertExpense: (
     expense: ExpenseDTO
   ) => Promise<SuccessResponseData<ExpenseResponseDTO>>;
@@ -30,10 +31,10 @@ export interface IUseExpense {
 }
 
 export type FetchParams = {
-  checked: CheckedValues;
   year: number;
   month: number;
-  filter: any;
+  checked?: CheckedValues;
+  filter?: ExpenseFilter;
 };
 
 export const useExpense = create<IUseExpense>((set) => ({

@@ -1,29 +1,28 @@
-import { TextField } from "@material-ui/core";
+import { FcTextField } from "@components/fc-forms/fc-fields";
+import { useExpenseFilter } from "@pages/expenses/hook";
 import Menu from "components/fc-forms/fc-menu-tem/fc-menu-item";
-import { ContextExpenseFilter, ExpenseFilterContextType } from "Context";
-import { useContext } from "react";
+import shallow from "zustand/shallow";
+
 const options = [
   { id: "DUE_DATE", descricao: "Vencimento" },
   { id: "UNPLANNED", descricao: "Não Planejadas" },
 ];
 export default function FcDateTypeFilter() {
-  const { filter, setFilter } = useContext(
-    ContextExpenseFilter
-  ) as ExpenseFilterContextType;
+  const { dateField, setDateField } = useExpenseFilter(s => ({
+    dateField: s.dateField,
+    setDateField: s.setDateField
+  }), shallow)
   return (
-    <TextField
+    <FcTextField
       id={"fc-date-type-filter"}
       label={"Tipo"}
-      variant="outlined"
-      size="small"
-      fullWidth
-      value={filter?.dateField ?? "DUE_DATE"}
+      value={dateField ?? "DUE_DATE"}
       select
       onChange={(event) => {
-        setFilter({ ...filter, dateField: event.target.value });
+        setDateField(event.target.value);
       }}
     >
       {Menu(options)}
-    </TextField>
+    </FcTextField>
   );
 }

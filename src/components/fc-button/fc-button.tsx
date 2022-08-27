@@ -2,11 +2,8 @@ import Button from "@material-ui/core/Button";
 import SpinCircular from "components/fc-spin/fc-spin";
 import { useSpin } from "@hooks/use-spin";
 
-export type FcButton = {
-  
-}
 export default function FcButton(props: any) {
-  const { description, onClick, className } = props;
+  const { description, onClick, className, ...rest } = props;
   const { spin } = useSpin();
   return (
     <Button
@@ -15,6 +12,7 @@ export default function FcButton(props: any) {
       onClick={onClick}
       className={className}
       disabled={spin}
+      {...rest}
     >
       {spin ? <SpinCircular size={20} color="secondary" /> : description}
     </Button>

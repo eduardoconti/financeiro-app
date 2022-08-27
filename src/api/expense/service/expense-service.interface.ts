@@ -1,6 +1,6 @@
 import { CheckedValues } from "@hooks/use-dash-values";
+import { ExpenseFilter } from "@pages/expenses/hook";
 import { SuccessResponseData } from "api/http-request/dto";
-import { ExpenseFilter } from "Context";
 import {
   ExpenseDeleteResponseDTO,
   ExpenseDTO,

@@ -1,17 +1,12 @@
-import { useContext } from "react";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import { ContextAnoMes } from "../Context/AnoMesContext";
 import { Typography } from "@material-ui/core";
 import { monthNames } from "../common/fc-constants";
 import { useCurrentTime } from "@hooks/use-current-time";
 import shallow from "zustand/shallow";
 export default function BotaoMes() {
-  const ctxAnoMes = useContext(ContextAnoMes);
-  const stateMesAtual = ctxAnoMes.stateMesAtual;
-  const setStateMesAtual = ctxAnoMes.setStateMesAtual;
+
   const useStyles = makeStyles((theme) => ({
     botao: {
       background: theme.palette.background.paper,
@@ -44,7 +39,6 @@ export default function BotaoMes() {
           <CardActionArea
             className={month === i ? classes.ativo : classes.botao}
             onClick={() => {
-              setStateMesAtual(month === i ? undefined : i);
               setMonth(i);
             }}
           >
