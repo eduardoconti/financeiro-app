@@ -1,4 +1,4 @@
-import { Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import FcSurface from "components/fc-surface/fc-surface";
 import { useDataGridExpense } from "pages/expenses/hook/use-data-grid-expense";
 import FcFormIconButtonAddNextMonth from "@components/fc-forms/fc-form-button/fc-form-icon-button-add-next-month";
@@ -19,7 +19,7 @@ import { ExpenseService, IExpenseService } from "@api/expense/service";
 import { HttpStatus } from "@common/enum";
 
 export function FcSelectedRowsExpense() {
-  const theme = useTheme();
+  
   const selectedRows = useDataGridExpense((s) => s.selectedRows)
   const expenses = useExpense((s) => s.expenses)
   const value = calculateSelectedRows(selectedRows, expenses);
@@ -44,13 +44,12 @@ export function FcSelectedRowsExpense() {
           </Grid>
         </Grid>
         <Grid item xs={2} sm={6}>
-          <Typography variant="subtitle1" align="right" style={{ marginRight: theme.spacing(11) }}>
+          <Typography variant="subtitle1" align="right">
             {Money.format(value)}
           </Typography>
         </Grid>
       </Grid>
     </FcSurface>
-
   );
 }
 

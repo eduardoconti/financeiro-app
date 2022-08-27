@@ -10,16 +10,16 @@ export default function FcDataGridFilters() {
   return (
     <FcSurface>
       <Grid container spacing={1}>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <FcDateTypeFilter />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <FcCategoryFilter />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3}>
           <FcSubCategoryFilter />
-        </Grid> 
-        <Grid item xs={3}>
+        </Grid>
+        <Grid item xs={6} sm={3}>
           <FcWalletFilter />
         </Grid>
       </Grid>
