@@ -1,5 +1,4 @@
 import { WalletResponseDTO } from "@api/wallet/dto";
-import { FcTextField } from "@components/fc-forms/fc-fields";
 import { FcSelectMultiple } from "@components/fc-forms/fc-fields/fc-select-multiple";
 import { useExpenseFilter } from "@pages/expenses/hook";
 import { useWallet } from "@pages/wallet/hooks";

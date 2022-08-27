@@ -30,7 +30,7 @@ export const useExpenseFilter = create<IUseExpenseFilter>((set) => ({
   setEnd: (end: string) => set((s) => ({ ...s, end })),
   payed: undefined,
   setPayed: (payed: boolean) => set(s => ({ ...s, payed })),
-  dateField: '',
+  dateField: 'DUE_DATE',
   setDateField: (dateField: string) => set((s) => ({ ...s, dateField })),
   categoryId: [],
   setCategoryId: (categoryId: number[]) => set((s) => ({ ...s, categoryId })),
