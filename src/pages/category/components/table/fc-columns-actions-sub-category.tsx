@@ -42,7 +42,6 @@ export default function FcColumnActionsSubCategory(props: {
             setSpin(false)
           }
         }}
-        refreshTotal={false}
       />
     </Grid>
   );

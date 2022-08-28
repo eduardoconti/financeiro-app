@@ -22,7 +22,11 @@ import { expenseToDataGrid } from "@pages/expenses/common";
 import { Grid } from "@material-ui/core";
 
 export function FcDataGridExpense() {
-  const { setSelectedRows, selectedRows } = useDataGridExpense((s) => ({ selectedRows: s.selectedRows, setSelectedRows: s.setSelectedRows }), shallow);
+  const { setSelectedRows, selectedRows } = useDataGridExpense((s) => (
+    {
+      selectedRows: s.selectedRows,
+      setSelectedRows: s.setSelectedRows
+    }), shallow);
   const { initExpenses, expenses } = useExpense(
     (state) => ({
       initExpenses: state.fetchExpenses,

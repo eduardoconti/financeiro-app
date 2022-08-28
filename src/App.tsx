@@ -13,7 +13,7 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
 import FcExpense from "./pages/expenses/fc-expense";
-import AlertComponent from "./components/Alert";
+import AlertComponent from "./components/fc-alert";
 import FcBalance from "./pages/balance/fc-balance";
 import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";
@@ -77,6 +77,12 @@ function App() {
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       minHeight: 48,
+      "@media (min-width:0px) and (orientation: landscape)": {
+        minHeight: 42,
+      },
+      "@media(min-width:600px)": {
+        minHeight: 48,
+      },
     },
     content: {
       padding: theme.spacing(1),
@@ -124,11 +130,11 @@ function App() {
                     className={classes.content}
                   >
                     {<Grid className={classes.toolbar} />}
-                    {window.innerWidth > theme.breakpoints.values.sm ? (
+                    {/* {window.innerWidth > theme.breakpoints.values.sm ? (
                       <Grid item xs={12}>
                         <BotaoMes />
                       </Grid>
-                    ) : null}
+                    ) : null} */}
                     <Grid item xs={12}>
                       <Dash />
                     </Grid>
