@@ -5,14 +5,27 @@ import { useContext } from "react";
 import { ContextAlert } from "Context";
 import { useSpin } from "@hooks/use-spin";
 import { setCreatedAlert } from "@common/AlertFuncoes";
+import shallow from "zustand/shallow";
 
 export default function FcFormButtonUpdateSubCategory() {
   const updateSubCategory = useCategory(s => s.updateSubCategory);
-  const { formSubCategory, clearAllFields, setInvalidFields } = useFormSubCategory();
+  const {
+    id,
+    description,
+    categoryId,
+    clearAllFields,
+    setInvalidFields,
+  } = useFormSubCategory((s) => ({
+    id: s.id,
+    description: s.description,
+    categoryId: s.categoryId,
+    clearAllFields: s.clearAllFields,
+    setInvalidFields: s.setInvalidFields
+  }), shallow)
   const update = SubCategoryRequestDTO.build({
-    id: formSubCategory.subCategoryId,
-    description: formSubCategory.subCategoryDescription,
-    categoryId: formSubCategory.categoryId,
+    id,
+    description,
+    categoryId: categoryId,
   });
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
@@ -27,7 +40,7 @@ export default function FcFormButtonUpdateSubCategory() {
           setAlert(setCreatedAlert(status, message, internalMessage));
           clearAllFields();
         } catch (error: any) {
-          setInvalidFields(error);
+          setInvalidFields(error?.invalidFields);
           setAlert(setCreatedAlert(error.status, error.detail, error.title));
         } finally {
           setSpin(false)

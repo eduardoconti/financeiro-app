@@ -1,27 +1,46 @@
-import { useContext } from "react";
-import { ContextFormCategory, FormCategoryContextType } from "../context";
+import { ValidationErrorDTO } from "@api/http-request/dto"
+import create from "zustand"
 
-type UseFormCategoryHook = {
-  setInvalidFields: (error?: any) => void;
-  clearAllFields: () => void;
-};
-
-export function useFormCategory(): FormCategoryContextType &
-  UseFormCategoryHook {
-  const context = useContext(ContextFormCategory) as FormCategoryContextType;
-
-  if (!context) {
-    throw new Error("useCategory must be used within a CategoryProvider");
-  }
-  const setInvalidFields = (error?: any) => {
-    context.dispatch({
-      type: "setInvalidFields",
-      invalidFields: error?.invalidFields ?? [],
-    });
-  };
-
-  const clearAllFields = () => {
-    context.dispatch({ type: "clearAll" });
-  };
-  return { ...context, setInvalidFields, clearAllFields };
+export interface ICategoryForm {
+  d: number
+  description: string
+  subCategoryId: number
+  subCategoryDescription: string
+  invalidFields: ValidationErrorDTO[]
 }
+
+export interface IUseFormCategory {
+  id: number
+  setId: (id: number) => void
+  description: string
+  setDescription: (description: string) => void
+  subCategoryId: number
+  setSubCategoryId: (subCategoryId: number) => void
+  subCategoryDescription: string
+  setSubCategoryDescription: (subCategoryDescription: string) => void
+  invalidFields?: ValidationErrorDTO[]
+  setInvalidFields: (invalidFields: ValidationErrorDTO[]) => void
+  clearAllFields: () => void
+}
+
+export const useFormCategory = create<IUseFormCategory>((set) => ({
+  id: 0,
+  setId: (id: number) => (set((s) => ({ ...s, id }))),
+  description: '',
+  setDescription: (description: string) => (set((s) => ({ ...s, description }))),
+  subCategoryId: 0,
+  setSubCategoryId: (subCategoryId: number) => (set((s) => ({ ...s, subCategoryId }))),
+  subCategoryDescription: '',
+  setSubCategoryDescription: (subCategoryDescription: string) => (set((s) => ({ ...s, subCategoryDescription }))),
+  invalidFields: [],
+  setInvalidFields: (invalidFields: ValidationErrorDTO[]) =>
+    set({ invalidFields: invalidFields }),
+  clearAllFields: () => set(
+    {
+      id: 0,
+      description: '',
+      subCategoryId: 0,
+      subCategoryDescription: '',
+      invalidFields: []
+    }),
+}))

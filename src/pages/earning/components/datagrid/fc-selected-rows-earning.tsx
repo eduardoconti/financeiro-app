@@ -27,7 +27,7 @@ export function FcSelectedRowsEarning() {
   return (
     <FcSurface>
       <Grid container spacing={1} alignItems="center" >
-        <Grid item xs={10} sm={6}>
+        <Grid item xs={9} sm={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
               <AddNextMonthButton />
@@ -43,7 +43,7 @@ export function FcSelectedRowsEarning() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2} sm={6}>
+        <Grid item xs={3} sm={6}>
           <Typography variant="subtitle1" align="right">
             {Money.format(value)}
           </Typography>

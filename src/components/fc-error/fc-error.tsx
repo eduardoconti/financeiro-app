@@ -24,7 +24,7 @@ export default class ErrorBoundary extends React.Component<any, StateError> {
     };
 
     const autoHide = this.state?.error?.invalidFields
-      ? this.state.error.invalidFields.length * 2000
+      ? this.state.error?.invalidFields.length * 2000
       : 4000;
     const { theme } = this.props;
     const anchorOrigin = {

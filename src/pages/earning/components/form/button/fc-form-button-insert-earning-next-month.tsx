@@ -27,7 +27,7 @@ export function FcFormButtonInsertEarningNextMonth() {
       );
       setAlert(setCreatedAlert(status, message, internalMessage));
     } catch (error: any) {
-      setInvalidFields(error.invalidFields);
+      setInvalidFields(error?.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);

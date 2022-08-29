@@ -1,50 +1,40 @@
-import { useContext } from "react";
-import {
-  ContextFormSubCategory,
-  FormSubCategoryContextType,
-  SubCategoryFormType,
-} from "../context/form-sub-category-context";
+import { ValidationErrorDTO } from "@api/http-request/dto"
+import create from "zustand"
 
-type UseFormSubCategoryHook = {
-  clearAllFields: () => void;
-  setFormSubCategory: (subCategoryForm: Partial<SubCategoryFormType>) => void;
-  setInvalidFields: (error: any) => void;
-};
-
-export function useFormSubCategory(): FormSubCategoryContextType &
-  UseFormSubCategoryHook {
-  const context = useContext(
-    ContextFormSubCategory
-  ) as FormSubCategoryContextType;
-
-  if (!context) {
-    throw new Error(
-      "useFormSubCategory must be used within a CategoryProvider"
-    );
-  }
-
-  const clearAllFields = () => {
-    context.dispatch({ type: "clearAll" });
-  };
-
-  const setFormSubCategory = (
-    subCategoryForm: Partial<SubCategoryFormType>
-  ) => {
-    context.dispatch({
-      type: "setFormSubCategory",
-      payload: { ...context.formSubCategory, ...subCategoryForm },
-    });
-  };
-
-  const setInvalidFields = (error: any) => {
-    context.dispatch({
-      type: "setInvalidFields",
-      payload: {
-        ...context.formSubCategory,
-        invalidFields: error.invalidFields,
-      },
-    });
-  };
-
-  return { ...context, clearAllFields, setFormSubCategory, setInvalidFields };
+export interface IFormSubCategory {
+  d: number
+  description: string
+  categoryId: number
+  invalidFields: ValidationErrorDTO[]
 }
+
+export interface IUseFormSubCategory {
+  id: number
+  setId: (id: number) => void
+  description: string
+  setDescription: (description: string) => void
+  categoryId: number
+  setCategoryId: (categoryId: number) => void
+  invalidFields?: ValidationErrorDTO[]
+  setInvalidFields: (invalidFields: ValidationErrorDTO[]) => void
+  clearAllFields: () => void
+}
+
+export const useFormSubCategory = create<IUseFormSubCategory>((set) => ({
+  id: 0,
+  setId: (id: number) => (set((s) => ({ ...s, id }))),
+  description: '',
+  setDescription: (description: string) => (set((s) => ({ ...s, description }))),
+  categoryId: 0,
+  setCategoryId: (categoryId: number) => (set((s) => ({ ...s, categoryId }))),
+  invalidFields: [],
+  setInvalidFields: (invalidFields: ValidationErrorDTO[]) =>
+    set({ invalidFields: invalidFields }),
+  clearAllFields: () => set(
+    {
+      id: 0,
+      description: '',
+      categoryId: 0,
+      invalidFields: []
+    }),
+}))

@@ -12,7 +12,10 @@ export default function FcColumnActionsCategory(props: {
   field: CategoryResponseDTO;
 }) {
   const deleteCategory = useCategory(s => s.deleteCategory);
-  const { dispatch } = useFormCategory();
+  const { setId, setDescription } = useFormCategory((s) => ({
+    setId: s.setId,
+    setDescription: s.setDescription
+  }))
   const { field } = props;
   const setSpin = useSpin(s => s.setSpin);
   const { setAlert } = useContext(ContextAlert);
@@ -20,14 +23,8 @@ export default function FcColumnActionsCategory(props: {
     <Grid>
       <ActionUpdateButon
         onClick={async () => {
-          dispatch({
-            type: "setCategoryId",
-            categoryId: field.id,
-          });
-          dispatch({
-            type: "setCategoryDescription",
-            categoryDescription: field.descricao,
-          });
+          setId(field.id)
+          setDescription(field.descricao)
         }}
       />
       <ActionDeleteButon

@@ -9,12 +9,21 @@ import { useSpin } from "@hooks/use-spin";
 import { useContext } from "react";
 import { ContextAlert } from "Context";
 import { setCreatedAlert } from "@common/AlertFuncoes";
+import shallow from "zustand/shallow";
 
 export default function FcColumnActionsSubCategory(props: {
   field: SubCategoryResponseDTO;
 }) {
   const deleteSubCategory = useCategory(s => s.deleteSubCategory);
-  const { setFormSubCategory } = useFormSubCategory();
+  const {
+    setId,
+    setDescription,
+    setCategoryId,
+  } = useFormSubCategory((s) => ({
+    setId: s.setId,
+    setDescription: s.setDescription,
+    setCategoryId: s.setCategoryId,
+  }), shallow)
   const { field } = props;
 
   const setSpin = useSpin(s => s.setSpin);
@@ -23,11 +32,9 @@ export default function FcColumnActionsSubCategory(props: {
     <Grid>
       <ActionUpdateButon
         onClick={async () => {
-          setFormSubCategory({
-            categoryId: field.categoryId,
-            subCategoryDescription: field.description,
-            subCategoryId: field.id,
-          });
+          setId(field.id)
+          setDescription(field.description)
+          setCategoryId(field.categoryId)
         }}
       />
       <ActionDeleteButon

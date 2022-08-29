@@ -71,7 +71,7 @@ export function FcFormButtonInsertEarning() {
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();
     } catch (error: any) {
-      setInvalidFields(error.invalidFields);
+      setInvalidFields(error?.invalidFields);
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
