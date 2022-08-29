@@ -9,17 +9,19 @@ import { useContext } from "react"
 import shallow from "zustand/shallow"
 
 export default function FcFormButtonInsertSubCategory(props: any) {
-  const insertSubCategory  = useCategory((s)=>s.insertSubCategory)
+  const insertSubCategory = useCategory((s) => s.insertSubCategory)
   const {
     categoryId,
     description,
-    clearAllFields,
+    setDescription,
     setInvalidFields,
+    setId,
   } = useFormSubCategory((s) => ({
     categoryId: s.categoryId,
     description: s.description,
-    clearAllFields: s.clearAllFields,
-    setInvalidFields: s.setInvalidFields
+    setDescription: s.setDescription,
+    setInvalidFields: s.setInvalidFields,
+    setId: s.setId,
   }), shallow)
 
   const { setAlert } = useContext(ContextAlert)
@@ -37,11 +39,12 @@ export default function FcFormButtonInsertSubCategory(props: any) {
             })
           )
           setAlert(setCreatedAlert(status, message, internalMessage))
-          clearAllFields()
+          setDescription('')
+          setId(0)
         } catch (error: any) {
           setInvalidFields(error?.invalidFields)
           setAlert(setCreatedAlert(error.status, error.detail, error.title))
-        }finally{
+        } finally {
           setSpin(false)
         }
 
