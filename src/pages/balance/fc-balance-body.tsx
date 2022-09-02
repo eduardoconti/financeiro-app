@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../../common/DepesaFuncoes";
-import { retornaCarteiras } from "../../common/CarteiraFuncoes";
 import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
@@ -12,11 +11,16 @@ import { useSpin } from "@hooks/use-spin";
 import { isAuthenticated } from "common";
 import { FcCardWalletBalance } from "@components/fc-dash";
 import { useCurrentTime } from "@hooks/use-current-time";
+import { WalletResponseDTO } from "@api/wallet/dto";
+import { EarningResponseDTO } from "@api/earning/dto";
+import { ExpenseResponseDTO } from "@api/expense/dto";
+import { TransferenceResponseDTO } from "@api/transference/dto";
+import { WalletService } from "@api/wallet/service";
 
-async function RetornaCards(ano, mes) {
+async function RetornaCards(ano: number, mes: number) {
   let object = await retornaDadosParaCard(ano, mes);
 
-  return object.map((obj, i) => {
+  return object?.map((obj, i) => {
     return (
       <Grid item xs={6} md={3} key={i}>
         <FcCardWalletBalance
@@ -27,14 +31,15 @@ async function RetornaCards(ano, mes) {
     );
   });
 }
-function retornaDados(obj) {
+function retornaDados(obj: any): any {
   if (typeof obj === "undefined") {
     return { valor: 0 };
   } else return obj;
 }
-async function retornaDadosParaCard(ano, mes) {
+async function retornaDadosParaCard(ano: number, mes: number) {
   try {
-    const { data: carteiras } = await retornaCarteiras();
+    const walletService = new WalletService()
+    const { data: carteiras } = await walletService.getAll();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       ano,
       mes
@@ -49,23 +54,23 @@ async function retornaDadosParaCard(ano, mes) {
     const {
       data: transferenciasDestino,
     } = await retornaValoresTransferenciasDestino(ano, mes, undefined);
-    const dadosCard = [];
+    const dadosCard: any[] = [];
 
-    carteiras.forEach((carteira, i) => {
+    carteiras.forEach((carteira: WalletResponseDTO) => {
       let { valor: receita } = retornaDados(
-        receitas.find((receita) => receita.id === carteira.id)
+        receitas.find((receita: EarningResponseDTO) => receita.id === carteira.id)
       );
       let { valor: despesa } = retornaDados(
-        despesas.find((despesa) => despesa.id === carteira.id)
+        despesas.find((despesa: ExpenseResponseDTO) => despesa.id === carteira.id)
       );
       let { valor: transferenciaSaida } = retornaDados(
         transferenciasOrigem.find(
-          (transferencia) => transferencia.id === carteira.id
+          (transferencia: TransferenceResponseDTO) => transferencia.id === carteira.id
         )
       );
       let { valor: transferenciaEntrada } = retornaDados(
         transferenciasDestino.find(
-          (transferencia) => transferencia.id === carteira.id
+          (transferencia: TransferenceResponseDTO) => transferencia.id === carteira.id
         )
       );
       let valor =
@@ -86,7 +91,7 @@ async function retornaDadosParaCard(ano, mes) {
 }
 
 export default function CorpoBalanco() {
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<any[] | undefined>([]);
   const setSpin = useSpin(s => s.setSpin);
   const { year, month } = useCurrentTime();
   useEffect(() => {

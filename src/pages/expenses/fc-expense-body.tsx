@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import FcDataGridFilters from "components/fc-datagrid/expense/fc-data-grid-filters";
+import FcDataGridFilters from "@pages/expenses/components/datagrid/fc-data-grid-filters";
 import { FcDataGridExpense } from "./components/datagrid";
 import { FcFormExpense } from "./components/form";
 

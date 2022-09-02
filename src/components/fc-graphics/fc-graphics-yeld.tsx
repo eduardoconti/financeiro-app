@@ -4,22 +4,20 @@ import {
   getReceitas,
   retornaReceitasAgrupadasPorCarteiraChecked,
 } from "../../common/ReceitaFuncoes";
-import { ContextChecked } from "../../Context/CheckedContext";
 import { isAuthenticated } from "../../common/Auth";
 import { useSpin } from "@hooks/use-spin";
 import { useTheme } from "@material-ui/core";
 import FcSurface from "../fc-surface/fc-surface";
-import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
 import { Money } from "common";
 import { useCurrentTime } from "@hooks/use-current-time";
+import { FcGraphicHeader } from "./fc-graphics-header";
+import { useDashValues } from "@hooks/use-dash-values";
 
 export default function FcGraphicsYeld() {
-  const ctxChecked = useContext(ContextChecked);
+  const checkEarnings = useDashValues(s=>s.checkEarnings)
   const { year, month } = useCurrentTime();
   const setSpin = useSpin(s=>s.setSpin)
-
-  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
   const [receitas, setReceitas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
@@ -33,14 +31,14 @@ export default function FcGraphicsYeld() {
 
         if (stateGrafico === "1") {
           receitas = await getReceitas(
-            stateCheckedReceitas,
+            checkEarnings,
             year,
             month
           );
           setDescricao("Receitas");
         } else if (stateGrafico === "2") {
           receitas = await retornaReceitasAgrupadasPorCarteiraChecked(
-            stateCheckedReceitas,
+            checkEarnings,
             year,
             month
           );
@@ -63,7 +61,7 @@ export default function FcGraphicsYeld() {
       setReceitas([]);
     }
   }, [
-    stateCheckedReceitas,
+    checkEarnings,
     year,
     month,
     stateGrafico,
@@ -72,7 +70,7 @@ export default function FcGraphicsYeld() {
 
   return (
     <FcSurface>
-      <RadioButtons
+      <FcGraphicHeader
         setStateGrafico={(stateGrafico: string) => {
           setStateGrafico(stateGrafico);
         }}

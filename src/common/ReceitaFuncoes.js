@@ -1,11 +1,8 @@
 import API from "./Api";
 import {
   firstDayOfMonth,
-  formatDateToDataGrid,
-  formatDateToForm,
   lastDayOfMonth,
 } from "./DateHelper";
-import { Money } from "./money";
 const ENDPOINT = "earning";
 
 export async function getReceitas(
@@ -17,9 +14,9 @@ export async function getReceitas(
     let res;
 
     if (
-      (stateCheckedReceitas.checkedPago &&
-        stateCheckedReceitas.checkedAberto) ||
-      (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
+      (stateCheckedReceitas.payed &&
+        stateCheckedReceitas.open) ||
+      (!stateCheckedReceitas.payed && !stateCheckedReceitas.open)
     ) {
       res = await API.get(
         ENDPOINT +
@@ -28,7 +25,7 @@ export async function getReceitas(
           "&end=" +
           lastDayOfMonth(stateAnoAtual, stateMesAtual)
       );
-    } else if (stateCheckedReceitas.checkedPago) {
+    } else if (stateCheckedReceitas.payed) {
       res = await API.get(
         ENDPOINT +
           "?start=" +
@@ -37,7 +34,7 @@ export async function getReceitas(
           lastDayOfMonth(stateAnoAtual, stateMesAtual) +
           "&pago=true"
       );
-    } else if (stateCheckedReceitas.checkedAberto) {
+    } else if (stateCheckedReceitas.open) {
       res = await API.get(
         ENDPOINT +
           "?start=" +
@@ -76,52 +73,16 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
       char = "&";
     }
     if (
-      stateCheckedReceitas.checkedPago &&
-      stateCheckedReceitas.checkedAberto
+      stateCheckedReceitas.payed &&
+      stateCheckedReceitas.open
     ) {
-    } else if (stateCheckedReceitas.checkedPago) {
+    } else if (stateCheckedReceitas.payed) {
       endpoint += char + "pago=true";
-    } else if (stateCheckedReceitas.checkedAberto) {
+    } else if (stateCheckedReceitas.open) {
       endpoint += char + "pago=false";
     }
     const { data } = await API.get(endpoint);
     return data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function deletaReceita(id) {
-  try {
-    const res = await API.delete(ENDPOINT + "/" + id);
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function insereReceita(receita) {
-  try {
-    const res = await API.post(ENDPOINT, receita);
-    return res.data;
-  } catch (error) {
-    return error;
-  }
-}
-
-export async function alteraReceita(receita) {
-  try {
-    const res = await API.put(ENDPOINT + "/" + receita.id, receita);
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function alteraFlagPago(receita) {
-  try {
-    const res = await API.patch(ENDPOINT + "/" + receita.id, receita);
-    return res.data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -176,48 +137,6 @@ export async function retornaReceitasAgrupadasPorCarteira(
   }
 }
 
-export async function retornaReceitaPorId(id) {
-  try {
-    const res = await API.get(ENDPOINT + "/" + id);
-    return res.data;
-  } catch (error) {
-    errorResponse(error);
-  }
-}
-
-export function formataDadosParaLinhasDataGrid(receita) {
-  return receita.map((receita) => {
-    const { id, descricao, pago, valor } = receita;
-    return {
-      id: id,
-      descricao: descricao,
-      pago: pago,
-      carteiraId: receita.carteira.descricao,
-      pagamento: formatDateToDataGrid(receita.pagamento),
-      valor: Money.format(valor),
-    };
-  });
-}
-
-export function formataDadosParaFormulario(receita) {
-  const { id, descricao, pago, valor } = receita;
-  return {
-    valor: Money.toFloat(valor),
-    id: id,
-    descricao: descricao,
-    pago: pago,
-    carteiraId: receita.carteira.id,
-    pagamento: formatDateToForm(receita.pagamento),
-  };
-}
-export async function getYieldById(id) {
-  try {
-    const res = await API.get(ENDPOINT + "/" + id);
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
 function errorResponse(error) {
   return error.response.data;
 }

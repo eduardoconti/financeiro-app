@@ -2,9 +2,9 @@ import React from "react";
 import Radio from "@material-ui/core/Radio";
 import { Grid } from "@material-ui/core";
 import { Typography, useTheme } from "@material-ui/core";
-export default function RadioButtons({ setStateGrafico, cor, descricao }) {
+export function FcGraphicHeader({ setStateGrafico, cor, descricao }: any) {
   const [selectedValue, setSelectedValue] = React.useState("1");
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
     setStateGrafico(event.target.value);
   };

@@ -1,10 +1,7 @@
-import FcSubCategoryFilter from "@components/fc-filter-fields/expense/fc-sub-category-filter";
+import FcSurface from "@components/fc-surface/fc-surface";
 import { Grid } from "@material-ui/core";
-import FcCategoryFilter from "components/fc-filter-fields/expense/fc-category-filter";
-import FcDateTypeFilter from "components/fc-filter-fields/expense/fc-date-type-filter";
-import FcWalletFilter from "components/fc-filter-fields/expense/fc-wallet-filter";
+import { FcCategoryFilter, FcDateTypeFilter, FcSubCategoryFilter, FcWalletFilter } from "../fc-filter-fields";
 
-import FcSurface from "components/fc-surface/fc-surface";
 
 export default function FcDataGridFilters() {
   return (

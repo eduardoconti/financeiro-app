@@ -7,6 +7,7 @@ import { setCreatedAlert } from "@common/AlertFuncoes";
 import { useSpin } from "@hooks/use-spin";
 import { useContext } from "react";
 import { ContextAlert } from "Context";
+import shallow from "zustand/shallow";
 
 export default function FcColumnActionsCategory(props: {
   field: CategoryResponseDTO;
@@ -15,7 +16,7 @@ export default function FcColumnActionsCategory(props: {
   const { setId, setDescription } = useFormCategory((s) => ({
     setId: s.setId,
     setDescription: s.setDescription
-  }))
+  }), shallow)
   const { field } = props;
   const setSpin = useSpin(s => s.setSpin);
   const { setAlert } = useContext(ContextAlert);

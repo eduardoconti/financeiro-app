@@ -16,7 +16,7 @@ export function FcFormButtonDeleteExpense() {
   const { deleteExpense, expenses } = useExpense((s) => ({
     deleteExpense: s.deleteExpense,
     expenses: s.expenses,
-  }));
+  }), shallow);
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
   const {

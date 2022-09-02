@@ -12,14 +12,17 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
+  Line,
 } from "recharts";
 import { useSpin } from "@hooks/use-spin";
+import { calculateMedian } from "@common/math";
 
-export default function FcGraphicUnplannedExpenses() {
-  const setSpin = useSpin(s=>s.setSpin)
+export function FcGraphicUnplannedExpenses() {
+  const setSpin = useSpin(s => s.setSpin)
   const [unplannedExpenses, setUnplannedExpenses] = useState([]);
 
   const theme = useTheme();
+
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -28,12 +31,15 @@ export default function FcGraphicUnplannedExpenses() {
       async function pegaReceitas() {
         const { data, status } = await service.unplannedExpenses();
         if (status === 200) {
+          const media = calculateMedian(data.months.map((e: any) => {
+            return e.total;
+          }))
           setUnplannedExpenses(
             data.months.map((month: any) => {
               month.total = Money.toFloat(month.total);
               month.totalOpen = Money.toFloat(month.totalOpen);
               month.totalPayed = Money.toFloat(month.totalPayed);
-              return month;
+              return { ...month, media: Money.toFloat(media ?? 0) };
             })
           );
         }
@@ -65,8 +71,15 @@ export default function FcGraphicUnplannedExpenses() {
           }}
         />
         <Legend />
-        <CartesianGrid strokeDasharray="3 3" />
-
+        <CartesianGrid strokeDasharray="1" style={{ opacity: 0.5 }} />
+        <Line
+          dot={false}
+          type="monotone"
+          dataKey="media"
+          name="Mediana"
+          stroke={theme.palette.error.main}
+          strokeWidth={3}
+        />
         <Bar
           dataKey="total"
           name="Valor"
@@ -78,6 +91,7 @@ export default function FcGraphicUnplannedExpenses() {
           }
           stroke={theme.palette.error.main}
         />
+
       </ComposedChart>
     </ResponsiveContainer>
     //</FcSurface>

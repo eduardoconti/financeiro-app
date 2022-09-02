@@ -3,11 +3,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export function FcSelectMultiple(props: any) {
   const {
-    value = "",
     options = [],
     placeHolder,
     getOptionLabel,
     onChange,
+    defaultValue,
     ...rest
   } = props;
 
@@ -19,13 +19,14 @@ export function FcSelectMultiple(props: any) {
       options={options}
       getOptionLabel={getOptionLabel}
       filterSelectedOptions
+      defaultValue={defaultValue}
       onChange={onChange}
       renderInput={(params) => {
         return (
           <FcTextField
             {...params}
-            placeholder={placeHolder}
-            value={value}
+            // placeholder={placeHolder}
+            // value={value}
             {...rest}
           />
         )

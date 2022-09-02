@@ -14,12 +14,12 @@ import { useExpense, useExpenseFilter } from "@pages/expenses/hook";
 import FcColumnDescription from "@components/fc-datagrid/fc-column-description";
 import { FcColumnWallet } from "@components/fc-datagrid/fc-column-wallet";
 import { FcColumnCategory } from "@components/fc-datagrid/fc-column-category";
-import FcColumnActionsExpense from "@components/fc-datagrid/expense/fc-column-actions-expense";
 import { FcColumnValue } from "@components/fc-datagrid/fc-column-value";
 import FcDataGrid from "@components/fc-datagrid/fc-datagrid";
 import { FcSelectedRowsExpense } from "./fc-selected-rows-expense";
 import { expenseToDataGrid } from "@pages/expenses/common";
 import { Grid } from "@material-ui/core";
+import { FcColumnActionsExpense } from "./fc-column-actions-expense";
 
 export function FcDataGridExpense() {
   const { setSelectedRows, selectedRows } = useDataGridExpense((s) => (
@@ -50,9 +50,9 @@ export function FcDataGridExpense() {
     subCategoryId: s.subCategoryId
   }), shallow)
 
-  const rows = React.useMemo(() => {
+  const rows = () => {
     return expenseToDataGrid(expenses, checkExpenses, filter);
-  }, [expenses, checkExpenses, filter]);
+  };
 
   const {
     setDescription,
@@ -105,7 +105,7 @@ export function FcDataGridExpense() {
     async function start() {
       try {
         setSpin(true);
-        initExpenses({
+        await initExpenses({
           month: month, year: year, filter: {
             dateField: filter.dateField
           }
@@ -123,7 +123,7 @@ export function FcDataGridExpense() {
     <Grid container spacing={1}>
       <Grid item xs={12}>
         <FcDataGrid
-          rows={rows}
+          rows={rows()}
           columns={columns}
           checkboxSelection={true}
           onSelectionModelChange={(

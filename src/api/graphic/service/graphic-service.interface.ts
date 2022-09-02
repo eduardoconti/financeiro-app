@@ -1,7 +1,7 @@
 import { SuccessResponseData } from "api/http-request/dto";
+import { GeneralGraphicResponseDTO } from "../dto/general-graphic-response-dto";
 
 export interface IGraphicService {
   unplannedExpenses(): Promise<SuccessResponseData<any>>;
-
-  //insereDespesa(despesa: ExpenseDTO): Promise<ExpenseResponseDTO>;
+  general(): Promise<SuccessResponseData<GeneralGraphicResponseDTO>>
 }

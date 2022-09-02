@@ -10,6 +10,7 @@ import {
 import { dateIso8601, Money, setCreatedAlert } from "common";
 import { ContextAlert } from "Context";
 import { useContext } from "react";
+import shallow from "zustand/shallow";
 export function FcFormButtonUpdateTransference() {
   const { updateTransference, transferences } = useTransference();
   const {
@@ -30,7 +31,7 @@ export function FcFormButtonUpdateTransference() {
     transferenceDate: s.transferenceDate,
     setInvalidFields: s.setInvalidFields,
     clear: s.clearAllFields,
-  }));
+  }), shallow);
 
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);

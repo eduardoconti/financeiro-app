@@ -1,19 +1,17 @@
-import { useContext, useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { getValorDespesasPorCategoria } from "../../common/DepesaFuncoes";
-import { ContextChecked } from "../../Context/CheckedContext";
 import { useSpin } from "@hooks/use-spin";
 import { useTheme } from "@material-ui/core";
 import { isAuthenticated } from "../../common/Auth";
 import FcSurface from "../fc-surface/fc-surface";
-import RadioButtons from "./fc-graphics-header";
 import FcGraphic from "./fc-graphics";
 import { Money } from "common";
-import FcGraphicUnplannedExpenses from "./fc-graphics-unplanned-expenses";
 import { useCurrentTime } from "@hooks/use-current-time";
+import { FcGraphicUnplannedExpenses, FcGraphicHeader } from "./";
+import { CheckedValues, useDashValues } from "@hooks/use-dash-values";
 
-export default function FcGraphicsExpense() {
-  const { stateCheckedDespesas } = useContext(ContextChecked);
+export function FcGraphicsExpense() {
+  const checkExpenses = useDashValues(s=>s.checkExpenses)
   const {year, month} = useCurrentTime();
   const setSpin = useSpin(s=>s.setSpin);
 
@@ -26,10 +24,10 @@ export default function FcGraphicsExpense() {
     async function pegaDespesas() {
       if (isAuthenticated()) {
         if (stateGrafico === "1") {
-          await general(stateCheckedDespesas);
+          await general(checkExpenses);
         }
         if (stateGrafico === "2") {
-          await graphMonth(stateCheckedDespesas);
+          await graphMonth(checkExpenses);
         }
         if (stateGrafico === "3") {
           setDescricao("Despesas não planejadas");
@@ -38,10 +36,10 @@ export default function FcGraphicsExpense() {
         setDespesas([]);
       }
     }
-    async function general(stateCheckedDespesas: any) {
+    async function general(checkExpenses: CheckedValues) {
       setDescricao("Despesas por Categoria Geral");
       const { data, status } = await getValorDespesasPorCategoria(
-        stateCheckedDespesas
+        checkExpenses
       );
       if (status === 200) {
         setDespesas(
@@ -54,10 +52,10 @@ export default function FcGraphicsExpense() {
         setDespesas([]);
       }
     }
-    async function graphMonth(stateCheckedDespesas: any) {
+    async function graphMonth(checkExpenses: CheckedValues) {
       setDescricao("Despesas por Categoria Mensal");
       const { data, status } = await getValorDespesasPorCategoria(
-        stateCheckedDespesas,
+        checkExpenses,
         year,
         month
       );
@@ -75,11 +73,11 @@ export default function FcGraphicsExpense() {
     setSpin(true);
     pegaDespesas();
     setSpin(false);
-  }, [stateCheckedDespesas, stateGrafico, setSpin, year, month]);
+  }, [checkExpenses, stateGrafico, setSpin, year, month]);
 
   return (
     <FcSurface>
-      <RadioButtons
+      <FcGraphicHeader
         setStateGrafico={(stateGrafico: string) => {
           setStateGrafico(stateGrafico);
         }}

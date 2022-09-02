@@ -10,7 +10,7 @@ import { setCreatedAlert } from "@common/AlertFuncoes"
 import shallow from "zustand/shallow"
 
 export default function FcFormButtonUpdateCategory() {
-  const { updateCategory } = useCategory()
+  const updateCategory = useCategory(s => s.updateCategory)
   const { id, description: descricao, clearAllFields, setInvalidFields } = useFormCategory((s) => ({
     id: s.id,
     description: s.description,

@@ -7,8 +7,12 @@ import { useEarning, useFormEarning } from "@pages/earning/hooks";
 import { setCreatedAlert } from "common";
 import { ContextAlert } from "Context";
 import { useContext } from "react";
+import shallow from "zustand/shallow";
 export function FcFormButtonUpdateEarning() {
-  const { updateEarning, earnings } = useEarning();
+  const { updateEarning, earnings } = useEarning(s => ({
+    updateEarning: s.updateEarning,
+    earnings: s.earnings
+  }), shallow);
   const {
     id,
     description,
@@ -27,10 +31,10 @@ export function FcFormButtonUpdateEarning() {
     paymentDate: state.paymentDate,
     setInvalidFields: state.setInvalidFields,
     clear: state.clearAllFields,
-  }));
+  }), shallow);
 
   const { setAlert } = useContext(ContextAlert);
-  const { setSpin } = useSpin();
+  const setSpin = useSpin(s => s.setSpin);
   const calculate = useDashValues((s) => s.calculate);
   const { year, month } = useGetCurrentTime();
 

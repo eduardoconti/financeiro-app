@@ -7,7 +7,7 @@ const options = [
   { id: "DUE_DATE", descricao: "Vencimento" },
   { id: "UNPLANNED", descricao: "Não Planejadas" },
 ];
-export default function FcDateTypeFilter() {
+export function FcDateTypeFilter() {
   const { dateField, setDateField } = useExpenseFilter(s => ({
     dateField: s.dateField,
     setDateField: s.setDateField

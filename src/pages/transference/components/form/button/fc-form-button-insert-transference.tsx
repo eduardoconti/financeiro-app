@@ -10,6 +10,7 @@ import {
 } from "@pages/transference/hooks";
 import { ContextAlert } from "Context";
 import { useContext } from "react";
+import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertTransference() {
   const { insertTransference } = useTransference();
@@ -29,7 +30,7 @@ export function FcFormButtonInsertTransference() {
     transferenceDate: state.transferenceDate,
     setInvalidFields: state.setInvalidFields,
     clear: state.clearAllFields,
-  }));
+  }), shallow);
 
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);

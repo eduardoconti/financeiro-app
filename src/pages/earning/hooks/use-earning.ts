@@ -40,7 +40,7 @@ export const useEarning = create<IUseEarning>((set) => ({
     const { checked, year, month } = params;
     const service = new EarningService();
     const { data } = await service.getEarning(checked, year, month);
-    set({ earnings: data });
+    set(s => ({ ...s, earnings: data }));
   },
   insertEarning: async (earningRequest: EarningRequestDTO) => {
     const service = new EarningService();

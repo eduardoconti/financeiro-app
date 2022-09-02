@@ -7,7 +7,7 @@ import { setCreatedAlert } from "@common/AlertFuncoes";
 import shallow from "zustand/shallow";
 import { FcIconButtonFlagPayed } from "@components/fc-button";
 
-export default function FcColumnActionsExpense(props: any) {
+export function FcColumnActionsExpense(props: any) {
   const { updateFlagPayed, expenses } = useExpense(
     (s) => ({ updateFlagPayed: s.updateFlagPayed, expenses: s.expenses }),
     shallow

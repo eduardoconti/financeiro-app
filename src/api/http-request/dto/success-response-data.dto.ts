@@ -5,6 +5,4 @@ export type SuccessResponseData<D> = {
   status: HttpStatus;
   message?: string;
   internalMessage?: HttpInternalMessages;
-  title?: string;
-  detail?: string;
 };

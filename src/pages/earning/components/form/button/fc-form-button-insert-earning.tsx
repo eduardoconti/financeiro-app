@@ -7,9 +7,10 @@ import { useSpin } from "@hooks/use-spin";
 import { useEarning, useFormEarning } from "@pages/earning/hooks";
 import { ContextAlert } from "Context";
 import { useContext } from "react";
+import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertEarning() {
-  const { insertEarning } = useEarning();
+  const insertEarning = useEarning(s => s.insertEarning);
   const {
     description,
     value,
@@ -26,7 +27,7 @@ export function FcFormButtonInsertEarning() {
     paymentDate: state.paymentDate,
     setInvalidFields: state.setInvalidFields,
     clear: state.clearAllFields,
-  }));
+  }), shallow);
 
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
@@ -48,7 +49,7 @@ export function FcFormButtonInsertEarning() {
     setEarningsPayed: s.setEarningsPayed,
     ballance: s.ballance,
     setBallance: s.setBallance,
-  }));
+  }), shallow);
 
   const onClick = async () => {
     try {

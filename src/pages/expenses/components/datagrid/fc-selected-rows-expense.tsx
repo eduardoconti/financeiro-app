@@ -19,7 +19,7 @@ import { ExpenseService, IExpenseService } from "@api/expense/service";
 import { HttpStatus } from "@common/enum";
 
 export function FcSelectedRowsExpense() {
-  
+
   const selectedRows = useDataGridExpense((s) => s.selectedRows)
   const expenses = useExpense((s) => s.expenses)
   const value = calculateSelectedRows(selectedRows, expenses);
@@ -71,10 +71,9 @@ function FlagPayedButton(props: {
   const setSpin = useSpin(s => s.setSpin)
   const { setAlert } = useContext(ContextAlert)
   const { year, month } = useCurrentTime();
-  const { calculate, checkExpenses } = useDashValues((s) => (
+  const { calculate } = useDashValues((s) => (
     {
-      calculate: s.calculate,
-      checkExpenses: s.checkExpenses
+      calculate: s.calculate
     }
   ), shallow);
   const fetch = useExpense((s) => s.fetchExpenses)
@@ -86,8 +85,7 @@ function FlagPayedButton(props: {
         await expenseService.updateFlagPayed(id, { pago: payed })
       })
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      await fetch({ year, month, checked: checkExpenses })
+      await fetch({ year, month })
       await calculate(year, month)
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
@@ -120,10 +118,8 @@ function DeleteExpenseButton(props: any) {
       const expenseService: IExpenseService = new ExpenseService();
       selectedRows.forEach(async (id) => {
         await expenseService.delete(id);
-        await new Promise((resolve) => setTimeout(resolve, 200));
       })
       clearAllFields();
-      await new Promise((resolve) => setTimeout(resolve, 500));
       await fetch({ year, month, checked: checkExpenses })
       await calculate(year, month)
     } catch (error: any) {

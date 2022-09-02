@@ -56,7 +56,7 @@ export function FcDataGridEarning() {
     async function start() {
       try {
         setSpin(true);
-        initEarnings({ month: month, year: year });
+        await initEarnings({ month: month, year: year });
       } catch (error) {
         console.log(error);
       } finally {

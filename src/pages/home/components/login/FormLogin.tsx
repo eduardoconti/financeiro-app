@@ -1,15 +1,14 @@
 import { useContext, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
 
-import { login, logout } from "../common/Auth";
-import { ContextAlert } from "../Context/AlertContext";
-import { setCreatedAlert } from "../common/AlertFuncoes";
+import { Grid, makeStyles } from "@material-ui/core";
+
+import { login, logout } from "../../../../common/Auth";
+import { ContextAlert } from "../../../../Context/AlertContext";
+import { setCreatedAlert } from "../../../../common/AlertFuncoes";
 import { ObtemToken } from "common";
-import FcButton from "./fc-button/fc-button";
-import { HttpStatus } from "common/enum";
+import FcButton from "../../../../components/fc-button/fc-button";
 import { useHistory } from "react-router-dom";
-import { FcTextFieldDescription } from "./fc-forms/fc-fields";
+import { FcTextFieldDescription } from "../../../../components/fc-forms/fc-fields";
 import { useSpin } from "@hooks/use-spin";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         : theme.palette.primary.light,
     width: "100%",
     minHeight: 36,
-    borderRadius: theme.borderRadius,
+    borderRadius: theme.shape.borderRadius,
     textAlign: "center",
     fontWeight: "bold",
     color: theme.palette.text.primary,
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormLogin({ setOpen }) {
+export default function FormLogin({ setOpen }: any) {
   const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
   const ctxAlert = useContext(ContextAlert);
@@ -53,7 +52,6 @@ export default function FormLogin({ setOpen }) {
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12}>
           <FcTextFieldDescription
-            error={formulario.username.length <= 4}
             id="username"
             label="username"
             required={true}
@@ -65,7 +63,6 @@ export default function FormLogin({ setOpen }) {
         </Grid>
         <Grid item xs={12}>
           <FcTextFieldDescription
-            error={formulario.password.length <= 4}
             id="password"
             label="password"
             type="password"
@@ -84,19 +81,6 @@ export default function FormLogin({ setOpen }) {
                 className={classes.botao}
                 onClick={async () => {
                   setSpin(true);
-                  if (
-                    formulario.username.length <= 4 ||
-                    formulario.password.length <= 4
-                  ) {
-                    ctxAlert.setAlert(
-                      setCreatedAlert(
-                        HttpStatus.BAD_REQUEST,
-                        "Preencha os campos corretamente",
-                        "Campo(s) inválido(s)"
-                      )
-                    );
-                    return;
-                  }
                   const {
                     status,
                     message,

@@ -1,46 +1,10 @@
 import API from "./Api";
 import {
   firstDayOfMonth,
-  formatDateToDataGrid,
   lastDayOfMonth,
 } from "./DateHelper";
-import { Money } from "./money";
 
 const ENDPOINT = "expense";
-
-export async function getDespesas(
-  stateCheckedDespesas,
-  stateAnoAtual,
-  stateMesAtual
-) {
-  try {
-    let endpoint = ENDPOINT;
-    let char = "?";
-    if (
-      typeof stateAnoAtual !== "undefined" &&
-      typeof stateMesAtual !== "undefined"
-    ) {
-      endpoint +=
-        "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual);
-      char = "&";
-    }
-
-    if (!stateCheckedDespesas.checkedPago) {
-      endpoint += char + "pago=false";
-    }
-    if (!stateCheckedDespesas.checkedAberto) {
-      endpoint += char + "pago=true";
-    }
-
-    const { data } = await API.get(endpoint);
-    return data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
 
 export async function getValorDespesasPorCategoria(
   stateCheckedDespesas,
@@ -64,10 +28,10 @@ export async function getValorDespesasPorCategoria(
       char = "&";
     }
 
-    if (!stateCheckedDespesas.checkedPago) {
+    if (!stateCheckedDespesas.payed) {
       endpoint += char + "pago=false";
     }
-    if (!stateCheckedDespesas.checkedAberto) {
+    if (!stateCheckedDespesas.open) {
       endpoint += char + "pago=true";
     }
     const { data } = await API.get(endpoint);
@@ -109,42 +73,6 @@ export async function getValorDespesasPorCarteira(
     }
     const { data } = await API.get(endpoint);
     return data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function deletaDespesa(id) {
-  try {
-    const res = await API.delete(ENDPOINT + "/" + id);
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function insereDespesa(despesa) {
-  try {
-    const res = await API.post(ENDPOINT, despesa);
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function alteraFlagPago(despesa) {
-  try {
-    const res = await API.patch(ENDPOINT + "/flag/" + despesa.id, despesa);
-    return res.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function alteraDespesa(despesa) {
-  try {
-    const res = await API.put(ENDPOINT + "/" + despesa.id, despesa);
-    return res.data;
   } catch (error) {
     return errorResponse(error);
   }
@@ -194,39 +122,6 @@ export async function retornaDespesasAgrupadasPorCarteira(
     }
     const { data } = await API.get(endpoint);
     return data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-
-export async function retornaDespesaPorId(id) {
-  try {
-    const despesa = await API.get(ENDPOINT + "/" + id);
-    return despesa.data;
-  } catch (error) {
-    return errorResponse(error);
-  }
-}
-export function formataDadosParaLinhasDataGrid(despesas) {
-  return despesas.map((despesa) => {
-    const { id, descricao, pago, valor, vencimento, pagamento } = despesa;
-    return {
-      id: id,
-      descricao: descricao,
-      pago: pago,
-      valor: Money.format(valor),
-      categoriaId: despesa.categoria.descricao,
-      carteiraId: despesa.carteira.descricao,
-      vencimento: formatDateToDataGrid(vencimento),
-      pagamento: pagamento ? formatDateToDataGrid(pagamento) : undefined,
-    };
-  });
-}
-
-export async function getExpenseById(id) {
-  try {
-    const res = await API.get(ENDPOINT + "/" + id);
-    return res.data;
   } catch (error) {
     return errorResponse(error);
   }

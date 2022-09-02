@@ -6,7 +6,7 @@ import FcFormCategory from "./components/form/fc-form-category";
 import FcFormSubCategory from "./components/form/fc-form-sub-category";
 import { useCategory } from "./hook";
 
-export default function CorpoCategorias() {
+export function FcCategoryBody() {
   const fetchCategories = useCategory(s => s.fetchCategories);
 
   useEffect(() => {

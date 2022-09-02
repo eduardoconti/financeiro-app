@@ -10,12 +10,12 @@ import {
   Legend,
 } from "recharts";
 
-export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }) {
+export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }: any) {
   const theme = useTheme();
   return (
     <ResponsiveContainer height={180}>
       <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="1" style={{ opacity: 0.5 }} />
         <XAxis
           dataKey={chaveX}
           fill={theme.palette.text.primary}

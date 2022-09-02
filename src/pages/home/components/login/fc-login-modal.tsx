@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ open, setOpen, handleClose }) {
+export function FcLoginModal({ open, setOpen, handleClose }: any) {
   const classes = useStyles();
 
   return (
@@ -33,7 +33,7 @@ export default function TransitionsModal({ open, setOpen, handleClose }) {
       >
         <Fade in={open}>
           <FormLogin
-            setOpen={(open) => {
+            setOpen={(open: boolean) => {
               setOpen(open);
             }}
           />

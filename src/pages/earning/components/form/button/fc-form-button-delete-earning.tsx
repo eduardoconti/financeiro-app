@@ -32,7 +32,7 @@ export function FcFormButtonDeleteEarning() {
     subEarningsOpen: s.subEarningsOpen,
     subEarningsPayed: s.subEarningsPayed,
     subBallance: s.subBallance,
-  }));
+  }), shallow);
 
   const onClick = async () => {
     try {

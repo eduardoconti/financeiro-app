@@ -19,7 +19,7 @@ import { useDataGridEarning, useEarning, useFormEarning } from "@pages/earning/h
 import { addMonth } from "@common/DateHelper";
 
 export function FcSelectedRowsEarning() {
-  
+
   const selectedRows = useDataGridEarning((s) => s.selectedRows)
   const earnings = useEarning((s) => s.earnings)
   const value = calculateSelectedRows(selectedRows, earnings);
@@ -71,10 +71,9 @@ function FlagPayedButton(props: {
   const setSpin = useSpin(s => s.setSpin)
   const { setAlert } = useContext(ContextAlert)
   const { year, month } = useCurrentTime();
-  const { calculate, checkEarnings } = useDashValues((s) => (
+  const { calculate } = useDashValues((s) => (
     {
-      calculate: s.calculate,
-      checkEarnings: s.checkEarnings
+      calculate: s.calculate
     }
   ), shallow);
   const fetch = useEarning((s) => s.fetchEarnings)
@@ -85,9 +84,7 @@ function FlagPayedButton(props: {
       selectedRows.forEach(async (id) => {
         await earningService.updateFlagPayed(id, { pago: payed })
       })
-
-      await new Promise((resolve) => setTimeout(resolve, 200));
-      await fetch({ year, month, checked: checkEarnings })
+      await fetch({ year, month })
       await calculate(year, month)
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
@@ -120,12 +117,11 @@ function DeleteEarningButton(props: any) {
       const earningService: IEarningService = new EarningService();
       selectedRows.forEach(async (id) => {
         await earningService.delete(id);
-        await new Promise((resolve) => setTimeout(resolve, 200));
       })
-      clearAllFields();
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       await fetch({ year, month, checked: checkEarnings })
       await calculate(year, month)
+      clearAllFields();
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
@@ -161,11 +157,11 @@ function AddNextMonthButton() {
 
         const earning = earnings.find((e) => e.id === id);
         if (!earning) return;
-        const { carteira, pagamento, ...rest} = earning
+        const { carteira, pagamento, ...rest } = earning
         const requestDto = EarningRequestDTO.build({
           ...rest,
           carteiraId: carteira.id,
-          pagamento: addMonth(pagamento)         
+          pagamento: addMonth(pagamento)
         })
 
         await insertEarningNextMonth(requestDto);

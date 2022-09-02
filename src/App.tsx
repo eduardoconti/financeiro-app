@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Grid, PaletteType } from "@material-ui/core";
-
 import Dash from "./components/fc-dash/fc-dash";
-import { CheckedProvider } from "./Context/CheckedContext";
 import { AlertProvider } from "./Context/AlertContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
@@ -11,7 +9,7 @@ import {
   MuiThemeProvider,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import ButtonAppBar from "./components/fc-app-bar/fc-app-bar";
+import ButtonAppBar from "./pages/home/components/fc-app-bar/fc-app-bar";
 import FcExpense from "./pages/expenses/fc-expense";
 import AlertComponent from "./components/fc-alert";
 import FcBalance from "./pages/balance/fc-balance";
@@ -24,7 +22,6 @@ import { useWallet } from "@pages/wallet/hooks";
 import { useSpin } from "./hooks";
 import { FcTransference } from "@pages/transference";
 import { useCategory } from "@pages/category/hook";
-import BotaoMes from "@components/BotaoMes";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => { },
@@ -113,7 +110,6 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <MuiThemeProvider theme={theme}>
         <AlertProvider>
-          <CheckedProvider>
             <Grid
               style={{
                 backgroundColor: theme.palette.background.default,
@@ -130,11 +126,6 @@ function App() {
                     className={classes.content}
                   >
                     {<Grid className={classes.toolbar} />}
-                    {/* {window.innerWidth > theme.breakpoints.values.sm ? (
-                      <Grid item xs={12}>
-                        <BotaoMes />
-                      </Grid>
-                    ) : null} */}
                     <Grid item xs={12}>
                       <Dash />
                     </Grid>
@@ -182,7 +173,6 @@ function App() {
                 </Router>
               </CssBaseline>
             </Grid>
-          </CheckedProvider>
         </AlertProvider>
       </MuiThemeProvider>
     </ColorModeContext.Provider>

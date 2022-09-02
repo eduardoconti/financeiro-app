@@ -16,7 +16,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CategoryIcon from "@material-ui/icons/Category";
-import LoginModal from "../../components/LoginModal";
+
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
@@ -24,6 +24,7 @@ import { Grid, Tooltip } from "@material-ui/core";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { ColorModeContext } from "App";
 import { FcSelectMonthButton, FcSelectYearButton } from "@components/fc-button";
+import { FcLoginModal } from "@pages/home/components/login";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -167,7 +168,7 @@ export default function ButtonAppBar() {
           [classes.appBarShift]: open,
         })}
       >
-        <LoginModal
+        <FcLoginModal
           open={openLogin}
           setOpen={(openLogin) => {
             setOpenLogin(openLogin);

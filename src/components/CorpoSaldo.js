@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes";
-import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
@@ -11,6 +10,7 @@ import {
 import { isAuthenticated } from "common";
 import { FcCardWalletBalance } from "./fc-dash";
 import { useSpin } from "@hooks/use-spin";
+import { WalletService } from "@api/wallet/service";
 
 async function RetornaCards() {
   let object = await retornaDadosParaCard();
@@ -33,7 +33,8 @@ function retornaDados(obj) {
 }
 async function retornaDadosParaCard() {
   try {
-    const { data: carteiras } = await retornaCarteiras();
+    const walletService = new WalletService()
+    const { data: carteiras } = await walletService.getAll();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       undefined,
       undefined,
