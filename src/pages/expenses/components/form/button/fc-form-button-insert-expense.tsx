@@ -46,13 +46,13 @@ export function FcFormButtonInsertExpense() {
     subAmount,
     addExpensesOpen,
     addExpensesPayed,
-    addBallance,
+    subBallance,
   } = useDashValues(
     (s) => ({
       subAmount: s.subAmount,
       addExpensesOpen: s.addExpensesOpen,
       addExpensesPayed: s.addExpensesPayed,
-      addBallance: s.addBallance,
+      subBallance: s.subBallance,
     }),
     shallow
   );
@@ -80,7 +80,7 @@ export function FcFormButtonInsertExpense() {
       } else {
         addExpensesOpen(req.valor);
       }
-      addBallance(req.valor);
+      subBallance(req.valor);
       clearAllFields();
       setAlert(setCreatedAlert(status, message, internalMessage));
     } catch (error: any) {
