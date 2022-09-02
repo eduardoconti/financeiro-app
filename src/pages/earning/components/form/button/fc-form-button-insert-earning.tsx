@@ -32,23 +32,19 @@ export function FcFormButtonInsertEarning() {
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
   const {
-    amount,
-    setAmount,
+    addAmount,
     earningsOpen,
     setExpensesOpen,
     earningsPayed,
     setEarningsPayed,
-    ballance,
-    subBallance,
+    addBallance,
   } = useDashValues((s) => ({
-    amount: s.amount,
-    setAmount: s.setAmount,
+    addAmount: s.addAmount,
     earningsOpen: s.earningsOpen,
     setExpensesOpen: s.setExpensesOpen,
     earningsPayed: s.earningsPayed,
     setEarningsPayed: s.setEarningsPayed,
-    ballance: s.ballance,
-    subBallance: s.subBallance,
+    addBallance: s.addBallance,
   }), shallow);
 
   const onClick = async () => {
@@ -64,11 +60,11 @@ export function FcFormButtonInsertEarning() {
       const { status, message, internalMessage } = await insertEarning(req);
       if (payed) {
         setEarningsPayed(earningsPayed + req.valor);
+        addAmount(req.valor);
       } else {
         setExpensesOpen(earningsOpen + req.valor);
       }
-      subBallance(req.valor);
-      setAmount(req.pago ? amount - req.valor : amount + req.valor);
+      addBallance(req.valor);
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();
     } catch (error: any) {
