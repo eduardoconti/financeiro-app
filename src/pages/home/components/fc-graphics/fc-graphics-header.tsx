@@ -34,17 +34,6 @@ export function FcGraphicHeader({ setStateGrafico, cor, descricao }: any) {
           size="small"
         />
       </Grid>
-      <Grid item xs={1}>
-        <Radio
-          checked={selectedValue === "3"}
-          onChange={handleChange}
-          value="3"
-          name="radio_3"
-          inputProps={{ "aria-label": "3" }}
-          style={{ color: cor }}
-          size="small"
-        />
-      </Grid>
       <Grid
         item
         xs={8}
@@ -52,7 +41,7 @@ export function FcGraphicHeader({ setStateGrafico, cor, descricao }: any) {
       >
         <Typography
           variant="subtitle1"
-          style={{ color: theme.palette.text.primary, paddingTop: 5 }}
+          style={{ color: theme.palette.text.primary, padding: theme.spacing(1) }}
         >
           {descricao}
         </Typography>

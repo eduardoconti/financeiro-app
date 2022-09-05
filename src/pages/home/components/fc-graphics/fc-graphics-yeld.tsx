@@ -1,20 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  getReceitas,
-  retornaReceitasAgrupadasPorCarteiraChecked,
-} from "../../common/ReceitaFuncoes";
-import { isAuthenticated } from "../../common/Auth";
+
 import { useSpin } from "@hooks/use-spin";
 import { useTheme } from "@material-ui/core";
-import FcSurface from "../fc-surface/fc-surface";
+
 import FcGraphic from "./fc-graphics";
-import { Money } from "common";
+import { isAuthenticated, Money } from "common";
 import { useCurrentTime } from "@hooks/use-current-time";
 import { FcGraphicHeader } from "./fc-graphics-header";
 import { useDashValues } from "@hooks/use-dash-values";
+import { getReceitas, retornaReceitasAgrupadasPorCarteiraChecked } from "@common/ReceitaFuncoes";
+import FcSurface from "@components/fc-surface/fc-surface";
 
-export default function FcGraphicsYeld() {
+export function FcGraphicsYeld() {
   const checkEarnings = useDashValues(s=>s.checkEarnings)
   const { year, month } = useCurrentTime();
   const setSpin = useSpin(s=>s.setSpin)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   ComposedChart,
   Bar,
@@ -12,70 +12,39 @@ import {
 } from "recharts";
 
 import { Grid, useTheme } from "@material-ui/core";
-import FcSurface from "../fc-surface/fc-surface";
-import { Money } from "common";
+
 import { useSpin } from "@hooks/use-spin";
-import { GraphicService } from "@api/graphic/service";
-import { calculateMedian } from "@common/math";
+import FcSurface from "@components/fc-surface/fc-surface";
+import { useGraphic } from "@pages/home/hook";
+import shallow from "zustand/shallow";
 
 export function FcGraphicsGeneral() {
   const { setSpin } = useSpin();
-  const [dados, setDados] = useState<any[]>([]);
+  const { init, general } = useGraphic((s) => ({
+    init: s.fetchGenereal,
+    general: s.general,
+  }), shallow)
   const theme = useTheme();
 
   useEffect(() => {
-    async function retornaDadosGrafico() {
-      const graphicService = new GraphicService();
+    async function initGraphic() {
       try {
         setSpin(true);
-        const { data: { months } } = await graphicService.general();
-        const values = months.map((item: any) => {
-          return item.expenses.totalPayed
-        });
-
-        const medianExpensesPayed = calculateMedian(values.filter((e) => e !== 0 && e)) ?? 0
-
-        const valuesEarning = months.map((item: any) => {
-          return item.earnings.totalPayed
-        });
-
-        const medianEarningsPayed = calculateMedian(valuesEarning.filter((e) => e !== 0 && e)) ?? 0
-        setDados(
-          months.map((item: any) => {
-            const { earnings, expenses, ballance, totalBallance } = item;
-            earnings.total = Money.toFloat(earnings.total);
-            earnings.totalOpen = Money.toFloat(earnings.totalOpen);
-            earnings.totalPayed = Money.toFloat(earnings.totalPayed);
-
-            expenses.total = Money.toFloat(expenses.total);
-            expenses.totalOpen = Money.toFloat(expenses.totalOpen);
-            expenses.totalPayed = Money.toFloat(expenses.totalPayed);
-
-            item.ballance = Money.toFloat(ballance);
-            item.totalBallance = Money.toFloat(totalBallance);
-            return {
-              ...item,
-              medianExpenses: Money.toFloat(medianExpensesPayed),
-              medianEarnings: Money.toFloat(medianEarningsPayed)
-            };
-          })
-        );
+        await init();
       } catch (error) {
       } finally {
         setSpin(false);
       }
-
     }
-
-    retornaDadosGrafico();
-  }, [setSpin]);
+    initGraphic();
+  }, [init, setSpin]);
 
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} >
         <FcSurface>
           <ResponsiveContainer height={220}>
-            <ComposedChart data={dados}>
+            <ComposedChart data={general}>
               <XAxis
                 dataKey="month"
                 fill={theme.palette.text.primary}
@@ -147,7 +116,7 @@ export function FcGraphicsGeneral() {
                 }
                 strokeWidth={1}
               />
-                <Line
+              <Line
                 type="monotone"
                 dataKey="medianEarnings"
                 name="Mediana receitas"

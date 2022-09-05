@@ -1,10 +1,10 @@
-import { FcGraphicsExpense, FcGraphicsGeneral } from "@components/fc-graphics";
-import FcGraphicsYeld from "@components/fc-graphics/fc-graphics-yeld";
+
 import { Grid } from "@material-ui/core";
 import { isAuthenticated, setCreatedAlert } from "common";
 import { HttpStatus } from "common/enum";
 import { ContextAlert } from "Context";
 import { useContext, useEffect } from "react";
+import { FcGraphicsExpense, FcGraphicsGeneral, FcGraphicUnplannedExpenses } from "./components/fc-graphics";
 
 export default function FcHomeBody() {
   const { setAlert } = useContext(ContextAlert);
@@ -30,7 +30,7 @@ export default function FcHomeBody() {
         <FcGraphicsExpense />
       </Grid>
       <Grid item xs={12} md={6}>
-        <FcGraphicsYeld />
+        <FcGraphicUnplannedExpenses />
       </Grid>
     </Grid>
   );
