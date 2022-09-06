@@ -81,7 +81,9 @@ export function FcGraphicExpenseByCategory() {
           </Typography>
           <FcGraphic
             data={despesas.reduce((acc: any[], element: any) => {
-              return [...acc, ...element.subCategoryData]
+              return [...acc, ...element.subCategoryData].sort((a, b) =>
+                a.value > b.value ? 1 : b.value > a.value ? -1 : 0
+              )
             }, [])}
             chaveX="description"
             chaveY="value"
