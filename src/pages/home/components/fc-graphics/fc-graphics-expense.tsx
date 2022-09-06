@@ -39,7 +39,7 @@ export function FcGraphicsExpense() {
       if (status === 200) {
         setDespesas(
           data.map((item: any) => {
-            item.valor = Money.toFloat(item.valor);
+            item.value = Money.toFloat(item.value);
             return item;
           })
         );
@@ -57,7 +57,7 @@ export function FcGraphicsExpense() {
       if (status === 200) {
         setDespesas(
           data.map((item: any) => {
-            item.valor = Money.toFloat(item.valor);
+            item.value = Money.toFloat(item.value);
             return item;
           })
         );
@@ -82,8 +82,8 @@ export function FcGraphicsExpense() {
 
       <FcGraphic
         data={despesas}
-        chaveX="descricao"
-        chaveY="valor"
+        chaveX="description"
+        chaveY="value"
         cor={
           theme.palette.type === "dark"
             ? theme.palette.error.light

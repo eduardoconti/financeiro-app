@@ -56,14 +56,14 @@ type FcGraphicProps = {
 }
 
 type FcGraphicDada = {
-  valor: number,
-  descricao: string,
+  value: number,
+  description: string,
 }
 
 export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }: FcGraphicProps) {
   const theme = useTheme();
   const totalValue = data.reduce((acc: number, element: FcGraphicDada): number => {
-    return acc += element.valor
+    return acc += element.value
   }, 0)
   return (
     <ResponsiveContainer height={180}>

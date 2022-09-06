@@ -72,8 +72,8 @@ export const useGraphic = create<IUseGraphic>((set) => ({
       general.push(element)
 
     })
-    const medianExpenses = calculateMedian(expensesValuesToCalculateMedian) ?? 0
-    const medianEarnings = calculateMedian(earningsValuesToCalculateMedian) ?? 0
+    const medianExpenses = calculateMedian(expensesValuesToCalculateMedian)
+    const medianEarnings = calculateMedian(earningsValuesToCalculateMedian)
     set((state) => ({
       ...state,
       general: general.map((e) => { return { ...e, medianExpenses, medianEarnings } })
@@ -87,7 +87,7 @@ export const useGraphic = create<IUseGraphic>((set) => ({
   fetchUnplannedExpenses: async () => {
     const graphicService: IGraphicService = new GraphicService();
     const { data: { months } } = await graphicService.unplannedExpenses();
-    const median = calculateMedian(months.map((e) => { return e.total })) ?? 0
+    const median = calculateMedian(months.map((e) => { return e.total }))
     set((state) => ({
       ...state,
       unplanned: months.map((e) => {

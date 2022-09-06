@@ -34,14 +34,14 @@ export function FcFormButtonInsertEarning() {
   const {
     addAmount,
     earningsOpen,
-    setExpensesOpen,
+    setEarningsOpen,
     earningsPayed,
     setEarningsPayed,
     addBallance,
   } = useDashValues((s) => ({
     addAmount: s.addAmount,
     earningsOpen: s.earningsOpen,
-    setExpensesOpen: s.setExpensesOpen,
+    setEarningsOpen: s.setEarningsOpen,
     earningsPayed: s.earningsPayed,
     setEarningsPayed: s.setEarningsPayed,
     addBallance: s.addBallance,
@@ -62,7 +62,7 @@ export function FcFormButtonInsertEarning() {
         setEarningsPayed(earningsPayed + req.valor);
         addAmount(req.valor);
       } else {
-        setExpensesOpen(earningsOpen + req.valor);
+        setEarningsOpen(earningsOpen + req.valor);
       }
       addBallance(req.valor);
       setAlert(setCreatedAlert(status, message, internalMessage));
