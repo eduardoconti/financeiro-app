@@ -7,6 +7,7 @@ import { useCurrentTime } from "@hooks/use-current-time";
 import { CheckedValues, useDashValues } from "@hooks/use-dash-values";
 import FcSurface from "@components/fc-surface/fc-surface";
 import FcGraphic from "@pages/home/components/fc-graphics/fc-graphics";
+import { pink } from "@material-ui/core/colors";
 
 export function FcGraphicExpenseByCategory() {
   const checkExpenses = useDashValues(s => s.checkExpenses)
@@ -89,10 +90,10 @@ export function FcGraphicExpenseByCategory() {
             chaveY="value"
             cor={
               theme.palette.type === "dark"
-                ? theme.palette.error.light
-                : theme.palette.error.dark
+                ? pink[200]
+                : pink[400]
             }
-            stroke={theme.palette.error.main}
+            stroke={pink[500]}
           />
         </FcSurface>
       </Grid>

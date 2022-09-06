@@ -15,6 +15,7 @@ import { useSpin } from "@hooks/use-spin";
 import { useGraphic } from "@pages/home/hook";
 import shallow from "zustand/shallow";
 import FcSurface from "@components/fc-surface/fc-surface";
+import { purple } from "@material-ui/core/colors";
 
 export function FcGraphicUnplannedExpenses() {
   const setSpin = useSpin(s => s.setSpin)
@@ -76,7 +77,7 @@ export function FcGraphicUnplannedExpenses() {
             type="monotone"
             dataKey="median"
             name="Mediana"
-            stroke={theme.palette.error.main}
+            stroke={purple[700]}
             strokeWidth={3}
           />
           <Bar
@@ -85,10 +86,10 @@ export function FcGraphicUnplannedExpenses() {
             maxBarSize={30}
             fill={
               theme.palette.type === "dark"
-                ? theme.palette.error.light
-                : theme.palette.error.dark
+                ? purple[200]
+                : purple[400]
             }
-            stroke={theme.palette.error.main}
+            stroke={purple[500]}
           />
 
         </ComposedChart>
