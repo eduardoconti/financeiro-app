@@ -18,7 +18,10 @@ export function FcGraphicsExpense() {
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
   const theme = useTheme();
-
+  const color =
+    theme.palette.type === "dark"
+      ? indigo[100]
+      : indigo[600]
   useEffect(() => {
     async function pegaDespesas() {
       if (isAuthenticated()) {
@@ -41,6 +44,7 @@ export function FcGraphicsExpense() {
         setDespesas(
           data.map((item: any) => {
             item.value = Money.toFloat(item.value);
+            item.color = color
             return item;
           })
         );
@@ -59,6 +63,7 @@ export function FcGraphicsExpense() {
         setDespesas(
           data.map((item: any) => {
             item.value = Money.toFloat(item.value);
+            item.color = color
             return item;
           })
         );
@@ -85,11 +90,7 @@ export function FcGraphicsExpense() {
         data={despesas}
         chaveX="description"
         chaveY="value"
-        cor={
-          theme.palette.type === "dark"
-            ? indigo[200]
-            : indigo[600]
-        }
+        cor={color}
         stroke={indigo[500]}
       />
     </FcSurface>

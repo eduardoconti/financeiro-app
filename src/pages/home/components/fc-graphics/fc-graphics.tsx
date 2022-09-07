@@ -29,7 +29,7 @@ const CustomTooltip = ({ active, payload, label, total, ...rest }: any) => {
           <span>
             {`${payload[0].name}: `}
           </span>
-          <span style={{ color: payload[0].payload?.color ?? theme.palette.primary.main }}>
+          <span style={{ color: payload[0].payload?.color ?? theme.palette.primary.light }}>
             {`${Money.formatBrl(payload[0].value)}`}
           </span>
         </Typography>
@@ -37,7 +37,7 @@ const CustomTooltip = ({ active, payload, label, total, ...rest }: any) => {
           <span>
             {`Percentual: `}
           </span>
-          <span style={{ color: payload[0].payload?.color ?? theme.palette.primary.main }}>
+          <span style={{ color: payload[0].payload?.color ?? theme.palette.primary.light }}>
             {`${(Math.round((payload[0].value / total * 100) * 100) / 100).toFixed(2)} %`}
           </span>
 

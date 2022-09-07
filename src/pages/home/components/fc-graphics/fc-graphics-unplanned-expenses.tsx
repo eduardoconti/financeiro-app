@@ -39,7 +39,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
               <span>
                 {`${payload[i].name}: `}
               </span>
-              <span style={{ color: payload[i].stroke }}>
+              <span style={{ color: payload[i].fill }}>
                 {`${Money.formatBrl(payload[i].value)}`}
               </span>
             </Typography>
