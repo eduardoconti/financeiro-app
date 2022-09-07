@@ -1,3 +1,4 @@
+import { Money } from "@common/money";
 import { Box, Divider, Typography, useTheme } from "@material-ui/core";
 import {
   BarChart,
@@ -26,15 +27,15 @@ const CustomTooltip = ({ active, payload, label, total }: any) => {
         <Divider/>
         <Typography>
           <span>
-            {`${payload[0].dataKey}: `}
+            {`${payload[0].name}: `}
           </span>
           <span style={{ color: payload[0].fill }}>
-            {`${(payload[0].value).toFixed(2)}`}
+            {`${Money.formatBrl(payload[0].value)}`}
           </span>
         </Typography>
         <Typography>
           <span>
-            {`percentual: `}
+            {`Percentual: `}
           </span>
           <span style={{ color: payload[0].fill }}>
             {`${(Math.round((payload[0].value / total * 100) * 100) / 100).toFixed(2)} %`}
@@ -90,7 +91,7 @@ export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }: FcGraph
           }}
 
         />
-        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} />
+        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} name="Value"/>
       </BarChart>
     </ResponsiveContainer>
   );

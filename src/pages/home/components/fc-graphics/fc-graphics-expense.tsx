@@ -7,6 +7,7 @@ import { useCurrentTime } from "@hooks/use-current-time";
 import { FcGraphicHeader } from "./";
 import { CheckedValues, useDashValues } from "@hooks/use-dash-values";
 import FcSurface from "@components/fc-surface/fc-surface";
+import { deepOrange } from "@material-ui/core/colors";
 
 export function FcGraphicsExpense() {
   const checkExpenses = useDashValues(s => s.checkExpenses)
@@ -86,10 +87,10 @@ export function FcGraphicsExpense() {
         chaveY="value"
         cor={
           theme.palette.type === "dark"
-            ? theme.palette.error.light
-            : theme.palette.error.dark
+            ? deepOrange[200]
+            : deepOrange[400]
         }
-        stroke={theme.palette.error.main}
+        stroke={deepOrange[500]}
       />
     </FcSurface>
   );

@@ -17,4 +17,11 @@ export class Money {
   static toInteger(value: number): number {
     return Math.round(value * 100);
   }
+
+  static formatBrl(value: number): string {
+    return (value).toLocaleString("pt-br", {
+      style: "currency",
+      currency: "BRL",
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { Typography, useTheme } from "@material-ui/core";
+import { Box, Divider, Typography, useTheme } from "@material-ui/core";
 import {
   Bar,
   CartesianGrid,
@@ -15,8 +15,44 @@ import { useSpin } from "@hooks/use-spin";
 import { useGraphic } from "@pages/home/hook";
 import shallow from "zustand/shallow";
 import FcSurface from "@components/fc-surface/fc-surface";
-import { purple } from "@material-ui/core/colors";
+import { pink } from "@material-ui/core/colors";
+import { Money } from "@common/money";
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  const theme = useTheme();
+
+  if (active && payload && payload.length) {
+    console.log(payload)
+    return (
+      <Box className="custom-tooltip" style={{
+        backgroundColor: theme.palette.grey[800],
+        borderRadius: theme.shape.borderRadius,
+        border: "none",
+        padding: theme.spacing(1)
+      }}>
+        <Typography style={{ color: theme.palette.text.primary }}>
+          {`${label}`}
+        </Typography>
+        <Divider />
+        {payload.map((e: any, i: number) => {
+          return (<>
+            <Typography>
+              <span>
+                {`${payload[i].name}: `}
+              </span>
+              <span style={{ color: payload[i].stroke }}>
+                {`${Money.formatBrl(payload[i].value)}`}
+              </span>
+            </Typography>
+          </>
+          )
+        })}
+
+      </Box>
+    );
+  }
+  return null
+}
 export function FcGraphicUnplannedExpenses() {
   const setSpin = useSpin(s => s.setSpin)
 
@@ -65,33 +101,29 @@ export function FcGraphicUnplannedExpenses() {
             scale="linear"
           />
           <Tooltip
-            contentStyle={{
-              backgroundColor: theme.palette.grey[800],
-              borderRadius: theme.shape.borderRadius,
-              border: "none",
-            }}
+            content={<CustomTooltip />}
           />
           <CartesianGrid strokeDasharray="1" style={{ opacity: 0.5 }} />
+          <Bar
+            dataKey="total"
+            name="Value"
+            maxBarSize={30}
+            fill={
+              theme.palette.type === "dark"
+                ? pink[200]
+                : pink[400]
+            }
+            stroke={pink[500]}
+          />
           <Line
             dot={false}
             type="monotone"
             dataKey="median"
             name="Mediana"
-            stroke={purple[700]}
+            stroke={pink[700]}
             strokeWidth={3}
+            strokeDasharray="4"
           />
-          <Bar
-            dataKey="total"
-            name="Valor"
-            maxBarSize={30}
-            fill={
-              theme.palette.type === "dark"
-                ? purple[200]
-                : purple[400]
-            }
-            stroke={purple[500]}
-          />
-
         </ComposedChart>
       </ResponsiveContainer>
     </FcSurface>

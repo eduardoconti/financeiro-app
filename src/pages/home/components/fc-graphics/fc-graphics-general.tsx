@@ -11,13 +11,49 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { Grid, useTheme } from "@material-ui/core";
+import { Box, Divider, Grid, Typography, useTheme } from "@material-ui/core";
 
 import { useSpin } from "@hooks/use-spin";
 import FcSurface from "@components/fc-surface/fc-surface";
 import { useGraphic } from "@pages/home/hook";
 import shallow from "zustand/shallow";
+import { Money } from "@common/money";
 
+const CustomTooltip = ({ active, payload, label }: any) => {
+  const theme = useTheme();
+
+  if (active && payload && payload.length) {
+    console.log(payload)
+    return (
+      <Box className="custom-tooltip" style={{
+        backgroundColor: theme.palette.grey[800],
+        borderRadius: theme.shape.borderRadius,
+        border: "none",
+        padding: theme.spacing(1)
+      }}>
+        <Typography style={{ color: theme.palette.text.primary }}>
+          {`${label}`}
+        </Typography>
+        <Divider />
+        {payload.map((e: any, i: number) => {
+          return (<>
+            <Typography>
+              <span>
+                {`${payload[i].name}: `}
+              </span>
+              <span style={{ color: payload[i].stroke }}>
+                {`${Money.formatBrl(payload[i].value)}`}
+              </span>
+            </Typography>
+          </>
+          )
+        })}
+
+      </Box>
+    );
+  }
+  return null
+}
 export function FcGraphicsGeneral() {
   const { setSpin } = useSpin();
   const { init, general } = useGraphic((s) => ({
@@ -56,11 +92,7 @@ export function FcGraphicsGeneral() {
                 scale="linear"
               />
               <Tooltip
-                contentStyle={{
-                  backgroundColor: theme.palette.grey[800],
-                  borderRadius: theme.shape.borderRadius,
-                  border: "none",
-                }}
+                content={<CustomTooltip />}
               />
               <Legend />
               <CartesianGrid strokeDasharray="1" style={{ opacity: 0.5 }} />
@@ -114,7 +146,8 @@ export function FcGraphicsGeneral() {
                 stroke={
                   theme.palette.error.main
                 }
-                strokeWidth={1}
+                strokeDasharray="4"
+                strokeWidth={2}
               />
               <Line
                 type="monotone"
@@ -124,7 +157,8 @@ export function FcGraphicsGeneral() {
                 stroke={
                   theme.palette.success.main
                 }
-                strokeWidth={1}
+                strokeDasharray="4"
+                strokeWidth={2}
               />
             </ComposedChart>
           </ResponsiveContainer>
