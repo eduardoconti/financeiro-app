@@ -1,1 +1,1 @@
-export * from './use-graphic'
+export * from "./use-graphic";

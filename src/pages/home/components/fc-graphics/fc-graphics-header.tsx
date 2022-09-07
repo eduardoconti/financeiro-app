@@ -41,7 +41,10 @@ export function FcGraphicHeader({ setStateGrafico, cor, descricao }: any) {
       >
         <Typography
           variant="subtitle1"
-          style={{ color: theme.palette.text.primary, padding: theme.spacing(1) }}
+          style={{
+            color: theme.palette.text.primary,
+            padding: theme.spacing(1),
+          }}
         >
           {descricao}
         </Typography>

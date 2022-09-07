@@ -1,24 +1,24 @@
 export class GeneralGraphicResponseDTO {
-  months!: Months[]
-  geral!: Geral
+  months!: Months[];
+  geral!: Geral;
 }
 
 type Months = {
-  month: string,
-  earnings: Totals,
-  expenses: Totals,
-  ballance: number,
-  totalBallance: number,
-}
+  month: string;
+  earnings: Totals;
+  expenses: Totals;
+  ballance: number;
+  totalBallance: number;
+};
 
 export type Totals = {
-  total: number,
-  totalOpen: number,
-  totalPayed: number,
-  quantity: number,
-}
+  total: number;
+  totalOpen: number;
+  totalPayed: number;
+  quantity: number;
+};
 
 type Geral = {
-  earnings: Totals,
-  expenses: Totals,
-}
+  earnings: Totals;
+  expenses: Totals;
+};

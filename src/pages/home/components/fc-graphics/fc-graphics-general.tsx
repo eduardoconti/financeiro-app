@@ -25,41 +25,45 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
   if (active && payload && payload.length) {
     return (
-      <Box className="custom-tooltip" style={{
-        backgroundColor: theme.palette.grey[800],
-        borderRadius: theme.shape.borderRadius,
-        border: "none",
-        padding: theme.spacing(1)
-      }}>
+      <Box
+        className="custom-tooltip"
+        style={{
+          backgroundColor: theme.palette.grey[800],
+          borderRadius: theme.shape.borderRadius,
+          border: "none",
+          padding: theme.spacing(1),
+        }}
+      >
         <Typography style={{ color: theme.palette.text.primary }}>
           {`${label}`}
         </Typography>
         <Divider />
         {payload.map((e: any, i: number) => {
-          return (<>
-            <Typography>
-              <span>
-                {`${payload[i].name}: `}
-              </span>
-              <span style={{ color: payload[i].stroke }}>
-                {`${Money.formatBrl(payload[i].value)}`}
-              </span>
-            </Typography>
-          </>
-          )
+          return (
+            <>
+              <Typography>
+                <span>{`${payload[i].name}: `}</span>
+                <span style={{ color: payload[i].stroke }}>
+                  {`${Money.formatBrl(payload[i].value)}`}
+                </span>
+              </Typography>
+            </>
+          );
         })}
-
       </Box>
     );
   }
-  return null
-}
+  return null;
+};
 export function FcGraphicsGeneral() {
   const { setSpin } = useSpin();
-  const { init, general } = useGraphic((s) => ({
-    init: s.fetchGenereal,
-    general: s.general,
-  }), shallow)
+  const { init, general } = useGraphic(
+    (s) => ({
+      init: s.fetchGenereal,
+      general: s.general,
+    }),
+    shallow
+  );
   const theme = useTheme();
 
   useEffect(() => {
@@ -74,10 +78,9 @@ export function FcGraphicsGeneral() {
     }
     initGraphic();
   }, [init, setSpin]);
-
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} >
+      <Grid item xs={12}>
         <FcSurface>
           <ResponsiveContainer height={220}>
             <ComposedChart data={general}>
@@ -91,12 +94,9 @@ export function FcGraphicsGeneral() {
                 stroke={theme.palette.text.primary}
                 scale="sqrt"
               />
-              <Tooltip
-                content={<CustomTooltip />}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Legend />
               <CartesianGrid strokeDasharray="1" style={{ opacity: 0.5 }} />
-
               <Bar
                 dataKey="expenses.total"
                 name="Despesas"
@@ -143,9 +143,7 @@ export function FcGraphicsGeneral() {
                 dataKey="medianExpenses"
                 name="Mediana despesas"
                 dot={false}
-                stroke={
-                  pink[500]
-                }
+                stroke={pink[500]}
                 strokeWidth={2}
               />
               <Line
@@ -153,9 +151,7 @@ export function FcGraphicsGeneral() {
                 dataKey="medianEarnings"
                 name="Mediana receitas"
                 dot={false}
-                stroke={
-                  teal[500]
-                }
+                stroke={teal[500]}
                 strokeWidth={2}
               />
             </ComposedChart>

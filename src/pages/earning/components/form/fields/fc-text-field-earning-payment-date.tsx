@@ -23,7 +23,7 @@ export function FcTextFieldEarningPaymentDate() {
     return field.name === "pagamento";
   });
 
-  const { year, month } = useCurrentTime()
+  const { year, month } = useCurrentTime();
   useEffect(() => {
     setForm(formatDateToForm(new Date(year, month, getDay())));
   }, [month, setForm, year]);

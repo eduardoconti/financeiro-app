@@ -1,2 +1,2 @@
-export * from './fc-login-modal'
-export * from './FormLogin'
+export * from "./fc-login-modal";
+export * from "./FormLogin";

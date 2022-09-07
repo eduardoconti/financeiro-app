@@ -96,12 +96,11 @@ export class ExpenseService implements IExpenseService {
     expense: ExpenseDTO
   ): Promise<SuccessResponseData<ExpenseResponseDTO>> {
     this.url = new URL((process.env.REACT_APP_API_HOST + ENDPOINT) as string);
-    const { data: responseData, ...rest } = await this.httpRequestService.post<ExpenseResponseDTO | ExpenseResponseDTO[]>(
-      this.url.toString(),
-      expense
-    );
+    const { data: responseData, ...rest } = await this.httpRequestService.post<
+      ExpenseResponseDTO | ExpenseResponseDTO[]
+    >(this.url.toString(), expense);
     if (Array.isArray(responseData)) {
-      return { ...rest, data: responseData[0] }
+      return { ...rest, data: responseData[0] };
     }
     return { ...rest, data: responseData };
   }
@@ -237,9 +236,9 @@ export async function retornaTotalDespesas(
     const query =
       stateAnoAtual && stateMesAtual
         ? "?start=" +
-        firstDayOfMonth(stateAnoAtual, stateMesAtual) +
-        "&end=" +
-        lastDayOfMonth(stateAnoAtual, stateMesAtual)
+          firstDayOfMonth(stateAnoAtual, stateMesAtual) +
+          "&end=" +
+          lastDayOfMonth(stateAnoAtual, stateMesAtual)
         : "";
     const endpoint = ENDPOINT + "/values" + query;
     const res = await api.get(endpoint);

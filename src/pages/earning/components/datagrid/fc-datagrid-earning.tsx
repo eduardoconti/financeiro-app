@@ -12,17 +12,23 @@ import { useSpin } from "@hooks/use-spin";
 import { Grid } from "@material-ui/core";
 import { GridColumns, GridSelectionModel } from "@material-ui/data-grid";
 import { useEarning, useFormEarning } from "@pages/earning/hooks";
-import { IEarningRow, useDataGridEarning } from "@pages/earning/hooks/use-datagrid-earning";
+import {
+  IEarningRow,
+  useDataGridEarning,
+} from "@pages/earning/hooks/use-datagrid-earning";
 import React, { useEffect } from "react";
 import shallow from "zustand/shallow";
 import { FcColumnActionsEarning } from "./fc-column-actions-earning";
 import { FcSelectedRowsEarning } from "./fc-selected-rows-earning";
 
 export function FcDataGridEarning() {
-  const { earnings, initEarnings } = useEarning((state) => ({
-    earnings: state.earnings,
-    initEarnings: state.fetchEarnings,
-  }), shallow);
+  const { earnings, initEarnings } = useEarning(
+    (state) => ({
+      earnings: state.earnings,
+      initEarnings: state.fetchEarnings,
+    }),
+    shallow
+  );
   const {
     setId,
     setDescription,
@@ -30,7 +36,7 @@ export function FcDataGridEarning() {
     setPaymentDate,
     setPayed,
     setWalletId,
-    clear
+    clear,
   } = useFormEarning((state) => ({
     setId: state.setId,
     setDescription: state.setDescription,
@@ -38,7 +44,7 @@ export function FcDataGridEarning() {
     setPaymentDate: state.setPaymentDate,
     setPayed: state.setPayed,
     setWalletId: state.setWalletId,
-    clear: state.clearAllFields
+    clear: state.clearAllFields,
   }));
   const { checkEarnings } = useDashValues(
     (state) => ({
@@ -82,7 +88,13 @@ export function FcDataGridEarning() {
     },
   });
 
-  const { setSelectedRows, selectedRows } = useDataGridEarning((s) => ({ selectedRows: s.selectedRows, setSelectedRows: s.setSelectedRows }), shallow);
+  const { setSelectedRows, selectedRows } = useDataGridEarning(
+    (s) => ({
+      selectedRows: s.selectedRows,
+      setSelectedRows: s.setSelectedRows,
+    }),
+    shallow
+  );
 
   return (
     <Grid container spacing={1}>
@@ -92,13 +104,13 @@ export function FcDataGridEarning() {
           columns={columns}
           checkboxSelection
           onSelectionModelChange={(gridSelectionModel: GridSelectionModel) => {
-            const id = gridSelectionModel[0]
+            const id = gridSelectionModel[0];
             const earning = earnings.find((e) => e.id === id);
-            if (!earning){
-              clear()
-              setSelectedRows([])
-              return;             
-            } 
+            if (!earning) {
+              clear();
+              setSelectedRows([]);
+              return;
+            }
             setId(earning.id);
             setDescription(earning.descricao);
             setValue(Money.toFloat(earning.valor).toString());
@@ -109,12 +121,11 @@ export function FcDataGridEarning() {
           }}
         />
       </Grid>
-      {(selectedRows && selectedRows.length > 0) ?
-        (<Grid item xs={12}>
+      {selectedRows && selectedRows.length > 0 ? (
+        <Grid item xs={12}>
           <FcSelectedRowsEarning />
-        </Grid>) : null
-      }
-
+        </Grid>
+      ) : null}
     </Grid>
   );
 }

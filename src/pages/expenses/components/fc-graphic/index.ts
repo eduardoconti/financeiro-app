@@ -1,1 +1,1 @@
-export * from './fc-graphics-expense'
+export * from "./fc-graphics-expense";

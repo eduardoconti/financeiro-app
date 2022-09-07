@@ -8,20 +8,23 @@ import { setCreatedAlert } from "@common/AlertFuncoes";
 import shallow from "zustand/shallow";
 
 export default function FcFormButtonUpdateSubCategory() {
-  const updateSubCategory = useCategory(s => s.updateSubCategory);
+  const updateSubCategory = useCategory((s) => s.updateSubCategory);
   const {
     id,
     description,
     categoryId,
     clearAllFields,
     setInvalidFields,
-  } = useFormSubCategory((s) => ({
-    id: s.id,
-    description: s.description,
-    categoryId: s.categoryId,
-    clearAllFields: s.clearAllFields,
-    setInvalidFields: s.setInvalidFields
-  }), shallow)
+  } = useFormSubCategory(
+    (s) => ({
+      id: s.id,
+      description: s.description,
+      categoryId: s.categoryId,
+      clearAllFields: s.clearAllFields,
+      setInvalidFields: s.setInvalidFields,
+    }),
+    shallow
+  );
   const update = SubCategoryRequestDTO.build({
     id,
     description,
@@ -35,15 +38,17 @@ export default function FcFormButtonUpdateSubCategory() {
       description="alterar"
       onClick={async () => {
         try {
-          setSpin(true)
-          const { status, message, internalMessage } = await updateSubCategory(update);
+          setSpin(true);
+          const { status, message, internalMessage } = await updateSubCategory(
+            update
+          );
           setAlert(setCreatedAlert(status, message, internalMessage));
           clearAllFields();
         } catch (error: any) {
           setInvalidFields(error?.invalidFields);
           setAlert(setCreatedAlert(error.status, error.detail, error.title));
         } finally {
-          setSpin(false)
+          setSpin(false);
         }
       }}
     />

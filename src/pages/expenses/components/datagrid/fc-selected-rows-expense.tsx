@@ -19,14 +19,13 @@ import { ExpenseService, IExpenseService } from "@api/expense/service";
 import { HttpStatus } from "@common/enum";
 
 export function FcSelectedRowsExpense() {
-
-  const selectedRows = useDataGridExpense((s) => s.selectedRows)
-  const expenses = useExpense((s) => s.expenses)
+  const selectedRows = useDataGridExpense((s) => s.selectedRows);
+  const expenses = useExpense((s) => s.expenses);
   const value = calculateSelectedRows(selectedRows, expenses);
 
   return (
     <FcSurface>
-      <Grid container spacing={1} alignItems="center" >
+      <Grid container spacing={1} alignItems="center">
         <Grid item xs={9} sm={6}>
           <Grid container spacing={2}>
             <Grid item xs={3}>
@@ -53,64 +52,70 @@ export function FcSelectedRowsExpense() {
   );
 }
 
-function calculateSelectedRows(selectedRows: number[], expenses: ExpenseResponseDTO[]): number {
-  const total = expenses.reduce((value: number, expense: ExpenseResponseDTO): number => {
-    if (selectedRows.includes(expense.id)) {
-      return value + expense.valor
-    }
-    return value
-  }, 0)
-  return total
+function calculateSelectedRows(
+  selectedRows: number[],
+  expenses: ExpenseResponseDTO[]
+): number {
+  const total = expenses.reduce(
+    (value: number, expense: ExpenseResponseDTO): number => {
+      if (selectedRows.includes(expense.id)) {
+        return value + expense.valor;
+      }
+      return value;
+    },
+    0
+  );
+  return total;
 }
 
-function FlagPayedButton(props: {
-  payed: boolean
-}) {
-  const { payed } = props
-  const selectedRows = useDataGridExpense((s) => s.selectedRows)
-  const setSpin = useSpin(s => s.setSpin)
-  const { setAlert } = useContext(ContextAlert)
+function FlagPayedButton(props: { payed: boolean }) {
+  const { payed } = props;
+  const selectedRows = useDataGridExpense((s) => s.selectedRows);
+  const setSpin = useSpin((s) => s.setSpin);
+  const { setAlert } = useContext(ContextAlert);
   const { year, month } = useCurrentTime();
-  const { calculate } = useDashValues((s) => (
-    {
-      calculate: s.calculate
-    }
-  ), shallow);
-  const fetch = useExpense((s) => s.fetchExpenses)
-  const onClick = (async () => {
+  const { calculate } = useDashValues(
+    (s) => ({
+      calculate: s.calculate,
+    }),
+    shallow
+  );
+  const fetch = useExpense((s) => s.fetchExpenses);
+  const onClick = async () => {
     try {
-      setSpin(true)
+      setSpin(true);
       const expenseService: IExpenseService = new ExpenseService();
       selectedRows.forEach(async (id) => {
-        await expenseService.updateFlagPayed(id, { pago: payed })
-      })
+        await expenseService.updateFlagPayed(id, { pago: payed });
+      });
 
-      await fetch({ year, month })
-      await calculate(year, month)
+      await fetch({ year, month });
+      await calculate(year, month);
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
-      setSpin(false)
+      setSpin(false);
     }
-    setAlert(setCreatedAlert(HttpStatus.OK, 'Success', 'Despesas alteradas com sucesso'));
-
-  })
-  return (<FcIconButtonFlagPayed size="large" payed={payed} onClick={onClick} />)
-
+    setAlert(
+      setCreatedAlert(
+        HttpStatus.OK,
+        "Success",
+        "Despesas alteradas com sucesso"
+      )
+    );
+  };
+  return <FcIconButtonFlagPayed size="large" payed={payed} onClick={onClick} />;
 }
 
 function DeleteExpenseButton(props: any) {
-
-  const selectedRows = useDataGridExpense((s) => s.selectedRows)
-  const fetch = useExpense((s) => s.fetchExpenses)
-  const clearAllFields = useFormExpense((s) => s.clearAllFields)
+  const selectedRows = useDataGridExpense((s) => s.selectedRows);
+  const fetch = useExpense((s) => s.fetchExpenses);
+  const clearAllFields = useFormExpense((s) => s.clearAllFields);
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
   const { year, month } = useCurrentTime();
-  const calculate = useDashValues(
-    (s) => s.calculate
-  );
-  const checkExpenses = useDashValues(s => (s.checkExpenses))
+  const calculate = useDashValues((s) => s.calculate);
+  const checkExpenses = useDashValues((s) => s.checkExpenses);
 
   const onClick = async () => {
     try {
@@ -118,28 +123,29 @@ function DeleteExpenseButton(props: any) {
       const expenseService: IExpenseService = new ExpenseService();
       selectedRows.forEach(async (id) => {
         await expenseService.delete(id);
-      })
+      });
       clearAllFields();
-      await fetch({ year, month, checked: checkExpenses })
-      await calculate(year, month)
+      await fetch({ year, month, checked: checkExpenses });
+      await calculate(year, month);
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
-    setAlert(setCreatedAlert(HttpStatus.OK, 'Success', 'Despesas excluidas com sucesso'));
+    setAlert(
+      setCreatedAlert(
+        HttpStatus.OK,
+        "Success",
+        "Despesas excluidas com sucesso"
+      )
+    );
   };
 
-  return (
-    <FcFormIconButtonDelete
-      description="delete"
-      onClick={onClick}
-    />
-  );
+  return <FcFormIconButtonDelete description="delete" onClick={onClick} />;
 }
 
 function AddNextMonthButton() {
-  const selectedRows = useDataGridExpense((s) => s.selectedRows)
+  const selectedRows = useDataGridExpense((s) => s.selectedRows);
   const { insertExpenseNextMonth, expenses } = useExpense(
     (s) => ({
       insertExpenseNextMonth: s.insertExpenseNextMonth,
@@ -154,24 +160,25 @@ function AddNextMonthButton() {
     try {
       setSpin(true);
       selectedRows.forEach(async (id) => {
-
         const expense = expenses.find((e) => e.id === id);
         if (!expense) return;
 
-        const requestDto = expenseToRequest(expense)
+        const requestDto = expenseToRequest(expense);
 
         await insertExpenseNextMonth(requestDto);
-      })
-      setAlert(setCreatedAlert(HttpStatus.OK, 'Success', 'Despesas inseridas com sucesso'));
+      });
+      setAlert(
+        setCreatedAlert(
+          HttpStatus.OK,
+          "Success",
+          "Despesas inseridas com sucesso"
+        )
+      );
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
       setSpin(false);
     }
   };
-  return (
-    <FcFormIconButtonAddNextMonth
-      onClick={onClick}
-    />
-  )
+  return <FcFormIconButtonAddNextMonth onClick={onClick} />;
 }

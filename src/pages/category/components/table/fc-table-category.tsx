@@ -98,7 +98,7 @@ function Row(props: RowProps) {
 }
 
 export default function FcTableCategory(): JSX.Element {
-  const categories = useCategory(s => s.categories)
+  const categories = useCategory((s) => s.categories);
 
   return (
     <TableContainer component={Paper}>

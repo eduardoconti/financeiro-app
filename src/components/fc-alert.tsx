@@ -14,10 +14,8 @@ export default function AlertComponent() {
   };
 
   const anchorOrigin: SnackbarOrigin = {
-    vertical:
-      window.innerWidth > breakpoints.values.sm ? "bottom" : "top",
-    horizontal:
-      window.innerWidth > breakpoints.values.sm ? "left" : "center",
+    vertical: window.innerWidth > breakpoints.values.sm ? "bottom" : "top",
+    horizontal: window.innerWidth > breakpoints.values.sm ? "left" : "center",
   };
   return (
     <Snackbar

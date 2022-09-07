@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FcFormButton(props: any) {
   const classes = useStyles();
-  const { description = "", onClick = () => { }, ...rest } = props;
+  const { description = "", onClick = () => {}, ...rest } = props;
   return (
     <FcButton
       className={classes.botao}

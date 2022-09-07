@@ -23,59 +23,59 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
   if (active && payload && payload.length) {
     return (
-      <Box className="custom-tooltip" style={{
-        backgroundColor: theme.palette.grey[800],
-        borderRadius: theme.shape.borderRadius,
-        border: "none",
-        padding: theme.spacing(1)
-      }}>
+      <Box
+        className="custom-tooltip"
+        style={{
+          backgroundColor: theme.palette.grey[800],
+          borderRadius: theme.shape.borderRadius,
+          border: "none",
+          padding: theme.spacing(1),
+        }}
+      >
         <Typography style={{ color: theme.palette.text.primary }}>
           {`${label}`}
         </Typography>
         <Divider />
         {payload.map((e: any, i: number) => {
-          return (<>
-            <Typography>
-              <span>
-                {`${payload[i].name}: `}
-              </span>
-              <span style={{ color: payload[i].fill }}>
-                {`${Money.formatBrl(payload[i].value)}`}
-              </span>
-            </Typography>
-          </>
-          )
+          return (
+            <>
+              <Typography>
+                <span>{`${payload[i].name}: `}</span>
+                <span style={{ color: payload[i].fill }}>
+                  {`${Money.formatBrl(payload[i].value)}`}
+                </span>
+              </Typography>
+            </>
+          );
         })}
-
       </Box>
     );
   }
-  return null
-}
+  return null;
+};
 export function FcGraphicUnplannedExpenses() {
-  const setSpin = useSpin(s => s.setSpin)
+  const setSpin = useSpin((s) => s.setSpin);
 
   const theme = useTheme();
-  const { unplanned, init } = useGraphic(s => (
-    {
+  const { unplanned, init } = useGraphic(
+    (s) => ({
       unplanned: s.unplanned,
-      init: s.fetchUnplannedExpenses
-    }), shallow)
+      init: s.fetchUnplannedExpenses,
+    }),
+    shallow
+  );
 
   useEffect(() => {
-
     try {
       setSpin(true);
       async function initGraphic() {
-        await init()
+        await init();
       }
-      initGraphic()
-
+      initGraphic();
     } catch (error: any) {
     } finally {
       setSpin(false);
     }
-
   }, [init, setSpin]);
 
   return (
@@ -99,19 +99,13 @@ export function FcGraphicUnplannedExpenses() {
             stroke={theme.palette.text.primary}
             scale="sqrt"
           />
-          <Tooltip
-            content={<CustomTooltip />}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <CartesianGrid strokeDasharray="1" style={{ opacity: 0.5 }} />
           <Bar
             dataKey="total"
             name="Value"
             maxBarSize={30}
-            fill={
-              theme.palette.type === "dark"
-                ? pink[200]
-                : pink[400]
-            }
+            fill={theme.palette.type === "dark" ? pink[200] : pink[400]}
             stroke={pink[500]}
           />
           <Line
@@ -119,7 +113,8 @@ export function FcGraphicUnplannedExpenses() {
             type="monotone"
             dataKey="median"
             name="Mediana"
-            stroke={pink[700]}
+            stroke={pink[100]}
+            fill={pink[100]}
             strokeWidth={3}
             strokeDasharray="4"
           />

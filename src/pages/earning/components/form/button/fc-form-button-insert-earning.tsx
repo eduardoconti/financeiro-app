@@ -10,7 +10,7 @@ import { useContext } from "react";
 import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertEarning() {
-  const insertEarning = useEarning(s => s.insertEarning);
+  const insertEarning = useEarning((s) => s.insertEarning);
   const {
     description,
     value,
@@ -19,15 +19,18 @@ export function FcFormButtonInsertEarning() {
     paymentDate,
     setInvalidFields,
     clear,
-  } = useFormEarning((state) => ({
-    description: state.description,
-    value: state.value,
-    payed: state.payed,
-    walletId: state.walletId,
-    paymentDate: state.paymentDate,
-    setInvalidFields: state.setInvalidFields,
-    clear: state.clearAllFields,
-  }), shallow);
+  } = useFormEarning(
+    (state) => ({
+      description: state.description,
+      value: state.value,
+      payed: state.payed,
+      walletId: state.walletId,
+      paymentDate: state.paymentDate,
+      setInvalidFields: state.setInvalidFields,
+      clear: state.clearAllFields,
+    }),
+    shallow
+  );
 
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
@@ -38,14 +41,17 @@ export function FcFormButtonInsertEarning() {
     earningsPayed,
     setEarningsPayed,
     addBallance,
-  } = useDashValues((s) => ({
-    addAmount: s.addAmount,
-    earningsOpen: s.earningsOpen,
-    setEarningsOpen: s.setEarningsOpen,
-    earningsPayed: s.earningsPayed,
-    setEarningsPayed: s.setEarningsPayed,
-    addBallance: s.addBallance,
-  }), shallow);
+  } = useDashValues(
+    (s) => ({
+      addAmount: s.addAmount,
+      earningsOpen: s.earningsOpen,
+      setEarningsOpen: s.setEarningsOpen,
+      earningsPayed: s.earningsPayed,
+      setEarningsPayed: s.setEarningsPayed,
+      addBallance: s.addBallance,
+    }),
+    shallow
+  );
 
   const onClick = async () => {
     try {

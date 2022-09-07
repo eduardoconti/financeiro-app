@@ -24,7 +24,7 @@ import { FcTransference } from "@pages/transference";
 import { useCategory } from "@pages/category/hook";
 
 export const ColorModeContext = React.createContext({
-  toggleColorMode: () => { },
+  toggleColorMode: () => {},
 });
 
 function App() {
@@ -90,7 +90,7 @@ function App() {
 
   const initWallet = useWallet((state) => state.fetchWallets);
   const setSpin = useSpin((state) => state.setSpin);
-  const initCategories = useCategory(s => s.fetchCategories)
+  const initCategories = useCategory((s) => s.fetchCategories);
 
   useEffect(() => {
     async function start() {
@@ -110,69 +110,41 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <MuiThemeProvider theme={theme}>
         <AlertProvider>
-            <Grid
-              style={{
-                backgroundColor: theme.palette.background.default,
-                display: "flex",
-              }}
-            >
-              <CssBaseline>
-                <Router>
-                  <ButtonAppBar />
-                  <AlertComponent />
-                  <Grid
-                    container
-                    spacing={1}
-                    className={classes.content}
-                  >
-                    {<Grid className={classes.toolbar} />}
-                    <Grid item xs={12}>
-                      <Dash />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Switch>
-                        <Route exact path="/" component={FcHome} />
-                        <Route
-                          exact
-                          path="/despesas"
-                          component={FcExpense}
-                        />
-                        <Route
-                          exact
-                          path="/receitas"
-                          component={FcEarningPage}
-                        />
-                        <Route
-                          exact
-                          path="/transferencias"
-                          component={FcTransference}
-                        />
-                        <Route
-                          exact
-                          path="/balanco"
-                          component={FcBalance}
-                        />
-                        <Route
-                          exact
-                          path="/saldo"
-                          component={FcBalanceMonth}
-                        />
-                        <Route
-                          exact
-                          path="/carteiras"
-                          component={FcWallet}
-                        />
-                        <Route
-                          exact
-                          path="/categorias"
-                          component={FcCategory}
-                        />
-                      </Switch>
-                    </Grid>
+          <Grid
+            style={{
+              backgroundColor: theme.palette.background.default,
+              display: "flex",
+            }}
+          >
+            <CssBaseline>
+              <Router>
+                <ButtonAppBar />
+                <AlertComponent />
+                <Grid container spacing={1} className={classes.content}>
+                  {<Grid className={classes.toolbar} />}
+                  <Grid item xs={12}>
+                    <Dash />
                   </Grid>
-                </Router>
-              </CssBaseline>
-            </Grid>
+                  <Grid item xs={12}>
+                    <Switch>
+                      <Route exact path="/" component={FcHome} />
+                      <Route exact path="/despesas" component={FcExpense} />
+                      <Route exact path="/receitas" component={FcEarningPage} />
+                      <Route
+                        exact
+                        path="/transferencias"
+                        component={FcTransference}
+                      />
+                      <Route exact path="/balanco" component={FcBalance} />
+                      <Route exact path="/saldo" component={FcBalanceMonth} />
+                      <Route exact path="/carteiras" component={FcWallet} />
+                      <Route exact path="/categorias" component={FcCategory} />
+                    </Switch>
+                  </Grid>
+                </Grid>
+              </Router>
+            </CssBaseline>
+          </Grid>
         </AlertProvider>
       </MuiThemeProvider>
     </ColorModeContext.Provider>

@@ -3,7 +3,7 @@ export type GetExpenseAmountGroupByCategoryResponse = {
   description: string;
   id: number;
   subCategoryData: SubCategoryData[];
-}
+};
 
 export type SubCategoryData = {
   id: number;

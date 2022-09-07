@@ -28,7 +28,7 @@ export function FcTextFieldTransferenceDate() {
     return field.name === "transferencia";
   });
 
-  const { year, month } = useCurrentTime()
+  const { year, month } = useCurrentTime();
 
   useEffect(() => {
     setTransferenceDate(formatDateToForm(new Date(year, month, getDay())));

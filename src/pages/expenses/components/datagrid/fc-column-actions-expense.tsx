@@ -68,13 +68,10 @@ export function FcColumnActionsExpense(props: any) {
     } finally {
       setSpin(false);
     }
-  }
+  };
 
   const {
     field: { row },
   } = props;
-  return <FcIconButtonFlagPayed
-    payed={row.payed}
-    onClick={onClick}
-  />
+  return <FcIconButtonFlagPayed payed={row.payed} onClick={onClick} />;
 }

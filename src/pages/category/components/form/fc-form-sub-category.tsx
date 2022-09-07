@@ -10,20 +10,18 @@ import FcFormButtonUpdateSubCategory from "./button/fc-form-button-update-sub-ca
 import FcTextFieldSubCategoryDescription from "./fc-text-field-sub-category-description";
 
 export default function FcFormSubCategory() {
-  const {
-    setCategoryId,
-    clearAllFields,
-    categoryId,
-    id,
-  } = useFormSubCategory(s => ({
-    setCategoryId: s.setCategoryId,
-    clearAllFields: s.clearAllFields,
-    categoryId: s.categoryId,
-    id: s.id
-  }), shallow)
+  const { setCategoryId, clearAllFields, categoryId, id } = useFormSubCategory(
+    (s) => ({
+      setCategoryId: s.setCategoryId,
+      clearAllFields: s.clearAllFields,
+      categoryId: s.categoryId,
+      id: s.id,
+    }),
+    shallow
+  );
 
   const onChangeSelectField = (event: any) => {
-    setCategoryId(event.target.value)
+    setCategoryId(event.target.value);
   };
 
   const onClickClearButton = () => {

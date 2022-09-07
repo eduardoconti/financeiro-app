@@ -19,7 +19,8 @@ export const useDataGridEarning = create<IUseDatagridEarning>((set) => ({
   rows: [],
   setRows: (rows: IEarningRow[]) => set({ rows: rows }),
   selectedRows: [],
-  setSelectedRows: (rows: number[]) => set((s) => ({ ...s, selectedRows: rows })),
-  addSelectedRows: (rowId: number) => set((s) => ({ ...s, selectedRows: [rowId, ...s.selectedRows] }))
-
+  setSelectedRows: (rows: number[]) =>
+    set((s) => ({ ...s, selectedRows: rows })),
+  addSelectedRows: (rowId: number) =>
+    set((s) => ({ ...s, selectedRows: [rowId, ...s.selectedRows] })),
 }));

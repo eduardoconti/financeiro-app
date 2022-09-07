@@ -35,9 +35,11 @@ export function FcFormButtonInsertExpenseNextMonth() {
       const expense = expenses.find((e) => e.id === id);
       if (!expense) return;
 
-      const requestDto = expenseToRequest(expense) 
-      const { status, message, internalMessage } = await insertExpenseNextMonth(requestDto);
-      
+      const requestDto = expenseToRequest(expense);
+      const { status, message, internalMessage } = await insertExpenseNextMonth(
+        requestDto
+      );
+
       setAlert(setCreatedAlert(status, message, internalMessage));
       clearAllFields();
     } catch (error: any) {

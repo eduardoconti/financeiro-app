@@ -3,7 +3,10 @@ import { CategoryRequestDTO, CategoryResponseDTO } from "@api/category/dto";
 import { CategoryService } from "@api/category/service";
 import create from "zustand";
 import { SubCategoryRequestDTO } from "@api/sub-category/dto";
-import { ISubCategoryService, SubCategoryService } from "@api/sub-category/service";
+import {
+  ISubCategoryService,
+  SubCategoryService,
+} from "@api/sub-category/service";
 
 export interface IUseCategory {
   categories: CategoryResponseDTO[];
@@ -15,8 +18,12 @@ export interface IUseCategory {
     categoryRequest: CategoryRequestDTO
   ) => Promise<SuccessResponseData<CategoryResponseDTO>>;
   deleteCategory: (id: number) => Promise<SuccessResponseData<any>>;
-  insertSubCategory: (subCategory: SubCategoryRequestDTO) => Promise<SuccessResponseData<any>>;
-  updateSubCategory: (subCategory: SubCategoryRequestDTO) => Promise<SuccessResponseData<any>>;
+  insertSubCategory: (
+    subCategory: SubCategoryRequestDTO
+  ) => Promise<SuccessResponseData<any>>;
+  updateSubCategory: (
+    subCategory: SubCategoryRequestDTO
+  ) => Promise<SuccessResponseData<any>>;
   deleteSubCategory: (id: number) => Promise<SuccessResponseData<any>>;
 }
 export const useCategory = create<IUseCategory>((set, get) => ({
@@ -65,11 +72,14 @@ export const useCategory = create<IUseCategory>((set, get) => ({
         (category) => category.id === subCategory.categoryId
       );
       const newCategories = [...state.categories];
-      newCategories[index].subCategories = [...newCategories[index].subCategories, data.data];
+      newCategories[index].subCategories = [
+        ...newCategories[index].subCategories,
+        data.data,
+      ];
       return {
         categories: newCategories.sort((a, b) =>
           a.descricao > b.descricao ? 1 : b.descricao > a.descricao ? -1 : 0
-        )
+        ),
       };
     });
     return data;
@@ -89,5 +99,5 @@ export const useCategory = create<IUseCategory>((set, get) => ({
     const { data } = await service.getAll();
     set({ categories: data });
     return response;
-  }
+  },
 }));

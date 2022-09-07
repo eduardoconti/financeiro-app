@@ -1,4 +1,15 @@
-import { blue, brown, deepOrange, green, grey, indigo, pink, purple, red, yellow } from "@material-ui/core/colors";
+import {
+  blue,
+  brown,
+  deepOrange,
+  green,
+  grey,
+  indigo,
+  pink,
+  purple,
+  red,
+  yellow,
+} from "@material-ui/core/colors";
 
 export const colors = [
   purple[200],
@@ -19,4 +30,5 @@ export const colors = [
   yellow[500],
   indigo[200],
   indigo[500],
-  grey[200]]
+  grey[200],
+];

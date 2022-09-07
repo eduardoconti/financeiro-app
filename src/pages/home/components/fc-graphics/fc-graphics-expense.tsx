@@ -10,18 +10,15 @@ import FcSurface from "@components/fc-surface/fc-surface";
 import { indigo } from "@material-ui/core/colors";
 
 export function FcGraphicsExpense() {
-  const checkExpenses = useDashValues(s => s.checkExpenses)
+  const checkExpenses = useDashValues((s) => s.checkExpenses);
   const { year, month } = useCurrentTime();
-  const setSpin = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
 
   const [despesas, setDespesas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
   const theme = useTheme();
-  const color =
-    theme.palette.type === "dark"
-      ? indigo[100]
-      : indigo[600]
+  const color = theme.palette.type === "dark" ? indigo[100] : indigo[600];
   useEffect(() => {
     async function pegaDespesas() {
       if (isAuthenticated()) {
@@ -44,7 +41,7 @@ export function FcGraphicsExpense() {
         setDespesas(
           data.map((item: any) => {
             item.value = Money.toFloat(item.value);
-            item.color = color
+            item.color = color;
             return item;
           })
         );
@@ -63,7 +60,7 @@ export function FcGraphicsExpense() {
         setDespesas(
           data.map((item: any) => {
             item.value = Money.toFloat(item.value);
-            item.color = color
+            item.color = color;
             return item;
           })
         );
@@ -74,7 +71,7 @@ export function FcGraphicsExpense() {
     setSpin(true);
     pegaDespesas();
     setSpin(false);
-  }, [checkExpenses, stateGrafico, setSpin, year, month]);
+  }, [checkExpenses, stateGrafico, setSpin, year, month, color]);
 
   return (
     <FcSurface>

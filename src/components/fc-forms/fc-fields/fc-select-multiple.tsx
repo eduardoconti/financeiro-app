@@ -1,5 +1,5 @@
 import { FcTextField } from "./fc-text-field";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export function FcSelectMultiple(props: any) {
   const {
@@ -29,9 +29,8 @@ export function FcSelectMultiple(props: any) {
             // value={value}
             {...rest}
           />
-        )
+        );
       }}
     />
-
   );
 }

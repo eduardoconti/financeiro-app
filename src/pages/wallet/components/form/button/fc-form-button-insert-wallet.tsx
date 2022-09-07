@@ -9,7 +9,7 @@ import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertWallet() {
   const { setAlert } = useContext(ContextAlert);
-  const setSpin = useSpin(s => s.setSpin)
+  const setSpin = useSpin((s) => s.setSpin);
   const {
     form: { id, description },
     setInvalidFields,
@@ -25,7 +25,7 @@ export function FcFormButtonInsertWallet() {
   const insert = useWallet((state) => state.insertWallet);
   const onClick = async () => {
     try {
-      setSpin(true)
+      setSpin(true);
       const { status, message, internalMessage } = await insert({
         id,
         descricao: description,

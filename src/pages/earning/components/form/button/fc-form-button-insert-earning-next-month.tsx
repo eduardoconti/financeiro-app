@@ -9,16 +9,22 @@ import shallow from "zustand/shallow";
 
 export function FcFormButtonInsertEarningNextMonth() {
   const { setAlert } = useContext(ContextAlert);
-  const { id, setInvalidFields } = useFormEarning(s => ({
-    id: s.id,
-    setInvalidFields: s.setInvalidFields
-  }), shallow);
-  const { earnings, insertEarningNextMonth } = useEarning(s => ({
-    earnings: s.earnings,
-    insertEarningNextMonth: s.insertEarningNextMonth
-  }), shallow);
+  const { id, setInvalidFields } = useFormEarning(
+    (s) => ({
+      id: s.id,
+      setInvalidFields: s.setInvalidFields,
+    }),
+    shallow
+  );
+  const { earnings, insertEarningNextMonth } = useEarning(
+    (s) => ({
+      earnings: s.earnings,
+      insertEarningNextMonth: s.insertEarningNextMonth,
+    }),
+    shallow
+  );
 
-  const setSpin = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
   const onClick = async () => {
     try {
       setSpin(true);

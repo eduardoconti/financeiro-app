@@ -5,7 +5,6 @@ import shallow from "zustand/shallow";
 import { FcTextField } from "../fc-forms/fc-fields";
 import { getYear } from "@common/DateHelper";
 
-
 export function FcSelectYearButton() {
   const { year, setYear } = useCurrentTime(
     (state) => ({ year: state.year, setYear: state.setYear }),
@@ -24,12 +23,7 @@ export function FcSelectYearButton() {
 
   return (
     <Box>
-      <FcTextField
-        select
-        id="year-button"
-        value={year}
-        onChange={handleChange}
-      >
+      <FcTextField select id="year-button" value={year} onChange={handleChange}>
         {Years}
       </FcTextField>
     </Box>

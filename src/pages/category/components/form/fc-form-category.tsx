@@ -1,24 +1,27 @@
-import { Grid, Typography } from "@material-ui/core"
+import { Grid, Typography } from "@material-ui/core";
 
-import FcFormClearButton from "components/fc-forms/fc-form-button/fc-form-clear-button-clear"
+import FcFormClearButton from "components/fc-forms/fc-form-button/fc-form-clear-button-clear";
 
-import FcSurface from "components/fc-surface/fc-surface"
-import { useFormCategory } from "pages/category/hook/use-form-category"
-import shallow from "zustand/shallow"
-import FcFormButtonInsertCategory from "./button/fc-form-button-insert-category"
-import FcFormButtonUpdateCategory from "./button/fc-form-button-update-category"
+import FcSurface from "components/fc-surface/fc-surface";
+import { useFormCategory } from "pages/category/hook/use-form-category";
+import shallow from "zustand/shallow";
+import FcFormButtonInsertCategory from "./button/fc-form-button-insert-category";
+import FcFormButtonUpdateCategory from "./button/fc-form-button-update-category";
 
-import FcTextFieldCategoryDescription from "./fc-text-field-category-description"
+import FcTextFieldCategoryDescription from "./fc-text-field-category-description";
 
 export default function FcFormCategory() {
-  const { id, clearAllFields } = useFormCategory((s) => ({
-    id: s.id,
-    clearAllFields: s.clearAllFields,
-  }), shallow)
+  const { id, clearAllFields } = useFormCategory(
+    (s) => ({
+      id: s.id,
+      clearAllFields: s.clearAllFields,
+    }),
+    shallow
+  );
 
   const onClickClearButton = () => {
-    clearAllFields()
-  }
+    clearAllFields();
+  };
   return (
     <FcSurface>
       <Grid container item spacing={1}>
@@ -42,5 +45,5 @@ export default function FcFormCategory() {
         </Grid>
       </Grid>
     </FcSurface>
-  )
+  );
 }

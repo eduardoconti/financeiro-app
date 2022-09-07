@@ -33,7 +33,7 @@ function retornaDados(obj) {
 }
 async function retornaDadosParaCard() {
   try {
-    const walletService = new WalletService()
+    const walletService = new WalletService();
     const { data: carteiras } = await walletService.getAll();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       undefined,

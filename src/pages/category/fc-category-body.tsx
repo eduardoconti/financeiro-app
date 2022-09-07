@@ -7,7 +7,7 @@ import FcFormSubCategory from "./components/form/fc-form-sub-category";
 import { useCategory } from "./hook";
 
 export function FcCategoryBody() {
-  const fetchCategories = useCategory(s => s.fetchCategories);
+  const fetchCategories = useCategory((s) => s.fetchCategories);
 
   useEffect(() => {
     const Init = async () => {

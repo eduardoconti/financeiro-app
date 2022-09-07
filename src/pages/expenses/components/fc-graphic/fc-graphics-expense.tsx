@@ -12,23 +12,23 @@ import { SuccessResponseData } from "@api/http-request/dto";
 import { colors } from "@common/colors";
 import { shuffleArray } from "@common/math";
 
-function GraphicTitle({ title }: {
-  title: string
-}) {
+function GraphicTitle({ title }: { title: string }) {
   const theme = useTheme();
-  return <Typography
-    variant="subtitle1"
-    style={{ color: theme.palette.text.primary, padding: theme.spacing(1) }}
-    align="center"
-  >
-    {title}
-  </Typography>
+  return (
+    <Typography
+      variant="subtitle1"
+      style={{ color: theme.palette.text.primary, padding: theme.spacing(1) }}
+      align="center"
+    >
+      {title}
+    </Typography>
+  );
 }
 
 export function FcGraphicExpenseByCategory() {
-  const checkExpenses = useDashValues(s => s.checkExpenses)
+  const checkExpenses = useDashValues((s) => s.checkExpenses);
   const { year, month } = useCurrentTime();
-  const setSpin = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
 
   const [despesas, setDespesas] = useState<any[]>([]);
   // const theme = useTheme();
@@ -37,26 +37,27 @@ export function FcGraphicExpenseByCategory() {
       await graphMonth(checkExpenses);
     }
     async function graphMonth(checkExpenses: CheckedValues) {
-      const { data, status }: SuccessResponseData<any[]> = await getValorDespesasPorCategoria(
+      const {
+        data,
+        status,
+      }: SuccessResponseData<any[]> = await getValorDespesasPorCategoria(
         checkExpenses,
         year,
         month
       );
       if (status === 200) {
-        shuffleArray(colors)
+        shuffleArray(colors);
         const newData = data.map((item, i) => {
-          const cor = colors[i]
+          const cor = colors[i];
           item.value = Money.toFloat(item.value);
           item.subCategoryData.map((sub: any) => {
             sub.value = Money.toFloat(sub.value);
-            sub.color = cor
+            sub.color = cor;
             return sub;
-          })
+          });
           return { ...item, color: cor };
-        })
-        setDespesas(
-          newData
-        );
+        });
+        setDespesas(newData);
       } else {
         setDespesas([]);
       }
@@ -71,11 +72,7 @@ export function FcGraphicExpenseByCategory() {
       <Grid item xs={12} sm={6}>
         <FcSurface>
           <GraphicTitle title={"Despesas por categoria"} />
-          <FcGraphic
-            data={despesas}
-            chaveX="description"
-            chaveY="value"
-          />
+          <FcGraphic data={despesas} chaveX="description" chaveY="value" />
         </FcSurface>
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -84,21 +81,22 @@ export function FcGraphicExpenseByCategory() {
           <FcGraphic
             data={despesas.reduce((acc: any[], element: any) => {
               if (!element.id) {
-                return acc
+                return acc;
               }
-              return [...acc, ...(element.subCategoryData.filter((e: any) => {
-                return e.id
-              }))].sort((a, b) =>
+              return [
+                ...acc,
+                ...element.subCategoryData.filter((e: any) => {
+                  return e.id;
+                }),
+              ].sort((a, b) =>
                 a.value > b.value ? 1 : b.value > a.value ? -1 : 0
-              )
+              );
             }, [])}
             chaveX="description"
             chaveY="value"
           />
         </FcSurface>
       </Grid>
-
     </Grid>
-
   );
 }

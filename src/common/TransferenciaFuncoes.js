@@ -1,8 +1,5 @@
 import API from "./Api";
-import {
-  firstDayOfMonth,
-  lastDayOfMonth,
-} from "./DateHelper";
+import { firstDayOfMonth, lastDayOfMonth } from "./DateHelper";
 
 const ENDPOINT = "transference";
 const headers = {

@@ -15,7 +15,9 @@ export class GraphicService implements IGraphicService {
     this.httpRequestService = new HttpRequestService();
   }
 
-  async unplannedExpenses(): Promise<SuccessResponseData<UnplannedExpensesGraphicResponseDTO>> {
+  async unplannedExpenses(): Promise<
+    SuccessResponseData<UnplannedExpensesGraphicResponseDTO>
+  > {
     const data = await this.httpRequestService.get<UnplannedExpensesGraphicResponseDTO>(
       this.url.toString() + "/expenses/unplanned"
     );

@@ -5,17 +5,23 @@ import { useExpenseFilter } from "@pages/expenses/hook";
 import shallow from "zustand/shallow";
 
 export function FcCategoryFilter() {
-
   const { categories } = useCategory();
-  const { setCategoryId, categoryId } = useExpenseFilter(s => ({
-    categoryId: s.categoryId,
-    setCategoryId: s.setCategoryId
-  }), shallow)
+  const { setCategoryId, categoryId } = useExpenseFilter(
+    (s) => ({
+      categoryId: s.categoryId,
+      setCategoryId: s.setCategoryId,
+    }),
+    shallow
+  );
 
   const onChange = (_: any, value: CategoryResponseDTO[]) => {
-    setCategoryId(value.map((element) => { return element.id }))
-  }
-  const defaultValue = categories.filter((c)=>categoryId?.includes(c.id))
+    setCategoryId(
+      value.map((element) => {
+        return element.id;
+      })
+    );
+  };
+  const defaultValue = categories.filter((c) => categoryId?.includes(c.id));
   return (
     <FcSelectMultiple
       options={categories}

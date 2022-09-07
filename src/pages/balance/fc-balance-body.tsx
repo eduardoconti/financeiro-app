@@ -38,7 +38,7 @@ function retornaDados(obj: any): any {
 }
 async function retornaDadosParaCard(ano: number, mes: number) {
   try {
-    const walletService = new WalletService()
+    const walletService = new WalletService();
     const { data: carteiras } = await walletService.getAll();
     const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
       ano,
@@ -58,19 +58,25 @@ async function retornaDadosParaCard(ano: number, mes: number) {
 
     carteiras.forEach((carteira: WalletResponseDTO) => {
       let { valor: receita } = retornaDados(
-        receitas.find((receita: EarningResponseDTO) => receita.id === carteira.id)
+        receitas.find(
+          (receita: EarningResponseDTO) => receita.id === carteira.id
+        )
       );
       let { valor: despesa } = retornaDados(
-        despesas.find((despesa: ExpenseResponseDTO) => despesa.id === carteira.id)
+        despesas.find(
+          (despesa: ExpenseResponseDTO) => despesa.id === carteira.id
+        )
       );
       let { valor: transferenciaSaida } = retornaDados(
         transferenciasOrigem.find(
-          (transferencia: TransferenceResponseDTO) => transferencia.id === carteira.id
+          (transferencia: TransferenceResponseDTO) =>
+            transferencia.id === carteira.id
         )
       );
       let { valor: transferenciaEntrada } = retornaDados(
         transferenciasDestino.find(
-          (transferencia: TransferenceResponseDTO) => transferencia.id === carteira.id
+          (transferencia: TransferenceResponseDTO) =>
+            transferencia.id === carteira.id
         )
       );
       let valor =
@@ -87,12 +93,12 @@ async function retornaDadosParaCard(ano: number, mes: number) {
     });
 
     return dadosCard;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export default function CorpoBalanco() {
   const [cards, setCards] = useState<any[] | undefined>([]);
-  const setSpin = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
   const { year, month } = useCurrentTime();
   useEffect(() => {
     if (isAuthenticated()) {
@@ -101,9 +107,7 @@ export default function CorpoBalanco() {
 
     async function set() {
       setSpin(true);
-      setCards(
-        await RetornaCards(year, month)
-      );
+      setCards(await RetornaCards(year, month));
       setSpin(false);
     }
   }, [month, setSpin, year]);

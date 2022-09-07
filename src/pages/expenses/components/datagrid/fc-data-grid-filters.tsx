@@ -1,7 +1,11 @@
 import FcSurface from "@components/fc-surface/fc-surface";
 import { Grid } from "@material-ui/core";
-import { FcCategoryFilter, FcDateTypeFilter, FcSubCategoryFilter, FcWalletFilter } from "../fc-filter-fields";
-
+import {
+  FcCategoryFilter,
+  FcDateTypeFilter,
+  FcSubCategoryFilter,
+  FcWalletFilter,
+} from "../fc-filter-fields";
 
 export default function FcDataGridFilters() {
   return (

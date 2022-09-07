@@ -1,8 +1,5 @@
 import API from "./Api";
-import {
-  firstDayOfMonth,
-  lastDayOfMonth,
-} from "./DateHelper";
+import { firstDayOfMonth, lastDayOfMonth } from "./DateHelper";
 const ENDPOINT = "earning";
 
 export async function getReceitas(
@@ -14,8 +11,7 @@ export async function getReceitas(
     let res;
 
     if (
-      (stateCheckedReceitas.payed &&
-        stateCheckedReceitas.open) ||
+      (stateCheckedReceitas.payed && stateCheckedReceitas.open) ||
       (!stateCheckedReceitas.payed && !stateCheckedReceitas.open)
     ) {
       res = await API.get(
@@ -72,10 +68,7 @@ export async function retornaReceitasAgrupadasPorCarteiraChecked(
         lastDayOfMonth(stateAnoAtual, stateMesAtual);
       char = "&";
     }
-    if (
-      stateCheckedReceitas.payed &&
-      stateCheckedReceitas.open
-    ) {
+    if (stateCheckedReceitas.payed && stateCheckedReceitas.open) {
     } else if (stateCheckedReceitas.payed) {
       endpoint += char + "pago=true";
     } else if (stateCheckedReceitas.open) {

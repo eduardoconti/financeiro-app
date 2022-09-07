@@ -19,7 +19,7 @@ export class Money {
   }
 
   static formatBrl(value: number): string {
-    return (value).toLocaleString("pt-br", {
+    return value.toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
     });

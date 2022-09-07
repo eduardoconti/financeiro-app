@@ -1,10 +1,13 @@
-
 import { Grid } from "@material-ui/core";
 import { isAuthenticated, setCreatedAlert } from "common";
 import { HttpStatus } from "common/enum";
 import { ContextAlert } from "Context";
 import { useContext, useEffect } from "react";
-import { FcGraphicsExpense, FcGraphicsGeneral, FcGraphicUnplannedExpenses } from "./components/fc-graphics";
+import {
+  FcGraphicsExpense,
+  FcGraphicsGeneral,
+  FcGraphicUnplannedExpenses,
+} from "./components/fc-graphics";
 
 export default function FcHomeBody() {
   const { setAlert } = useContext(ContextAlert);

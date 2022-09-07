@@ -12,32 +12,37 @@ import shallow from "zustand/shallow";
 export default function FcColumnActionsCategory(props: {
   field: CategoryResponseDTO;
 }) {
-  const deleteCategory = useCategory(s => s.deleteCategory);
-  const { setId, setDescription } = useFormCategory((s) => ({
-    setId: s.setId,
-    setDescription: s.setDescription
-  }), shallow)
+  const deleteCategory = useCategory((s) => s.deleteCategory);
+  const { setId, setDescription } = useFormCategory(
+    (s) => ({
+      setId: s.setId,
+      setDescription: s.setDescription,
+    }),
+    shallow
+  );
   const { field } = props;
-  const setSpin = useSpin(s => s.setSpin);
+  const setSpin = useSpin((s) => s.setSpin);
   const { setAlert } = useContext(ContextAlert);
   return (
     <Grid>
       <ActionUpdateButon
         onClick={async () => {
-          setId(field.id)
-          setDescription(field.descricao)
+          setId(field.id);
+          setDescription(field.descricao);
         }}
       />
       <ActionDeleteButon
         onClick={async () => {
           try {
-            setSpin(true)
-            const { status, message, internalMessage } = await deleteCategory(field.id);
+            setSpin(true);
+            const { status, message, internalMessage } = await deleteCategory(
+              field.id
+            );
             setAlert(setCreatedAlert(status, message, internalMessage));
           } catch (error: any) {
             setAlert(setCreatedAlert(error.status, error.detail, error.title));
           } finally {
-            setSpin(false)
+            setSpin(false);
           }
         }}
       />

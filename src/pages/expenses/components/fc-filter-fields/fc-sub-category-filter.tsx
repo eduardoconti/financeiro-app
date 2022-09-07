@@ -7,34 +7,43 @@ import { useMemo } from "react";
 import shallow from "zustand/shallow";
 
 export function FcSubCategoryFilter() {
-
-  const categories = useCategory(s => s.categories);
-  const { setSubCategoryId, subCategoryId } = useExpenseFilter(s => (
-    {
+  const categories = useCategory((s) => s.categories);
+  const { setSubCategoryId, subCategoryId } = useExpenseFilter(
+    (s) => ({
       setSubCategoryId: s.setSubCategoryId,
-      subCategoryId: s.subCategoryId
-    }
-  ), shallow)
+      subCategoryId: s.subCategoryId,
+    }),
+    shallow
+  );
 
   const onChange = (_: any, value: SubCategoryResponseDTO[]) => {
-    setSubCategoryId(value.map((element) => { return element.id }))
-  }
+    setSubCategoryId(
+      value.map((element) => {
+        return element.id;
+      })
+    );
+  };
 
-  const categoryId = useExpenseFilter(s => s.categoryId)
+  const categoryId = useExpenseFilter((s) => s.categoryId);
 
   const options = useMemo(() => {
     const categoriesFiltered = categories.filter((element) => {
-      return categoryId?.includes(element.id)
-    })
-    const subCategories = categoriesFiltered.reduce((acc: SubCategoryResponseDTO[], element: CategoryResponseDTO) => {
-      const { subCategories } = element
-      return [...acc, ...subCategories]
-    }, [])
+      return categoryId?.includes(element.id);
+    });
+    const subCategories = categoriesFiltered.reduce(
+      (acc: SubCategoryResponseDTO[], element: CategoryResponseDTO) => {
+        const { subCategories } = element;
+        return [...acc, ...subCategories];
+      },
+      []
+    );
 
-    return subCategories
-  }, [categories, categoryId])
+    return subCategories;
+  }, [categories, categoryId]);
 
-  const defaultValue = options.filter((element) => subCategoryId?.includes(element.id))
+  const defaultValue = options.filter((element) =>
+    subCategoryId?.includes(element.id)
+  );
   return (
     <FcSelectMultiple
       options={options}

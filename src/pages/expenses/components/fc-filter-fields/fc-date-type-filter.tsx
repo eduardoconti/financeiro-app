@@ -8,10 +8,13 @@ const options = [
   { id: "UNPLANNED", descricao: "Não Planejadas" },
 ];
 export function FcDateTypeFilter() {
-  const { dateField, setDateField } = useExpenseFilter(s => ({
-    dateField: s.dateField,
-    setDateField: s.setDateField
-  }), shallow)
+  const { dateField, setDateField } = useExpenseFilter(
+    (s) => ({
+      dateField: s.dateField,
+      setDateField: s.setDateField,
+    }),
+    shallow
+  );
   return (
     <FcTextField
       id={"fc-date-type-filter"}

@@ -1,5 +1,9 @@
 import { ExpenseDTO, ExpenseResponseDTO } from "@api/expense/dto";
-import { addMonth, dateIso8601, formatDateToDataGrid } from "@common/DateHelper";
+import {
+  addMonth,
+  dateIso8601,
+  formatDateToDataGrid,
+} from "@common/DateHelper";
 import { Money } from "@common/money";
 import { CheckedValues } from "@hooks/use-dash-values";
 import { ExpenseFilter, IExpenseForm } from "../hook";
@@ -27,7 +31,7 @@ export function formToRequest(
 export function expenseToDataGrid(
   expenses: ExpenseResponseDTO[],
   checked?: CheckedValues,
-  filter?: ExpenseFilter,
+  filter?: ExpenseFilter
 ): IDataGridExpenseRow[] {
   const dataGridRows: IDataGridExpenseRow[] = [];
   expenses.forEach((expense) => {
@@ -54,10 +58,21 @@ export function expenseToDataGrid(
     }
 
     if (filter) {
-      const { categoryId, walletId, subCategoryId } = filter
-      if (categoryId && categoryId.length > 0 && !categoryId.includes(categoria.id)) return;
-      if (walletId && walletId.length > 0 && !walletId.includes(carteira.id)) return;
-      if (subCategoryId && subCategoryId.length > 0 && !subCategoryId.includes(subCategory.id)) return;
+      const { categoryId, walletId, subCategoryId } = filter;
+      if (
+        categoryId &&
+        categoryId.length > 0 &&
+        !categoryId.includes(categoria.id)
+      )
+        return;
+      if (walletId && walletId.length > 0 && !walletId.includes(carteira.id))
+        return;
+      if (
+        subCategoryId &&
+        subCategoryId.length > 0 &&
+        !subCategoryId.includes(subCategory.id)
+      )
+        return;
     }
     dataGridRows.push({
       id: id,
@@ -99,5 +114,5 @@ export function expenseToRequest(expense: ExpenseResponseDTO): ExpenseDTO {
     descricao: newDescription,
     pago: false,
     pagamento: undefined,
-  }
+  };
 }

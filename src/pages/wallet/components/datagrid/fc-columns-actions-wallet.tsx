@@ -16,7 +16,7 @@ export function FcColumnActionsWallet(props: { field: GridCellParams }) {
   );
   const deleteWallet = useWallet((state) => state.deleteWallet);
   const { setAlert } = useContext(ContextAlert);
-  const setSpin = useSpin(s=>s.setSpin)
+  const setSpin = useSpin((s) => s.setSpin);
   const { field } = props;
   const onClickUpdate = () => {
     setForm(field.row as IWalletRow);
@@ -24,7 +24,7 @@ export function FcColumnActionsWallet(props: { field: GridCellParams }) {
 
   const onClickDelete = async () => {
     try {
-      setSpin(true)
+      setSpin(true);
       const { status, message, internalMessage } = await deleteWallet(
         field.row.id
       );

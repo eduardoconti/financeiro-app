@@ -22,15 +22,18 @@ export function FcFormButtonInsertTransference() {
     transferenceDate,
     setInvalidFields,
     clear,
-  } = useFormTransference((state) => ({
-    value: state.value,
-    payed: state.payed,
-    walletOriginId: state.walletOriginId,
-    walletDestinyId: state.walletDestinyId,
-    transferenceDate: state.transferenceDate,
-    setInvalidFields: state.setInvalidFields,
-    clear: state.clearAllFields,
-  }), shallow);
+  } = useFormTransference(
+    (state) => ({
+      value: state.value,
+      payed: state.payed,
+      walletOriginId: state.walletOriginId,
+      walletDestinyId: state.walletDestinyId,
+      transferenceDate: state.transferenceDate,
+      setInvalidFields: state.setInvalidFields,
+      clear: state.clearAllFields,
+    }),
+    shallow
+  );
 
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);

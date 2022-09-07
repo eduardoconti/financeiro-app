@@ -22,11 +22,13 @@ import { Grid } from "@material-ui/core";
 import { FcColumnActionsExpense } from "./fc-column-actions-expense";
 
 export function FcDataGridExpense() {
-  const { setSelectedRows, selectedRows } = useDataGridExpense((s) => (
-    {
+  const { setSelectedRows, selectedRows } = useDataGridExpense(
+    (s) => ({
       selectedRows: s.selectedRows,
-      setSelectedRows: s.setSelectedRows
-    }), shallow);
+      setSelectedRows: s.setSelectedRows,
+    }),
+    shallow
+  );
   const { initExpenses, expenses } = useExpense(
     (state) => ({
       initExpenses: state.fetchExpenses,
@@ -43,12 +45,15 @@ export function FcDataGridExpense() {
   );
   const { year, month } = useGetCurrentTime();
 
-  const filter = useExpenseFilter(s => ({
-    categoryId: s.categoryId,
-    walletId: s.walletId,
-    dateField: s.dateField,
-    subCategoryId: s.subCategoryId
-  }), shallow)
+  const filter = useExpenseFilter(
+    (s) => ({
+      categoryId: s.categoryId,
+      walletId: s.walletId,
+      dateField: s.dateField,
+      subCategoryId: s.subCategoryId,
+    }),
+    shallow
+  );
 
   const rows = () => {
     return expenseToDataGrid(expenses, checkExpenses, filter);
@@ -83,7 +88,6 @@ export function FcDataGridExpense() {
     shallow
   );
 
-
   let columns: GridColumns = [FcColumnDescription()];
 
   if (window.innerWidth >= 960) {
@@ -106,9 +110,11 @@ export function FcDataGridExpense() {
       try {
         setSpin(true);
         await initExpenses({
-          month: month, year: year, filter: {
-            dateField: filter.dateField
-          }
+          month: month,
+          year: year,
+          filter: {
+            dateField: filter.dateField,
+          },
         });
       } catch (error) {
         console.log(error);
@@ -126,10 +132,8 @@ export function FcDataGridExpense() {
           rows={rows()}
           columns={columns}
           checkboxSelection={true}
-          onSelectionModelChange={(
-            gridSelectionModel: GridSelectionModel
-          ) => {
-            const id = gridSelectionModel[0]
+          onSelectionModelChange={(gridSelectionModel: GridSelectionModel) => {
+            const id = gridSelectionModel[0];
             const expense = expenses.find((element) => {
               return element.id === id;
             });
@@ -142,22 +146,24 @@ export function FcDataGridExpense() {
               setInstallments(expense.instalment);
               setDueDate(formatDateToForm(expense.vencimento));
               setPaymentDate(
-                expense.pagamento ? formatDateToForm(expense.pagamento) : undefined
+                expense.pagamento
+                  ? formatDateToForm(expense.pagamento)
+                  : undefined
               );
               setPayed(expense.pago);
               setId(expense.id);
             } else {
-              clear()
+              clear();
             }
             setSelectedRows(gridSelectionModel as number[]);
           }}
         />
       </Grid>
-      {(selectedRows && selectedRows.length > 0) ?
-        (<Grid item xs={12}>
+      {selectedRows && selectedRows.length > 0 ? (
+        <Grid item xs={12}>
           <FcSelectedRowsExpense />
-        </Grid>) : null
-      }
+        </Grid>
+      ) : null}
     </Grid>
   );
 }
