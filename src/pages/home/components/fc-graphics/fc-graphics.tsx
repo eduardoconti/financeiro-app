@@ -8,11 +8,11 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 
-const CustomTooltip = ({ active, payload, label, total }: any) => {
+const CustomTooltip = ({ active, payload, label, total, ...rest }: any) => {
   const theme = useTheme();
-
   if (active && payload && payload.length) {
     return (
       <Box className="custom-tooltip" style={{
@@ -21,15 +21,15 @@ const CustomTooltip = ({ active, payload, label, total }: any) => {
         border: "none",
         padding: theme.spacing(1)
       }}>
-        <Typography style={{ color: payload[0].fill }}>
+        <Typography >
           {`${label}`}
         </Typography>
-        <Divider/>
+        <Divider />
         <Typography>
           <span>
             {`${payload[0].name}: `}
           </span>
-          <span style={{ color: payload[0].fill }}>
+          <span style={{ color: payload[0].payload?.color ?? theme.palette.primary.main }}>
             {`${Money.formatBrl(payload[0].value)}`}
           </span>
         </Typography>
@@ -37,7 +37,7 @@ const CustomTooltip = ({ active, payload, label, total }: any) => {
           <span>
             {`Percentual: `}
           </span>
-          <span style={{ color: payload[0].fill }}>
+          <span style={{ color: payload[0].payload?.color ?? theme.palette.primary.main }}>
             {`${(Math.round((payload[0].value / total * 100) * 100) / 100).toFixed(2)} %`}
           </span>
 
@@ -52,13 +52,14 @@ type FcGraphicProps = {
   data: FcGraphicDada[],
   chaveX: string,
   chaveY: string,
-  stroke: string,
-  cor: string
+  stroke?: string,
+  cor?: string
 }
 
-type FcGraphicDada = {
+export type FcGraphicDada = {
   value: number,
   description: string,
+  color: string
 }
 
 export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }: FcGraphicProps) {
@@ -66,6 +67,7 @@ export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }: FcGraph
   const totalValue = data.reduce((acc: number, element: FcGraphicDada): number => {
     return acc += element.value
   }, 0)
+
   return (
     <ResponsiveContainer height={180}>
       <BarChart data={data}>
@@ -79,19 +81,21 @@ export default function FcGraphic({ data, chaveX, chaveY, stroke, cor }: FcGraph
           type="number"
           fill={theme.palette.text.primary}
           stroke={theme.palette.text.primary}
-          scale="linear"
+          scale="sqrt"
           interval="preserveStartEnd"
         />
         <Tooltip
           content={<CustomTooltip total={totalValue} />}
-          contentStyle={{
-            backgroundColor: theme.palette.grey[800],
-            borderRadius: theme.shape.borderRadius,
-            border: "none",
-          }}
-
         />
-        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} name="Value"/>
+        <Bar dataKey={chaveY} maxBarSize={30} name="Value" stroke={stroke}>
+          {
+            data.map((entry, index) => {
+              return (
+                <Cell key={`cell-${index}`} fill={entry.color ?? cor} />
+              )
+            })
+          }
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );

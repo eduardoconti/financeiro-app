@@ -22,7 +22,6 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   const theme = useTheme();
 
   if (active && payload && payload.length) {
-    console.log(payload)
     return (
       <Box className="custom-tooltip" style={{
         backgroundColor: theme.palette.grey[800],
@@ -98,7 +97,7 @@ export function FcGraphicUnplannedExpenses() {
           <YAxis
             fill={theme.palette.text.primary}
             stroke={theme.palette.text.primary}
-            scale="linear"
+            scale="sqrt"
           />
           <Tooltip
             content={<CustomTooltip />}

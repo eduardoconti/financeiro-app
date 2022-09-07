@@ -18,12 +18,12 @@ import FcSurface from "@components/fc-surface/fc-surface";
 import { useGraphic } from "@pages/home/hook";
 import shallow from "zustand/shallow";
 import { Money } from "@common/money";
+import { pink, teal } from "@material-ui/core/colors";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   const theme = useTheme();
 
   if (active && payload && payload.length) {
-    console.log(payload)
     return (
       <Box className="custom-tooltip" style={{
         backgroundColor: theme.palette.grey[800],
@@ -89,7 +89,7 @@ export function FcGraphicsGeneral() {
               <YAxis
                 fill={theme.palette.text.primary}
                 stroke={theme.palette.text.primary}
-                scale="linear"
+                scale="sqrt"
               />
               <Tooltip
                 content={<CustomTooltip />}
@@ -144,9 +144,8 @@ export function FcGraphicsGeneral() {
                 name="Mediana despesas"
                 dot={false}
                 stroke={
-                  theme.palette.error.main
+                  pink[500]
                 }
-                strokeDasharray="4"
                 strokeWidth={2}
               />
               <Line
@@ -155,9 +154,8 @@ export function FcGraphicsGeneral() {
                 name="Mediana receitas"
                 dot={false}
                 stroke={
-                  theme.palette.success.main
+                  teal[500]
                 }
-                strokeDasharray="4"
                 strokeWidth={2}
               />
             </ComposedChart>
