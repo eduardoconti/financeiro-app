@@ -44,8 +44,8 @@ function App() {
         palette: {
           type: mode,
           background: {
-            default: mode === "dark" ? "#121212" : "#FFF",
-            paper: mode === "dark" ? "#212121" : "#fafafa",
+            default: mode === "dark" ? "#121212" : "#FAFAFA",
+            paper: mode === "dark" ? "#212121" : "#F5F5F5",
           },
         },
         mixins: {
