@@ -14,7 +14,7 @@ import { useSpin } from "@hooks/use-spin";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    backgroundColor: theme.palette.grey[900],
+    backgroundColor: theme.palette.grey[theme.palette.type === "dark" ? 800 : 300],
     borderRadius: theme.shape.borderRadius,
     width: 250,
   },

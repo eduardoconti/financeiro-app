@@ -9,8 +9,8 @@ import FcSurface from "@components/fc-surface/fc-surface";
 import FcGraphic from "@pages/home/components/fc-graphics/fc-graphics";
 import { SuccessResponseData } from "@api/http-request/dto";
 // import { GetExpenseAmountGroupByCategoryResponse } from "@api/expense/dto";
-import { colors } from "@common/colors";
-import { shuffleArray } from "@common/math";
+import { getShortedColors } from "@common/colors";
+import { useExpense } from "@pages/expenses/hook";
 
 function GraphicTitle({ title }: { title: string }) {
   const theme = useTheme();
@@ -29,6 +29,7 @@ export function FcGraphicExpenseByCategory() {
   const checkExpenses = useDashValues((s) => s.checkExpenses);
   const { year, month } = useCurrentTime();
   const setSpin = useSpin((s) => s.setSpin);
+  const expenses = useExpense(s=>s.expenses)
 
   const [despesas, setDespesas] = useState<any[]>([]);
   // const theme = useTheme();
@@ -46,7 +47,7 @@ export function FcGraphicExpenseByCategory() {
         month
       );
       if (status === 200) {
-        shuffleArray(colors);
+        const colors = getShortedColors(data.length)
         const newData = data.map((item, i) => {
           const cor = colors[i];
           item.value = Money.toFloat(item.value);
@@ -65,7 +66,7 @@ export function FcGraphicExpenseByCategory() {
     setSpin(true);
     pegaDespesas();
     setSpin(false);
-  }, [checkExpenses, setSpin, year, month]);
+  }, [checkExpenses, setSpin, year, month, expenses]);
 
   return (
     <Grid container spacing={1}>
