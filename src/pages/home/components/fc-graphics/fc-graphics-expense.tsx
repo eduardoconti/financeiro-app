@@ -185,8 +185,6 @@ function FcGraphic({
     0
   );
 
-  console.log(totalValue)
-
   return (
     <ResponsiveContainer height={180}>
       <BarChart data={data}>
