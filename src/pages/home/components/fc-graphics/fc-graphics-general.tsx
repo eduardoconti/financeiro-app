@@ -22,7 +22,6 @@ import { pink, teal } from "@material-ui/core/colors";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   const theme = useTheme();
-  console.log(theme.palette.type)
   if (active && payload && payload.length) {
     return (
       <Box

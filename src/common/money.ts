@@ -1,6 +1,6 @@
 export class Money {
   static format(value: number): string {
-    return (value / 100).toLocaleString("pt-br", {
+    return ((value / 100)).toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
     });

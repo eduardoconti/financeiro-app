@@ -25,7 +25,7 @@ export const colors = [
 
 export function getShortedColors(lenght: number): string[] {
   let arrayColors: string[] = []
-  let variant: keyof colorType = 400;
+  let variant: keyof colorType = 200;
   while (arrayColors.length < lenght) {
     // eslint-disable-next-line no-loop-func
     arrayColors = [...arrayColors, ...colors.map((e) => {
