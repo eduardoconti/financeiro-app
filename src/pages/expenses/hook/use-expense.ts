@@ -67,7 +67,7 @@ export const useExpense = create<IUseExpense>((set) => ({
     set((state) => ({
       ...state,
       expenses: [...state.expenses, data.data].sort((a, b) =>
-        a.descricao > b.descricao ? 1 : b.descricao > a.descricao ? -1 : 0
+        a.valor > b.valor ? -1 : b.valor > a.valor ? 1 : 0
       ),
     }));
     return data;
@@ -85,7 +85,11 @@ export const useExpense = create<IUseExpense>((set) => ({
       const index = state.expenses.findIndex((expense) => expense.id === id);
       const newExpenses = [...state.expenses];
       newExpenses[index] = data.data;
-      return { ...state, expenses: newExpenses };
+      return {
+        ...state, expenses: newExpenses.sort((a, b) =>
+          a.valor > b.valor ? -1 : b.valor > a.valor ? 1 : 0
+        )
+      };
     });
     return data;
   },
