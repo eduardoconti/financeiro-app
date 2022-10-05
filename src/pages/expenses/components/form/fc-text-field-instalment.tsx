@@ -20,7 +20,7 @@ export function FcTextFieldInstalment() {
     if (!event.target.value) {
       return;
     }
-    setInstallments(parseInt(event.target.value ?? "1"));
+    setInstallments(parseInt(event.target.value ?? ""));
   };
 
   return (
