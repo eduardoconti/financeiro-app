@@ -121,9 +121,9 @@ function DeleteExpenseButton(props: any) {
     try {
       setSpin(true);
       const expenseService: IExpenseService = new ExpenseService();
-      selectedRows.forEach(async (id) => {
+      await Promise.all(selectedRows.map(async (id) => {
         await expenseService.delete(id);
-      });
+      }))
       clearAllFields();
       await fetch({ year, month, checked: checkExpenses });
       await calculate(year, month);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSpin } from "@hooks/use-spin";
-import { Divider, Typography, useTheme } from "@material-ui/core";
-import { getValorDespesasPorCategoria, isAuthenticated, Money } from "common";
+import { Divider, Grid, Typography, useTheme } from "@material-ui/core";
+import { getValorDespesasPorCategoria, Money } from "common";
 import { useCurrentTime } from "@hooks/use-current-time";
 import { FcGraphicHeader } from "./";
 import { CheckedValues, useDashValues } from "@hooks/use-dash-values";
@@ -71,7 +71,7 @@ export function FcGraphicsExpense() {
         setStateGrafico={(stateGrafico: string) => {
           setStateGrafico(stateGrafico);
         }}
-        cor={theme.palette.error.light}
+        cor={color}
         descricao={descricao}
       />
 
@@ -99,10 +99,8 @@ const CustomTooltip = ({ active, payload, label, total }: {
           backgroundColor: theme.palette.grey[theme.palette.type === "dark" ? 800 : 300],
         }}
       >
-        <Typography>{`${label}`}</Typography>
-        <Divider />
-        <Typography>
-          <span>{`${payload[0].name}: `}</span>
+        <Typography>{`${label} `}
+          {/* <span>{`${payload[0].name}: `}</span> */}
           <span
             style={{
               color: payload[0].payload?.color ?? theme.palette.primary.light,
@@ -110,7 +108,7 @@ const CustomTooltip = ({ active, payload, label, total }: {
           >
             {`${Money.formatBrl(payload[0].value)}`}
           </span>
-          <span>{` Percentual: `}</span>
+          <span>{` | % `}</span>
           <span
             style={{
               color: payload[0].payload?.color ?? theme.palette.primary.light,
@@ -119,32 +117,40 @@ const CustomTooltip = ({ active, payload, label, total }: {
             {`${(
               Math.round((payload[0].value / total) * 100 * 100) / 100
             ).toFixed(2)}%`}
-          </span>
+          </span></Typography>
+        <Divider />
+        <Typography>
+
         </Typography>
         <Divider />
         {
           payload[0].payload?.subCategoryData.map((e: SubCategoryData & { color: string }) => {
             return e.description ? (
-              <Typography component={"li"}>
-                <span>{`${e.description}: `}</span>
 
-                <span
-                  style={{
-                    color: payload[0].payload?.color ?? theme.palette.primary.light,
-                  }}
-                >
-                  {`
-                  ${Money.format(e.value)}`
-                  }
-                </span>
-                <span>{` Percentual: `}</span>
-                <span style={{
-                  color: payload[0].payload?.color ?? theme.palette.primary.light,
-                }}>{`${(
-                  Math.round((Money.toFloat(e.value) / total) * 100 * 100) / 100
-                ).toFixed(2)}%`
-                  }</span>
-              </Typography>
+              <Grid container spacing={1}>
+                <Grid item xs={8}>
+
+                  <span>{`${e.description} `}</span>
+                  <span
+                    style={{
+                      color: payload[0].payload?.color ?? theme.palette.primary.light,
+                    }}
+                  >
+                    {`${Money.format(e.value)}`}
+                  </span>
+                </Grid>
+                <Grid item xs={4} style={{textAlign: "right"}}>
+                  <span >{` % `}</span>
+                  <span style={{
+                    color: payload[0].payload?.color ?? theme.palette.primary.light
+                  }}>{`${(
+                    Math.round((Money.toFloat(e.value) / total) * 100 * 100) / 100
+                  ).toFixed(2)}%`
+                    }</span>
+                </Grid>
+              </Grid>
+
+
             ) : null
           })
         }

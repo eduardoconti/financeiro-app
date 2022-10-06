@@ -6,6 +6,6 @@ export interface IUseSpin {
 }
 
 export const useSpin = create<IUseSpin>((set) => ({
-  spin: false,
+  spin: true,
   setSpin: (spin: boolean) => set({ spin: spin }),
 }));

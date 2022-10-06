@@ -19,7 +19,7 @@ export function formToRequest(
     carteiraId: expenseForm.walletId,
     subCategoryId: expenseForm.subCategoryId,
     valor: Money.toInteger(parseFloat(expenseForm.value)),
-    instalment: expenseForm.installments,
+    instalment: parseInt(expenseForm.installments),
     vencimento: dateIso8601(expenseForm.dueDate),
     pagamento: expenseForm.paymentDate
       ? dateIso8601(expenseForm.paymentDate)

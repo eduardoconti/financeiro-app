@@ -10,7 +10,7 @@ export interface IExpenseForm {
   dueDate: string;
   value: string;
   payed: boolean;
-  installments: number;
+  installments: string;
   paymentDate?: string;
   invalidFields?: ValidationErrorDTO[];
 }
@@ -34,8 +34,8 @@ export interface IUseFormExpense {
   setPayed: (payed: boolean) => void;
   paymentDate?: string;
   setPaymentDate: (paymentDate?: string) => void;
-  installments: number;
-  setInstallments: (installments: number) => void;
+  installments: string;
+  setInstallments: (installments: string) => void;
   invalidFields?: ValidationErrorDTO[];
   setInvalidFields: (invalidFields: ValidationErrorDTO[]) => void;
   clearAllFields: () => void;
@@ -61,8 +61,8 @@ export const useFormExpense = create<IUseFormExpense>((set) => ({
   setPayed: (payed: boolean) => set((s) => ({ ...s, payed })),
   paymentDate: "",
   setPaymentDate: (paymentDate?: string) => set((s) => ({ ...s, paymentDate })),
-  installments: 1,
-  setInstallments: (installments: number) =>
+  installments: "1",
+  setInstallments: (installments: string) =>
     set((s) => ({ ...s, installments })),
   invalidFields: [],
   setInvalidFields: (invalidFields: ValidationErrorDTO[]) =>
@@ -78,7 +78,7 @@ export const useFormExpense = create<IUseFormExpense>((set) => ({
       payed: false,
       value: "0",
       paymentDate: "",
-      installments: 1,
+      installments: "1",
       invalidFields: [],
     }),
 }));

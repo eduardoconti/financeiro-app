@@ -143,7 +143,7 @@ export function FcDataGridExpense() {
               setSubCategoryId(expense.subCategory.id);
               setWalletId(expense.carteira.id);
               setValue(Money.toFloat(expense.valor).toString());
-              setInstallments(expense.instalment);
+              setInstallments(expense.instalment.toString());
               setDueDate(formatDateToForm(expense.vencimento));
               setPaymentDate(
                 expense.pagamento

@@ -17,10 +17,7 @@ export function FcTextFieldInstalment() {
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) {
-      return;
-    }
-    setInstallments(parseInt(event.target.value ?? ""));
+    setInstallments(event.target.value);
   };
 
   return (

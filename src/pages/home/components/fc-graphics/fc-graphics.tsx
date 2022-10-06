@@ -24,18 +24,17 @@ const CustomTooltip = ({ active, payload, label, total, ...rest }: any) => {
           padding: theme.spacing(1),
         }}
       >
-        <Typography>{`${label}`}</Typography>
-        <Divider />
         <Typography>
-          <span>{`${payload[0].name}: `}</span>
+          {`${label}`}
           <span
             style={{
               color: payload[0].payload?.color ?? theme.palette.primary.light,
             }}
           >
-            {`${Money.formatBrl(payload[0].value)}`}
+            {` ${Money.formatBrl(payload[0].value)}`}
           </span>
         </Typography>
+        <Divider />
         <Typography>
           <span>{`Percentual: `}</span>
           <span
