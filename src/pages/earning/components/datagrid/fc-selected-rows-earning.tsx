@@ -89,11 +89,13 @@ function FlagPayedButton(props: { payed: boolean }) {
     try {
       setSpin(true);
       const earningService: IEarningService = new EarningService();
-      selectedRows.forEach(async (id) => {
-        await earningService.updateFlagPayed(id, { pago: payed });
-      });
-      await fetch({ year, month });
-      await calculate(year, month);
+      await Promise.all(selectedRows.map((id) =>
+        earningService.updateFlagPayed(id, { pago: payed })
+      ));
+      await Promise.all([
+        fetch({ year, month }),
+        calculate(year, month)
+      ])
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
@@ -124,12 +126,13 @@ function DeleteEarningButton(props: any) {
     try {
       setSpin(true);
       const earningService: IEarningService = new EarningService();
-      selectedRows.forEach(async (id) => {
-        await earningService.delete(id);
-      });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      await fetch({ year, month, checked: checkEarnings });
-      await calculate(year, month);
+      await Promise.all(selectedRows.map((id) =>
+        earningService.delete(id)
+      ));
+      await Promise.all([
+        fetch({ year, month, checked: checkEarnings }),
+        calculate(year, month)
+      ])
       clearAllFields();
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
@@ -163,9 +166,9 @@ function AddNextMonthButton() {
   const onClick = async () => {
     try {
       setSpin(true);
-      selectedRows.forEach(async (id) => {
+      await Promise.all(selectedRows.map((id) => {
         const earning = earnings.find((e) => e.id === id);
-        if (!earning) return;
+        if (!earning) return null;
         const { carteira, pagamento, ...rest } = earning;
         const requestDto = EarningRequestDTO.build({
           ...rest,
@@ -173,8 +176,8 @@ function AddNextMonthButton() {
           pagamento: addMonth(pagamento),
         });
 
-        await insertEarningNextMonth(requestDto);
-      });
+        return insertEarningNextMonth(requestDto);
+      }));
       setAlert(
         setCreatedAlert(
           HttpStatus.OK,

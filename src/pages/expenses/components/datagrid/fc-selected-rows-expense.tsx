@@ -85,12 +85,14 @@ function FlagPayedButton(props: { payed: boolean }) {
     try {
       setSpin(true);
       const expenseService: IExpenseService = new ExpenseService();
-      selectedRows.forEach(async (id) => {
-        await expenseService.updateFlagPayed(id, { pago: payed });
-      });
+      await Promise.all(selectedRows.map((id) =>
+        expenseService.updateFlagPayed(id, { pago: payed })
+      ));
 
-      await fetch({ year, month });
-      await calculate(year, month);
+      await Promise.all([
+        fetch({ year, month }),
+        calculate(year, month)
+      ])
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
@@ -121,12 +123,14 @@ function DeleteExpenseButton(props: any) {
     try {
       setSpin(true);
       const expenseService: IExpenseService = new ExpenseService();
-      await Promise.all(selectedRows.map(async (id) => {
-        await expenseService.delete(id);
-      }))
+      await Promise.all(selectedRows.map((id) =>
+        expenseService.delete(id)
+      ))
       clearAllFields();
-      await fetch({ year, month, checked: checkExpenses });
-      await calculate(year, month);
+      await Promise.all([
+        fetch({ year, month, checked: checkExpenses }),
+        calculate(year, month)
+      ])
     } catch (error: any) {
       setAlert(setCreatedAlert(error.status, error.detail, error.title));
     } finally {
@@ -159,14 +163,14 @@ function AddNextMonthButton() {
   const onClick = async () => {
     try {
       setSpin(true);
-      selectedRows.forEach(async (id) => {
+      await Promise.all(selectedRows.map((id) => {
         const expense = expenses.find((e) => e.id === id);
-        if (!expense) return;
+        if (!expense) return null;
 
         const requestDto = expenseToRequest(expense);
 
-        await insertExpenseNextMonth(requestDto);
-      });
+        return insertExpenseNextMonth(requestDto);
+      }));
       setAlert(
         setCreatedAlert(
           HttpStatus.OK,

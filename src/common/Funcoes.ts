@@ -16,19 +16,17 @@ async function calculaTotais(
   balanco: number;
 }> {
   try {
-    const { data: totalDespesas } = await retornaTotalDespesas(
+  const [{ data: totalDespesas }, { data: totalGeralDespesas }, { data: totalReceitas },  { data: totalGeralReceitas } ] =  await Promise.all([retornaTotalDespesas(
       stateAnoAtual,
       stateMesAtual
-    );
-
-    const { data: totalGeralDespesas } = await retornaTotalDespesas();
-
-    const { data: totalReceitas } = await retornaTotalReceitas(
+    ),
+retornaTotalDespesas(),
+retornaTotalReceitas(
       stateAnoAtual,
       stateMesAtual
-    );
-
-    const { data: totalGeralReceitas } = await retornaTotalReceitas();
+    ),
+retornaTotalReceitas()
+])
 
     let expenseValues = 0;
     if (stateCheckedDespesas.payed && stateCheckedDespesas.open) {

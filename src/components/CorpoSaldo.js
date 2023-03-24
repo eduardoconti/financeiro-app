@@ -34,23 +34,24 @@ function retornaDados(obj) {
 async function retornaDadosParaCard() {
   try {
     const walletService = new WalletService();
-    const { data: carteiras } = await walletService.getAll();
-    const { data: despesas } = await retornaDespesasAgrupadasPorCarteira(
-      undefined,
-      undefined,
-      true
-    );
-    const { data: receitas } = await retornaReceitasAgrupadasPorCarteira(
-      undefined,
-      undefined,
-      true
-    );
-    const {
-      data: transferenciasOrigem,
-    } = await retornaValoresTransferenciasOrigem(undefined, undefined, true);
-    const {
+
+const [{ data: carteiras }, { data: despesas }, { data: receitas },  {
+      data: transferenciasOrigem
+    } , {
       data: transferenciasDestino,
-    } = await retornaValoresTransferenciasDestino(undefined, undefined, true);
+    } ] = await Promise.all([walletService.getAll(), retornaDespesasAgrupadasPorCarteira(
+      undefined,
+      undefined,
+      true
+    ),
+retornaReceitasAgrupadasPorCarteira(
+      undefined,
+      undefined,
+      true
+    ), 
+retornaValoresTransferenciasOrigem(undefined, undefined, true),
+retornaValoresTransferenciasDestino(undefined, undefined, true)]);
+
     const dadosCard = [];
 
     carteiras.forEach((carteira, i) => {
