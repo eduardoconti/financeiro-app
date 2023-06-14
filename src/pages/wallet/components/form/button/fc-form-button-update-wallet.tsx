@@ -11,7 +11,7 @@ export default function FcFormButtonUpdateWallet() {
   const { setAlert } = useContext(ContextAlert);
   const setSpin = useSpin((s) => s.setSpin);
   const {
-    form: { id, description },
+    form: { id, description, active },
     setInvalidFields,
     clear,
   } = useFormWallet(
@@ -28,7 +28,8 @@ export default function FcFormButtonUpdateWallet() {
       setSpin(true);
       const { status, message, internalMessage } = await update({
         id,
-        descricao: description,
+        description,
+        active,
       });
       setAlert(setCreatedAlert(status, message, internalMessage));
       clear();

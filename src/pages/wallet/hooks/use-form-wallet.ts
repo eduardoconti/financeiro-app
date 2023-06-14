@@ -4,6 +4,7 @@ import create from "zustand";
 export interface IWalletForm {
   id: number;
   description: string;
+  active: boolean
 }
 
 export interface IUseFormdWallet {
@@ -17,6 +18,7 @@ export interface IUseFormdWallet {
 const emptyForm = {
   id: 0,
   description: "",
+  active: true,
 };
 export const useFormWallet = create<IUseFormdWallet>((set) => ({
   form: emptyForm,

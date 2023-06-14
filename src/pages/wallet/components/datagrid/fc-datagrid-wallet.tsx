@@ -5,6 +5,7 @@ import { useDataGridWallet, useWallet } from "@pages/wallet/hooks";
 import { useEffect } from "react";
 import shallow from "zustand/shallow";
 import { FcColumnActionsWallet } from "./fc-columns-actions-wallet";
+import FcColumnStatus from "@components/fc-datagrid/fc-column-status";
 
 export function FcDataGridWallet() {
   const { rows, setRows } = useDataGridWallet(
@@ -12,7 +13,7 @@ export function FcDataGridWallet() {
     shallow
   );
   const wallets = useWallet((state) => state.wallets);
-  let columns: GridColumns = [FcColumnDescription()];
+  let columns: GridColumns = [FcColumnDescription(), FcColumnStatus()];
 
   columns.push({
     field: "actions",
@@ -31,6 +32,7 @@ export function FcDataGridWallet() {
           return {
             id: wallet.id,
             description: wallet.descricao,
+            active: wallet.active,
           };
         })
       );

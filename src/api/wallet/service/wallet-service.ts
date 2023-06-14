@@ -3,6 +3,7 @@ import { SuccessResponseData } from "api/http-request/dto";
 
 import { WalletRequestDTO, WalletResponseDTO } from "../dto";
 import { IWalletService } from "./wallet.service.interface";
+import { UpdateWalletRequestDTO } from "../dto/update-wallet-request.dto";
 
 const ENDPOINT = "wallet";
 
@@ -35,7 +36,7 @@ export class WalletService implements IWalletService {
   }
 
   async update(
-    body: WalletRequestDTO
+    body: UpdateWalletRequestDTO
   ): Promise<SuccessResponseData<WalletResponseDTO>> {
     const data = await this.httpRequestService.put<WalletResponseDTO>({
       url: this.url.toString() + "/" + body.id,

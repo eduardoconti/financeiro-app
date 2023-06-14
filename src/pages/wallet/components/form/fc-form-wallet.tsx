@@ -5,6 +5,7 @@ import { FcFormButtonInsertWallet } from "./button";
 import FcFormButtonClearWallet from "./button/fc-form-button-clear";
 import FcFormButtonUpdateWallet from "./button/fc-form-button-update-wallet";
 import { FcTextFieldWalletDescription } from "./fields/fc-text-field-wallet-description";
+import { FcCheckboxWalletStatus } from "./fields/fc-chekbox-wallet-status";
 
 export function FcFormWallet() {
   const { id } = useFormWallet((state) => state.form);
@@ -13,6 +14,9 @@ export function FcFormWallet() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <FcTextFieldWalletDescription />
+        </Grid>
+        <Grid item xs={12}>
+          <FcCheckboxWalletStatus />
         </Grid>
         <Grid item xs={12} md={8} lg={8}>
           <Grid container spacing={2}>
@@ -23,6 +27,7 @@ export function FcFormWallet() {
                 <FcFormButtonUpdateWallet />
               )}
             </Grid>
+
             <Grid item xs={6}>
               <FcFormButtonClearWallet />
             </Grid>

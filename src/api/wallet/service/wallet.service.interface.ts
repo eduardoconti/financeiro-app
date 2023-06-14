@@ -1,5 +1,6 @@
 import { SuccessResponseData } from "@api/http-request/dto";
 import { WalletRequestDTO, WalletResponseDTO } from "../dto";
+import { UpdateWalletRequestDTO } from "../dto/update-wallet-request.dto";
 
 export interface IWalletService {
   getAll(): Promise<SuccessResponseData<WalletResponseDTO[]>>;
@@ -8,6 +9,6 @@ export interface IWalletService {
     body: WalletRequestDTO
   ): Promise<SuccessResponseData<WalletResponseDTO>>;
   update(
-    body: WalletRequestDTO
+    body: UpdateWalletRequestDTO
   ): Promise<SuccessResponseData<WalletResponseDTO>>;
 }

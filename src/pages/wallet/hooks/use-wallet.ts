@@ -1,5 +1,6 @@
 import { SuccessResponseData } from "@api/http-request/dto";
 import { WalletRequestDTO, WalletResponseDTO } from "@api/wallet/dto";
+import { UpdateWalletRequestDTO } from "@api/wallet/dto/update-wallet-request.dto";
 import { WalletService } from "@api/wallet/service";
 import create from "zustand";
 
@@ -10,7 +11,7 @@ export interface IUseWallet {
     walletRequest: WalletRequestDTO
   ) => Promise<SuccessResponseData<WalletResponseDTO>>;
   updateWallet: (
-    walletRequest: WalletRequestDTO
+    walletRequest: UpdateWalletRequestDTO
   ) => Promise<SuccessResponseData<WalletResponseDTO>>;
   deleteWallet: (id: number) => Promise<SuccessResponseData<any>>;
 }
@@ -31,7 +32,7 @@ export const useWallet = create<IUseWallet>((set) => ({
     }));
     return data;
   },
-  updateWallet: async (walletRequest: WalletRequestDTO) => {
+  updateWallet: async (walletRequest: UpdateWalletRequestDTO) => {
     const service = new WalletService();
     const data = await service.update(walletRequest);
     set((state) => {

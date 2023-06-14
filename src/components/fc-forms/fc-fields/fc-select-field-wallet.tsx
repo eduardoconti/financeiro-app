@@ -11,7 +11,7 @@ export function FcSelectFieldWallet(props: Partial<FcTextFieldProps>) {
       select
       {...rest}
     >
-      {Menu(wallets)}
+      {Menu(wallets.filter((e) => e.active))}
     </FcTextField>
   );
 }

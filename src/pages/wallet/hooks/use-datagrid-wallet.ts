@@ -3,6 +3,7 @@ import create from "zustand";
 export interface IWalletRow {
   id: number;
   description: string;
+  active: boolean
 }
 export interface IUseDatagridWallet {
   rows: IWalletRow[];
