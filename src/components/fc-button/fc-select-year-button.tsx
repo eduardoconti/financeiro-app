@@ -19,6 +19,9 @@ export function FcSelectYearButton() {
     { id: 2021, descricao: "2021" },
     { id: 2022, descricao: "2022" },
     { id: 2023, descricao: "2023" },
+    { id: 2024, descricao: "2024" },
+    { id: 2025, descricao: "2025" },
+    { id: 2026, descricao: "2026" },
   ]);
 
   return (
