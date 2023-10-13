@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { retornaReceitasAgrupadasPorCarteira } from "../../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../../common/DepesaFuncoes";
@@ -7,20 +7,16 @@ import {
   retornaValoresTransferenciasDestino,
 } from "../../common/TransferenciaFuncoes";
 
-import { useSpin } from "@hooks/use-spin";
 import { isAuthenticated } from "common";
-import { FcCardWalletBalance } from "@components/fc-dash";
-import { useCurrentTime } from "@hooks/use-current-time";
+import { FcCardWalletBalance } from "../../components/fc-dash";
+import { useSpin } from "@hooks/use-spin";
+import { WalletService } from "@api/wallet/service";
 import { WalletResponseDTO } from "@api/wallet/dto";
-import { EarningResponseDTO } from "@api/earning/dto";
 import { ExpenseResponseDTO } from "@api/expense/dto";
 import { TransferenceResponseDTO } from "@api/transference/dto";
-import { WalletService } from "@api/wallet/service";
 
-async function RetornaCards(ano: number, mes: number) {
-  let object = await retornaDadosParaCard(ano, mes);
-
-  return object?.map((obj, i) => {
+function montaCards(object: { descricao: string; valor: number }[]) {
+  return object.map((obj: { descricao: string; valor: number }, i: number) => {
     return (
       <Grid item xs={6} md={3} key={i}>
         <FcCardWalletBalance
@@ -31,12 +27,15 @@ async function RetornaCards(ano: number, mes: number) {
     );
   });
 }
-function retornaDados(obj: any): any {
+function retornaDados(obj: any) {
   if (typeof obj === "undefined") {
     return { valor: 0 };
   } else return obj;
 }
-async function retornaDadosParaCard(ano: number, mes: number) {
+async function retornaDadosParaCard(): Promise<
+  { descricao: string; valor: number }[]
+> {
+  const dadosCard: { descricao: string; valor: number }[] = [];
   try {
     const walletService = new WalletService();
 
@@ -48,18 +47,16 @@ async function retornaDadosParaCard(ano: number, mes: number) {
       { data: transferenciasDestino },
     ] = await Promise.all([
       walletService.getAll(),
-      retornaDespesasAgrupadasPorCarteira(ano, mes),
-      retornaReceitasAgrupadasPorCarteira(ano, mes),
-      retornaValoresTransferenciasOrigem(ano, mes, undefined),
-      retornaValoresTransferenciasDestino(ano, mes, undefined),
+      retornaDespesasAgrupadasPorCarteira(undefined, undefined, true),
+      retornaReceitasAgrupadasPorCarteira(undefined, undefined, true),
+      retornaValoresTransferenciasOrigem(undefined, undefined, true),
+      retornaValoresTransferenciasDestino(undefined, undefined, true),
     ]);
 
-    const dadosCard: any[] = [];
-
-    carteiras.forEach((carteira: WalletResponseDTO) => {
+    carteiras.forEach((carteira, i) => {
       let { valor: receita } = retornaDados(
         receitas.find(
-          (receita: EarningResponseDTO) => receita.id === carteira.id
+          (receita: WalletResponseDTO) => receita.id === carteira.id
         )
       );
       let { valor: despesa } = retornaDados(
@@ -79,6 +76,7 @@ async function retornaDadosParaCard(ano: number, mes: number) {
             transferencia.id === carteira.id
         )
       );
+
       let valor =
         parseInt(receita) +
         parseInt(transferenciaEntrada) -
@@ -91,30 +89,32 @@ async function retornaDadosParaCard(ano: number, mes: number) {
         });
       }
     });
-
-    return dadosCard;
   } catch (error) {}
+
+  return dadosCard;
 }
 
-export default function CorpoBalanco() {
-  const [cards, setCards] = useState<any[] | undefined>([]);
-  const setSpin = useSpin((s) => s.setSpin);
-  const { year, month } = useCurrentTime();
-  useEffect(() => {
-    if (isAuthenticated()) {
-      set();
-    }
+export default function CorpoSaldo() {
+  const [cards, setCards] = useState<{ descricao: string; valor: number }[]>(
+    []
+  );
+  const { setSpin } = useSpin();
 
-    async function set() {
+  useEffect(() => {
+    async function Set() {
       setSpin(true);
-      setCards(await RetornaCards(year, month));
+      setCards(await retornaDadosParaCard());
       setSpin(false);
     }
-  }, [month, setSpin, year]);
+
+    if (isAuthenticated()) {
+      Set();
+    }
+  }, [setSpin]);
 
   return (
     <Grid container direction="row" spacing={1}>
-      {cards}
+      {montaCards(cards)}
     </Grid>
   );
 }

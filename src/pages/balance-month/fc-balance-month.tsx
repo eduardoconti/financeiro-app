@@ -1,4 +1,4 @@
-import CorpoSaldo from "../../components/CorpoSaldo";
+import CorpoSaldo from "./fc-ballance-month-body";
 
 export default function FcBalanceMonth() {
   return <CorpoSaldo />;
