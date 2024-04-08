@@ -27,7 +27,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       <Box
         className="custom-tooltip"
         style={{
-          backgroundColor: theme.palette.grey[theme.palette.type === "dark" ? 800 : 300],
+          backgroundColor:
+            theme.palette.grey[theme.palette.type === "dark" ? 800 : 300],
           borderRadius: theme.shape.borderRadius,
           border: "none",
           padding: theme.spacing(1),
@@ -64,7 +65,6 @@ export function FcGraphicsGeneral() {
     shallow
   );
   const theme = useTheme();
-
   useEffect(() => {
     async function initGraphic() {
       try {
@@ -82,7 +82,7 @@ export function FcGraphicsGeneral() {
       <Grid item xs={12}>
         <FcSurface>
           <ResponsiveContainer height={220}>
-            <ComposedChart data={general}>
+            <ComposedChart data={general.slice(-12)}>
               <XAxis
                 dataKey="month"
                 fill={theme.palette.text.primary}
