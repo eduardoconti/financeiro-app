@@ -7,6 +7,8 @@ import {
 import { TransferenceService } from "@api/transference/service";
 import create from "zustand";
 
+const service = new TransferenceService();
+
 export type FetchParams = {
   year?: number;
   month?: number;
@@ -36,12 +38,10 @@ export const useTransference = create<IUseTransference>((set) => ({
   transferences: [],
   fetchTransferences: async (params: FetchParams) => {
     const { year, month } = params;
-    const service = new TransferenceService();
     const { data } = await service.getTransference(year, month);
     set({ transferences: data });
   },
   insertTransference: async (transferenceRequest: TransferenceRequestDTO) => {
-    const service = new TransferenceService();
     const data = await service.insert(transferenceRequest);
     set((state) => ({
       transferences: [...state.transferences, data.data].sort((a, b) =>
@@ -53,7 +53,6 @@ export const useTransference = create<IUseTransference>((set) => ({
   insertTransferenceNextMonth: async (
     transferenceRequest: TransferenceRequestDTO
   ) => {
-    const service = new TransferenceService();
     const data = await service.insert(transferenceRequest);
     return data;
   },
@@ -61,7 +60,6 @@ export const useTransference = create<IUseTransference>((set) => ({
     id: number,
     transferenceRequest: Partial<TransferenceRequestDTO>
   ) => {
-    const service = new TransferenceService();
     const data = await service.update(id, transferenceRequest);
     set((state) => {
       const index = state.transferences.findIndex(
@@ -74,7 +72,6 @@ export const useTransference = create<IUseTransference>((set) => ({
     return data;
   },
   deleteTransference: async (id: number) => {
-    const service = new TransferenceService();
     const data = await service.delete(id);
     set((state) => ({
       transferences: state.transferences.filter(
@@ -87,7 +84,6 @@ export const useTransference = create<IUseTransference>((set) => ({
     id: number,
     patchFlag: Pick<TransferenceRequestDTO, "pago">
   ) => {
-    const service = new TransferenceService();
     const data = await service.updateFlagPayed(id, patchFlag);
     set((state) => {
       const index = state.transferences.findIndex(

@@ -8,6 +8,8 @@ import { SuccessResponseData } from "@api/http-request/dto";
 import { CheckedValues } from "@hooks/use-dash-values";
 import create from "zustand";
 import { ExpenseFilter } from "./use-expense-filter";
+
+const expenseService: IExpenseService = new ExpenseService();
 export interface IUseExpense {
   expenses: ExpenseResponseDTO[];
   fetchExpenses: (params: FetchParams) => Promise<void>;
@@ -40,7 +42,6 @@ export type FetchParams = {
 export const useExpense = create<IUseExpense>((set) => ({
   expenses: [],
   fetchExpenses: async (params: FetchParams) => {
-    const expenseService: IExpenseService = new ExpenseService();
     const {
       checked = {
         payed: true,
@@ -62,7 +63,6 @@ export const useExpense = create<IUseExpense>((set) => ({
     }));
   },
   insertExpense: async (expense: ExpenseDTO) => {
-    const expenseService: IExpenseService = new ExpenseService();
     const data = await expenseService.insert(expense);
     set((state) => ({
       ...state,
@@ -73,12 +73,10 @@ export const useExpense = create<IUseExpense>((set) => ({
     return data;
   },
   insertExpenseNextMonth: async (expense: ExpenseDTO) => {
-    const expenseService: IExpenseService = new ExpenseService();
     const data = await expenseService.insert(expense);
     return data;
   },
   updateExpense: async (id: number, expense: Partial<ExpenseDTO>) => {
-    const expenseService: IExpenseService = new ExpenseService();
     const data = await expenseService.update(id, expense);
 
     set((state) => {
@@ -86,15 +84,15 @@ export const useExpense = create<IUseExpense>((set) => ({
       const newExpenses = [...state.expenses];
       newExpenses[index] = data.data;
       return {
-        ...state, expenses: newExpenses.sort((a, b) =>
+        ...state,
+        expenses: newExpenses.sort((a, b) =>
           a.valor > b.valor ? -1 : b.valor > a.valor ? 1 : 0
-        )
+        ),
       };
     });
     return data;
   },
   deleteExpense: async (id: number) => {
-    const expenseService: IExpenseService = new ExpenseService();
     const data = await expenseService.delete(id);
     set((state) => ({
       ...state,
@@ -103,8 +101,7 @@ export const useExpense = create<IUseExpense>((set) => ({
     return data;
   },
   updateFlagPayed: async (id: number, patchFlag: Pick<ExpenseDTO, "pago">) => {
-    const service = new ExpenseService();
-    const data = await service.updateFlagPayed(id, patchFlag);
+    const data = await expenseService.updateFlagPayed(id, patchFlag);
     set((state) => {
       const index = state.expenses.findIndex((expense) => expense.id === id);
       const newExpenses = [...state.expenses];

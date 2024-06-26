@@ -11,7 +11,7 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ButtonAppBar from "./pages/home/components/fc-app-bar/fc-app-bar";
 import FcExpense from "./pages/expenses/fc-expense";
-import AlertComponent from "./components/fc-alert";
+import AlertComponent from "./components/fc-alert/fc-alert";
 import FcBalance from "./pages/balance/fc-balance";
 import FcBalanceMonth from "./pages/balance-month/fc-balance-month";
 import FcWallet from "./pages/wallet/fc-wallet";

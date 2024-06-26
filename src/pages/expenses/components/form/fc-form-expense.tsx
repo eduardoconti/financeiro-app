@@ -63,34 +63,34 @@ export function FcFormExpense() {
   return (
     <FcSurface>
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4} lg={3}>
           <FcTextFieldExpenseDescription />
         </Grid>
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={6} sm={4} lg={3}>
           <FcSelectFieldExpenseCategory />
         </Grid>
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={6} sm={4} lg={3}>
           <FcSelectFieldExpenseSubCategory />
         </Grid>
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={6} sm={4} lg={3}>
           <FcSelectFieldExpenseWallet />
         </Grid>
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldExpenseValue />
         </Grid>
-        <Grid item xs={4} sm={3}>
+        <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldInstalment />
         </Grid>
-        <Grid item xs={4} sm={2}>
+        <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldExpenseDueDate />
         </Grid>
-        <Grid item xs={6} sm={2}>
+        <Grid item xs={6} sm={4} lg={2}>
           <FcTextFieldExpensePaymentDate />
         </Grid>
-        <Grid item xs={6} sm={2}>
+        <Grid item xs={6} sm={4} lg={4}>
           <FcSelectFieldExpesePayed />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4} lg={3}>
           <Buttons />
         </Grid>
       </Grid>

@@ -8,6 +8,7 @@ import {
   SubCategoryService,
 } from "@api/sub-category/service";
 
+const service = new CategoryService();
 export interface IUseCategory {
   categories: CategoryResponseDTO[];
   fetchCategories: () => void;
@@ -29,12 +30,10 @@ export interface IUseCategory {
 export const useCategory = create<IUseCategory>((set, get) => ({
   categories: [],
   fetchCategories: async () => {
-    const service = new CategoryService();
     const { data } = await service.getAll();
     set({ categories: data });
   },
   insertCategory: async (categoryRequest: CategoryRequestDTO) => {
-    const service = new CategoryService();
     const data = await service.insert(categoryRequest);
     set((state) => ({
       categories: [...state.categories, data.data].sort((a, b) =>
@@ -44,7 +43,6 @@ export const useCategory = create<IUseCategory>((set, get) => ({
     return data;
   },
   updateCategory: async (categoryRequest: CategoryRequestDTO) => {
-    const service = new CategoryService();
     const data = await service.update(categoryRequest);
     set((state) => {
       const index = state.categories.findIndex(
@@ -57,7 +55,6 @@ export const useCategory = create<IUseCategory>((set, get) => ({
     return data;
   },
   deleteCategory: async (id: number) => {
-    const service = new CategoryService();
     const data = await service.delete(id);
     set((state) => ({
       categories: state.categories.filter((category) => category.id !== id),
@@ -87,7 +84,6 @@ export const useCategory = create<IUseCategory>((set, get) => ({
   updateSubCategory: async (subCategory: SubCategoryRequestDTO) => {
     const subCategoryService: ISubCategoryService = new SubCategoryService();
     const response = await subCategoryService.update(subCategory);
-    const service = new CategoryService();
     const { data } = await service.getAll();
     set({ categories: data });
     return response;
@@ -95,7 +91,6 @@ export const useCategory = create<IUseCategory>((set, get) => ({
   deleteSubCategory: async (id: number) => {
     const subCategoryService: ISubCategoryService = new SubCategoryService();
     const response = await subCategoryService.delete(id);
-    const service = new CategoryService();
     const { data } = await service.getAll();
     set({ categories: data });
     return response;

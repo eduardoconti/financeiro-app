@@ -2,8 +2,6 @@ export * from "./AlertFuncoes";
 export * from "./Api";
 export * from "./Auth";
 export * from "./Config";
-export * from "./Constantes";
-export * from "./DataGridStorage";
 export * from "./DateHelper";
 export * from "./DepesaFuncoes";
 export * from "./EmptyStates";

@@ -137,7 +137,7 @@ export function FcDataGridExpense() {
             const expense = expenses.find((element) => {
               return element.id === id;
             });
-            if (expense) {
+            if (expense && gridSelectionModel.length === 1) {
               setDescription(expense.descricao);
               setCategoryId(expense.categoria.id);
               setSubCategoryId(expense.subCategory.id);

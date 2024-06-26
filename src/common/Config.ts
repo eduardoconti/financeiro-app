@@ -4,6 +4,6 @@ export const getModeType = () => {
   return localStorage.getItem(MODE_KEY) !== "false";
 };
 
-export const setMode = (mode) => {
+export const setMode = (mode: string) => {
   localStorage.setItem(MODE_KEY, mode);
 };

@@ -16,15 +16,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CategoryIcon from "@material-ui/icons/Category";
-
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 import HomeIcon from "@material-ui/icons/Home";
 import { Grid, Tooltip } from "@material-ui/core";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 import { ColorModeContext } from "App";
 import { FcSelectMonthButton, FcSelectYearButton } from "@components/fc-button";
 import { FcLoginModal } from "@pages/home/components/login";
+import { useHistory } from "react-router-dom";
 const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
@@ -136,7 +136,7 @@ export default function ButtonAppBar() {
 
   const history = useHistory();
 
-  const routeChange = (path) => {
+  const routeChange = (path: any) => {
     history.push(path);
   };
   const OPTIONS_NAME = 0,
@@ -174,7 +174,7 @@ export default function ButtonAppBar() {
       >
         <FcLoginModal
           open={openLogin}
-          setOpen={(openLogin) => {
+          setOpen={(openLogin: boolean) => {
             setOpenLogin(openLogin);
           }}
           handleClose={() => {
@@ -269,7 +269,7 @@ export default function ButtonAppBar() {
             {menuOptions.map((data) => (
               <ListItem
                 button
-                key={data[OPTIONS_NAME]}
+                key={data[OPTIONS_NAME] as string}
                 onClick={() => routeChange(data[OPTIONS_ROUTE])}
               >
                 <Tooltip title={data[OPTIONS_NAME]}>

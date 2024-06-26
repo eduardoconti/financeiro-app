@@ -1,4 +1,9 @@
-import { DataGrid } from "@material-ui/data-grid";
+import {
+  DataGrid,
+  GridRowParams,
+  GridSelectionModel,
+  MuiEvent,
+} from "@material-ui/data-grid";
 import {
   makeStyles,
   createTheme,
@@ -7,19 +12,19 @@ import {
 } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 
-function getThemePaletteMode(palette) {
+function getThemePaletteMode(palette: any) {
   return palette.type || palette.mode;
 }
 
 const defaultTheme = createTheme();
 const useStyles = makeStyles(
   (theme) => {
-    const getBackgroundColor = (color) =>
+    const getBackgroundColor = (color: string) =>
       getThemePaletteMode(theme.palette) === "dark"
         ? darken(color, 0.1)
         : lighten(color, 0.1);
 
-    const getHoverBackgroundColor = (color) =>
+    const getHoverBackgroundColor = (color: string) =>
       getThemePaletteMode(theme.palette) === "dark"
         ? darken(color, 0.5)
         : lighten(color, 0.5);
@@ -64,10 +69,23 @@ const useStyles = makeStyles(
   { defaultTheme }
 );
 
-export default function FcDataGrid(props) {
+export default function FcDataGrid(props: {
+  rows: any[];
+  columns: any;
+  rowClick?: (
+    params: GridRowParams,
+    event: MuiEvent<React.SyntheticEvent<Element, Event>>,
+    details?: any
+  ) => void;
+  checkboxSelection?: boolean;
+  onSelectionModelChange?: (
+    selectionModel: GridSelectionModel,
+    details?: any
+  ) => void;
+}) {
   const classes = useStyles();
   return (
-    <Box style={{ height: 480, width: "100%" }} className={classes.container}>
+    <Box style={{ height: 480 }} className={classes.container}>
       <DataGrid
         rows={props.rows}
         columns={props.columns}
@@ -79,15 +97,7 @@ export default function FcDataGrid(props) {
         hideFooter
         hideFooterPagination
         className={classes.root}
-        onSelectionModelChange={props?.onSelectionModelChange}
-        // getRowClassName={(params) => {
-        //   const { row } = params;
-        //   console.log(row);
-        //   if(row.subCategoryId === '0'){
-        //     return 'super-app-theme--Rejected';
-        //   }
-        //   //return row.subCategoryId !== '0' ? `super-app-theme--Open` : `super-app-theme--Rejected`;
-        // }}
+        onSelectionModelChange={props.onSelectionModelChange}
       />
     </Box>
   );

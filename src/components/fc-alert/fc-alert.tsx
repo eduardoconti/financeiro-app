@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Snackbar, SnackbarOrigin, useTheme } from "@material-ui/core";
-import { ContextAlert } from "../Context/AlertContext";
+import { ContextAlert } from "../../Context/AlertContext";
 
 export default function AlertComponent() {
   const { alert, setAlert } = useContext(ContextAlert);

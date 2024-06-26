@@ -8,6 +8,8 @@ import {
 import { EarningService } from "@api/earning/service";
 import create from "zustand";
 
+const service = new EarningService();
+
 export type FetchParams = {
   checked?: any;
   year?: number;
@@ -38,12 +40,10 @@ export const useEarning = create<IUseEarning>((set) => ({
   earnings: [],
   fetchEarnings: async (params: FetchParams) => {
     const { checked, year, month } = params;
-    const service = new EarningService();
     const { data } = await service.getEarning(checked, year, month);
     set((s) => ({ ...s, earnings: data }));
   },
   insertEarning: async (earningRequest: EarningRequestDTO) => {
-    const service = new EarningService();
     const data = await service.insert(earningRequest);
     set((state) => ({
       earnings: [...state.earnings, data.data].sort((a, b) =>
@@ -53,7 +53,6 @@ export const useEarning = create<IUseEarning>((set) => ({
     return data;
   },
   insertEarningNextMonth: async (earningRequest: EarningRequestDTO) => {
-    const service = new EarningService();
     const data = await service.insert(earningRequest);
     return data;
   },
@@ -61,7 +60,6 @@ export const useEarning = create<IUseEarning>((set) => ({
     id: number,
     earningRequest: Partial<EarningRequestDTO>
   ) => {
-    const service = new EarningService();
     const data = await service.update(id, earningRequest);
     set((state) => {
       const index = state.earnings.findIndex((earning) => earning.id === id);
@@ -72,7 +70,6 @@ export const useEarning = create<IUseEarning>((set) => ({
     return data;
   },
   deleteEarning: async (id: number) => {
-    const service = new EarningService();
     const data = await service.delete(id);
     set((state) => ({
       earnings: state.earnings.filter((earning) => earning.id !== id),
@@ -83,7 +80,6 @@ export const useEarning = create<IUseEarning>((set) => ({
     id: number,
     patchFlag: Pick<EarningRequestDTO, "pago">
   ) => {
-    const service = new EarningService();
     const data = await service.updateFlagPayed(id, patchFlag);
     set((state) => {
       const index = state.earnings.findIndex((earning) => earning.id === id);

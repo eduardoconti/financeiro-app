@@ -1,14 +1,6 @@
 import { ValidationErrorDTO } from "@api/http-request/dto";
 import create from "zustand";
 
-export interface ICategoryForm {
-  d: number;
-  description: string;
-  subCategoryId: number;
-  subCategoryDescription: string;
-  invalidFields: ValidationErrorDTO[];
-}
-
 export interface IUseFormCategory {
   id: number;
   setId: (id: number) => void;

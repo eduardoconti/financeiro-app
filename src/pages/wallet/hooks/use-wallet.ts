@@ -4,6 +4,7 @@ import { UpdateWalletRequestDTO } from "@api/wallet/dto/update-wallet-request.dt
 import { WalletService } from "@api/wallet/service";
 import create from "zustand";
 
+const service = new WalletService();
 export interface IUseWallet {
   wallets: WalletResponseDTO[];
   fetchWallets: () => void;
@@ -18,12 +19,10 @@ export interface IUseWallet {
 export const useWallet = create<IUseWallet>((set) => ({
   wallets: [],
   fetchWallets: async () => {
-    const service = new WalletService();
     const { data } = await service.getAll();
     set({ wallets: data });
   },
   insertWallet: async (walletRequest: WalletRequestDTO) => {
-    const service = new WalletService();
     const data = await service.insert(walletRequest);
     set((state) => ({
       wallets: [...state.wallets, data.data].sort((a, b) =>
@@ -33,7 +32,6 @@ export const useWallet = create<IUseWallet>((set) => ({
     return data;
   },
   updateWallet: async (walletRequest: UpdateWalletRequestDTO) => {
-    const service = new WalletService();
     const data = await service.update(walletRequest);
     set((state) => {
       const index = state.wallets.findIndex(
@@ -46,7 +44,6 @@ export const useWallet = create<IUseWallet>((set) => ({
     return data;
   },
   deleteWallet: async (id: number) => {
-    const service = new WalletService();
     const data = await service.delete(id);
     set((state) => ({
       wallets: state.wallets.filter((wallet) => wallet.id !== id),
